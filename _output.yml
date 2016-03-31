@@ -1,6 +1,6 @@
 
 bookdown::html_book:
   toc: yes
-  split_by: section
+  split_by: chapter
   css: toc.css
-
+  highlight: tango
