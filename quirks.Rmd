@@ -1,7 +1,0 @@
-# Quirks {#quirks}
-
-For when you know the right tool for the job, but don't know if it exists in R or what it is called.
-
-## dd
-
-

@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "--- \ntitle: \"Quick R Tutorial\"\nauthor: \"Frank Erickson\"\ndate: \"`r Sys.Date()`\"\nknit: \"bookdown::render_book\"\nsite: bookdown::bookdown_site\ndescription: \"This book covers the essentials for using R.\"\n---\n\n# Introduction\n\nThis book covers the basics of using R, without going into discussion of statistical methodology. Chapters \\@ref(basics) and \\@ref(quirks) will get you up to speed on navigating R. Chapter \\@ref(work) covers common tasks: working with data and running optimization routines. The final chapter covers tables and graphs; my suggestions for programming; and various pitfalls. \n \n\n## Getting started\n\nGo to [the R project site](https://www.r-project.org/) and follow the instructions to download the latest version from CRAN, the Comprehensive R Archive Network.\n\nAfter installation, I know of two good options for running R on Windows:\n\n- Hook up R to notepad++ with [NppToR](https://sourceforge.net/projects/npptor/). This allows you to edit R scripts alongside all other documents. Commands are passed to the R console by customizable shortcuts and switching between multiple running consoles is easy.\n\n- Install [the Rstudio development environment](https://www.rstudio.com/), which is restricted to one instance of R at a time and has a clumsy interface (no drag-and-drop of scripts into the editor, nor data into the console; an unhidable sidebar). On the other hand, it has handy \"development\" features that made compiling this tutorial a snap and would probably prove helpful if writing a package to contribute to CRAN.\n\nRstudio also has the nice feature of not requiring administrator privileges for installation, which makes it a good choice for trying out R.\n\n",
+    "created" : 1459433954907.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2729137669",
+    "id" : "4A67D672",
+    "lastKnownWriteTime" : 1459448738,
+    "last_content_update" : 1459448738080,
+    "path" : "S:/Frank/_langs/r/tutorial/index.Rmd",
+    "project_path" : "index.Rmd",
+    "properties" : {
+        "source_window_id" : ""
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
