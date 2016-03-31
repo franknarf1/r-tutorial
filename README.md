@@ -1,3 +1,5 @@
-This is a minimal example of a book based on R Markdown and **bookdown** (https://github.com/rstudio/bookdown). Open this repository in RStudio, then open `index.Rmd`, and click the `Knit` button to compile the book.
+This book covers the essentials for using R.
 
-You can find the preview of this example at https://bookdown.org/yihui/bookdown-demo/
+It is built on R and Rstudio's bookdown project https://github.com/rstudio/bookdown
+
+This is my first Github project. Please let me know if you have any input. I'll probably mostly update offline since I'm still learning git.
