@@ -1,0 +1,6 @@
+
+bookdown::html_book:
+  toc: yes
+  split_by: section
+  css: toc.css
+
