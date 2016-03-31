@@ -1,0 +1,41 @@
+---
+output: html_document
+---
+# Basics {#basics}
+
+## Vectors
+
+In R, all data come in vectors. If you type `x = 12`, then `x` will be a numeric vector of length 1. Similarly, `y = c("A", "Z")` is a character vector of length 2. After assigning a vector, you can type its name to see it and use `length` and `class` to see those attributes.
+
+```{r length}
+x = c(TRUE, FALSE, TRUE)
+length(x)
+class(x)
+x
+```
+
+You can assign with `=` or `<-`. You can even do `c(2,3) -> z`, but this is rare and hard to read in my opinion.
+
+## Syntax
+
+
+## Custom functions and CRAN libraries
+
+
+
+
+## Matrices and Arrays
+
+
+
+
+## Randomization
+
+
+
+## Loops and Control Flow
+
+
+## Data frames
+
+
