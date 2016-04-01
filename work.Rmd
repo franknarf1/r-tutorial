@@ -1,8 +1,15 @@
 # Getting work done in R {#work}
 
 
-## data.table
+## data.table {#data.table}
 
+subsetting
+
+subassignment
+
+set operations
+
+merges
 
 ## Structuring data
 

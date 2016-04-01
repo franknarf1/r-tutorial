@@ -27,13 +27,12 @@ Rstudio also has the nice feature of not requiring administrator privileges for 
 
 The book's R code was compiled using R, maintained by [the R Foundation](https://www.r-project.org/); written in the [Rstudio IDE](https://www.rstudio.com/products/rstudio/); and typeset with [Rmarkdown](http://rmarkdown.rstudio.com/) and [bookdown](https://bookdown.org/) by RStudio. Icons are from the ["Very Basic. Android L Lollipop" set by Ivan Boyko](https://www.iconfinder.com/iconsets/very-basic-android-l-lollipop).
 
+<span class="spdetails">
+  Some notes give technical details and can be skipped.
+</span>
 
-```{block, type='rmdnote'}
-Some notes give technical details and can be skipped.
-```
-
-```{block, type='rmdcaution'}
-Other notes warn about inconsistencies and pitfalls and should be read.
-```
+<span class="spnote">
+  Other notes warn about inconsistencies and pitfalls and should be read.
+</span>
 
 Exercises are interspersed and should be pretty quick to do.

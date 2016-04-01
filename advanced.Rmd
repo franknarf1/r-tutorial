@@ -8,3 +8,7 @@ You probably won't need to think about these on your first few projects.
 ## Program structure
 
 
+
+## Rcpp {#rcpp}
+
+

@@ -143,3 +143,30 @@
   font-style: italic;
   content: "Technical detail";
 }
+.spnote {
+  /*background: #FFFFCC;*/
+}
+.spnote:before {
+  font-variant:small-caps;
+  content:"Note";
+  background:#FFFF33;
+}
+.spnote:after {
+  background:#FFFF33;
+  content: "\25A1";
+}
+.spdetails {
+  /*background:#CCFFCC;*/
+}
+.spdetails:before {
+  font-variant:small-caps;
+  content:"Details";
+  background:#66FF66;
+}
+.spdetails:after {
+  background:#66FF66;
+  content: "\25A1";
+}
+
+
+

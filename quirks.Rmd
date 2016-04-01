@@ -1,8 +1,36 @@
 # Quirks {#quirks}
 
-For when you know the right tool for the job, but don't know if it exists in R or what it is called.
+This chapter is for when you know the right tool for the job, but don't know where it is in R; or for when you have picked up a tool, but it is behaving less like a hammer than a staple-gun shooting you in the foot.
 
+## Tallying
 
+coercion of logical to integer -- very useful
+
+table
+
+plot.table
+
+note -- methods("plot"), methods(class="table")
+
+tallying continuous variables with cut
+
+## Finding a value or interval
+
+match with lists is not great
+
+findInterval
+
+## Set operations
+
+%in% is really match
+
+we'll see these again with data.tables
+
+## Runs and sequences
+
+seq is dangerous
+
+rle is excellent
 
 ## `lapply` {#lapply}
 

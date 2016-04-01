@@ -122,14 +122,18 @@ img {
 <li><a href="basics.html#exercises"><span class="toc-section-number">2.1.9</span> Exercises</a></li>
 </ul></li>
 <li><a href="basics.html#syntax"><span class="toc-section-number">2.2</span> Syntax</a></li>
-<li><a href="basics.html#custom-functions-and-cran-libraries"><span class="toc-section-number">2.3</span> Custom functions and CRAN libraries</a></li>
+<li><a href="basics.html#writing-and-importing-functions"><span class="toc-section-number">2.3</span> Writing and importing functions</a></li>
 <li><a href="basics.html#matrices-and-arrays"><span class="toc-section-number">2.4</span> Matrices and Arrays</a></li>
 <li><a href="basics.html#randomization"><span class="toc-section-number">2.5</span> Randomization</a></li>
 <li><a href="basics.html#loops"><span class="toc-section-number">2.6</span> Loops and Control Flow</a></li>
 <li><a href="basics.html#data-frames"><span class="toc-section-number">2.7</span> Data frames</a></li>
 </ul></li>
 <li class="has-sub"><a href="quirks.html#quirks"><span class="toc-section-number">3</span> Quirks</a><ul>
-<li><a href="quirks.html#lapply"><span class="toc-section-number">3.1</span> <code id="lapply">lapply</code></a></li>
+<li><a href="quirks.html#tallying"><span class="toc-section-number">3.1</span> Tallying</a></li>
+<li><a href="quirks.html#finding-a-value-or-interval"><span class="toc-section-number">3.2</span> Finding a value or interval</a></li>
+<li><a href="quirks.html#set-operations"><span class="toc-section-number">3.3</span> Set operations</a></li>
+<li><a href="quirks.html#runs-and-sequences"><span class="toc-section-number">3.4</span> Runs and sequences</a></li>
+<li><a href="quirks.html#lapply"><span class="toc-section-number">3.5</span> <code id="lapply">lapply</code></a></li>
 </ul></li>
 <li class="has-sub"><a href="work.html#work"><span class="toc-section-number">4</span> Getting work done in R</a><ul>
 <li><a href="work.html#data.table"><span class="toc-section-number">4.1</span> data.table</a></li>
@@ -141,6 +145,7 @@ img {
 <li class="has-sub"><a href="advanced.html#advanced"><span class="toc-section-number">5</span> Advanced tools</a><ul>
 <li><a href="advanced.html#output-tables-and-graphs"><span class="toc-section-number">5.1</span> Output tables and graphs</a></li>
 <li><a href="advanced.html#program-structure"><span class="toc-section-number">5.2</span> Program structure</a></li>
+<li><a href="advanced.html#rcpp"><span class="toc-section-number">5.3</span> Rcpp</a></li>
 </ul></li>
 </ul>
 </div>
@@ -150,9 +155,32 @@ img {
 <div class="col-sm-12">
 <div id="quirks" class="section level1">
 <h1><span class="header-section-number">Chapter 3</span> Quirks</h1>
-<p>For when you know the right tool for the job, but don’t know if it exists in R or what it is called.</p>
+<p>This chapter is for when you know the right tool for the job, but don’t know where it is in R; or for when you have picked up a tool, but it is behaving less like a hammer than a staple-gun shooting you in the foot.</p>
+<div id="tallying" class="section level2">
+<h2><span class="header-section-number">3.1</span> Tallying</h2>
+<p>coercion of logical to integer – very useful</p>
+<p>table</p>
+<p>plot.table</p>
+<p>note – methods(“plot”), methods(class=“table”)</p>
+<p>tallying continuous variables with cut</p>
+</div>
+<div id="finding-a-value-or-interval" class="section level2">
+<h2><span class="header-section-number">3.2</span> Finding a value or interval</h2>
+<p>match with lists is not great</p>
+<p>findInterval</p>
+</div>
+<div id="set-operations" class="section level2">
+<h2><span class="header-section-number">3.3</span> Set operations</h2>
+<p>%in% is really match</p>
+<p>we’ll see these again with data.tables</p>
+</div>
+<div id="runs-and-sequences" class="section level2">
+<h2><span class="header-section-number">3.4</span> Runs and sequences</h2>
+<p>seq is dangerous</p>
+<p>rle is excellent</p>
+</div>
 <div id="lapply" class="section level2">
-<h2><span class="header-section-number">3.1</span> <code id="lapply">lapply</code></h2>
+<h2><span class="header-section-number">3.5</span> <code id="lapply">lapply</code></h2>
 
 </div>
 </div>
