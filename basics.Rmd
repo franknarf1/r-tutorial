@@ -7,31 +7,114 @@ output: html_document
 
 In R, all data come in vectors. If you type `x = 54.7`, then `x` will be a numeric vector of length 1. Similarly, `y = c("Abc", "xY_z")` is a character vector of length 2. After assigning a vector, you can type its name to see it and use `length` and `class` to see those attributes.
 
-```{r length}
+```{r}
 x = c(TRUE, FALSE, TRUE)
+```
+```{r length}
+x
 length(x)
 class(x)
-x
 ```
 
-You can assign with `=` or `<-`. You can even do `c(2,3) -> z`, but this is rare and hard to read in my opinion.
+The bracketed `[1]` indicates that we are seeing the first element of a vector. This printing pattern is handy with vectors too long for a single line.
 
+You can assign with `=` or `<-`. You can even assign like `c(2,3) -> z`, but this is rare and hard to read in my opinion.
 
+### Documentation
 
-### Classes and types
+Everything in the base installation of R is documented in convenient wikified html pages. These can be accessed with `?` or `help`. For example, `?TRUE` or `?length`. Backticks are sometimes required, as for ``?`(` `` and ``?`?` ``. Keep a close eye on the Description and Value sections, which concisely explain what to expect from a function.
 
-```{block, type='FOO'}
-testing
+### Classes {#classes}
 
+All elements of a vanilla vector must have the same class, so
+
+```{r coercion}
+c(4, c("A", "B"))
 ```
 
-Usually, classes are all we care about in R, and implementation details are not important. However, if you want to know how a variable is stored, you'll want to use `typeof`. For deeper details, peruse [the official documentation](https://cran.r-project.org/doc/manuals/r-release/R-ints.html).
+The `4` is "coerced" to `character`. This behavior is explained in the Details section of `?c`, which also conveniently lists all of the vanilla ("atomic") classes. The key ones are `logical`, `integer`, `numeric` and `character`. A `list` is a special type of vector whose elements can be arbitrary objects. For example, we can have a list of vectors:
 
-Technical aside: In most programming languages, a *list* means a [linked list](https://en.wikipedia.org/wiki/Linked_list), but in R, it just means a generic vector, containing objects of arbitrary type in each element.
+```{r lists}
+L  = list("A", c(1,2))
+L2 = list(FALSE)
+c(L, L2)
+```
 
-### Slicing and extracting
+```{block classes_detail, type='rmdnote'}
+Fancier classes are generally built on top of atomic classes or lists. Date formats are numeric or integer, behind the scenes; while complex objects like data sets and regression results are lists. For details on storage modes, see `?typeof` and the [R internals](https://cran.r-project.org/doc/manuals/r-release/R-ints.html) documentation. While some fancy data structures (like linked lists and unordered sets) are absent in base R, they can be used through packages like Rcpp. 
+```
 
-d
+### Named elements
+
+A vector's elements can be named:
+
+```{r naming}
+c(a = 1, b = 2)
+list(A = c(1, 2), B = 4)
+```
+
+```{block arguments, type='rmdcaution'}
+In `c(A = 1)`, the equals sign is not interchangeable with the `<-`, so you should not write `c(A <- 1)`. 
+
+Think of `c` as a function with syntax like `c(argname = argvalue, argname2 = argvalue2, ...)`. The equals sign just plays the special role of giving names to the function's arguments.
+```
+
+Names are more useful for lists than vanilla vectors, where they are usually unnecessary and quickly get messy. For example, try `c(1, X = c(a = 2, b = 3, 4))` or `c(A = 1, A = 1)`.
+
+### Missing values
+
+R distinguishes itself from other programming languages by its careful treatment of missing values. See `?NA`. As explained there, the missing-data code `NA` is to be distinguished from a non-number, `NaN`, and from the absence of an object, `NULL`, for example in `list(A = 1, B = NULL)`.
+
+
+### Slicing
+
+We can select a subvector of `x` like `x[i]`:
+
+```{r}
+x = c("a", "b", "c", "d")
+L = list(A = 1, B = 2, C = 3)
+```
+```{r slicing}
+x[c(1, 3)]
+x[-c(2, 3)]
+L[c("B","C")]
+x[c(FALSE, TRUE, TRUE, FALSE)]
+```
+
+So, the index `i` can be a vector of positions to include; a negated vector of positions to exclude; a vector of element names; or a TRUE/FALSE vector, with a selection rule for each position. 
+
+`x[i]` notation can also be pushed beyond subsetting, by passing repeated values.
+
+```{r repslicing}
+x[c(1, 3, 3, 2)]
+```
+
+By the way, no one else calls this "slicing"; so sue me.
+
+```{block recycling, type='rmdcaution'}
+What would you expect `x[TRUE]` to do in the example above? Well, in R, it is treated like `x[c(TRUE, TRUE, TRUE, TRUE)]`. This is called recycling -- the argument `i` is repeated until it is long enough for the context. While this behavior is usually convenient, it is worthwhile to grok what, for example, what `x[c(TRUE, FALSE)]` is doing. Because this behavior is so central to R, no warnings are given when recycling is happening.
+```
+
+### Extracting
+
+
+```{block bracket-docs, type='rmdcaution'}
+For documentation on the last two sections, you can type ``?`[[` ``. Paired brackets are just named after their opener. This naming pattern will come up again \@ref[later](lapply) when working with lists of lists. 
+```
+
+
+
+### Initializing and subassigning
+
+In R, it bad practice to dynamically grow objects, like `x = 1`, `x = c(x,2)`, ..., `x = c(x,n)`. Instead, preallocate with `vector` or a related function and assign:
+
+```{r preallocate, eval=FALSE}
+x = vector(5, mode = "list")
+y = logical(5)
+```
+
+
+
 
 ### Sorting
 
@@ -39,7 +122,7 @@ d
 
 ### Exercises
 
-d
+1. What is the class of `c(TRUE, 1L)`?
 
 
 ## Syntax
@@ -56,13 +139,15 @@ d
 
 Technical aside: The terminology is a bit weird here. In most programming languages, an *array* is a vector
 
-Warning: drop.
+```{block, type='rmdcaution'}
+regarding drop
+```
 
 ## Randomization
 
 
 
-## Loops and Control Flow
+## Loops and Control Flow {#loops}
 
 
 ## Data frames

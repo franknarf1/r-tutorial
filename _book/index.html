@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2016-03-31" />
+<meta name="date" content="2016-04-01" />
 
 
 <meta name="description" content="This book covers the essentials for using R.">
@@ -106,25 +106,30 @@ img {
 <div id="TOC">
 <ul>
 <li class="has-sub"><a href="index.html#introduction"><span class="toc-section-number">1</span> Introduction</a><ul>
-<li><a href="index.html#getting-started"><span class="toc-section-number">1.1</span> Getting started</a></li>
-<li><a href="index.html#about-this-document"><span class="toc-section-number">1.2</span> About this document</a></li>
+<li><a href="index.html#getting-started-with-r"><span class="toc-section-number">1.1</span> Getting started with R</a></li>
+<li><a href="index.html#about-this-book"><span class="toc-section-number">1.2</span> About this book</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#basics"><span class="toc-section-number">2</span> Basics</a><ul>
 <li class="has-sub"><a href="basics.html#vectors"><span class="toc-section-number">2.1</span> Vectors</a><ul>
-<li><a href="basics.html#classes-and-types"><span class="toc-section-number">2.1.1</span> Classes and types</a></li>
-<li><a href="basics.html#slicing-and-extracting"><span class="toc-section-number">2.1.2</span> Slicing and extracting</a></li>
-<li><a href="basics.html#sorting"><span class="toc-section-number">2.1.3</span> Sorting</a></li>
-<li><a href="basics.html#exercises"><span class="toc-section-number">2.1.4</span> Exercises</a></li>
+<li><a href="basics.html#documentation"><span class="toc-section-number">2.1.1</span> Documentation</a></li>
+<li><a href="basics.html#classes"><span class="toc-section-number">2.1.2</span> Classes</a></li>
+<li><a href="basics.html#named-elements"><span class="toc-section-number">2.1.3</span> Named elements</a></li>
+<li><a href="basics.html#missing-values"><span class="toc-section-number">2.1.4</span> Missing values</a></li>
+<li><a href="basics.html#slicing"><span class="toc-section-number">2.1.5</span> Slicing</a></li>
+<li><a href="basics.html#extracting"><span class="toc-section-number">2.1.6</span> Extracting</a></li>
+<li><a href="basics.html#initializing-and-subassigning"><span class="toc-section-number">2.1.7</span> Initializing and subassigning</a></li>
+<li><a href="basics.html#sorting"><span class="toc-section-number">2.1.8</span> Sorting</a></li>
+<li><a href="basics.html#exercises"><span class="toc-section-number">2.1.9</span> Exercises</a></li>
 </ul></li>
 <li><a href="basics.html#syntax"><span class="toc-section-number">2.2</span> Syntax</a></li>
 <li><a href="basics.html#custom-functions-and-cran-libraries"><span class="toc-section-number">2.3</span> Custom functions and CRAN libraries</a></li>
 <li><a href="basics.html#matrices-and-arrays"><span class="toc-section-number">2.4</span> Matrices and Arrays</a></li>
 <li><a href="basics.html#randomization"><span class="toc-section-number">2.5</span> Randomization</a></li>
-<li><a href="basics.html#loops-and-control-flow"><span class="toc-section-number">2.6</span> Loops and Control Flow</a></li>
+<li><a href="basics.html#loops"><span class="toc-section-number">2.6</span> Loops and Control Flow</a></li>
 <li><a href="basics.html#data-frames"><span class="toc-section-number">2.7</span> Data frames</a></li>
 </ul></li>
 <li class="has-sub"><a href="quirks.html#quirks"><span class="toc-section-number">3</span> Quirks</a><ul>
-<li><a href="quirks.html#dd"><span class="toc-section-number">3.1</span> dd</a></li>
+<li><a href="quirks.html#lapply"><span class="toc-section-number">3.1</span> <code id="lapply">lapply</code></a></li>
 </ul></li>
 <li class="has-sub"><a href="work.html#work"><span class="toc-section-number">4</span> Getting work done in R</a><ul>
 <li><a href="work.html#data.table"><span class="toc-section-number">4.1</span> data.table</a></li>
@@ -146,13 +151,13 @@ img {
 <div id="header">
 <h1 class="title">Quick R Tutorial</h1>
 <h4 class="author"><em>Frank Erickson</em></h4>
-<h4 class="date"><em>2016-03-31</em></h4>
+<h4 class="date"><em>2016-04-01</em></h4>
 </div>
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
-<p>This book covers the basics of using R, without going into discussion of statistical methodology. Chapters <a href="basics.html#basics">2</a> and <a href="quirks.html#quirks">3</a> will get you up to speed on navigating R. Chapter <a href="work.html#work">4</a> covers common tasks: working with data and running optimization routines. The final chapter covers tables and graphs; my suggestions for programming; and various pitfalls.</p>
-<div id="getting-started" class="section level2">
-<h2><span class="header-section-number">1.1</span> Getting started</h2>
+<p>This book covers the basics of using R, without going into discussion of statistical methodology. Chapters <a href="basics.html#basics">2</a> and <a href="quirks.html#quirks">3</a> will get you up to speed on navigating R. Chapter <a href="work.html#work">4</a> covers common tasks: working with data and running optimization routines. The final chapter covers tables and graphs; my suggestions for programming; and various computational pitfalls.</p>
+<div id="getting-started-with-r" class="section level2">
+<h2><span class="header-section-number">1.1</span> Getting started with R</h2>
 <p>Go to <a href="https://www.r-project.org/">the R project site</a> and follow the instructions to download the latest version from CRAN, the Comprehensive R Archive Network.</p>
 <p>After installation, I know of two good options for running R on Windows:</p>
 <ul>
@@ -161,21 +166,20 @@ img {
 </ul>
 <p>Rstudio also has the nice feature of not requiring administrator privileges for installation, which makes it a good choice for trying out R.</p>
 </div>
-<div id="about-this-document" class="section level2">
-<h2><span class="header-section-number">1.2</span> About this document</h2>
-<p>The book’s R code was compiled using R, maintained by <a href="https://www.r-project.org/">the R Foundation</a>; written in the <a href="https://www.rstudio.com/products/rstudio/">Rstudio IDE</a>; and typeset with <a href="http://rmarkdown.rstudio.com/">Rmarkdown</a> and <a href="https://bookdown.org/">bookdown</a> by RStudio.</p>
-<p>Icons are from the <a href="https://www.iconfinder.com/iconsets/very-basic-android-l-lollipop">“Very Basic. Android L Lollipop” set by Ivan Boyko</a>.</p>
-<p>testing…</p>
+<div id="about-this-book" class="section level2">
+<h2><span class="header-section-number">1.2</span> About this book</h2>
+<p>The book’s R code was compiled using R, maintained by <a href="https://www.r-project.org/">the R Foundation</a>; written in the <a href="https://www.rstudio.com/products/rstudio/">Rstudio IDE</a>; and typeset with <a href="http://rmarkdown.rstudio.com/">Rmarkdown</a> and <a href="https://bookdown.org/">bookdown</a> by RStudio. Icons are from the <a href="https://www.iconfinder.com/iconsets/very-basic-android-l-lollipop">“Very Basic. Android L Lollipop” set by Ivan Boyko</a>.</p>
 <div class="rmdnote">
 <p>
-words of information
+Some notes give technical details and can be skipped.
 </p>
 </div>
 <div class="rmdcaution">
 <p>
-words of caution
+Other notes warn about inconsistencies and pitfalls and should be read.
 </p>
 </div>
+<p>Exercises are interspersed and should be pretty quick to do.</p>
 
 </div>
 </div>

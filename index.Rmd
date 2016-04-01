@@ -9,10 +9,9 @@ description: "This book covers the essentials for using R."
 
 # Introduction
 
-This book covers the basics of using R, without going into discussion of statistical methodology. Chapters \@ref(basics) and \@ref(quirks) will get you up to speed on navigating R. Chapter \@ref(work) covers common tasks: working with data and running optimization routines. The final chapter covers tables and graphs; my suggestions for programming; and various pitfalls. 
- 
+This book covers the basics of using R, without going into discussion of statistical methodology. Chapters \@ref(basics) and \@ref(quirks) will get you up to speed on navigating R. Chapter \@ref(work) covers common tasks: working with data and running optimization routines. The final chapter covers tables and graphs; my suggestions for programming; and various computational pitfalls.
 
-## Getting started
+## Getting started with R
 
 Go to [the R project site](https://www.r-project.org/) and follow the instructions to download the latest version from CRAN, the Comprehensive R Archive Network.
 
@@ -24,20 +23,17 @@ After installation, I know of two good options for running R on Windows:
 
 Rstudio also has the nice feature of not requiring administrator privileges for installation, which makes it a good choice for trying out R.
 
-## About this document
+## About this book
 
-The book's R code was compiled using R, maintained by [the R Foundation](https://www.r-project.org/); written in the [Rstudio IDE](https://www.rstudio.com/products/rstudio/); and typeset with [Rmarkdown](http://rmarkdown.rstudio.com/) and [bookdown](https://bookdown.org/) by RStudio.
+The book's R code was compiled using R, maintained by [the R Foundation](https://www.r-project.org/); written in the [Rstudio IDE](https://www.rstudio.com/products/rstudio/); and typeset with [Rmarkdown](http://rmarkdown.rstudio.com/) and [bookdown](https://bookdown.org/) by RStudio. Icons are from the ["Very Basic. Android L Lollipop" set by Ivan Boyko](https://www.iconfinder.com/iconsets/very-basic-android-l-lollipop).
 
-Icons are from the ["Very Basic. Android L Lollipop" set by Ivan Boyko](https://www.iconfinder.com/iconsets/very-basic-android-l-lollipop).
-
-testing...
 
 ```{block, type='rmdnote'}
-words of information
+Some notes give technical details and can be skipped.
 ```
 
 ```{block, type='rmdcaution'}
-words of caution
+Other notes warn about inconsistencies and pitfalls and should be read.
 ```
 
-
+Exercises are interspersed and should be pretty quick to do.

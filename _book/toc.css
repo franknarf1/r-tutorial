@@ -128,11 +128,18 @@
 .rmdcaution {
   padding: 1em 1em 1em 4em;
   margin-bottom: 10px;
-  background: #FF9999 url("images/1459472920_attention.png") left center/3em no-repeat;
+  background: #FFFF99 url("images/1459472920_attention.png") left center/3em no-repeat;
+}
+.rmdcaution:before {
+  font-style: italic;
+  content: "Word of warning";
 }
 .rmdnote {
   padding: 1em 1em 1em 4em;
   margin-bottom: 10px;
-  background: #FFFF99 url("images/1459472947_idea.png") left center/3em no-repeat;
+  background: #99FF99 url("images/1459472947_idea.png") left center/3em no-repeat;
 }
-
+.rmdnote:before {
+  font-style: italic;
+  content: "Technical detail";
+}
