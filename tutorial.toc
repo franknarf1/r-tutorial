@@ -1,0 +1,73 @@
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}
+\contentsline {subsection}{\numberline {1.1}Getting started with R}{2}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}About this book}{2}{subsection.1.2}
+\contentsline {section}{\numberline {2}Basics}{3}{section.2}
+\contentsline {subsection}{\numberline {2.1}Vectors}{3}{subsection.2.1}
+\contentsline {subsubsection}{\numberline {2.1.1}Documentation}{3}{subsubsection.2.1.1}
+\contentsline {subsubsection}{\numberline {2.1.2}Classes}{3}{subsubsection.2.1.2}
+\contentsline {subsubsection}{\numberline {2.1.3}Named elements}{4}{subsubsection.2.1.3}
+\contentsline {subsubsection}{\numberline {2.1.4}Missing values}{4}{subsubsection.2.1.4}
+\contentsline {subsubsection}{\numberline {2.1.5}Slicing}{5}{subsubsection.2.1.5}
+\contentsline {subsubsection}{\numberline {2.1.6}Extracting from a list}{5}{subsubsection.2.1.6}
+\contentsline {subsubsection}{\numberline {2.1.7}Subassigning}{6}{subsubsection.2.1.7}
+\contentsline {subsubsection}{\numberline {2.1.8}Initializing}{6}{subsubsection.2.1.8}
+\contentsline {subsubsection}{\numberline {2.1.9}Factors}{7}{subsubsection.2.1.9}
+\contentsline {subsubsection}{\numberline {2.1.10}Sorting, rank, order}{7}{subsubsection.2.1.10}
+\contentsline {subsubsection}{\numberline {2.1.11}Exercises}{7}{subsubsection.2.1.11}
+\contentsline {subsection}{\numberline {2.2}Matrices and Arrays}{8}{subsection.2.2}
+\contentsline {subsubsection}{\numberline {2.2.1}Named rows and columns}{8}{subsubsection.2.2.1}
+\contentsline {subsubsection}{\numberline {2.2.2}Slicing matrices}{8}{subsubsection.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.3}Extracting from matrices}{9}{subsubsection.2.2.3}
+\contentsline {subsection}{\numberline {2.3}Syntax}{9}{subsection.2.3}
+\contentsline {subsubsection}{\numberline {2.3.1}Function arguments}{9}{subsubsection.2.3.1}
+\contentsline {subsection}{\numberline {2.4}Writing and importing functions}{9}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Loops and Control Flow}{10}{subsection.2.5}
+\contentsline {subsection}{\numberline {2.6}Data frames}{10}{subsection.2.6}
+\contentsline {section}{\numberline {3}Quirks}{10}{section.3}
+\contentsline {subsection}{\numberline {3.1}Randomization}{11}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Time series operators}{11}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Functions' methods}{12}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Sequences}{13}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Tallying}{14}{subsection.3.5}
+\contentsline {subsection}{\numberline {3.6}Finding bins for values}{14}{subsection.3.6}
+\contentsline {subsection}{\numberline {3.7}Finding where a condition holds}{15}{subsection.3.7}
+\contentsline {subsection}{\numberline {3.8}Finding a value}{15}{subsection.3.8}
+\contentsline {subsection}{\numberline {3.9}String operations}{15}{subsection.3.9}
+\contentsline {subsection}{\numberline {3.10}Set operators}{16}{subsection.3.10}
+\contentsline {subsection}{\numberline {3.11}Working with lists and data frames}{16}{subsection.3.11}
+\contentsline {subsection}{\numberline {3.12}Runs}{17}{subsection.3.12}
+\contentsline {subsection}{\numberline {3.13}Iterating over lists}{18}{subsection.3.13}
+\contentsline {subsection}{\numberline {3.14}Using grouping variables}{18}{subsection.3.14}
+\contentsline {subsection}{\numberline {3.15}Chains of functions}{18}{subsection.3.15}
+\contentsline {subsection}{\numberline {3.16}Asking questions online}{18}{subsection.3.16}
+\contentsline {section}{\numberline {4}Getting work done in R}{19}{section.4}
+\contentsline {subsection}{\numberline {4.1}data.table}{19}{subsection.4.1}
+\contentsline {subsubsection}{\numberline {4.1.1}Creating and modifying columns}{19}{subsubsection.4.1.1}
+\contentsline {subsubsection}{\numberline {4.1.2}Subsetting and subassignment}{19}{subsubsection.4.1.2}
+\contentsline {subsubsection}{\numberline {4.1.3}set operations}{19}{subsubsection.4.1.3}
+\contentsline {subsubsection}{\numberline {4.1.4}Operations by group}{19}{subsubsection.4.1.4}
+\contentsline {subsubsection}{\numberline {4.1.5}Creating grouping variables}{19}{subsubsection.4.1.5}
+\contentsline {subsubsection}{\numberline {4.1.6}Merges and merge-assigns}{19}{subsubsection.4.1.6}
+\contentsline {subsection}{\numberline {4.2}Structuring data}{19}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Dates and times}{19}{subsubsection.4.2.1}
+\contentsline {subsection}{\numberline {4.3}Exploring data}{20}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Reading, converting and writing data}{20}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}Approximation, optimization and regression}{21}{subsection.4.5}
+\contentsline {section}{\numberline {5}Miscellaneous}{21}{section.5}
+\contentsline {subsection}{\numberline {5.1}Output tables and graphs}{21}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Program structure}{22}{subsection.5.2}
+\contentsline {subsubsection}{\numberline {5.2.1}Reused code}{22}{subsubsection.5.2.1}
+\contentsline {subsubsection}{\numberline {5.2.2}Shortcuts}{22}{subsubsection.5.2.2}
+\contentsline {subsubsection}{\numberline {5.2.3}Mapping values}{22}{subsubsection.5.2.3}
+\contentsline {subsubsection}{\numberline {5.2.4}The formula interface}{22}{subsubsection.5.2.4}
+\contentsline {subsubsection}{\numberline {5.2.5}Reproducible research}{22}{subsubsection.5.2.5}
+\contentsline {subsection}{\numberline {5.3}Advanced tools}{23}{subsection.5.3}
+\contentsline {subsubsection}{\numberline {5.3.1}Profiling}{23}{subsubsection.5.3.1}
+\contentsline {subsubsection}{\numberline {5.3.2}Rcpp}{23}{subsubsection.5.3.2}
+\contentsline {subsubsection}{\numberline {5.3.3}Combinatorial problems}{23}{subsubsection.5.3.3}
+\contentsline {subsubsection}{\numberline {5.3.4}Rolling operations}{23}{subsubsection.5.3.4}
+\contentsline {subsubsection}{\numberline {5.3.5}Parallelization}{23}{subsubsection.5.3.5}
+\contentsline {subsubsection}{\numberline {5.3.6}Intervals}{23}{subsubsection.5.3.6}
+\contentsline {subsubsection}{\numberline {5.3.7}Graph theory}{23}{subsubsection.5.3.7}
+\contentsline {subsubsection}{\numberline {5.3.8}Dynamic programming}{24}{subsubsection.5.3.8}
+\contentsline {subsubsection}{\numberline {5.3.9}Working with files on disk}{24}{subsubsection.5.3.9}

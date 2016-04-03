@@ -5,7 +5,7 @@ output: html_document
 
 ## Vectors
 
-In R, all data come in vectors. If you type `x = 54.7`, then `x` will be a numeric vector of length 1. Similarly, `y = c("Abc", "xY_z")` is a character vector of length 2. After assigning a vector, you can type its name to see it and use `length` and `class` to see those attributes.
+In R, all data come in vectors. If you type `x = 54.7`, then `x` will be a numeric vector of length 1. Similarly, `y = c("Abc", "xY_z")` is a character vector of length 2. You can type a vector's name to see it, and use `length` and `class` to see those attributes.
 
 ```{r length-pre}
 x = c(TRUE, FALSE, TRUE)
@@ -20,7 +20,9 @@ The bracketed `[1]` indicates that we are seeing the first element of a vector. 
 
 ### Documentation
 
-Everything in the base installation of R is documented in convenient wikified html pages. These can be accessed with `?` or `help`. For example, `?TRUE` or `?length`. Backticks are sometimes required, as for ``?`(` `` and ``?`?` ``. Keep a close eye on the Description and Value sections, which concisely explain what to expect from a function.
+Everything in the base installation of R is documented in convenient wikified html pages. These can be accessed with `?` or `help`. For example, `?TRUE` or `?length`. Backticks are sometimes required, as for ``?`(` `` and ``?`?` ``. Keep a close eye on the Description and Value sections, which concisely explain what to expect from a function. Manuals and additional reference documents can be found by typing `help.start()`.
+
+R doesn't do error codes, only error messages and warnings. If you don't understand a message you're seeing, a search online usually does the trick.
 
 ### Classes {#classes}
 
@@ -31,10 +33,10 @@ c(4, c("A", "B"))
 ```
 
 <span class="spnote" id="coercion">
-**Coercion.** The `4` is "coerced" to `character`, with no warning given. 
+**Coercion.** The `4` is "coerced" to `character`, with no warning given. Coercion can be used to our advantage in tallying (covered in \@ref(tallying)) and a few other contexts.
 </span>
 
-This behavior is explained in the Details section of `?c`, which also conveniently lists all of the vanilla ("atomic") classes. The key ones are `logical`, `integer`, `numeric` and `character`. A `list` is a special type of vector whose elements can be arbitrary objects. For example, we can have a list of vectors:
+This behavior is explained in the Details section of `?c`, which also conveniently lists all of the vanilla ("atomic") classes. The key ones are `logical`, `integer`, `numeric` and `character`. A `list` is a special type of vector whose elements can be arbitrary objects, for example, a list of vectors:
 
 ```{r lists}
 L  = list("A", c(1,2))
@@ -42,12 +44,13 @@ L2 = list(FALSE)
 c(L, L2)
 ```
 
+.. lengths
 
 <span class="spdetails" id="classes_detail">
 Fancier classes are generally built on top of atomic classes or lists. Behind the scenes, date formats are numeric or integer; while complex objects like data sets and regression results are lists. For details on storage modes, see `?typeof` and the [R internals](https://cran.r-project.org/doc/manuals/r-release/R-ints.html) documentation. While some fancy data structures like linked lists and unordered sets are absent in base R, they can be used through packages like Rcpp. 
 </span>
 
-### Named elements
+### Named elements {#names}
 
 A vector's elements can be named:
 
@@ -56,20 +59,20 @@ c(a = 1, b = 2)
 list(A = c(1, 2), B = 4)
 ```
 
-<span class="spnote" id="arguments">
-**Passing arguments.** In `c(A = 1)`, the equals sign is not interchangeable with the `<-`, so you should not write `c(A <- 1)`. Think of `c` as a function with syntax like `c(argname = argvalue, argname2 = argvalue2, ...)`. The equals sign just plays the special role of giving names to the function's arguments.
+Names are not useful for vanilla vectors, where they are usually unnecessary and quickly get messy. For example, try `c(1, X = c(a = 2, b = 3, 4))` or `c(A = 1, A = 1)`. Generally, stick to using names only for lists.
+
+<span class="spnote" id="argument-names">
+**Passing arguments.** Inside `c(A = 1)`, the equals sign is not interchangeable with the `<-`, so don't write `c(A <- 1)`. Think of `c` as a function with syntax like `c(argname = argvalue, argname2 = argvalue2, ...)`. The equals sign just plays the special role of giving names to the function's arguments.
 </span>
 
-Names are more useful for lists than vanilla vectors, where they are usually unnecessary and quickly get messy. For example, try `c(1, X = c(a = 2, b = 3, 4))` or `c(A = 1, A = 1)`.
 
 ### Missing values
 
-R distinguishes itself from other programming languages by its careful treatment of missing values. See `?NA`. As explained there, the missing-data code `NA` is to be distinguished from a non-number, `NaN`, and from the absence of an object, `NULL`, for example in `list(A = 1, B = NULL)`.
-
+R differs from other programming languages in its careful treatment of missing values in the reading and processing of data. The missing-data code `NA` is to be distinguished from a non-number, `NaN`; from positive and negative infinity, `Inf` and `-Inf`; and from the absence of an object, `NULL`, for example in `list(A = 1, B = NULL)`. For details, read the "Missing values" section of the "An Introduction to R," a manual reachable by typing `help.start()`.
 
 ### Slicing
 
-We can select a subvector of `x` like `x[i]`:
+Select a subvector of `x` like `x[i]`:
 
 ```{r slicing-pre}
 x = c("a", "b", "c", "d")
@@ -82,99 +85,270 @@ L[c("Y","Z")]
 x[c(FALSE, TRUE, TRUE, FALSE)]
 ```
 
-So, the index `i` can be a vector of positions to include; a negated vector of positions to exclude; a vector of element names; or a TRUE/FALSE vector, with a selection rule for each position. 
-
-`x[i]` notation can also be pushed beyond subsetting, by passing repeated values.
-
-```{r repslicing}
-x[c(1, 3, 3, 2)]
-```
-
-By the way, no one else calls this "slicing"; so sue me.
+So, the index `i` can be a vector of positions to include; a negated vector of positions to exclude; a vector of element names; or a TRUE/FALSE vector, with a selection rule for each position. `i` can even contain repeated elements, like `x[c(1,1,2)]`, which is some more general "slice" of `x`, not really a subvector.
 
 <span class="spnote" id="recycling">
-**Recycling.** What would you expect `x[TRUE]` to do in the example above? Well, in R, it is treated like `x[c(TRUE, TRUE, TRUE, TRUE)]`. This is called recycling -- the argument `i` is repeated until it is long enough for the context. While this behavior is usually convenient, it is worthwhile to grok what, for example, what `x[c(TRUE, FALSE)]` is doing. 
+**Recycling.** What would you expect `x[TRUE]` to do in the example above? Well, in R, it is treated like `x[c(TRUE, TRUE, TRUE, TRUE)]`, without giving any warning. This is called recycling -- the argument `i` is repeated until it is long enough for the context is used in. Can you guess what `x[c(TRUE, FALSE)]` does?
 </span>
 
-Because recycling is so central to R, no warnings are given when it happens. Along with coercion \@ref(classes) -- like `c(4, c("A", "B"))` -- this is one of the most confusing features for a new R user.
 
-### Extracting
+### Extracting from a list
 
-<span class="spdetails" id="bracket-docs">
-For documentation on slicing and extracting, you can type ``?`[[` ``. Brackets come in pairs but are just named after their opener. This naming pattern will come up again later in \@ref(lapply) when working with lists of lists. 
-</span>
+Grab a single element of a vector like `x[[i]]`, where `i` is a single name or number:
 
-`$` is another way
-
-### Initializing and subassigning
-
-In R, it bad practice to dynamically grow objects, like `x = 1`, `x = c(x,2)`, ..., `x = c(x,n)`. Instead, preallocate with `vector` or a related function and assign:
-
-```{r preallocate, eval=FALSE}
-x = vector(5, mode = "list")
-y = logical(5)
+```{r extract}
+L = list(X = 1, Y = 2, Z = 3)
+L["Z"] # slicing
+L[["Z"]] # extracting
 ```
 
-note -- MATLAB-style multiple assignment is not possible, but you can do
+The difference between extracting and slicing is only seen with a `list`. In the example above, the slice `L["Z"]` is a list of just one element, while `L[["Z"]]` *actually is the element*. The distinction is not important for vanilla vectors, where it is a mere curiosity that the syntax works.
 
-L[c(2,3)] <- list(y, z)
+`L$Z` offers a handy alternative way of extracting by name from a list, but it is tougher to write a program around.
 
-beware recycling here again
+### Subassigning {#subassigning}
 
-You can coerce `x` to a higher class through assignment, like `x[1] <- "a"`, but this is generally a bad idea. 
+Assign to a subvector like `x[i] <- y`:
 
-As with "slicing," no one calls this "subassigning," but they should.
+```{r subassign}
+x = c("a", "b", "c", "d")
+x[c(2,4)] <- c("bada", "bing")
 
-generally, you don't want to get too fancy with subassignment. we'll see a nicer way to do it with \@ref(data.table), covering most practical applications.
+L = list(X = 1, Y = 2, Z = 3)
+L[c("Y", "Z")] = list(21, 31)
+```
 
-### Sorting
+As you might expect, `i` must be a list of names or numbers. You can get fancy with this syntax, but it is fairly unsafe on account of silent coercion and recycling. We will revisit how to modify vectors after introducing data.table in \@ref(data-table).
 
-factors, ordered factors
+<span class="spnote" id="hidden-docs">
+**Hard-to-find documentation.** For documentation on slicing and extracting, you can type ``?`[` ``. Even though there is a `]` for every `[`, it is the opening bracket that is the function's actual name, which will come back in \@ref(lapply). For documentation on sub-assignment, type ``?`[<-` ``. Similarly, the function used in `class(L) <- "fizzbuzz"` is documented at ``?`class<-` ``.
+</span>
 
+Full disclosure: no one else seems to refer to "slicing" or "subassignment" in R, but they should.
+
+### Initializing {#initializing}
+
+In R, it bad practice to dynamically grow objects, like `x = 1`, `x = c(x,2)`, ..., `x = c(x,n)`. Instead, create the vector with its final length first:
+
+```{r preallocate, eval=FALSE}
+vector(length = 5, mode = "list")
+character(length = 5)
+logical(length = 5)
+numeric(length = 5)
+integer(length = 5)
+```
+
+From there, you can subassign iteratively if necessary.
+
+It's also common to initialize a vector with a particular value using `rep`:
+
+```{r rep}
+rep(3, 10)
+```
+
+`rep(x, n)` extends nicely to the case where `x` is a vector. It does this in a few different configurations, as documented at `?rep`:
+
+```{r rep-vec}
+rep(c(3, 4), 5)
+rep(c(3, 4), each = 5)
+rep(c(3, 4), length.out = 5)
+rep(c(3, 4), c(3, 4))
+```
+
+### Factors
+
+As with missing values, a lot of thought was put into the treatment of categorical data in R, captured by the `factor` data type:
+
+```{r factors}
+factor(c("New York", "Tokyo", "Mumbai", "Tokyo"))
+```
+
+Here, the factor is being constructed from a character vector, but usually our data is already a factor when it is read into R (since that is the default interpretation of strings found in raw input data). 
+
+Factors usually have no sense of ordering (like "Tokyo" naturally coming before "Bombay"), but one can be added if appropriate:
+
+```{r ordered-factors}
+factor(c("Worst", "Best", "Not Bad", "Worst"), levels = c("Worst", "Not Bad", "Best"), ordered = TRUE)
+```
+
+To see whether a factor has an order, use `is.ordered`. Details on manipulating factors can be found at `?factor` and linked pages.
+
+### Sorting, rank, order
+
+There are three key functions here:
+
+- `sort(x)` will sort the vector.
+- `rank(x)` tells how far forward each element of `x` is in its pecking order.
+- `order(x)` is rarely useful on its own, but `y[order(x)]` will sort `y` by `x`.
+
+Be careful not to use these functions on an unordered factor, where they will make no sense but run without warning.
+
+The `frank()` function (yes, really) from the data.table package is also useful, for its "dense" rank tie-breaking rule.
 
 ### Exercises
 
-1. What is the class of `c(TRUE, 1L)`?
+1. What is the class of `c(TRUE, 1)`?
+2. What is the length of `list(1, c(2,3))`?
+3. If I run `x = c("a","b")` and then `x[c(2,1)] <- "d"`, what is the value of `x[1]` and why?
+4. How can you summon documentation for the assignment procedure used in `L$X <- list(3)`?
 
+## Matrices and Arrays
+
+The `matrix` function is used for construction:
+
+```{r matrix-build}
+v = c(1,2,3,4)
+matrix(v, nrow = 2, ncol = 2)
+matrix(v, nrow = 2, ncol = 2, byrow = TRUE)
+```
+
+Recycling applies here again. Try `matrix(v, nrow = 4, ncol = 4)`. If we just want `v` to fill out the matrix once, it is not necessary to give both `nrow` and `ncol`, like `matrix(v, nrow = 2)`. If the dimensions don't make sense for the input vector, `matrix(v, nrow = 3)`, R will mercifully throw a warning.
+
+`cbind` and `rbind` can also build matrices, but are rarely needed and often violate expectations.
+
+.. again, all elements share a class/type
+
+### Named rows and columns
+
+Rows and columns can be named:
+
+```{r matrix-naming}
+matrix(c(1,2,3,4), nrow = 2, dimnames = list(c("a","b"), c("c","d")))
+```
+
+``?`<-dimnames` `` documents an alternative means of assigning names.
+
+### Slicing matrices
+
+To take a matrix slice, selecting a submatrix, use `m[i,j]` as in math:
+
+```{r matrix-slicing}
+m = matrix(c(1,2,3,4), nrow = 2)
+m[1, c(1,2), drop = FALSE]
+```
+
+You can get fancy with indices, in all the ways described in \@ref(slicing). It is also often covenient to leave one index blank, which means "select all rows/columns"; try `m[, 2, drop = FALSE]`. 
+
+<span class="spcaution" id="drop">
+**Dropped dimensions.** The `drop = FALSE` option is necessary to ensure that the result is a submatrix. R's default behavior is to "drop" dimensions when it can, which makes for unpredictable output.
+</span>
+
+### Extracting from matrices
+
+As mentioned before, in R, all data come in vectors. Ergo, matrices are vectors, too. Try
+
+```{r matrix-vecsubset}
+m=1
+m[3]
+m[c(2,3)]
+```
+
+Okay, that may seem a little silly, but it helps to understand how data is structured.
+
+length
+
+dim
+
+X[Y]
+
+In principle, you could think of matrices as a special 
+
+Technical aside: The terminology is a bit weird here. In most programming languages, an *array* is a vector
+
+
+note -- because an array is just a trussed up vector, [[ extraction works, but is rarely useful
+
+### Subassigning to matrices
+
+
+
+### Arrays
+
+slicing [i,j,k] -- unsafe, again, thanks to drop=TRUE default
 
 ## Syntax
 
 floating point issues are real. For example, .1 + .05 - .15 is not necessarily zero
 [so post](http://stackoverflow.com/questions/9508518/why-are-these-numbers-not-equal)
 
-note -- infix operators also need backticks to find their help pages
+note -- infix operators also need backticks to find their help pages, also can be written as prefix
 
 vectorization
+
+inf
+
+round, floor, ceiling
+
+min, max
+
+matrix operators: %/%, t, %*%
+recall that vanilla mult is elementwise, silently recycles
+
+infix operators: (arithmetic), ==, %in%, <-, =
+
+arithmetic is elementwise, keep in mind silent recycling
+
+documentation
+
+math functions: min, max, log, exp, sqrt
+
+vectorization, try stuff out; read the Value section of a doc
+
+parentheses for more complicated computations
+
+coercion of logicals, etc., e.g., 3 > "4"
+
+### Function arguments
+
+If you looked at `?vector` and compared it against my usage in \ref(initializing), you probably saw that I passed the arguments out-of-order. This is safe so long as you name every argument. Passing arguments by the position, like `sort(x, TRUE)`, is a riskier proposition, since it is harder to get right and to read later.
 
 
 ## Writing and importing functions
 
-
 custom infix operators
 
+pkgname::fn
 
-## Matrices and Arrays
+getAnywhere()
 
-Technical aside: The terminology is a bit weird here. In most programming languages, an *array* is a vector
+install.packages('pkgname')
 
-```{block, type='rmdcaution'}
-regarding drop
-```
+library(pkgname)
 
-note -- because an array is just a trussed up vector, [[ extraction works, but is rarely useful
+source('filename')
 
-## Randomization
-
-
+https://www.datacamp.com/community/tutorials/functions-in-r-a-tutorial
 
 ## Loops and Control Flow {#loops}
 
+ex: create an empty matrix and fill it, row by row
+
+but, if the steps don't really need to be sequential, don't loop
+
+maybe you have a closed-form solution for each row
+
+maybe each row is entirely independent
+
+often, the answer is arithmetic or matrix algebra
+
+for more complicated tasks, use replicate/lapply/sapply (all documented in the same place)
+
+excruciating detail https://www.datacamp.com/community/tutorials/tutorial-on-loops-in-r
 
 ## Data frames
+
+recall that in matrices, all elements are of the same class/type
+
+with data sets, we have mixed types
+
+in R, data frames are the container for general data sets
+
+they are implemented as lists of vectors, where each vector has the same length
+
+basic data exploration: View(), table + useNA, summary
 
 rules for extracting are a mess. we'll see data.table soon
 
 note -- use the right tool for the job. if the work you're doing is in linear algebra, use a matrix. many simulations are also best handle with matrices and arrays, rather than data frames. data frames are only for mixed classes of data.
-
 
 

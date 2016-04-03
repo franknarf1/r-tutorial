@@ -1,26 +1,163 @@
 # Getting work done in R {#work}
 
 
-## data.table {#data.table}
+## data.table {#data-table}
 
-subsetting
+### Creating and modifying columns {#dt-cols}
 
-subassignment
+### Subsetting and subassignment {#dt-sub}
 
-set operations
+### set operations {#dt-set-ops}
 
-merges
+### Operations by group {#dt-grouping}
 
-## Structuring data
+### Creating grouping variables {#dt-groupvars}
 
-
-
-## Exploring data
+### Merges and merge-assigns {#dt-merging}
 
 
-## Reading, converting and writing data
+no more <-, modification by reference as in Stata
+
+use copy(), i do for a backup while working
+
+tables() or jan's extension; str(); sapply(DT, class)
+
+.SDcols = sapply(DT,class)=="character"
+
+adding and removing columns
+
+x := xval
+
+mycols = c("a","b","d"); (mycols) := .(aval, bval, dval)
+
+mycols = paste
+
+`:=`(a = aval, b=bval, d=dval)
+
+x := {make_x}
+
+{} for general tasks
+
+working with subsets, speedup after == and %in%
+
+working by group
+
+.GRP, .N
+
+lapply(.SD)
+
+by=1:nrow(DT) is always an option, but probably means you're doing it wrong
+
+ex: fill down
+
+ex: modification by reference even happens from within a function
+
+
+## Structuring data {#structuring-data}
+### Dates and times {#dates-times}
+
+11 structuring data: keys, merging and reshaping (db_design)
+
+background: tidy data / database design
+
+unique, duplicated + fromLast, CJ + unique
+
+use integers when you can, use characters or integers for keys
+
+remember: do rounding as late as possible -- don't start during the cleaning and exploration phase
+
+setkey
+
+X[Y, j] + i.*
+
+ex: ...
+
+X[Y, j, by=.EACHI] + on
+
+X[!Y] + which
+
+rbind, rbindlist
+
+setdiff, union, intersect (works with data.table from 1.9.8+)
+
+sort vs order
+
+cumsum, diff, rev, rleid
+
+list columns -- somewhat clumsy, but sometimes convenient (no by=, shift(); inefficient %in% and match()). can store regression results, for example
+
+consider unique %>% sort %>% toString/paste instead
+
+reference: data.table vignettes
+
+## Exploring data {#exploring-data}
+
+Henk Harmsen on "ergonomics" https://rpubs.com/carbonmetrics/datatable_ihub
+
+`e_bad = DT[, var, by=e_id][var==TRUE, e_id]; DT[.(e_id)] (simpler with having)`
+
+`DT[, .N, by=e_id][order(-N)]`
+
+creating temp vars, printing with []
+
+DT[, do_stuff, j] %>% print(nrow=Inf) with magrittr (warning about performance hit in real nonexploratory code)
+
+hist, hexbin
+
+cor, cormat
+
+exploring models: curve
+
+qqplot etc for the statistically literate, and other tools for ML people
+
+## Reading, converting and writing data {#input-output}
+
+fread
+
+tstrsplit
+
+as.IDate, IDateTime
+
+wday, weekdays, etc.
+
+show that max, min, inequalities work for dates and times
+
+show how ordered factors can be used to set up inequalities for strings
+
+lapply + .SDcols with date conversion
+
+shortcuts: .SDcols = V1:V10, .SDcols = grep("^date_", names(DT)), etc
+
+state.abb, state.names
+
+write.csv
+
+readxl
+
+writeXLS
+
+use google, these I/O functions will always be in active development
+
+haven is a thing for Stata files, but fuggedaboutit unless you can't access Stata. far better to use csvs for data transfer, metadata be damned
+
+with Rdata, use load() or just drag it into the window
+
 
 
 ## Approximation, optimization and regression
 
+(so far, we've just talked about data manipulation, now onto math/stats)
 
+obvs, if your problem has a closed form solution, do the matrix algebra and don't get bogged down in syntax oddities of a particular language
+
+seriously consider using a matrix or array if it fits the problem
+
+integration
+
+optimization
+
+formula interface
+
+dynamically constructing formulae -- too much trouble
+
+precomputing indices http://stackoverflow.com/q/19279075/1191259

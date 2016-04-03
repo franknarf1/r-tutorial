@@ -17,8 +17,14 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2016-04-01" />
+<meta name="date" content="2016-04-03" />
 
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
 
 <meta name="description" content="This book covers the essentials for using R.">
 
@@ -113,39 +119,85 @@ img {
 <li class="has-sub"><a href="basics.html#vectors"><span class="toc-section-number">2.1</span> Vectors</a><ul>
 <li><a href="basics.html#documentation"><span class="toc-section-number">2.1.1</span> Documentation</a></li>
 <li><a href="basics.html#classes"><span class="toc-section-number">2.1.2</span> Classes</a></li>
-<li><a href="basics.html#named-elements"><span class="toc-section-number">2.1.3</span> Named elements</a></li>
+<li><a href="basics.html#names"><span class="toc-section-number">2.1.3</span> Named elements</a></li>
 <li><a href="basics.html#missing-values"><span class="toc-section-number">2.1.4</span> Missing values</a></li>
 <li><a href="basics.html#slicing"><span class="toc-section-number">2.1.5</span> Slicing</a></li>
-<li><a href="basics.html#extracting"><span class="toc-section-number">2.1.6</span> Extracting</a></li>
-<li><a href="basics.html#initializing-and-subassigning"><span class="toc-section-number">2.1.7</span> Initializing and subassigning</a></li>
-<li><a href="basics.html#sorting"><span class="toc-section-number">2.1.8</span> Sorting</a></li>
-<li><a href="basics.html#exercises"><span class="toc-section-number">2.1.9</span> Exercises</a></li>
+<li><a href="basics.html#extracting-from-a-list"><span class="toc-section-number">2.1.6</span> Extracting from a list</a></li>
+<li><a href="basics.html#subassigning"><span class="toc-section-number">2.1.7</span> Subassigning</a></li>
+<li><a href="basics.html#initializing"><span class="toc-section-number">2.1.8</span> Initializing</a></li>
+<li><a href="basics.html#factors"><span class="toc-section-number">2.1.9</span> Factors</a></li>
+<li><a href="basics.html#sorting-rank-order"><span class="toc-section-number">2.1.10</span> Sorting, rank, order</a></li>
+<li><a href="basics.html#exercises"><span class="toc-section-number">2.1.11</span> Exercises</a></li>
 </ul></li>
-<li><a href="basics.html#syntax"><span class="toc-section-number">2.2</span> Syntax</a></li>
-<li><a href="basics.html#writing-and-importing-functions"><span class="toc-section-number">2.3</span> Writing and importing functions</a></li>
-<li><a href="basics.html#matrices-and-arrays"><span class="toc-section-number">2.4</span> Matrices and Arrays</a></li>
-<li><a href="basics.html#randomization"><span class="toc-section-number">2.5</span> Randomization</a></li>
-<li><a href="basics.html#loops"><span class="toc-section-number">2.6</span> Loops and Control Flow</a></li>
-<li><a href="basics.html#data-frames"><span class="toc-section-number">2.7</span> Data frames</a></li>
+<li class="has-sub"><a href="basics.html#matrices-and-arrays"><span class="toc-section-number">2.2</span> Matrices and Arrays</a><ul>
+<li><a href="basics.html#named-rows-and-columns"><span class="toc-section-number">2.2.1</span> Named rows and columns</a></li>
+<li><a href="basics.html#slicing-matrices"><span class="toc-section-number">2.2.2</span> Slicing matrices</a></li>
+<li><a href="basics.html#extracting-from-matrices"><span class="toc-section-number">2.2.3</span> Extracting from matrices</a></li>
+<li><a href="basics.html#subassigning-to-matrices"><span class="toc-section-number">2.2.4</span> Subassigning to matrices</a></li>
+<li><a href="basics.html#arrays"><span class="toc-section-number">2.2.5</span> Arrays</a></li>
+</ul></li>
+<li class="has-sub"><a href="basics.html#syntax"><span class="toc-section-number">2.3</span> Syntax</a><ul>
+<li><a href="basics.html#function-arguments"><span class="toc-section-number">2.3.1</span> Function arguments</a></li>
+</ul></li>
+<li><a href="basics.html#writing-and-importing-functions"><span class="toc-section-number">2.4</span> Writing and importing functions</a></li>
+<li><a href="basics.html#loops"><span class="toc-section-number">2.5</span> Loops and Control Flow</a></li>
+<li><a href="basics.html#data-frames"><span class="toc-section-number">2.6</span> Data frames</a></li>
 </ul></li>
 <li class="has-sub"><a href="quirks.html#quirks"><span class="toc-section-number">3</span> Quirks</a><ul>
-<li><a href="quirks.html#tallying"><span class="toc-section-number">3.1</span> Tallying</a></li>
-<li><a href="quirks.html#finding-a-value-or-interval"><span class="toc-section-number">3.2</span> Finding a value or interval</a></li>
-<li><a href="quirks.html#set-operations"><span class="toc-section-number">3.3</span> Set operations</a></li>
-<li><a href="quirks.html#runs-and-sequences"><span class="toc-section-number">3.4</span> Runs and sequences</a></li>
-<li><a href="quirks.html#lapply"><span class="toc-section-number">3.5</span> <code id="lapply">lapply</code></a></li>
+<li><a href="quirks.html#randomization"><span class="toc-section-number">3.1</span> Randomization</a></li>
+<li><a href="quirks.html#time-series-operators"><span class="toc-section-number">3.2</span> Time series operators</a></li>
+<li><a href="quirks.html#functions-methods"><span class="toc-section-number">3.3</span> Functions’ methods</a></li>
+<li><a href="quirks.html#sequences"><span class="toc-section-number">3.4</span> Sequences</a></li>
+<li><a href="quirks.html#tallying"><span class="toc-section-number">3.5</span> Tallying</a></li>
+<li><a href="quirks.html#finding-bins-for-values"><span class="toc-section-number">3.6</span> Finding bins for values</a></li>
+<li><a href="quirks.html#finding-where-a-condition-holds"><span class="toc-section-number">3.7</span> Finding where a condition holds</a></li>
+<li><a href="quirks.html#finding-a-value"><span class="toc-section-number">3.8</span> Finding a value</a></li>
+<li><a href="quirks.html#string-operations"><span class="toc-section-number">3.9</span> String operations</a></li>
+<li><a href="quirks.html#built-in-constants"><span class="toc-section-number">3.10</span> Built-in constants</a></li>
+<li><a href="quirks.html#set-ops"><span class="toc-section-number">3.11</span> Set operators</a></li>
+<li><a href="quirks.html#working-with-lists-and-data-frames"><span class="toc-section-number">3.12</span> Working with lists and data frames</a></li>
+<li><a href="quirks.html#runs"><span class="toc-section-number">3.13</span> Runs</a></li>
+<li><a href="quirks.html#lapply"><span class="toc-section-number">3.14</span> Iterating over lists</a></li>
+<li><a href="quirks.html#using-grouping-variables"><span class="toc-section-number">3.15</span> Using grouping variables</a></li>
+<li><a href="quirks.html#chains-of-functions"><span class="toc-section-number">3.16</span> Chains of functions</a></li>
+<li><a href="quirks.html#asking-questions-online"><span class="toc-section-number">3.17</span> Asking questions online</a></li>
 </ul></li>
 <li class="has-sub"><a href="work.html#work"><span class="toc-section-number">4</span> Getting work done in R</a><ul>
-<li><a href="work.html#data.table"><span class="toc-section-number">4.1</span> data.table</a></li>
-<li><a href="work.html#structuring-data"><span class="toc-section-number">4.2</span> Structuring data</a></li>
+<li class="has-sub"><a href="work.html#data-table"><span class="toc-section-number">4.1</span> data.table</a><ul>
+<li><a href="work.html#dt-cols"><span class="toc-section-number">4.1.1</span> Creating and modifying columns</a></li>
+<li><a href="work.html#dt-sub"><span class="toc-section-number">4.1.2</span> Subsetting and subassignment</a></li>
+<li><a href="work.html#dt-set-ops"><span class="toc-section-number">4.1.3</span> set operations</a></li>
+<li><a href="work.html#dt-grouping"><span class="toc-section-number">4.1.4</span> Operations by group</a></li>
+<li><a href="work.html#dt-groupvars"><span class="toc-section-number">4.1.5</span> Creating grouping variables</a></li>
+<li><a href="work.html#dt-merging"><span class="toc-section-number">4.1.6</span> Merges and merge-assigns</a></li>
+</ul></li>
+<li class="has-sub"><a href="work.html#structuring-data"><span class="toc-section-number">4.2</span> Structuring data</a><ul>
+<li><a href="work.html#dates-times"><span class="toc-section-number">4.2.1</span> Dates and times</a></li>
+</ul></li>
 <li><a href="work.html#exploring-data"><span class="toc-section-number">4.3</span> Exploring data</a></li>
-<li><a href="work.html#reading-converting-and-writing-data"><span class="toc-section-number">4.4</span> Reading, converting and writing data</a></li>
+<li><a href="work.html#input-output"><span class="toc-section-number">4.4</span> Reading, converting and writing data</a></li>
 <li><a href="work.html#approximation-optimization-and-regression"><span class="toc-section-number">4.5</span> Approximation, optimization and regression</a></li>
 </ul></li>
-<li class="has-sub"><a href="advanced.html#advanced"><span class="toc-section-number">5</span> Advanced tools</a><ul>
+<li class="has-sub"><a href="advanced.html#advanced"><span class="toc-section-number">5</span> Miscellaneous</a><ul>
 <li><a href="advanced.html#output-tables-and-graphs"><span class="toc-section-number">5.1</span> Output tables and graphs</a></li>
-<li><a href="advanced.html#program-structure"><span class="toc-section-number">5.2</span> Program structure</a></li>
-<li><a href="advanced.html#rcpp"><span class="toc-section-number">5.3</span> Rcpp</a></li>
+<li class="has-sub"><a href="advanced.html#programming"><span class="toc-section-number">5.2</span> Program structure</a><ul>
+<li><a href="advanced.html#reused-code"><span class="toc-section-number">5.2.1</span> Reused code</a></li>
+<li><a href="advanced.html#shortcuts"><span class="toc-section-number">5.2.2</span> Shortcuts</a></li>
+<li><a href="advanced.html#mapping-values"><span class="toc-section-number">5.2.3</span> Mapping values</a></li>
+<li><a href="advanced.html#formula-interface"><span class="toc-section-number">5.2.4</span> The formula interface</a></li>
+<li><a href="advanced.html#reproducible-research"><span class="toc-section-number">5.2.5</span> Reproducible research</a></li>
+</ul></li>
+<li class="has-sub"><a href="advanced.html#advanced-tools"><span class="toc-section-number">5.3</span> Advanced tools</a><ul>
+<li><a href="advanced.html#profiling"><span class="toc-section-number">5.3.1</span> Profiling</a></li>
+<li><a href="advanced.html#rcpp"><span class="toc-section-number">5.3.2</span> Rcpp</a></li>
+<li><a href="advanced.html#combinatorial-problems"><span class="toc-section-number">5.3.3</span> Combinatorial problems</a></li>
+<li><a href="advanced.html#rolling-operations"><span class="toc-section-number">5.3.4</span> Rolling operations</a></li>
+<li><a href="advanced.html#parallelization"><span class="toc-section-number">5.3.5</span> Parallelization</a></li>
+<li><a href="advanced.html#intervals"><span class="toc-section-number">5.3.6</span> Intervals</a></li>
+<li><a href="advanced.html#graph-theory"><span class="toc-section-number">5.3.7</span> Graph theory</a></li>
+<li><a href="advanced.html#dynamic-programming"><span class="toc-section-number">5.3.8</span> Dynamic programming</a></li>
+<li><a href="advanced.html#working-with-files-on-disk"><span class="toc-section-number">5.3.9</span> Working with files on disk</a></li>
+</ul></li>
 </ul></li>
 </ul>
 </div>
@@ -157,7 +209,7 @@ img {
 <h1><span class="header-section-number">Chapter 2</span> Basics</h1>
 <div id="vectors" class="section level2">
 <h2><span class="header-section-number">2.1</span> Vectors</h2>
-<p>In R, all data come in vectors. If you type <code>x = 54.7</code>, then <code>x</code> will be a numeric vector of length 1. Similarly, <code>y = c(&quot;Abc&quot;, &quot;xY_z&quot;)</code> is a character vector of length 2. After assigning a vector, you can type its name to see it and use <code>length</code> and <code>class</code> to see those attributes.</p>
+<p>In R, all data come in vectors. If you type <code>x = 54.7</code>, then <code>x</code> will be a numeric vector of length 1. Similarly, <code>y = c(&quot;Abc&quot;, &quot;xY_z&quot;)</code> is a character vector of length 2. You can type a vector’s name to see it, and use <code>length</code> and <code>class</code> to see those attributes.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">TRUE</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x</code></pre></div>
 <pre><code># [1]  TRUE FALSE  TRUE</code></pre>
@@ -168,15 +220,16 @@ img {
 <p>The bracketed <code>[1]</code> indicates that we are seeing the first element of a vector. This printing pattern is handy with vectors too long for a single line. You can assign with <code>=</code> or <code>&lt;-</code>. You can even assign like <code>c(2,3) -&gt; z</code>, but this is rare and hard to read in my opinion.</p>
 <div id="documentation" class="section level3">
 <h3><span class="header-section-number">2.1.1</span> Documentation</h3>
-<p>Everything in the base installation of R is documented in convenient wikified html pages. These can be accessed with <code>?</code> or <code>help</code>. For example, <code>?TRUE</code> or <code>?length</code>. Backticks are sometimes required, as for <code>?`(`</code> and <code>?`?`</code>. Keep a close eye on the Description and Value sections, which concisely explain what to expect from a function.</p>
+<p>Everything in the base installation of R is documented in convenient wikified html pages. These can be accessed with <code>?</code> or <code>help</code>. For example, <code>?TRUE</code> or <code>?length</code>. Backticks are sometimes required, as for <code>?`(`</code> and <code>?`?`</code>. Keep a close eye on the Description and Value sections, which concisely explain what to expect from a function. Manuals and additional reference documents can be found by typing <code>help.start()</code>.</p>
+<p>R doesn’t do error codes, only error messages and warnings. If you don’t understand a message you’re seeing, a search online usually does the trick.</p>
 </div>
 <div id="classes" class="section level3">
 <h3><span class="header-section-number">2.1.2</span> Classes</h3>
 <p>All elements of a vanilla vector must have the same class, so</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="dv">4</span>, <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</code></pre></div>
 <pre><code># [1] &quot;4&quot; &quot;A&quot; &quot;B&quot;</code></pre>
-<p><span id="coercion" class="spnote"> <strong>Coercion.</strong> The <code>4</code> is “coerced” to <code>character</code>, with no warning given. </span></p>
-<p>This behavior is explained in the Details section of <code>?c</code>, which also conveniently lists all of the vanilla (“atomic”) classes. The key ones are <code>logical</code>, <code>integer</code>, <code>numeric</code> and <code>character</code>. A <code>list</code> is a special type of vector whose elements can be arbitrary objects. For example, we can have a list of vectors:</p>
+<p><span id="coercion" class="spnote"> <strong>Coercion.</strong> The <code>4</code> is “coerced” to <code>character</code>, with no warning given. Coercion can be used to our advantage in tallying (covered in <a href="quirks.html#tallying">3.5</a>) and a few other contexts. </span></p>
+<p>This behavior is explained in the Details section of <code>?c</code>, which also conveniently lists all of the vanilla (“atomic”) classes. The key ones are <code>logical</code>, <code>integer</code>, <code>numeric</code> and <code>character</code>. A <code>list</code> is a special type of vector whose elements can be arbitrary objects, for example, a list of vectors:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">L  =<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;A&quot;</span>, <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
 L2 =<span class="st"> </span><span class="kw">list</span>(<span class="ot">FALSE</span>)
 <span class="kw">c</span>(L, L2)</code></pre></div>
@@ -188,9 +241,10 @@ L2 =<span class="st"> </span><span class="kw">list</span>(<span class="ot">FALSE
 # 
 # [[3]]
 # [1] FALSE</code></pre>
+<p>.. lengths</p>
 <p><span id="classes_detail" class="spdetails"> Fancier classes are generally built on top of atomic classes or lists. Behind the scenes, date formats are numeric or integer; while complex objects like data sets and regression results are lists. For details on storage modes, see <code>?typeof</code> and the <a href="https://cran.r-project.org/doc/manuals/r-release/R-ints.html">R internals</a> documentation. While some fancy data structures like linked lists and unordered sets are absent in base R, they can be used through packages like Rcpp. </span></p>
 </div>
-<div id="named-elements" class="section level3">
+<div id="names" class="section level3">
 <h3><span class="header-section-number">2.1.3</span> Named elements</h3>
 <p>A vector’s elements can be named:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="dt">a =</span> <span class="dv">1</span>, <span class="dt">b =</span> <span class="dv">2</span>)</code></pre></div>
@@ -202,16 +256,16 @@ L2 =<span class="st"> </span><span class="kw">list</span>(<span class="ot">FALSE
 # 
 # $B
 # [1] 4</code></pre>
-<p><span id="arguments" class="spnote"> <strong>Passing arguments.</strong> In <code>c(A = 1)</code>, the equals sign is not interchangeable with the <code>&lt;-</code>, so you should not write <code>c(A &lt;- 1)</code>. Think of <code>c</code> as a function with syntax like <code>c(argname = argvalue, argname2 = argvalue2, ...)</code>. The equals sign just plays the special role of giving names to the function’s arguments. </span></p>
-<p>Names are more useful for lists than vanilla vectors, where they are usually unnecessary and quickly get messy. For example, try <code>c(1, X = c(a = 2, b = 3, 4))</code> or <code>c(A = 1, A = 1)</code>.</p>
+<p>Names are not useful for vanilla vectors, where they are usually unnecessary and quickly get messy. For example, try <code>c(1, X = c(a = 2, b = 3, 4))</code> or <code>c(A = 1, A = 1)</code>. Generally, stick to using names only for lists.</p>
+<p><span id="argument-names" class="spnote"> <strong>Passing arguments.</strong> Inside <code>c(A = 1)</code>, the equals sign is not interchangeable with the <code>&lt;-</code>, so don’t write <code>c(A &lt;- 1)</code>. Think of <code>c</code> as a function with syntax like <code>c(argname = argvalue, argname2 = argvalue2, ...)</code>. The equals sign just plays the special role of giving names to the function’s arguments. </span></p>
 </div>
 <div id="missing-values" class="section level3">
 <h3><span class="header-section-number">2.1.4</span> Missing values</h3>
-<p>R distinguishes itself from other programming languages by its careful treatment of missing values. See <code>?NA</code>. As explained there, the missing-data code <code>NA</code> is to be distinguished from a non-number, <code>NaN</code>, and from the absence of an object, <code>NULL</code>, for example in <code>list(A = 1, B = NULL)</code>.</p>
+<p>R differs from other programming languages in its careful treatment of missing values in the reading and processing of data. The missing-data code <code>NA</code> is to be distinguished from a non-number, <code>NaN</code>; from positive and negative infinity, <code>Inf</code> and <code>-Inf</code>; and from the absence of an object, <code>NULL</code>, for example in <code>list(A = 1, B = NULL)</code>. For details, read the “Missing values” section of the “An Introduction to R,” a manual reachable by typing <code>help.start()</code>.</p>
 </div>
 <div id="slicing" class="section level3">
 <h3><span class="header-section-number">2.1.5</span> Slicing</h3>
-<p>We can select a subvector of <code>x</code> like <code>x[i]</code>:</p>
+<p>Select a subvector of <code>x</code> like <code>x[i]</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;d&quot;</span>)
 L =<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</span> <span class="dv">1</span>, <span class="dt">Y =</span> <span class="dv">2</span>, <span class="dt">Z =</span> <span class="dv">3</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)]</code></pre></div>
@@ -226,70 +280,195 @@ L =<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</s
 # [1] 3</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="kw">c</span>(<span class="ot">FALSE</span>, <span class="ot">TRUE</span>, <span class="ot">TRUE</span>, <span class="ot">FALSE</span>)]</code></pre></div>
 <pre><code># [1] &quot;b&quot; &quot;c&quot;</code></pre>
-<p>So, the index <code>i</code> can be a vector of positions to include; a negated vector of positions to exclude; a vector of element names; or a TRUE/FALSE vector, with a selection rule for each position.</p>
-<p><code>x[i]</code> notation can also be pushed beyond subsetting, by passing repeated values.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">2</span>)]</code></pre></div>
-<pre><code># [1] &quot;a&quot; &quot;c&quot; &quot;c&quot; &quot;b&quot;</code></pre>
-<p>By the way, no one else calls this “slicing”; so sue me.</p>
-<p><span id="recycling" class="spnote"> <strong>Recycling.</strong> What would you expect <code>x[TRUE]</code> to do in the example above? Well, in R, it is treated like <code>x[c(TRUE, TRUE, TRUE, TRUE)]</code>. This is called recycling – the argument <code>i</code> is repeated until it is long enough for the context. While this behavior is usually convenient, it is worthwhile to grok what, for example, what <code>x[c(TRUE, FALSE)]</code> is doing. </span></p>
-<p>Because recycling is so central to R, no warnings are given when it happens. Along with coercion <a href="basics.html#classes">2.1.2</a> – like <code>c(4, c(&quot;A&quot;, &quot;B&quot;))</code> – this is one of the most confusing features for a new R user.</p>
+<p>So, the index <code>i</code> can be a vector of positions to include; a negated vector of positions to exclude; a vector of element names; or a TRUE/FALSE vector, with a selection rule for each position. <code>i</code> can even contain repeated elements, like <code>x[c(1,1,2)]</code>, which is some more general “slice” of <code>x</code>, not really a subvector.</p>
+<p><span id="recycling" class="spnote"> <strong>Recycling.</strong> What would you expect <code>x[TRUE]</code> to do in the example above? Well, in R, it is treated like <code>x[c(TRUE, TRUE, TRUE, TRUE)]</code>, without giving any warning. This is called recycling – the argument <code>i</code> is repeated until it is long enough for the context is used in. Can you guess what <code>x[c(TRUE, FALSE)]</code> does? </span></p>
 </div>
-<div id="extracting" class="section level3">
-<h3><span class="header-section-number">2.1.6</span> Extracting</h3>
-<p><span id="bracket-docs" class="spdetails"> For documentation on slicing and extracting, you can type <code>?`[[`</code>. Brackets come in pairs but are just named after their opener. This naming pattern will come up again later in <a href="quirks.html#lapply">3.5</a> when working with lists of lists. </span></p>
-<p><code>$</code> is another way</p>
+<div id="extracting-from-a-list" class="section level3">
+<h3><span class="header-section-number">2.1.6</span> Extracting from a list</h3>
+<p>Grab a single element of a vector like <code>x[[i]]</code>, where <code>i</code> is a single name or number:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">L =<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</span> <span class="dv">1</span>, <span class="dt">Y =</span> <span class="dv">2</span>, <span class="dt">Z =</span> <span class="dv">3</span>)
+L[<span class="st">&quot;Z&quot;</span>] <span class="co"># slicing</span></code></pre></div>
+<pre><code># $Z
+# [1] 3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">L[[<span class="st">&quot;Z&quot;</span>]] <span class="co"># extracting</span></code></pre></div>
+<pre><code># [1] 3</code></pre>
+<p>The difference between extracting and slicing is only seen with a <code>list</code>. In the example above, the slice <code>L[&quot;Z&quot;]</code> is a list of just one element, while <code>L[[&quot;Z&quot;]]</code> <em>actually is the element</em>. The distinction is not important for vanilla vectors, where it is a mere curiosity that the syntax works.</p>
+<p><code>L$Z</code> offers a handy alternative way of extracting by name from a list, but it is tougher to write a program around.</p>
 </div>
-<div id="initializing-and-subassigning" class="section level3">
-<h3><span class="header-section-number">2.1.7</span> Initializing and subassigning</h3>
-<p>In R, it bad practice to dynamically grow objects, like <code>x = 1</code>, <code>x = c(x,2)</code>, …, <code>x = c(x,n)</code>. Instead, preallocate with <code>vector</code> or a related function and assign:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="kw">vector</span>(<span class="dv">5</span>, <span class="dt">mode =</span> <span class="st">&quot;list&quot;</span>)
-y =<span class="st"> </span><span class="kw">logical</span>(<span class="dv">5</span>)</code></pre></div>
-<p>note – MATLAB-style multiple assignment is not possible, but you can do</p>
-<p>L[c(2,3)] &lt;- list(y, z)</p>
-<p>beware recycling here again</p>
-<p>You can coerce <code>x</code> to a higher class through assignment, like <code>x[1] &lt;- &quot;a&quot;</code>, but this is generally a bad idea.</p>
-<p>As with “slicing,” no one calls this “subassigning,” but they should.</p>
-<p>generally, you don’t want to get too fancy with subassignment. we’ll see a nicer way to do it with @ref(data.table), covering most practical applications.</p>
+<div id="subassigning" class="section level3">
+<h3><span class="header-section-number">2.1.7</span> Subassigning</h3>
+<p>Assign to a subvector like <code>x[i] &lt;- y</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;d&quot;</span>)
+x[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)] &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;bada&quot;</span>, <span class="st">&quot;bing&quot;</span>)
+
+L =<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</span> <span class="dv">1</span>, <span class="dt">Y =</span> <span class="dv">2</span>, <span class="dt">Z =</span> <span class="dv">3</span>)
+L[<span class="kw">c</span>(<span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Z&quot;</span>)] =<span class="st"> </span><span class="kw">list</span>(<span class="dv">21</span>, <span class="dv">31</span>)</code></pre></div>
+<p>As you might expect, <code>i</code> must be a list of names or numbers. You can get fancy with this syntax, but it is fairly unsafe on account of silent coercion and recycling. We will revisit how to modify vectors after introducing data.table in <a href="work.html#data-table">4.1</a>.</p>
+<p><span id="hidden-docs" class="spnote"> <strong>Hard-to-find documentation.</strong> For documentation on slicing and extracting, you can type <code>?`[`</code>. Even though there is a <code>]</code> for every <code>[</code>, it is the opening bracket that is the function’s actual name, which will come back in <a href="quirks.html#lapply">3.14</a>. For documentation on sub-assignment, type <code>?`[&lt;-`</code>. Similarly, the function used in <code>class(L) &lt;- &quot;fizzbuzz&quot;</code> is documented at <code>?`class&lt;-`</code>. </span></p>
+<p>Full disclosure: no one else seems to refer to “slicing” or “subassignment” in R, but they should.</p>
 </div>
-<div id="sorting" class="section level3">
-<h3><span class="header-section-number">2.1.8</span> Sorting</h3>
-<p>factors, ordered factors</p>
+<div id="initializing" class="section level3">
+<h3><span class="header-section-number">2.1.8</span> Initializing</h3>
+<p>In R, it bad practice to dynamically grow objects, like <code>x = 1</code>, <code>x = c(x,2)</code>, …, <code>x = c(x,n)</code>. Instead, create the vector with its final length first:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vector</span>(<span class="dt">length =</span> <span class="dv">5</span>, <span class="dt">mode =</span> <span class="st">&quot;list&quot;</span>)
+<span class="kw">character</span>(<span class="dt">length =</span> <span class="dv">5</span>)
+<span class="kw">logical</span>(<span class="dt">length =</span> <span class="dv">5</span>)
+<span class="kw">numeric</span>(<span class="dt">length =</span> <span class="dv">5</span>)
+<span class="kw">integer</span>(<span class="dt">length =</span> <span class="dv">5</span>)</code></pre></div>
+<p>From there, you can subassign iteratively if necessary.</p>
+<p>It’s also common to initialize a vector with a particular value using <code>rep</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rep</span>(<span class="dv">3</span>, <span class="dv">10</span>)</code></pre></div>
+<pre><code>#  [1] 3 3 3 3 3 3 3 3 3 3</code></pre>
+<p><code>rep(x, n)</code> extends nicely to the case where <code>x</code> is a vector. It does this in a few different configurations, as documented at <code>?rep</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">4</span>), <span class="dv">5</span>)</code></pre></div>
+<pre><code>#  [1] 3 4 3 4 3 4 3 4 3 4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">4</span>), <span class="dt">each =</span> <span class="dv">5</span>)</code></pre></div>
+<pre><code>#  [1] 3 3 3 3 3 4 4 4 4 4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">4</span>), <span class="dt">length.out =</span> <span class="dv">5</span>)</code></pre></div>
+<pre><code># [1] 3 4 3 4 3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">4</span>), <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">4</span>))</code></pre></div>
+<pre><code># [1] 3 3 3 4 4 4 4</code></pre>
+</div>
+<div id="factors" class="section level3">
+<h3><span class="header-section-number">2.1.9</span> Factors</h3>
+<p>As with missing values, a lot of thought was put into the treatment of categorical data in R, captured by the <code>factor</code> data type:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&quot;New York&quot;</span>, <span class="st">&quot;Tokyo&quot;</span>, <span class="st">&quot;Mumbai&quot;</span>, <span class="st">&quot;Tokyo&quot;</span>))</code></pre></div>
+<pre><code># [1] New York Tokyo    Mumbai   Tokyo   
+# Levels: Mumbai New York Tokyo</code></pre>
+<p>Here, the factor is being constructed from a character vector, but usually our data is already a factor when it is read into R (since that is the default interpretation of strings found in raw input data).</p>
+<p>Factors usually have no sense of ordering (like “Tokyo” naturally coming before “Bombay”), but one can be added if appropriate:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&quot;Worst&quot;</span>, <span class="st">&quot;Best&quot;</span>, <span class="st">&quot;Not Bad&quot;</span>, <span class="st">&quot;Worst&quot;</span>), <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;Worst&quot;</span>, <span class="st">&quot;Not Bad&quot;</span>, <span class="st">&quot;Best&quot;</span>), <span class="dt">ordered =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code># [1] Worst   Best    Not Bad Worst  
+# Levels: Worst &lt; Not Bad &lt; Best</code></pre>
+<p>To see whether a factor has an order, use <code>is.ordered</code>. Details on manipulating factors can be found at <code>?factor</code> and linked pages.</p>
+</div>
+<div id="sorting-rank-order" class="section level3">
+<h3><span class="header-section-number">2.1.10</span> Sorting, rank, order</h3>
+<p>There are three key functions here:</p>
+<ul>
+<li><code>sort(x)</code> will sort the vector.</li>
+<li><code>rank(x)</code> tells how far forward each element of <code>x</code> is in its pecking order.</li>
+<li><code>order(x)</code> is rarely useful on its own, but <code>y[order(x)]</code> will sort <code>y</code> by <code>x</code>.</li>
+</ul>
+<p>Be careful not to use these functions on an unordered factor, where they will make no sense but run without warning.</p>
+<p>The <code>frank()</code> function (yes, really) from the data.table package is also useful, for its “dense” rank tie-breaking rule.</p>
 </div>
 <div id="exercises" class="section level3">
-<h3><span class="header-section-number">2.1.9</span> Exercises</h3>
+<h3><span class="header-section-number">2.1.11</span> Exercises</h3>
 <ol style="list-style-type: decimal">
-<li>What is the class of <code>c(TRUE, 1L)</code>?</li>
+<li>What is the class of <code>c(TRUE, 1)</code>?</li>
+<li>What is the length of <code>list(1, c(2,3))</code>?</li>
+<li>If I run <code>x = c(&quot;a&quot;,&quot;b&quot;)</code> and then <code>x[c(2,1)] &lt;- &quot;d&quot;</code>, what is the value of <code>x[1]</code> and why?</li>
+<li>How can you summon documentation for the assignment procedure used in <code>L$X &lt;- list(3)</code>?</li>
 </ol>
 </div>
 </div>
-<div id="syntax" class="section level2">
-<h2><span class="header-section-number">2.2</span> Syntax</h2>
-<p>floating point issues are real. For example, .1 + .05 - .15 is not necessarily zero <a href="http://stackoverflow.com/questions/9508518/why-are-these-numbers-not-equal">so post</a></p>
-<p>note – infix operators also need backticks to find their help pages</p>
-<p>vectorization</p>
-</div>
-<div id="writing-and-importing-functions" class="section level2">
-<h2><span class="header-section-number">2.3</span> Writing and importing functions</h2>
-<p>custom infix operators</p>
-</div>
 <div id="matrices-and-arrays" class="section level2">
-<h2><span class="header-section-number">2.4</span> Matrices and Arrays</h2>
-<p>Technical aside: The terminology is a bit weird here. In most programming languages, an <em>array</em> is a vector</p>
-<div class="rmdcaution">
-<p>
-regarding drop
-</p>
+<h2><span class="header-section-number">2.2</span> Matrices and Arrays</h2>
+<p>The <code>matrix</code> function is used for construction:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)
+<span class="kw">matrix</span>(v, <span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">ncol =</span> <span class="dv">2</span>)</code></pre></div>
+<pre><code>#      [,1] [,2]
+# [1,]    1    3
+# [2,]    2    4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">matrix</span>(v, <span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>#      [,1] [,2]
+# [1,]    1    2
+# [2,]    3    4</code></pre>
+<p>Recycling applies here again. Try <code>matrix(v, nrow = 4, ncol = 4)</code>. If we just want <code>v</code> to fill out the matrix once, it is not necessary to give both <code>nrow</code> and <code>ncol</code>, like <code>matrix(v, nrow = 2)</code>. If the dimensions don’t make sense for the input vector, <code>matrix(v, nrow = 3)</code>, R will mercifully throw a warning.</p>
+<p><code>cbind</code> and <code>rbind</code> can also build matrices, but are rarely needed and often violate expectations.</p>
+<p>.. again, all elements share a class/type</p>
+<div id="named-rows-and-columns" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Named rows and columns</h3>
+<p>Rows and columns can be named:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>), <span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="kw">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>), <span class="kw">c</span>(<span class="st">&quot;c&quot;</span>,<span class="st">&quot;d&quot;</span>)))</code></pre></div>
+<pre><code>#   c d
+# a 1 3
+# b 2 4</code></pre>
+<p><code>?`&lt;-dimnames`</code> documents an alternative means of assigning names.</p>
 </div>
+<div id="slicing-matrices" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> Slicing matrices</h3>
+<p>To take a matrix slice, selecting a submatrix, use <code>m[i,j]</code> as in math:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>), <span class="dt">nrow =</span> <span class="dv">2</span>)
+m[<span class="dv">1</span>, <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), drop =<span class="st"> </span><span class="ot">FALSE</span>]</code></pre></div>
+<pre><code>#      [,1] [,2]
+# [1,]    1    3</code></pre>
+<p>You can get fancy with indices, in all the ways described in <a href="basics.html#slicing">2.1.5</a>. It is also often covenient to leave one index blank, which means “select all rows/columns”; try <code>m[, 2, drop = FALSE]</code>.</p>
+<p><span id="drop" class="spcaution"> <strong>Dropped dimensions.</strong> The <code>drop = FALSE</code> option is necessary to ensure that the result is a submatrix. R’s default behavior is to “drop” dimensions when it can, which makes for unpredictable output. </span></p>
+</div>
+<div id="extracting-from-matrices" class="section level3">
+<h3><span class="header-section-number">2.2.3</span> Extracting from matrices</h3>
+<p>As mentioned before, in R, all data come in vectors. Ergo, matrices are vectors, too. Try</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m=<span class="dv">1</span>
+m[<span class="dv">3</span>]</code></pre></div>
+<pre><code># [1] NA</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)]</code></pre></div>
+<pre><code># [1] NA NA</code></pre>
+<p>Okay, that may seem a little silly, but it helps to understand how data is structured.</p>
+<p>length</p>
+<p>dim</p>
+<p>X[Y]</p>
+<p>In principle, you could think of matrices as a special</p>
+<p>Technical aside: The terminology is a bit weird here. In most programming languages, an <em>array</em> is a vector</p>
 <p>note – because an array is just a trussed up vector, [[ extraction works, but is rarely useful</p>
 </div>
-<div id="randomization" class="section level2">
-<h2><span class="header-section-number">2.5</span> Randomization</h2>
+<div id="subassigning-to-matrices" class="section level3">
+<h3><span class="header-section-number">2.2.4</span> Subassigning to matrices</h3>
+</div>
+<div id="arrays" class="section level3">
+<h3><span class="header-section-number">2.2.5</span> Arrays</h3>
+<p>slicing [i,j,k] – unsafe, again, thanks to drop=TRUE default</p>
+</div>
+</div>
+<div id="syntax" class="section level2">
+<h2><span class="header-section-number">2.3</span> Syntax</h2>
+<p>floating point issues are real. For example, .1 + .05 - .15 is not necessarily zero <a href="http://stackoverflow.com/questions/9508518/why-are-these-numbers-not-equal">so post</a></p>
+<p>note – infix operators also need backticks to find their help pages, also can be written as prefix</p>
+<p>vectorization</p>
+<p>inf</p>
+<p>round, floor, ceiling</p>
+<p>min, max</p>
+<p>matrix operators: %/%, t, %*% recall that vanilla mult is elementwise, silently recycles</p>
+<p>infix operators: (arithmetic), ==, %in%, &lt;-, =</p>
+<p>arithmetic is elementwise, keep in mind silent recycling</p>
+<p>documentation</p>
+<p>math functions: min, max, log, exp, sqrt</p>
+<p>vectorization, try stuff out; read the Value section of a doc</p>
+<p>parentheses for more complicated computations</p>
+<p>coercion of logicals, etc., e.g., 3 &gt; “4”</p>
+<div id="function-arguments" class="section level3">
+<h3><span class="header-section-number">2.3.1</span> Function arguments</h3>
+<p>If you looked at <code>?vector</code> and compared it against my usage in (initializing), you probably saw that I passed the arguments out-of-order. This is safe so long as you name every argument. Passing arguments by the position, like <code>sort(x, TRUE)</code>, is a riskier proposition, since it is harder to get right and to read later.</p>
+</div>
+</div>
+<div id="writing-and-importing-functions" class="section level2">
+<h2><span class="header-section-number">2.4</span> Writing and importing functions</h2>
+<p>custom infix operators</p>
+<p>pkgname::fn</p>
+<p>getAnywhere()</p>
+<p>install.packages(‘pkgname’)</p>
+<p>library(pkgname)</p>
+<p>source(‘filename’)</p>
+<p><a href="https://www.datacamp.com/community/tutorials/functions-in-r-a-tutorial" class="uri">https://www.datacamp.com/community/tutorials/functions-in-r-a-tutorial</a></p>
 </div>
 <div id="loops" class="section level2">
-<h2><span class="header-section-number">2.6</span> Loops and Control Flow</h2>
+<h2><span class="header-section-number">2.5</span> Loops and Control Flow</h2>
+<p>ex: create an empty matrix and fill it, row by row</p>
+<p>but, if the steps don’t really need to be sequential, don’t loop</p>
+<p>maybe you have a closed-form solution for each row</p>
+<p>maybe each row is entirely independent</p>
+<p>often, the answer is arithmetic or matrix algebra</p>
+<p>for more complicated tasks, use replicate/lapply/sapply (all documented in the same place)</p>
+<p>excruciating detail <a href="https://www.datacamp.com/community/tutorials/tutorial-on-loops-in-r" class="uri">https://www.datacamp.com/community/tutorials/tutorial-on-loops-in-r</a></p>
 </div>
 <div id="data-frames" class="section level2">
-<h2><span class="header-section-number">2.7</span> Data frames</h2>
+<h2><span class="header-section-number">2.6</span> Data frames</h2>
+<p>recall that in matrices, all elements are of the same class/type</p>
+<p>with data sets, we have mixed types</p>
+<p>in R, data frames are the container for general data sets</p>
+<p>they are implemented as lists of vectors, where each vector has the same length</p>
+<p>basic data exploration: View(), table + useNA, summary</p>
 <p>rules for extracting are a mess. we’ll see data.table soon</p>
 <p>note – use the right tool for the job. if the work you’re doing is in linear algebra, use a matrix. many simulations are also best handle with matrices and arrays, rather than data frames. data frames are only for mixed classes of data.</p>
 
