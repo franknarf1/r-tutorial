@@ -24,6 +24,14 @@ note: for loops are fine/good for this; DT[, j, by] also work; lapply(res, `[[`,
 
 https://www.datacamp.com/community/tutorials/15-questions-about-r-plots
 
+## Style
+
+write so that you do not need to repeat variable names
+
+don't refer to columns by number
+
+
+
 ## Program structure {#programming}
 
 decide what should be a parameter and use it as such, obvs.
@@ -31,6 +39,19 @@ decide what should be a parameter and use it as such, obvs.
 setwd
 
 preamble -- clear, get libraries, document
+
+clearly separate data processing from analysis, to the point where you could easily split them into two separate scripts in a few minutes if needed
+
+similarly, separate analysis from generation of output tables and graphs
+
+similarly, separate run parameters related to each stage into groups in the preamble
+
+define dirs at the top of the file and always refer to them by var name, not raw path
+
+choose a comment structure and stick to it
+
+indent and use white space liberally
+
 
 ### Reused code
 

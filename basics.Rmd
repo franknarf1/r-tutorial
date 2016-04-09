@@ -70,6 +70,8 @@ Names are not useful for vanilla vectors, where they are usually unnecessary and
 
 R differs from other programming languages in its careful treatment of missing values in the reading and processing of data. The missing-data code `NA` is to be distinguished from a non-number, `NaN`; from positive and negative infinity, `Inf` and `-Inf`; and from the absence of an object, `NULL`, for example in `list(A = 1, B = NULL)`. For details, read the "Missing values" section of the "An Introduction to R," a manual reachable by typing `help.start()`.
 
+note .. to get NA of class Date, need to use d[NA_integer_]
+
 ### Slicing
 
 Select a subvector of `x` like `x[i]`:
