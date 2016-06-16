@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2016-04-03" />
+<meta name="date" content="2016-06-16" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -180,23 +180,24 @@ img {
 </ul></li>
 <li class="has-sub"><a href="advanced.html#advanced"><span class="toc-section-number">5</span> Miscellaneous</a><ul>
 <li><a href="advanced.html#output-tables-and-graphs"><span class="toc-section-number">5.1</span> Output tables and graphs</a></li>
-<li class="has-sub"><a href="advanced.html#programming"><span class="toc-section-number">5.2</span> Program structure</a><ul>
-<li><a href="advanced.html#reused-code"><span class="toc-section-number">5.2.1</span> Reused code</a></li>
-<li><a href="advanced.html#shortcuts"><span class="toc-section-number">5.2.2</span> Shortcuts</a></li>
-<li><a href="advanced.html#mapping-values"><span class="toc-section-number">5.2.3</span> Mapping values</a></li>
-<li><a href="advanced.html#formula-interface"><span class="toc-section-number">5.2.4</span> The formula interface</a></li>
-<li><a href="advanced.html#reproducible-research"><span class="toc-section-number">5.2.5</span> Reproducible research</a></li>
+<li><a href="advanced.html#style"><span class="toc-section-number">5.2</span> Style</a></li>
+<li class="has-sub"><a href="advanced.html#programming"><span class="toc-section-number">5.3</span> Program structure</a><ul>
+<li><a href="advanced.html#reused-code"><span class="toc-section-number">5.3.1</span> Reused code</a></li>
+<li><a href="advanced.html#shortcuts"><span class="toc-section-number">5.3.2</span> Shortcuts</a></li>
+<li><a href="advanced.html#mapping-values"><span class="toc-section-number">5.3.3</span> Mapping values</a></li>
+<li><a href="advanced.html#formula-interface"><span class="toc-section-number">5.3.4</span> The formula interface</a></li>
+<li><a href="advanced.html#reproducible-research"><span class="toc-section-number">5.3.5</span> Reproducible research</a></li>
 </ul></li>
-<li class="has-sub"><a href="advanced.html#advanced-tools"><span class="toc-section-number">5.3</span> Advanced tools</a><ul>
-<li><a href="advanced.html#profiling"><span class="toc-section-number">5.3.1</span> Profiling</a></li>
-<li><a href="advanced.html#rcpp"><span class="toc-section-number">5.3.2</span> Rcpp</a></li>
-<li><a href="advanced.html#combinatorial-problems"><span class="toc-section-number">5.3.3</span> Combinatorial problems</a></li>
-<li><a href="advanced.html#rolling-operations"><span class="toc-section-number">5.3.4</span> Rolling operations</a></li>
-<li><a href="advanced.html#parallelization"><span class="toc-section-number">5.3.5</span> Parallelization</a></li>
-<li><a href="advanced.html#intervals"><span class="toc-section-number">5.3.6</span> Intervals</a></li>
-<li><a href="advanced.html#graph-theory"><span class="toc-section-number">5.3.7</span> Graph theory</a></li>
-<li><a href="advanced.html#dynamic-programming"><span class="toc-section-number">5.3.8</span> Dynamic programming</a></li>
-<li><a href="advanced.html#working-with-files-on-disk"><span class="toc-section-number">5.3.9</span> Working with files on disk</a></li>
+<li class="has-sub"><a href="advanced.html#advanced-tools"><span class="toc-section-number">5.4</span> Advanced tools</a><ul>
+<li><a href="advanced.html#profiling"><span class="toc-section-number">5.4.1</span> Profiling</a></li>
+<li><a href="advanced.html#rcpp"><span class="toc-section-number">5.4.2</span> Rcpp</a></li>
+<li><a href="advanced.html#combinatorial-problems"><span class="toc-section-number">5.4.3</span> Combinatorial problems</a></li>
+<li><a href="advanced.html#rolling-operations"><span class="toc-section-number">5.4.4</span> Rolling operations</a></li>
+<li><a href="advanced.html#parallelization"><span class="toc-section-number">5.4.5</span> Parallelization</a></li>
+<li><a href="advanced.html#intervals"><span class="toc-section-number">5.4.6</span> Intervals</a></li>
+<li><a href="advanced.html#graph-theory"><span class="toc-section-number">5.4.7</span> Graph theory</a></li>
+<li><a href="advanced.html#dynamic-programming"><span class="toc-section-number">5.4.8</span> Dynamic programming</a></li>
+<li><a href="advanced.html#working-with-files-on-disk"><span class="toc-section-number">5.4.9</span> Working with files on disk</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -262,6 +263,7 @@ L2 =<span class="st"> </span><span class="kw">list</span>(<span class="ot">FALSE
 <div id="missing-values" class="section level3">
 <h3><span class="header-section-number">2.1.4</span> Missing values</h3>
 <p>R differs from other programming languages in its careful treatment of missing values in the reading and processing of data. The missing-data code <code>NA</code> is to be distinguished from a non-number, <code>NaN</code>; from positive and negative infinity, <code>Inf</code> and <code>-Inf</code>; and from the absence of an object, <code>NULL</code>, for example in <code>list(A = 1, B = NULL)</code>. For details, read the “Missing values” section of the “An Introduction to R,” a manual reachable by typing <code>help.start()</code>.</p>
+<p>note .. to get NA of class Date, need to use d[NA_integer_]</p>
 </div>
 <div id="slicing" class="section level3">
 <h3><span class="header-section-number">2.1.5</span> Slicing</h3>

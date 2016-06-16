@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2016-04-03" />
+<meta name="date" content="2016-06-16" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -180,23 +180,24 @@ img {
 </ul></li>
 <li class="has-sub"><a href="advanced.html#advanced"><span class="toc-section-number">5</span> Miscellaneous</a><ul>
 <li><a href="advanced.html#output-tables-and-graphs"><span class="toc-section-number">5.1</span> Output tables and graphs</a></li>
-<li class="has-sub"><a href="advanced.html#programming"><span class="toc-section-number">5.2</span> Program structure</a><ul>
-<li><a href="advanced.html#reused-code"><span class="toc-section-number">5.2.1</span> Reused code</a></li>
-<li><a href="advanced.html#shortcuts"><span class="toc-section-number">5.2.2</span> Shortcuts</a></li>
-<li><a href="advanced.html#mapping-values"><span class="toc-section-number">5.2.3</span> Mapping values</a></li>
-<li><a href="advanced.html#formula-interface"><span class="toc-section-number">5.2.4</span> The formula interface</a></li>
-<li><a href="advanced.html#reproducible-research"><span class="toc-section-number">5.2.5</span> Reproducible research</a></li>
+<li><a href="advanced.html#style"><span class="toc-section-number">5.2</span> Style</a></li>
+<li class="has-sub"><a href="advanced.html#programming"><span class="toc-section-number">5.3</span> Program structure</a><ul>
+<li><a href="advanced.html#reused-code"><span class="toc-section-number">5.3.1</span> Reused code</a></li>
+<li><a href="advanced.html#shortcuts"><span class="toc-section-number">5.3.2</span> Shortcuts</a></li>
+<li><a href="advanced.html#mapping-values"><span class="toc-section-number">5.3.3</span> Mapping values</a></li>
+<li><a href="advanced.html#formula-interface"><span class="toc-section-number">5.3.4</span> The formula interface</a></li>
+<li><a href="advanced.html#reproducible-research"><span class="toc-section-number">5.3.5</span> Reproducible research</a></li>
 </ul></li>
-<li class="has-sub"><a href="advanced.html#advanced-tools"><span class="toc-section-number">5.3</span> Advanced tools</a><ul>
-<li><a href="advanced.html#profiling"><span class="toc-section-number">5.3.1</span> Profiling</a></li>
-<li><a href="advanced.html#rcpp"><span class="toc-section-number">5.3.2</span> Rcpp</a></li>
-<li><a href="advanced.html#combinatorial-problems"><span class="toc-section-number">5.3.3</span> Combinatorial problems</a></li>
-<li><a href="advanced.html#rolling-operations"><span class="toc-section-number">5.3.4</span> Rolling operations</a></li>
-<li><a href="advanced.html#parallelization"><span class="toc-section-number">5.3.5</span> Parallelization</a></li>
-<li><a href="advanced.html#intervals"><span class="toc-section-number">5.3.6</span> Intervals</a></li>
-<li><a href="advanced.html#graph-theory"><span class="toc-section-number">5.3.7</span> Graph theory</a></li>
-<li><a href="advanced.html#dynamic-programming"><span class="toc-section-number">5.3.8</span> Dynamic programming</a></li>
-<li><a href="advanced.html#working-with-files-on-disk"><span class="toc-section-number">5.3.9</span> Working with files on disk</a></li>
+<li class="has-sub"><a href="advanced.html#advanced-tools"><span class="toc-section-number">5.4</span> Advanced tools</a><ul>
+<li><a href="advanced.html#profiling"><span class="toc-section-number">5.4.1</span> Profiling</a></li>
+<li><a href="advanced.html#rcpp"><span class="toc-section-number">5.4.2</span> Rcpp</a></li>
+<li><a href="advanced.html#combinatorial-problems"><span class="toc-section-number">5.4.3</span> Combinatorial problems</a></li>
+<li><a href="advanced.html#rolling-operations"><span class="toc-section-number">5.4.4</span> Rolling operations</a></li>
+<li><a href="advanced.html#parallelization"><span class="toc-section-number">5.4.5</span> Parallelization</a></li>
+<li><a href="advanced.html#intervals"><span class="toc-section-number">5.4.6</span> Intervals</a></li>
+<li><a href="advanced.html#graph-theory"><span class="toc-section-number">5.4.7</span> Graph theory</a></li>
+<li><a href="advanced.html#dynamic-programming"><span class="toc-section-number">5.4.8</span> Dynamic programming</a></li>
+<li><a href="advanced.html#working-with-files-on-disk"><span class="toc-section-number">5.4.9</span> Working with files on disk</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -220,30 +221,41 @@ img {
 <p>note: for loops are fine/good for this; DT[, j, by] also work; lapply(res, <code>[[</code>,“name”) is another common idiom</p>
 <p><a href="https://www.datacamp.com/community/tutorials/15-questions-about-r-plots" class="uri">https://www.datacamp.com/community/tutorials/15-questions-about-r-plots</a></p>
 </div>
+<div id="style" class="section level2">
+<h2><span class="header-section-number">5.2</span> Style</h2>
+<p>write so that you do not need to repeat variable names</p>
+<p>don’t refer to columns by number</p>
+</div>
 <div id="programming" class="section level2">
-<h2><span class="header-section-number">5.2</span> Program structure</h2>
+<h2><span class="header-section-number">5.3</span> Program structure</h2>
 <p>decide what should be a parameter and use it as such, obvs.</p>
 <p>setwd</p>
 <p>preamble – clear, get libraries, document</p>
+<p>clearly separate data processing from analysis, to the point where you could easily split them into two separate scripts in a few minutes if needed</p>
+<p>similarly, separate analysis from generation of output tables and graphs</p>
+<p>similarly, separate run parameters related to each stage into groups in the preamble</p>
+<p>define dirs at the top of the file and always refer to them by var name, not raw path</p>
+<p>choose a comment structure and stick to it</p>
+<p>indent and use white space liberally</p>
 <div id="reused-code" class="section level3">
-<h3><span class="header-section-number">5.2.1</span> Reused code</h3>
+<h3><span class="header-section-number">5.3.1</span> Reused code</h3>
 <p>auxiliary files with reused functions</p>
 <p>again, i don’t want to develop a package just for this. from where i sit, it looks like a lot more overhead and fragility than a plain file</p>
 </div>
 <div id="shortcuts" class="section level3">
-<h3><span class="header-section-number">5.2.2</span> Shortcuts</h3>
+<h3><span class="header-section-number">5.3.2</span> Shortcuts</h3>
 <p>personally, i write and use a qw. it may make excerpts from the code nonportable to forum posts, but who cares? if a colleague needs to read my code, it costs them 10 seconds to learn what the function does.</p>
 <p>on the other hand, i would never use T and F as shortcuts to TRUE and FALSE. F is a CDF and T is the number of periods</p>
 <p>and absolutely no to regex outside the data-cleaning phase, and even there it should be limited. never use regex on column names</p>
 </div>
 <div id="mapping-values" class="section level3">
-<h3><span class="header-section-number">5.2.3</span> Mapping values</h3>
+<h3><span class="header-section-number">5.3.3</span> Mapping values</h3>
 <p>always have a table, either as an input csv or defined in the program</p>
 <p>merge on that table – don’t do if-else</p>
 <p>if you’re making a categorical variable in some more complicated way that demands an if-else structure, still save the resulting map</p>
 </div>
 <div id="formula-interface" class="section level3">
-<h3><span class="header-section-number">5.2.4</span> The formula interface</h3>
+<h3><span class="header-section-number">5.3.4</span> The formula interface</h3>
 <p>needed for regression, whether with <code>model.matrix</code> or a regression function like <code>lm</code></p>
 <p>also needed for reshaping, whether with <code>aggregate</code> or <code>dcast</code></p>
 <p>read the docs carefully for the syntax, which is quite nice. however, it’s not so easy to change a formula</p>
@@ -262,71 +274,71 @@ img {
 <p><a href="http://stackoverflow.com/q/32616762/" class="uri">http://stackoverflow.com/q/32616762/</a> – very helpful</p>
 </div>
 <div id="reproducible-research" class="section level3">
-<h3><span class="header-section-number">5.2.5</span> Reproducible research</h3>
+<h3><span class="header-section-number">5.3.5</span> Reproducible research</h3>
 <p>develop and publish a package? maybe. sounds like overkill to me</p>
 <p>knitr/rmarkdown seem promising, plus whatever that tool is that bundles/snapshots package versions</p>
 </div>
 </div>
 <div id="advanced-tools" class="section level2">
-<h2><span class="header-section-number">5.3</span> Advanced tools</h2>
+<h2><span class="header-section-number">5.4</span> Advanced tools</h2>
 <div id="profiling" class="section level3">
-<h3><span class="header-section-number">5.3.1</span> Profiling</h3>
+<h3><span class="header-section-number">5.4.1</span> Profiling</h3>
 <p>common sense takes you a long ways. i have never needed profiling – just think carefully about your problem and notice when you’re stepping into combinatorially costly operations.</p>
 <p>options(datatable.verbose = TRUE)</p>
 <p>debugonce()</p>
 <p>(whatever else for profiling)</p>
 </div>
 <div id="rcpp" class="section level3">
-<h3><span class="header-section-number">5.3.2</span> Rcpp</h3>
+<h3><span class="header-section-number">5.4.2</span> Rcpp</h3>
 <p>it can speed up your code</p>
 <p>it is dead simple to read and write</p>
 <p>it is often be more elegant, e.g., because C++ has unordered sets as a basic data type <a href="http://stackoverflow.com/a/35559972" class="uri">http://stackoverflow.com/a/35559972</a> and also linked lists and such. all the nice stuff proper programming languages have</p>
 <p>R itself is written in C, as is the core functionality of data.table</p>
 </div>
 <div id="combinatorial-problems" class="section level3">
-<h3><span class="header-section-number">5.3.3</span> Combinatorial problems</h3>
+<h3><span class="header-section-number">5.4.3</span> Combinatorial problems</h3>
 <p>If you’re iterating over rows in DT1 and rows in DT2 – do a merge</p>
 <p>if you’re running a simulation, be aware of how many dimensions you’re varying</p>
 <p>outer – eats memory right quick</p>
 <p>CJ, combn, expand.grid</p>
 </div>
 <div id="rolling-operations" class="section level3">
-<h3><span class="header-section-number">5.3.4</span> Rolling operations</h3>
+<h3><span class="header-section-number">5.4.4</span> Rolling operations</h3>
 <p>fill down with by</p>
 <p>fill down with na.locf</p>
 <p>merge-fill down with rolling joins</p>
 </div>
 <div id="parallelization" class="section level3">
-<h3><span class="header-section-number">5.3.5</span> Parallelization</h3>
+<h3><span class="header-section-number">5.4.5</span> Parallelization</h3>
 <p>e.g., for bootstrapping. the cheap way is to use perl or r to write a script that calls the program many times</p>
 </div>
 <div id="intervals" class="section level3">
-<h3><span class="header-section-number">5.3.6</span> Intervals</h3>
+<h3><span class="header-section-number">5.4.6</span> Intervals</h3>
 <p>IRanges, foverlaps</p>
 <p>(compare with rle), overlap joins</p>
 </div>
 <div id="graph-theory" class="section level3">
-<h3><span class="header-section-number">5.3.7</span> Graph theory</h3>
+<h3><span class="header-section-number">5.4.7</span> Graph theory</h3>
 <p>Don’t reinvent the wheel. Use igraph if it fits</p>
 </div>
 <div id="dynamic-programming" class="section level3">
-<h3><span class="header-section-number">5.3.8</span> Dynamic programming</h3>
+<h3><span class="header-section-number">5.4.8</span> Dynamic programming</h3>
 <p>i did it with data.table, but there may be more efficient approaches that rely only on matrices</p>
 </div>
 <div id="working-with-files-on-disk" class="section level3">
-<h3><span class="header-section-number">5.3.9</span> Working with files on disk</h3>
+<h3><span class="header-section-number">5.4.9</span> Working with files on disk</h3>
 <p>yeah, this seems to be changing all the time</p>
 <p>database interfacing and such, maybe you are tied to the DB and can’t switch to R (no problem); maybe you can’t fit the data in memory (start over from the beginning and rethink everything and/or learn AWS)</p>
 
 </div>
 </div>
 </div>
-<div class="footnotes">
-<hr />
-<ol>
-<li id="fn1"><p>Should we use abbreviations? Acronyms? Dots? Underscores? Verbs? Adjectives describing output? Adjectives describing input? How about a jumble?<a href="quirks.html#fnref1">↩</a></p></li>
-</ol>
-</div>
+
+
+
+
+
+
 <p style="text-align: center;">
 <a href="work.html"><button class="btn btn-default">Previous</button></a>
 </p>

@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2016-04-03" />
+<meta name="date" content="2016-06-16" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -180,23 +180,24 @@ img {
 </ul></li>
 <li class="has-sub"><a href="advanced.html#advanced"><span class="toc-section-number">5</span> Miscellaneous</a><ul>
 <li><a href="advanced.html#output-tables-and-graphs"><span class="toc-section-number">5.1</span> Output tables and graphs</a></li>
-<li class="has-sub"><a href="advanced.html#programming"><span class="toc-section-number">5.2</span> Program structure</a><ul>
-<li><a href="advanced.html#reused-code"><span class="toc-section-number">5.2.1</span> Reused code</a></li>
-<li><a href="advanced.html#shortcuts"><span class="toc-section-number">5.2.2</span> Shortcuts</a></li>
-<li><a href="advanced.html#mapping-values"><span class="toc-section-number">5.2.3</span> Mapping values</a></li>
-<li><a href="advanced.html#formula-interface"><span class="toc-section-number">5.2.4</span> The formula interface</a></li>
-<li><a href="advanced.html#reproducible-research"><span class="toc-section-number">5.2.5</span> Reproducible research</a></li>
+<li><a href="advanced.html#style"><span class="toc-section-number">5.2</span> Style</a></li>
+<li class="has-sub"><a href="advanced.html#programming"><span class="toc-section-number">5.3</span> Program structure</a><ul>
+<li><a href="advanced.html#reused-code"><span class="toc-section-number">5.3.1</span> Reused code</a></li>
+<li><a href="advanced.html#shortcuts"><span class="toc-section-number">5.3.2</span> Shortcuts</a></li>
+<li><a href="advanced.html#mapping-values"><span class="toc-section-number">5.3.3</span> Mapping values</a></li>
+<li><a href="advanced.html#formula-interface"><span class="toc-section-number">5.3.4</span> The formula interface</a></li>
+<li><a href="advanced.html#reproducible-research"><span class="toc-section-number">5.3.5</span> Reproducible research</a></li>
 </ul></li>
-<li class="has-sub"><a href="advanced.html#advanced-tools"><span class="toc-section-number">5.3</span> Advanced tools</a><ul>
-<li><a href="advanced.html#profiling"><span class="toc-section-number">5.3.1</span> Profiling</a></li>
-<li><a href="advanced.html#rcpp"><span class="toc-section-number">5.3.2</span> Rcpp</a></li>
-<li><a href="advanced.html#combinatorial-problems"><span class="toc-section-number">5.3.3</span> Combinatorial problems</a></li>
-<li><a href="advanced.html#rolling-operations"><span class="toc-section-number">5.3.4</span> Rolling operations</a></li>
-<li><a href="advanced.html#parallelization"><span class="toc-section-number">5.3.5</span> Parallelization</a></li>
-<li><a href="advanced.html#intervals"><span class="toc-section-number">5.3.6</span> Intervals</a></li>
-<li><a href="advanced.html#graph-theory"><span class="toc-section-number">5.3.7</span> Graph theory</a></li>
-<li><a href="advanced.html#dynamic-programming"><span class="toc-section-number">5.3.8</span> Dynamic programming</a></li>
-<li><a href="advanced.html#working-with-files-on-disk"><span class="toc-section-number">5.3.9</span> Working with files on disk</a></li>
+<li class="has-sub"><a href="advanced.html#advanced-tools"><span class="toc-section-number">5.4</span> Advanced tools</a><ul>
+<li><a href="advanced.html#profiling"><span class="toc-section-number">5.4.1</span> Profiling</a></li>
+<li><a href="advanced.html#rcpp"><span class="toc-section-number">5.4.2</span> Rcpp</a></li>
+<li><a href="advanced.html#combinatorial-problems"><span class="toc-section-number">5.4.3</span> Combinatorial problems</a></li>
+<li><a href="advanced.html#rolling-operations"><span class="toc-section-number">5.4.4</span> Rolling operations</a></li>
+<li><a href="advanced.html#parallelization"><span class="toc-section-number">5.4.5</span> Parallelization</a></li>
+<li><a href="advanced.html#intervals"><span class="toc-section-number">5.4.6</span> Intervals</a></li>
+<li><a href="advanced.html#graph-theory"><span class="toc-section-number">5.4.7</span> Graph theory</a></li>
+<li><a href="advanced.html#dynamic-programming"><span class="toc-section-number">5.4.8</span> Dynamic programming</a></li>
+<li><a href="advanced.html#working-with-files-on-disk"><span class="toc-section-number">5.4.9</span> Working with files on disk</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -216,7 +217,7 @@ img {
 <li>Integers are distinguished from floats by a trailing L in input, but are invisible in output.</li>
 <li>dimension dropping</li>
 </ul>
-<p>The remaining quirks mostly have to do with the lack of a consistent naming pattern for functions, which really is for the best. <a href="advanced.html#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
+<p>The remaining quirks mostly have to do with the lack of a consistent naming pattern for functions, which really is for the best. <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
 <p>You can safely skim this chapter, only reading the <span id="quirk-dummy" class="spnote"></span>s the first time through and returning when you need to solve a problem.</p>
 <div id="randomization" class="section level2">
 <h2><span class="header-section-number">3.1</span> Randomization</h2>
@@ -432,7 +433,7 @@ DF$x +<span class="st"> </span>DF$y</code></pre></div>
   
   result
 })</code></pre></div>
-<p>The next section shows a use-case. In <a href="work.html#data-table">4.1</a>, we will see data.table’s solution to this problem. In <a href="advanced.html#formula-interface">5.2.4</a>, a</p>
+<p>The next section shows a use-case. In <a href="work.html#data-table">4.1</a>, we will see data.table’s solution to this problem. In <a href="advanced.html#formula-interface">5.3.4</a>, a</p>
 <p><span id="dont-attach" class="spnote"> <strong><code>attach()</code>.</strong> Don’t use it. </span></p>
 <blockquote>
 <p>The possibilities for creating errors when using attach are numerous. Avoid it. – <a href="https://google.github.io/styleguide/Rguide.xml#attach">Google’s R Style Guide</a></p>
@@ -493,6 +494,12 @@ new_r =<span class="st"> </span><span class="kw">with</span>(r, {
 <p>library(help=“datasets”) as here <a href="http://stackoverflow.com/a/8368263/" class="uri">http://stackoverflow.com/a/8368263/</a></p>
 
 </div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>Should we use abbreviations? Acronyms? Dots? Underscores? Verbs? Adjectives describing output? Adjectives describing input? How about a jumble?<a href="quirks.html#fnref1">↩</a></p></li>
+</ol>
 </div>
 <p style="text-align: center;">
 <a href="basics.html"><button class="btn btn-default">Previous</button></a>
