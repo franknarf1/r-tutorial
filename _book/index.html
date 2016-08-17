@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2016-06-16" />
+<meta name="date" content="2016-08-17" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -119,15 +119,16 @@ img {
 <li class="has-sub"><a href="basics.html#vectors"><span class="toc-section-number">2.1</span> Vectors</a><ul>
 <li><a href="basics.html#documentation"><span class="toc-section-number">2.1.1</span> Documentation</a></li>
 <li><a href="basics.html#classes"><span class="toc-section-number">2.1.2</span> Classes</a></li>
-<li><a href="basics.html#names"><span class="toc-section-number">2.1.3</span> Named elements</a></li>
-<li><a href="basics.html#missing-values"><span class="toc-section-number">2.1.4</span> Missing values</a></li>
-<li><a href="basics.html#slicing"><span class="toc-section-number">2.1.5</span> Slicing</a></li>
-<li><a href="basics.html#extracting-from-a-list"><span class="toc-section-number">2.1.6</span> Extracting from a list</a></li>
-<li><a href="basics.html#subassigning"><span class="toc-section-number">2.1.7</span> Subassigning</a></li>
-<li><a href="basics.html#initializing"><span class="toc-section-number">2.1.8</span> Initializing</a></li>
-<li><a href="basics.html#factors"><span class="toc-section-number">2.1.9</span> Factors</a></li>
-<li><a href="basics.html#sorting-rank-order"><span class="toc-section-number">2.1.10</span> Sorting, rank, order</a></li>
-<li><a href="basics.html#exercises"><span class="toc-section-number">2.1.11</span> Exercises</a></li>
+<li><a href="basics.html#str"><span class="toc-section-number">2.1.3</span> Inspecting objects</a></li>
+<li><a href="basics.html#names"><span class="toc-section-number">2.1.4</span> Named elements</a></li>
+<li><a href="basics.html#missing-values"><span class="toc-section-number">2.1.5</span> Missing values</a></li>
+<li><a href="basics.html#slicing"><span class="toc-section-number">2.1.6</span> Slicing</a></li>
+<li><a href="basics.html#extracting-from-a-list"><span class="toc-section-number">2.1.7</span> Extracting from a list</a></li>
+<li><a href="basics.html#subassigning"><span class="toc-section-number">2.1.8</span> Subassigning</a></li>
+<li><a href="basics.html#initializing"><span class="toc-section-number">2.1.9</span> Initializing</a></li>
+<li><a href="basics.html#factors"><span class="toc-section-number">2.1.10</span> Factors</a></li>
+<li><a href="basics.html#sorting-rank-order"><span class="toc-section-number">2.1.11</span> Sorting, rank, order</a></li>
+<li><a href="basics.html#exercises"><span class="toc-section-number">2.1.12</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#matrices-and-arrays"><span class="toc-section-number">2.2</span> Matrices and Arrays</a><ul>
 <li><a href="basics.html#named-rows-and-columns"><span class="toc-section-number">2.2.1</span> Named rows and columns</a></li>
@@ -209,7 +210,7 @@ img {
 <div id="header">
 <h1 class="title">Quick R Tutorial</h1>
 <h4 class="author"><em>Frank Erickson</em></h4>
-<h4 class="date"><em>2016-06-16</em></h4>
+<h4 class="date"><em>2016-08-17</em></h4>
 </div>
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
@@ -220,9 +221,8 @@ img {
 <p>After installation, I know of two good options for running R on Windows:</p>
 <ul>
 <li><p>Hook up R to notepad++ with <a href="https://sourceforge.net/projects/npptor/">NppToR</a>. This allows you to edit R scripts alongside all other documents. Commands are passed to the R console by customizable shortcuts and switching between multiple running consoles is easy.</p></li>
-<li><p>Install <a href="https://www.rstudio.com/">the Rstudio development environment</a>, which is restricted to one instance of R at a time and has a clumsy interface (no drag-and-drop of scripts into the editor, nor data into the console; an unhidable sidebar). On the other hand, it has handy “development” features that made compiling this tutorial a snap and would probably prove helpful if writing a package to contribute to CRAN.</p></li>
+<li><p>Install <a href="https://www.rstudio.com/">the Rstudio development environment</a>, which is restricted to one instance of R at a time and has a clumsy interface: an unhidable sidebar, and no drag-and-drop (of scripts into the editor, nor data into the console). On the other hand, it has handy “development” features that made compiling this tutorial a snap and would probably prove helpful if writing a package to contribute to CRAN. Rstudio also has the nice feature of not requiring administrator privileges for installation, which makes it a good choice for trying out R.</p></li>
 </ul>
-<p>Rstudio also has the nice feature of not requiring administrator privileges for installation, which makes it a good choice for trying out R.</p>
 </div>
 <div id="about-this-book" class="section level2">
 <h2><span class="header-section-number">1.2</span> About this book</h2>

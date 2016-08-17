@@ -19,9 +19,7 @@ After installation, I know of two good options for running R on Windows:
 
 - Hook up R to notepad++ with [NppToR](https://sourceforge.net/projects/npptor/). This allows you to edit R scripts alongside all other documents. Commands are passed to the R console by customizable shortcuts and switching between multiple running consoles is easy.
 
-- Install [the Rstudio development environment](https://www.rstudio.com/), which is restricted to one instance of R at a time and has a clumsy interface (no drag-and-drop of scripts into the editor, nor data into the console; an unhidable sidebar). On the other hand, it has handy "development" features that made compiling this tutorial a snap and would probably prove helpful if writing a package to contribute to CRAN.
-
-Rstudio also has the nice feature of not requiring administrator privileges for installation, which makes it a good choice for trying out R.
+- Install [the Rstudio development environment](https://www.rstudio.com/), which is restricted to one instance of R at a time and has a clumsy interface: an unhidable sidebar, and no drag-and-drop (of scripts into the editor, nor data into the console). On the other hand, it has handy "development" features that made compiling this tutorial a snap and would probably prove helpful if writing a package to contribute to CRAN. Rstudio also has the nice feature of not requiring administrator privileges for installation, which makes it a good choice for trying out R.
 
 ## About this book
 

@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2016-06-16" />
+<meta name="date" content="2016-08-17" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -119,15 +119,16 @@ img {
 <li class="has-sub"><a href="basics.html#vectors"><span class="toc-section-number">2.1</span> Vectors</a><ul>
 <li><a href="basics.html#documentation"><span class="toc-section-number">2.1.1</span> Documentation</a></li>
 <li><a href="basics.html#classes"><span class="toc-section-number">2.1.2</span> Classes</a></li>
-<li><a href="basics.html#names"><span class="toc-section-number">2.1.3</span> Named elements</a></li>
-<li><a href="basics.html#missing-values"><span class="toc-section-number">2.1.4</span> Missing values</a></li>
-<li><a href="basics.html#slicing"><span class="toc-section-number">2.1.5</span> Slicing</a></li>
-<li><a href="basics.html#extracting-from-a-list"><span class="toc-section-number">2.1.6</span> Extracting from a list</a></li>
-<li><a href="basics.html#subassigning"><span class="toc-section-number">2.1.7</span> Subassigning</a></li>
-<li><a href="basics.html#initializing"><span class="toc-section-number">2.1.8</span> Initializing</a></li>
-<li><a href="basics.html#factors"><span class="toc-section-number">2.1.9</span> Factors</a></li>
-<li><a href="basics.html#sorting-rank-order"><span class="toc-section-number">2.1.10</span> Sorting, rank, order</a></li>
-<li><a href="basics.html#exercises"><span class="toc-section-number">2.1.11</span> Exercises</a></li>
+<li><a href="basics.html#str"><span class="toc-section-number">2.1.3</span> Inspecting objects</a></li>
+<li><a href="basics.html#names"><span class="toc-section-number">2.1.4</span> Named elements</a></li>
+<li><a href="basics.html#missing-values"><span class="toc-section-number">2.1.5</span> Missing values</a></li>
+<li><a href="basics.html#slicing"><span class="toc-section-number">2.1.6</span> Slicing</a></li>
+<li><a href="basics.html#extracting-from-a-list"><span class="toc-section-number">2.1.7</span> Extracting from a list</a></li>
+<li><a href="basics.html#subassigning"><span class="toc-section-number">2.1.8</span> Subassigning</a></li>
+<li><a href="basics.html#initializing"><span class="toc-section-number">2.1.9</span> Initializing</a></li>
+<li><a href="basics.html#factors"><span class="toc-section-number">2.1.10</span> Factors</a></li>
+<li><a href="basics.html#sorting-rank-order"><span class="toc-section-number">2.1.11</span> Sorting, rank, order</a></li>
+<li><a href="basics.html#exercises"><span class="toc-section-number">2.1.12</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#matrices-and-arrays"><span class="toc-section-number">2.2</span> Matrices and Arrays</a><ul>
 <li><a href="basics.html#named-rows-and-columns"><span class="toc-section-number">2.2.1</span> Named rows and columns</a></li>
@@ -211,13 +212,13 @@ img {
 <p>This chapter is for when you know the right tool for the job, but don’t know where it is in R; or for when you have a tool, but it behaves less like a hammer than a staple-gun shooting you in the foot. The major quirks covered so far have been:</p>
 <ul>
 <li><a href="basics.html#classes">2.1.2</a> Vector classes may be “coerced” silently.</li>
-<li><a href="basics.html#slicing">2.1.5</a> If a vector is too short, it may be “recycled” silently.</li>
-<li><a href="basics.html#names">2.1.3</a> While objects can be made like <code>x &lt;- 2</code>, function arguments should not be written like <code>f(x &lt;- 2)</code>.</li>
-<li><a href="basics.html#subassigning">2.1.7</a> Important functions have documentation at <code>?`[&lt;-`</code> and similar.</li>
+<li><a href="basics.html#slicing">2.1.6</a> If a vector is too short, it may be “recycled” silently.</li>
+<li><a href="basics.html#names">2.1.4</a> While objects can be made like <code>x &lt;- 2</code>, function arguments should not be written like <code>f(x &lt;- 2)</code>.</li>
+<li><a href="basics.html#subassigning">2.1.8</a> Important functions have documentation at <code>?`[&lt;-`</code> and similar.</li>
 <li>Integers are distinguished from floats by a trailing L in input, but are invisible in output.</li>
 <li>dimension dropping</li>
 </ul>
-<p>The remaining quirks mostly have to do with the lack of a consistent naming pattern for functions, which really is for the best. <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
+<p>The remaining quirks mostly have to do with the lack of a consistent naming pattern for functions, which really is for the best. <a href="advanced.html#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
 <p>You can safely skim this chapter, only reading the <span id="quirk-dummy" class="spnote"></span>s the first time through and returning when you need to solve a problem.</p>
 <div id="randomization" class="section level2">
 <h2><span class="header-section-number">3.1</span> Randomization</h2>
@@ -494,12 +495,6 @@ new_r =<span class="st"> </span><span class="kw">with</span>(r, {
 <p>library(help=“datasets”) as here <a href="http://stackoverflow.com/a/8368263/" class="uri">http://stackoverflow.com/a/8368263/</a></p>
 
 </div>
-</div>
-<div class="footnotes">
-<hr />
-<ol start="1">
-<li id="fn1"><p>Should we use abbreviations? Acronyms? Dots? Underscores? Verbs? Adjectives describing output? Adjectives describing input? How about a jumble?<a href="quirks.html#fnref1">↩</a></p></li>
-</ol>
 </div>
 <p style="text-align: center;">
 <a href="basics.html"><button class="btn btn-default">Previous</button></a>
