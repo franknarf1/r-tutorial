@@ -4,6 +4,19 @@ You probably won't need to think about these on your first few projects.
 
 I don't even have very fixed ideas about them myself, but decided to write down my thoughts anyways, mostly for my own reference.
 
+
+
+## Fancy function definitions
+
+list(...) fanciness in functions
+
+### Custom operators 
+
+#### Custom unary prefix operator
+
+#### Custom binary infix operator
+
+
 ## Output tables and graphs
 
 automatic selection with plot
@@ -33,6 +46,8 @@ don't refer to columns by number
 
 
 ## Program structure {#programming}
+
+source is for scripts, load is for data, etc.
 
 decide what should be a parameter and use it as such, obvs.
 

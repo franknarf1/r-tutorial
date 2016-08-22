@@ -13,6 +13,20 @@ The remaining quirks mostly have to do with the lack of a consistent naming patt
 
 You can safely skim this chapter, only reading the <span class="spnote" id="quirk-dummy"></span>s the first time through and returning when you need to solve a problem. 
 
+## Matrix tools {#matrix-more}
+
+- *Make identity matrix* `diag(n)`
+- *Make matrix with vector on diagonal* `diag(v)`
+- *Extract diagonal* `diag(X)`
+
+standard basis?
+
+## Reshaping
+
+## Using data.tables efficiently
+
+by=1:nrow(DT) is always an option, but probably means you're doing it wrong
+
 ## Randomization
 
 To draw `n` random numbers from the unit interval, use `runif(n)`. All random-draw functions follow this naming convention -- `rnorm`, `rpoisson`, `rbinom` -- for a full list of the built-in ones, type `?distributions`. Many more are offered in packages that can be found by searching online.
@@ -46,6 +60,11 @@ Where did `4` and `6` come from? Those aren't elements of `y`!
 **Sampling from a numeric vector.** I should have sampled from `y`s indices like `y[sample.int(length(y), size = 2, replace = TRUE)]`. Vanilla `sample` cannot be trusted on numeric or integer vectors unless you are sure they have a length greater than 1. 
 </span>
 
+runif
+sample(n)
+sample(vec) -- very unsafe if length is dynamic
+replicate
+
 ## Time series operators
 
 `head(x, n)` will return the front of a vector up to the first `n` elements; while `tail(x,n)` works from the end of the vector.
@@ -67,7 +86,7 @@ c(NA, head(x, -1))
 
 Higher-order lags and leads can be be constructed similarly. In \@ref(data-table), we'll see data.table's `shift` function, which is more useful in practice.
 
-## Functions' methods
+## Functions' methods {#methods}
 
 With a data.frame, `head` behaves very differently:
 
@@ -97,7 +116,7 @@ Methods are part of R's support for object-oriented programming. In other langua
 
 The simplest syntax for integer sequences is `n:m`. To work with a different step size, use `seq`:
 
-```{r seq}
+```{r seq2}
 seq(from = 1, to = 9, by = 2)
 seq(from = 101, to = 1, by = -10)
 ```
@@ -194,6 +213,8 @@ So, it takes us from a logical index to one of positions. This can sometimes spe
 
 mention arr.ind
 
+warn x = 1:5; x[-which(x==6)] per r.inf, so: subset by integers, but be careful of length zero
+
 ## Finding a value
 
 To find exactly matching values:
@@ -211,6 +232,8 @@ In my opinion, very few string operations are necessary after proper data cleani
 `nchar(x)` tells you how long a string is, and `substr(x, start, end)` extracts a contiguous substring. `paste`, `paste0` and `sprintf` are used to build strings, while `sub` and `gsub` rewrite strings.
 
 `grep` and its family will match a string pattern, while `regmatches` can extract what matches. `strsplit(x, sep=",")` can split `"Butte, Montana"` into its constituent parts. Handier tools for these tasks are discussed in \@ref(structuring-data).
+
+escaping in regex `\\`
 
 ## Built-in constants
 
@@ -259,6 +282,9 @@ It is also possible to visualize set overlaps [using nice packages for Venn diag
 
 `unique` works as one might expect on a data.frame (by "dropping duplicated rows" in Stata-speak), but none of the other functions carry over. In section \@ref(dt-set-ops), we'll look at set operations for data.tables.
 
+### set operations {#dt-set-ops}
+
+
 ## Working with lists and data frames
 
 If we want to compute a new column for a data frame, the syntax can get messy:
@@ -286,6 +312,12 @@ The next section shows a use-case. In \@ref(data-table), we will see data.table'
 </span>
 
 > The possibilities for creating errors when using attach are numerous. Avoid it. -- [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml#attach)
+
+## Combinatorics
+
+outer -> combn section
+
+maybe a nice combinatorics example http://stackoverflow.com/a/36942700
 
 ## Runs
 
@@ -326,6 +358,10 @@ do.call and lists of arguments
 Map, Reduce
 
 unlist
+
+## Applying functions along a dimension of an array or matrix
+
+only use apply with matrices/arrays and only when there's no better alternative (max.col, etc.)
 
 ## Using grouping variables
 

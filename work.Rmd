@@ -1,56 +1,361 @@
-# Getting work done in R {#work}
+# Getting work done {#work}
 
+## Key packages
 
-## data.table {#data-table}
+These packages help with working more efficiently, to the point where I regard them as essential. They'll be used throughout the rest of this document.
 
-### Creating and modifying columns {#dt-cols}
+They don't have any dependencies on other packages, and I expect they'll be available as long as R is. It will be assumed in subsequent sections that these libraries have been loaded:
 
-### Subsetting and subassignment {#dt-sub}
+```{r loadem, echo=FALSE}
+library(magrittr)
+library(data.table)
+```
 
-### set operations {#dt-set-ops}
+### Magrittr
 
-### Operations by group {#dt-grouping}
+Magrittr introduces syntax with "pipes":
 
-### Creating grouping variables {#dt-groupvars}
+```{r magrittr-load, echo=FALSE}
+library(magrittr)
+```
+```{r magrittr-calls, eval=FALSE}
+# allowing
+x %>% f %>% g %>% h
+# instead of 
+h(g(f(x)))
+```
 
-### Merges and merge-assigns {#dt-merging}
+That is, it allows unnesting of function calls for readability. 
 
+In addition, it allows more compact function definitions (\@ref(function-writing)):
 
-no more <-, modification by reference as in Stata
+```{r magrittr-funs}
+fun = . %>% .^2 %>% sum %>% sqrt
+fun(1:3)
+```
 
-use copy(), i do for a backup while working
+Despite these advantages, magrittr can greatly slow down code, so avoid using it anywhere where speed might be an issue.
 
-tables() or jan's extension; str(); sapply(DT, class)
+To install, just use CRAN:
 
-.SDcols = sapply(DT,class)=="character"
+```{r inst-mgr, eval=FALSE}
+install.packages('magrittr')
+```
 
-adding and removing columns
+The name is a pun on [René Magritte's pipe painting](https://en.wikipedia.org/wiki/The_Treachery_of_Images).
 
-x := xval
+### data.table {#data-table}
 
-mycols = c("a","b","d"); (mycols) := .(aval, bval, dval)
+Data.table offers a variant of the data frame class (from \@ref(data-frames)), optimized for fast sorted and grouped operations and enhanced with cleaner syntax. It also bundles in a variety of other improvements on base R functionality.
 
-mycols = paste
+#### Modification by reference
 
-`:=`(a = aval, b=bval, d=dval)
+In contrast with the rest of R, data.tables are primarily modified "in-place" without assigning the result, which can be much more efficient. As a first example, we can switch the class of a data frame to data.table:
+
+```{r setDT}
+DF = data.frame(
+  x = letters[c(1, 2, 3, 4, 5)], 
+  y = c(1, 2, 3, 4, 5), 
+  z = c(1, 2, 3, 4, 5) > 3
+)
+str(DF)
+setDT(DF)
+str(DF)
+```
+
+We did not use `=` or `<-` to assign the result of `setDT`; the function simply altered `DF` in-place. All of data.table's functions named like `set*` do this.
+
+#### Factor vs character columns
+
+Another difference is that `data.frame` takes string input as a `factor` variable, as seen above; while `data.table` interprets it as character:
+
+```{r DT}
+DT = data.table(
+  x = letters[c(1, 2, 3, 4, 5)], 
+  y = c(1, 2, 3, 4, 5), 
+  z = c(1, 2, 3, 4, 5) > 3
+)
+str(DT)
+```
+
+#### Syntax
+
+The third major difference is a change in syntax from `DF[i,j]` with `i` and `j` as indices to SQL-style syntax that is cleaner for by-group operations:
+
+```{r DTsyntax, eval=FALSE}
+# pseudocode
+DT[where, select|update|do, by]
+```
+
+We can type column names as barewords here, and even form expressions in terms of columns:
+
+```{r DT-ex}
+DT[x > "b", sum(y), by=z]
+```
+
+In addition, this call is optimized:
+
+- The inequality in `i` triggers creation of an "index" in terms of `x`, making subsequent indexing on `x` faster thanks to binary search, documented at `?indices`.
+- The `sum` in `j` is computed using an optimized "grouped sum" or `gsum` computation, documented at `?GForce`.
+
+#### Generality
+
+so much better than by: do
 
 x := {make_x}
 
 {} for general tasks
 
-working with subsets, speedup after == and %in%
+custom by, NSE in all args
 
-working by group
+#### Installation
 
-.GRP, .N
+Again, CRAN can be used:
 
-lapply(.SD)
+```{r inst-dt, eval=FALSE}
+install.packages('data.table')
+```
 
-by=1:nrow(DT) is always an option, but probably means you're doing it wrong
+However, the package is under active development, with new features available only in the development version. To install it, follow [the instructions from the package wiki](https://github.com/Rdatatable/data.table/wiki/Installation):
 
-ex: fill down
+```{r inst-dt-dev, eval=FALSE}
+remove.packages("data.table")
+install.packages("data.table", type = "source",
+  repos = "http://Rdatatable.github.io/data.table")
+```
+
+#### Getting started
+
+[The official vignettes](https://github.com/Rdatatable/data.table/wiki/Getting-started) for the package are a great way to start with the package. I started by reading some slides and the FAQ in full before using the package. 
+
+I also found it helpful to turn on verbose output when first learning:
+
+```{r verbose, eval=FALSE}
+options(datatable.verbose=TRUE)
+```
+
+This makes a variety of data.table operations more transparent by means of more detailed messages in the console. See `?data.table` and `?options` for details.
+
+## Building sequences
+
+Use a single colon to build a sequence of integers:
+
+```{r seq-colon}
+3:5
+```
+
+### Counting upwards
+
+If we are running `1..n`, it is safer and more efficient to use `seq_len` than `1:n`:
+
+```{r seq-len, eval=FALSE}
+n_x = 1e5
+n_y = 1e5
+n   = x + y
+z   = seq_len(n)
+```
+
+It is safer in the sense that, were `n` zero, we would get the correct result of a zero-length vector, while `1:0` gives `c(1L, 0L)`.
+
+If we are running a sequence `1...` alongside a vector, then `seq_along` is the right tool:
+
+```{r seq-along}
+x = c(3, 3, 4)
+seq_along(x)
+```
+
+<span class="spdetails"> **R function names.**
+It is not worth trying to make sense of R's naming conventions. Presumably thanks to historical accidents (some involving R's ancestor, S), we have names like `seq.int`, `seq_along`, `setNames` and `Recall`.
+</span>
+
+### Fancier sequences
+
+From here, the variety of options start to resemble what we saw for the `rep` function in \@ref(initializing).
+
+The function `seq.int` extends the colon operator:
+
+```{r seq-int}
+seq.int(5, 10)
+seq.int(5, 10, by = 2)
+seq.int(5, by = 3, length.out = 3)
+seq.int(to = 100, by = -11, length.out = 3)
+```
+
+The `seq` function extends further by allowing for non-integer values:
+
+```{r seq}
+seq(5, 10, by=.5)
+```
+
+## Subsetting data {#dt-subset}
+
+The syntax `DT[i,j,by]` can be read as:
+
+1. Subset using `i`
+1. Group using `by`
+1. Do `j`
+
+### Selecting by value
+
+This is analogous to a SQL WHERE clause.
+
+```{r dt-sub-pre}
+# example data
+DT = data.table(Titanic)
+```
+
+```{r dt-sub}
+DT[ Class == "Crew" & N > 100 ]
+```
+
+This is the subsetting task needed in the vast majority of cases. The reader can probably skip the rest of \@ref(dt-subset) the first time through; it's mostly useful for reference.
+
+### Selecting by group statistic
+
+This is analogous to a SQL HAVING clause.
+
+```{r dt-sub-gstat}
+DT[ , if (sum(N) < 300) .SD, by=Class ]
+```
+
+`.SD` refers to the Subset of the Data associated with each `by=` group. The structure `if (cond) x` returns `x` if the condition is true and nothing (`NULL`) otherwise, omitting those rows.
+
+This isn't as clean as a HAVING clause, but is the current idiom for it.
+
+### Selecting rows within each group
+
+```{r dt-sub-grow}
+# select first row
+DT[ , .SD[1L], by=Class ]
+# select row(s) with highest count
+DT[ , .SD[N == max(N)], by=Class ]
+```
+
+The second task here is [somewhat inefficient](https://github.com/Rdatatable/data.table/issues/735) currently, with a faster workaround [provided by @eddi](http://stackoverflow.com/a/16574176):
+
+```{r dt-sub-grow-eff}
+# select row(s) with highest count
+DT[DT[ , .I[N == max(N)], by=Class ]$V1]
+```
+
+`.I` is the row number in the full table. Run the code in pieces to see how it works:
+
+- `DT[ , .I[N == max(N)], by=Class ]` contains the filtered row numbers by group
+- `DT[ , .I[N == max(N)], by=Class ]$V1` is a row index vector
+
+<span class="spnote">
+**Quirk of `.I`.** The variable `.I` *should* always refer to rows of the full table, but currently only does this is `by=` is given. Compare `DT[ Survived == "Yes", .I]` to `DT[ Survived == "Yes", .I, by=Sex]$I`.
+</span>
+
+## Modifying data {#dt-cols}
+
+Creating, editing and removing columns are all done with `:=` in `j` of `DT[i, j, by]`.
+
+### Creating columns
+
+```{r dt-add}
+DT = data.table(
+  x = letters[c(1, 2, 3, 4, 5)], 
+  y = c(1, 2, 3, 4, 5), 
+  z = c(1, 2, 3, 4, 5) > 3
+)
+# creating a column
+DT[, u := 5:1][]
+# creating multiple
+DT[, `:=`(v = 2, w = 3L)][]
+# creating with dynamic names
+nms = c("a", "b", "c")
+DT[, (nms) := .(1, 2, 3)][]
+```
+
+All of these tasks are performed in-place and so do not print their results by default. Here, the result is being displayed because `[]` is "chained" onto the end of each operation.
+
+### Removing columns
+
+```{r dt-remove}
+nms = c("u", "v", "w", "a", "b", "c")
+DT[, (nms) := NULL][]
+```
+
+If asked to remove columns that don't exist, the call will print a warning.
+
+### Replacing entire columns
+
+Data.table is careful about column types:
+
+```{r dt-reptot, warning=TRUE}
+DT[, a := 10L ][]
+DT[, a := 21L ][]
+DT[, a := 32.5 ][]
+```
+
+It knows that `a` is of integer type and sees that 32.5 is conspiciously not an integer and so gives a warning when coercing 32.5 to an integer (to match `a`). Elsewhere in R, in contrast, `a` would be coerced to match the float `32.5` -- with no warning.
+
+As indicated in the warning message, if we want to change `a`'s type, we have to explicitly replace all values:
+
+```{r dt-reptot-class, warning=TRUE}
+DT[, a := rep(32.5, .N) ][]
+```
+
+Here, the coercion is done silently, but it can be made more visible by turning on `verbose`, which will refer to the "plonking" of a new vector in place of the old.
+
+### Replacing columns conditionally {#dt-ifelse}
+
+This is analogous to a SQL UPDATE clause or a replace statement in Stata.
+
+warns about coercion
+
+verbose indicates number of rows modified, protection against invalid indexing
+
+set alternate interface for modifying columns
+
+"replace", "update"
+
+advantages over vanilla subassign from \@ref(subassigning): preserves class unless totally overwriting, can report number of changes with verbose to avoid invalid indexing
+
+better ifelse
+
+merge-assign + transform / gen http://stackoverflow.com/q/37067905/
+
+more merge-assign http://stackoverflow.com/a/37440011/
+
+### Iterating over columns
+
+.SDcols = sapply(DT,class)=="character"
+
+
+## Operations by group {#dt-grouping}
+
+### Splitting data
+
+
+
+### Summary statistics {#dt-summary-stats}
+
+save to current table
+
+aggregation
+
+tallying, point to next chapter
+
+
+## Joins {#dt-merging}
+
+
+warn don't switch(), merge, consider using stack, note that match() is basically a merge http://stackoverflow.com/a/36755530/
+
+"joins" or "merges"
+
+use copy(), i do for a backup while working
+
+## Modification in-place
 
 ex: modification by reference even happens from within a function
+
+## Inspecting all objects
+
+tables() or jan's extension; str(); sapply(DT, class)
+
 
 
 ## Structuring data {#structuring-data}
@@ -92,6 +397,8 @@ reference: data.table vignettes
 
 ## Exploring data {#exploring-data}
 
+range, summary
+
 Henk Harmsen on "ergonomics" https://rpubs.com/carbonmetrics/datatable_ihub
 
 `e_bad = DT[, var, by=e_id][var==TRUE, e_id]; DT[.(e_id)] (simpler with having)`
@@ -110,7 +417,10 @@ exploring models: curve
 
 qqplot etc for the statistically literate, and other tools for ML people
 
-## Reading, converting and writing data {#input-output}
+## Input and output {#input-output}
+
+warn forward slashes in file names
+
 
 fread
 
@@ -141,6 +451,14 @@ use google, these I/O functions will always be in active development
 haven is a thing for Stata files, but fuggedaboutit unless you can't access Stata. far better to use csvs for data transfer, metadata be damned
 
 with Rdata, use load() or just drag it into the window
+
+## Browsing loaded objects {#tables}
+
+ls()
+
+rm()
+
+tables()
 
 
 
