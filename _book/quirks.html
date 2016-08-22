@@ -175,17 +175,29 @@ img {
 <li><a href="work.html#magrittr"><span class="toc-section-number">3.1.1</span> Magrittr</a></li>
 <li><a href="work.html#data-table"><span class="toc-section-number">3.1.2</span> data.table</a></li>
 </ul></li>
-<li><a href="work.html#building-sequences"><span class="toc-section-number">3.2</span> Building sequences</a></li>
-<li><a href="work.html#dt-cols"><span class="toc-section-number">3.3</span> Editing columns</a></li>
-<li><a href="work.html#dt-subset"><span class="toc-section-number">3.4</span> Subsetting</a></li>
-<li><a href="work.html#dt-subassign"><span class="toc-section-number">3.5</span> Subassignment</a></li>
-<li class="has-sub"><a href="work.html#dt-grouping"><span class="toc-section-number">3.6</span> Operations by group</a><ul>
-<li><a href="work.html#split"><span class="toc-section-number">3.6.1</span> Split</a></li>
-<li><a href="work.html#dt-summary-stats"><span class="toc-section-number">3.6.2</span> Summary statistics</a></li>
-<li><a href="work.html#something-else"><span class="toc-section-number">3.6.3</span> Something else?</a></li>
+<li class="has-sub"><a href="work.html#building-sequences"><span class="toc-section-number">3.2</span> Building sequences</a><ul>
+<li><a href="work.html#counting-upwards"><span class="toc-section-number">3.2.1</span> Counting upwards</a></li>
+<li><a href="work.html#fancier-sequences"><span class="toc-section-number">3.2.2</span> Fancier sequences</a></li>
 </ul></li>
-<li><a href="work.html#dt-groupvars"><span class="toc-section-number">3.7</span> Creating grouping variables</a></li>
-<li><a href="work.html#dt-merging"><span class="toc-section-number">3.8</span> Merges and merge-assigns</a></li>
+<li class="has-sub"><a href="work.html#dt-subset"><span class="toc-section-number">3.3</span> Subsetting data</a><ul>
+<li><a href="work.html#selecting-by-value"><span class="toc-section-number">3.3.1</span> Selecting by value</a></li>
+<li><a href="work.html#selecting-by-group-statistic"><span class="toc-section-number">3.3.2</span> Selecting by group statistic</a></li>
+<li><a href="work.html#selecting-rows-within-each-group"><span class="toc-section-number">3.3.3</span> Selecting rows within each group</a></li>
+</ul></li>
+<li class="has-sub"><a href="work.html#dt-cols"><span class="toc-section-number">3.4</span> Modifying data</a><ul>
+<li><a href="work.html#creating-columns"><span class="toc-section-number">3.4.1</span> Creating columns</a></li>
+<li><a href="work.html#removing-columns"><span class="toc-section-number">3.4.2</span> Removing columns</a></li>
+<li><a href="work.html#replacing-entire-columns"><span class="toc-section-number">3.4.3</span> Replacing entire columns</a></li>
+<li><a href="work.html#dt-ifelse"><span class="toc-section-number">3.4.4</span> Replacing columns conditionally</a></li>
+<li><a href="work.html#iterating-over-columns-1"><span class="toc-section-number">3.4.5</span> Iterating over columns</a></li>
+</ul></li>
+<li class="has-sub"><a href="work.html#dt-grouping"><span class="toc-section-number">3.5</span> Operations by group</a><ul>
+<li><a href="work.html#splitting-data"><span class="toc-section-number">3.5.1</span> Splitting data</a></li>
+<li><a href="work.html#dt-summary-stats"><span class="toc-section-number">3.5.2</span> Summary statistics</a></li>
+</ul></li>
+<li><a href="work.html#dt-merging"><span class="toc-section-number">3.6</span> Joins</a></li>
+<li><a href="work.html#modification-in-place"><span class="toc-section-number">3.7</span> Modification in-place</a></li>
+<li><a href="work.html#inspecting-all-objects"><span class="toc-section-number">3.8</span> Inspecting all objects</a></li>
 <li class="has-sub"><a href="work.html#structuring-data"><span class="toc-section-number">3.9</span> Structuring data</a><ul>
 <li><a href="work.html#dates-times"><span class="toc-section-number">3.9.1</span> Dates and times</a></li>
 </ul></li>
@@ -196,27 +208,29 @@ img {
 </ul></li>
 <li class="has-sub"><a href="quirks.html#quirks"><span class="toc-section-number">4</span> Quirks</a><ul>
 <li><a href="quirks.html#matrix-more"><span class="toc-section-number">4.1</span> Matrix tools</a></li>
-<li><a href="quirks.html#randomization"><span class="toc-section-number">4.2</span> Randomization</a></li>
-<li><a href="quirks.html#time-series-operators"><span class="toc-section-number">4.3</span> Time series operators</a></li>
-<li><a href="quirks.html#methods"><span class="toc-section-number">4.4</span> Functions’ methods</a></li>
-<li><a href="quirks.html#sequences"><span class="toc-section-number">4.5</span> Sequences</a></li>
-<li><a href="quirks.html#tallying"><span class="toc-section-number">4.6</span> Tallying</a></li>
-<li><a href="quirks.html#finding-bins-for-values"><span class="toc-section-number">4.7</span> Finding bins for values</a></li>
-<li><a href="quirks.html#finding-where-a-condition-holds"><span class="toc-section-number">4.8</span> Finding where a condition holds</a></li>
-<li><a href="quirks.html#finding-a-value"><span class="toc-section-number">4.9</span> Finding a value</a></li>
-<li><a href="quirks.html#string-operations"><span class="toc-section-number">4.10</span> String operations</a></li>
-<li><a href="quirks.html#built-in-constants"><span class="toc-section-number">4.11</span> Built-in constants</a></li>
-<li class="has-sub"><a href="quirks.html#set-ops"><span class="toc-section-number">4.12</span> Set operators</a><ul>
-<li><a href="quirks.html#dt-set-ops"><span class="toc-section-number">4.12.1</span> set operations</a></li>
+<li><a href="quirks.html#reshaping"><span class="toc-section-number">4.2</span> Reshaping</a></li>
+<li><a href="quirks.html#using-data.tables-efficiently"><span class="toc-section-number">4.3</span> Using data.tables efficiently</a></li>
+<li><a href="quirks.html#randomization"><span class="toc-section-number">4.4</span> Randomization</a></li>
+<li><a href="quirks.html#time-series-operators"><span class="toc-section-number">4.5</span> Time series operators</a></li>
+<li><a href="quirks.html#methods"><span class="toc-section-number">4.6</span> Functions’ methods</a></li>
+<li><a href="quirks.html#sequences"><span class="toc-section-number">4.7</span> Sequences</a></li>
+<li><a href="quirks.html#tallying"><span class="toc-section-number">4.8</span> Tallying</a></li>
+<li><a href="quirks.html#finding-bins-for-values"><span class="toc-section-number">4.9</span> Finding bins for values</a></li>
+<li><a href="quirks.html#finding-where-a-condition-holds"><span class="toc-section-number">4.10</span> Finding where a condition holds</a></li>
+<li><a href="quirks.html#finding-a-value"><span class="toc-section-number">4.11</span> Finding a value</a></li>
+<li><a href="quirks.html#string-operations"><span class="toc-section-number">4.12</span> String operations</a></li>
+<li><a href="quirks.html#built-in-constants"><span class="toc-section-number">4.13</span> Built-in constants</a></li>
+<li class="has-sub"><a href="quirks.html#set-ops"><span class="toc-section-number">4.14</span> Set operators</a><ul>
+<li><a href="quirks.html#dt-set-ops"><span class="toc-section-number">4.14.1</span> set operations</a></li>
 </ul></li>
-<li><a href="quirks.html#working-with-lists-and-data-frames"><span class="toc-section-number">4.13</span> Working with lists and data frames</a></li>
-<li><a href="quirks.html#combinatorics"><span class="toc-section-number">4.14</span> Combinatorics</a></li>
-<li><a href="quirks.html#runs"><span class="toc-section-number">4.15</span> Runs</a></li>
-<li><a href="basics.html#lapply"><span class="toc-section-number">4.16</span> Iterating over lists</a></li>
-<li><a href="quirks.html#applying-functions-along-a-dimension-of-an-array-or-matrix"><span class="toc-section-number">4.17</span> Applying functions along a dimension of an array or matrix</a></li>
-<li><a href="quirks.html#using-grouping-variables"><span class="toc-section-number">4.18</span> Using grouping variables</a></li>
-<li><a href="quirks.html#chains-of-functions"><span class="toc-section-number">4.19</span> Chains of functions</a></li>
-<li><a href="quirks.html#asking-questions-online"><span class="toc-section-number">4.20</span> Asking questions online</a></li>
+<li><a href="quirks.html#working-with-lists-and-data-frames"><span class="toc-section-number">4.15</span> Working with lists and data frames</a></li>
+<li><a href="quirks.html#combinatorics"><span class="toc-section-number">4.16</span> Combinatorics</a></li>
+<li><a href="quirks.html#runs"><span class="toc-section-number">4.17</span> Runs</a></li>
+<li><a href="basics.html#lapply"><span class="toc-section-number">4.18</span> Iterating over lists</a></li>
+<li><a href="quirks.html#applying-functions-along-a-dimension-of-an-array-or-matrix"><span class="toc-section-number">4.19</span> Applying functions along a dimension of an array or matrix</a></li>
+<li><a href="quirks.html#using-grouping-variables"><span class="toc-section-number">4.20</span> Using grouping variables</a></li>
+<li><a href="quirks.html#chains-of-functions"><span class="toc-section-number">4.21</span> Chains of functions</a></li>
+<li><a href="quirks.html#asking-questions-online"><span class="toc-section-number">4.22</span> Asking questions online</a></li>
 </ul></li>
 <li class="has-sub"><a href="advanced.html#advanced"><span class="toc-section-number">5</span> Miscellaneous</a><ul>
 <li class="has-sub"><a href="advanced.html#fancy-function-definitions"><span class="toc-section-number">5.1</span> Fancy function definitions</a><ul>
@@ -260,7 +274,7 @@ img {
 <li>Integers are distinguished from floats by a trailing L in input, but are invisible in output.</li>
 <li>dimension dropping</li>
 </ul>
-<p>The remaining quirks mostly have to do with the lack of a consistent naming pattern for functions, which really is for the best. <a href="advanced.html#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
+<p>The remaining quirks mostly have to do with the lack of a consistent naming pattern for functions, which really is for the best. <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
 <p>You can safely skim this chapter, only reading the <span id="quirk-dummy" class="spnote"></span>s the first time through and returning when you need to solve a problem.</p>
 <div id="matrix-more" class="section level2">
 <h2><span class="header-section-number">4.1</span> Matrix tools</h2>
@@ -271,8 +285,15 @@ img {
 </ul>
 <p>standard basis?</p>
 </div>
+<div id="reshaping" class="section level2">
+<h2><span class="header-section-number">4.2</span> Reshaping</h2>
+</div>
+<div id="using-data.tables-efficiently" class="section level2">
+<h2><span class="header-section-number">4.3</span> Using data.tables efficiently</h2>
+<p>by=1:nrow(DT) is always an option, but probably means you’re doing it wrong</p>
+</div>
 <div id="randomization" class="section level2">
-<h2><span class="header-section-number">4.2</span> Randomization</h2>
+<h2><span class="header-section-number">4.4</span> Randomization</h2>
 <p>To draw <code>n</code> random numbers from the unit interval, use <code>runif(n)</code>. All random-draw functions follow this naming convention – <code>rnorm</code>, <code>rpoisson</code>, <code>rbinom</code> – for a full list of the built-in ones, type <code>?distributions</code>. Many more are offered in packages that can be found by searching online.</p>
 <p>To make your draw reproducible, use <code>set.seed</code> before it:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)
@@ -292,7 +313,7 @@ x =<span class="st"> </span><span class="kw">c</span>(<span class="fl">6.17</spa
 <p>runif sample(n) sample(vec) – very unsafe if length is dynamic replicate</p>
 </div>
 <div id="time-series-operators" class="section level2">
-<h2><span class="header-section-number">4.3</span> Time series operators</h2>
+<h2><span class="header-section-number">4.5</span> Time series operators</h2>
 <p><code>head(x, n)</code> will return the front of a vector up to the first <code>n</code> elements; while <code>tail(x,n)</code> works from the end of the vector.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(x, <span class="dv">2</span>)</code></pre></div>
@@ -307,7 +328,7 @@ x =<span class="st"> </span><span class="kw">c</span>(<span class="fl">6.17</spa
 <p>Higher-order lags and leads can be be constructed similarly. In <a href="work.html#data-table">3.1.2</a>, we’ll see data.table’s <code>shift</code> function, which is more useful in practice.</p>
 </div>
 <div id="methods" class="section level2">
-<h2><span class="header-section-number">4.4</span> Functions’ methods</h2>
+<h2><span class="header-section-number">4.6</span> Functions’ methods</h2>
 <p>With a data.frame, <code>head</code> behaves very differently:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">L =<span class="st"> </span><span class="kw">list</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="dt">y =</span> <span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>), <span class="dt">z =</span> <span class="kw">c</span>(3L, 2L, 1L))
 <span class="kw">head</span>(L, <span class="dv">1</span>)</code></pre></div>
@@ -339,7 +360,7 @@ x =<span class="st"> </span><span class="kw">c</span>(<span class="fl">6.17</spa
 <p><span id="fancy-methods" class="spdetails"> Methods are part of R’s support for object-oriented programming. In other languages’ OO systems, methods are attached to classes; while in R they are attached to functions. (R has countless OO systems, some added by packages, so this might not be strictly true.) To make your own methods, start by reading <code>?Methods</code>. I’ve never needed this functionality myself. </span></p>
 </div>
 <div id="sequences" class="section level2">
-<h2><span class="header-section-number">4.5</span> Sequences</h2>
+<h2><span class="header-section-number">4.7</span> Sequences</h2>
 <p>The simplest syntax for integer sequences is <code>n:m</code>. To work with a different step size, use <code>seq</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">1</span>, <span class="dt">to =</span> <span class="dv">9</span>, <span class="dt">by =</span> <span class="dv">2</span>)</code></pre></div>
 <pre><code># [1] 1 3 5 7 9</code></pre>
@@ -359,7 +380,7 @@ x =<span class="st"> </span><span class="kw">c</span>(<span class="fl">6.17</spa
 <p>In <a href="work.html#dates-times">3.9.1</a>, we’ll look more at working with dates and times.</p>
 </div>
 <div id="tallying" class="section level2">
-<h2><span class="header-section-number">4.6</span> Tallying</h2>
+<h2><span class="header-section-number">4.8</span> Tallying</h2>
 <p>To tabulate a variable, use <code>table</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)
 n  =<span class="st"> </span><span class="dv">100</span>
@@ -394,7 +415,7 @@ y =<span class="st"> </span>x^<span class="dv">2</span> +<span class="st"> </spa
 <p>We will revisit tabulation with data.tables in <a href="work.html#exploring-data">3.10</a>.</p>
 </div>
 <div id="finding-bins-for-values" class="section level2">
-<h2><span class="header-section-number">4.7</span> Finding bins for values</h2>
+<h2><span class="header-section-number">4.9</span> Finding bins for values</h2>
 <p>With a continuous variable <code>x</code>, it often doesn’t make sense to tally values. However, we can specify bins and find where the values fall:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)
 n  =<span class="st"> </span><span class="dv">1000</span>
@@ -411,7 +432,7 @@ xc =<span class="st"> </span><span class="kw">cut</span>(x, <span class="dt">bre
 <p>We will revisit summarizing data in <a href="work.html#exploring-data">3.10</a>.</p>
 </div>
 <div id="finding-where-a-condition-holds" class="section level2">
-<h2><span class="header-section-number">4.8</span> Finding where a condition holds</h2>
+<h2><span class="header-section-number">4.10</span> Finding where a condition holds</h2>
 <p>To find where a condition holds:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cond =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;aleph&quot;</span>, <span class="st">&quot;baz&quot;</span>, <span class="st">&quot;boz&quot;</span>) &gt;<span class="st"> &quot;b&quot;</span>
 <span class="kw">which</span>(cond)</code></pre></div>
@@ -421,26 +442,26 @@ xc =<span class="st"> </span><span class="kw">cut</span>(x, <span class="dt">bre
 <p>warn x = 1:5; x[-which(x==6)] per r.inf, so: subset by integers, but be careful of length zero</p>
 </div>
 <div id="finding-a-value" class="section level2">
-<h2><span class="header-section-number">4.9</span> Finding a value</h2>
+<h2><span class="header-section-number">4.11</span> Finding a value</h2>
 <p>To find exactly matching values:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">match</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">23</span>, <span class="dv">45</span>, <span class="dv">15</span>), <span class="kw">c</span>(<span class="dv">11</span>, <span class="dv">23</span>, <span class="dv">34</span>, <span class="dv">45</span>, <span class="dv">23</span>))</code></pre></div>
 <pre><code># [1]  2  4 NA</code></pre>
-<p>This tells us where <code>x[1]</code>, <code>x[2]</code> and <code>x[3]</code> found their matches in the second vector. If multiple matches exist, only the first is found and returned; and if no match is found, <code>NA</code> is returned (or a custom value). This is occasionally useful for merges, and is the workhorse behind all the set operators in <a href="quirks.html#set-ops">4.12</a>.</p>
+<p>This tells us where <code>x[1]</code>, <code>x[2]</code> and <code>x[3]</code> found their matches in the second vector. If multiple matches exist, only the first is found and returned; and if no match is found, <code>NA</code> is returned (or a custom value). This is occasionally useful for merges, and is the workhorse behind all the set operators in <a href="quirks.html#set-ops">4.14</a>.</p>
 </div>
 <div id="string-operations" class="section level2">
-<h2><span class="header-section-number">4.10</span> String operations</h2>
+<h2><span class="header-section-number">4.12</span> String operations</h2>
 <p>In my opinion, very few string operations are necessary after proper data cleaning (discussed in <a href="work.html#structuring-data">3.9</a>).</p>
 <p><code>nchar(x)</code> tells you how long a string is, and <code>substr(x, start, end)</code> extracts a contiguous substring. <code>paste</code>, <code>paste0</code> and <code>sprintf</code> are used to build strings, while <code>sub</code> and <code>gsub</code> rewrite strings.</p>
 <p><code>grep</code> and its family will match a string pattern, while <code>regmatches</code> can extract what matches. <code>strsplit(x, sep=&quot;,&quot;)</code> can split <code>&quot;Butte, Montana&quot;</code> into its constituent parts. Handier tools for these tasks are discussed in <a href="work.html#structuring-data">3.9</a>.</p>
 <p>escaping in regex <code>\\</code></p>
 </div>
 <div id="built-in-constants" class="section level2">
-<h2><span class="header-section-number">4.11</span> Built-in constants</h2>
+<h2><span class="header-section-number">4.13</span> Built-in constants</h2>
 <p>R includes several handy constants, like <code>pi</code>, the alphabet (<code>?letters</code>), months (<code>?month.name</code>), days of the week (<code>?weekdays</code>) and US state names and abbreviations (<code>?state</code>). You don’t need to worry about accidentally reusing any of these contants’ names for your own variables (though redefining <code>pi</code> might not be a great idea).</p>
 <p>On a related note, <code>?Reserved</code> lists all of R’s important built-ins that cannot be overwritten.</p>
 </div>
 <div id="set-ops" class="section level2">
-<h2><span class="header-section-number">4.12</span> Set operators</h2>
+<h2><span class="header-section-number">4.14</span> Set operators</h2>
 <p><code>unique(x)</code> returns the values appearing of <code>x</code>. That is, every element of <code>unique(x)</code> is unique .</p>
 <p><code>x %in% y</code> tests each element of <code>x</code> for membership in <code>y</code>, returning a TRUE/FALSE vector of the same length as <code>x</code>.</p>
 <p>As documented at <code>?sets</code>, we can write</p>
@@ -474,13 +495,13 @@ B &lt;-<span class="st"> </span><span class="kw">sample</span>(letters[<span cla
 #   FALSE     0    6
 #   TRUE      7    7</code></pre>
 <p>It is also possible to visualize set overlaps <a href="http://stackoverflow.com/q/31681110">using nice packages for Venn diagrams</a>.</p>
-<p><code>unique</code> works as one might expect on a data.frame (by “dropping duplicated rows” in Stata-speak), but none of the other functions carry over. In section <a href="quirks.html#dt-set-ops">4.12.1</a>, we’ll look at set operations for data.tables.</p>
+<p><code>unique</code> works as one might expect on a data.frame (by “dropping duplicated rows” in Stata-speak), but none of the other functions carry over. In section <a href="quirks.html#dt-set-ops">4.14.1</a>, we’ll look at set operations for data.tables.</p>
 <div id="dt-set-ops" class="section level3">
-<h3><span class="header-section-number">4.12.1</span> set operations</h3>
+<h3><span class="header-section-number">4.14.1</span> set operations</h3>
 </div>
 </div>
 <div id="working-with-lists-and-data-frames" class="section level2">
-<h2><span class="header-section-number">4.13</span> Working with lists and data frames</h2>
+<h2><span class="header-section-number">4.15</span> Working with lists and data frames</h2>
 <p>If we want to compute a new column for a data frame, the syntax can get messy:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DF =<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="dv">1</span>:<span class="dv">3</span>, <span class="dt">y =</span> <span class="dv">4</span>:<span class="dv">6</span>)
 DF$x +<span class="st"> </span>DF$y</code></pre></div>
@@ -498,12 +519,12 @@ DF$x +<span class="st"> </span>DF$y</code></pre></div>
 </blockquote>
 </div>
 <div id="combinatorics" class="section level2">
-<h2><span class="header-section-number">4.14</span> Combinatorics</h2>
+<h2><span class="header-section-number">4.16</span> Combinatorics</h2>
 <p>outer -&gt; combn section</p>
 <p>maybe a nice combinatorics example <a href="http://stackoverflow.com/a/36942700" class="uri">http://stackoverflow.com/a/36942700</a></p>
 </div>
 <div id="runs" class="section level2">
-<h2><span class="header-section-number">4.15</span> Runs</h2>
+<h2><span class="header-section-number">4.17</span> Runs</h2>
 <p>In time series, it is common to have repeated values, called “runs” or “spells.” To work with these, use <code>rle</code> (“run length encoding”) and <code>inverse.rle</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)
 <span class="kw">rle</span>(x)</code></pre></div>
@@ -523,7 +544,7 @@ new_r =<span class="st"> </span><span class="kw">with</span>(r, {
 <p>In section … rleid</p>
 </div>
 <div id="lapply" class="section level2">
-<h2><span class="header-section-number">4.16</span> Iterating over lists</h2>
+<h2><span class="header-section-number">4.18</span> Iterating over lists</h2>
 <p>lapply</p>
 <p>lengths</p>
 <p>rbind, cbind</p>
@@ -533,21 +554,21 @@ new_r =<span class="st"> </span><span class="kw">with</span>(r, {
 <p>unlist</p>
 </div>
 <div id="applying-functions-along-a-dimension-of-an-array-or-matrix" class="section level2">
-<h2><span class="header-section-number">4.17</span> Applying functions along a dimension of an array or matrix</h2>
+<h2><span class="header-section-number">4.19</span> Applying functions along a dimension of an array or matrix</h2>
 <p>only use apply with matrices/arrays and only when there’s no better alternative (max.col, etc.)</p>
 </div>
 <div id="using-grouping-variables" class="section level2">
-<h2><span class="header-section-number">4.18</span> Using grouping variables</h2>
+<h2><span class="header-section-number">4.20</span> Using grouping variables</h2>
 <p>tapply, ave – too many quirks in functionality, arguments, names, so don’t bother. e.g., x = c(“A”,“B”,“B”); ave(x, x, FUN = function(z) length(unique(z)) &gt; 1L) gives characters – forget that</p>
 <p>split</p>
 </div>
 <div id="chains-of-functions" class="section level2">
-<h2><span class="header-section-number">4.19</span> Chains of functions</h2>
+<h2><span class="header-section-number">4.21</span> Chains of functions</h2>
 <p>magrittr is great for interactive use</p>
 <p>but it can slow your code down</p>
 </div>
 <div id="asking-questions-online" class="section level2">
-<h2><span class="header-section-number">4.20</span> Asking questions online</h2>
+<h2><span class="header-section-number">4.22</span> Asking questions online</h2>
 <p>if using random example data, use set.seed</p>
 <p>test the example in a new session to make sure it runs on its own</p>
 <p>built-in data sets</p>
@@ -561,6 +582,12 @@ new_r =<span class="st"> </span><span class="kw">with</span>(r, {
 <p>library(help=“datasets”) as here <a href="http://stackoverflow.com/a/8368263/" class="uri">http://stackoverflow.com/a/8368263/</a></p>
 
 </div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>Should we use abbreviations? Acronyms? Dots? Underscores? Verbs? Adjectives describing output? Adjectives describing input? How about a jumble?<a href="quirks.html#fnref1">↩</a></p></li>
+</ol>
 </div>
 <p style="text-align: center;">
 <a href="work.html"><button class="btn btn-default">Previous</button></a>

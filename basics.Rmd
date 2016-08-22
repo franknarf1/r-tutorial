@@ -686,7 +686,11 @@ getAnywhere(head.default)
 utils:::head.default
 ```
 
-Many such hidden functions are "methods," discussed further in \@ref(methods). There are also several functions that *should* be hidden, documented at `?.subset`. Don't use any hidden functions directly.
+Many such hidden functions are "methods," discussed further in \@ref(methods). There are also several functions that *should* be hidden, documented at `?.subset`, `?.getNamespace` and elsewhere. These docs always have prominent notes like:
+
+> Not intended to be called directly, and only visible because of the special nature of the **base** namespace.
+
+Heed the docs and don't use any hidden or should-be-hidden functions directly.
 
 Other functions indicate that their core functionality is written elsewhere:
 

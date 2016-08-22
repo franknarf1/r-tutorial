@@ -167,6 +167,9 @@
   background:#66FF66;
   content: "\2318";
 }
+blockquote {
+  font-size: small;
+}
 
 
 
