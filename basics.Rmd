@@ -283,7 +283,7 @@ Unlike `==`, here we always get a true/false result, even when missing values ar
 3. If I run `x = c("a","b")` and then `x[c(2,1)] = c("c","d")`, what is the value of `x[1]`?
 4. Write the command to summon documenation for for the assignment procedure used in `L$X <- list(3)`?
 
-## Matrices and Arrays
+## Matrices and Arrays {#matrix-array}
 
 The `matrix` function is used for construction:
 
@@ -608,7 +608,7 @@ z
 
 We see that it does not carry over. Usually, nothing created or altered inside a function does, meaning there are no [side effects](http://programmers.stackexchange.com/q/40297/104607). There are ways to write functions with side effects in base R (`<<-` and `assign`), but these are discouraged:
 
-```{r, warn-assign}
+```{r warn-assign}
 fortunes::fortune("assign")
 ```
 
@@ -668,7 +668,7 @@ g4(2)
 
 If you run into a function and don't know where it is from, use `help.search` or its `??` shortcut, like `??fortune`.
 
-### Inspecting function source code
+### Inspecting function source code {#inspect-fns}
 
 To inspect the R code behind a function, as with any other R object, just type its name:
 
@@ -760,7 +760,7 @@ Vectorized code and matrix algebra are much faster than a loop. Loops should be 
 **Breaking an operation.** When running a malfeasant loop (eating up too much memory or taking too long) in the R console, the operation can be broken by pressing `ESC`. This applies elsewhere in R as well, but I usually run into it with loops or one of the several functions documented at `?lapply`.
 </span>
 
-### Elementwise `if`/`else`
+### `if`/`else` elementwise {#ifelse}
 
 <span class="spnote">
 **Dummy variables.** First, if you find yourself wanting to do `x = if (cond) 1 else 0`, don't. As mentioned in \@ref(arithmetic), the logical variable `cond` itself is perfect for storing this dummy variable. It will be treated as numeric in any arithmetic calculations. Besides, there is certainly no reason to prefer the floating-point values `0` and `1` over integers `0L` and `1L`.
@@ -799,7 +799,7 @@ The last item above is nonsensical in two ways:
 
 Naturally, if the data already is entirely numeric and the remaining analytical tasks are all linear algebra, a matrix will be simpler and computationally faster to work with than a data frame.
 
-### Iterating over columns
+### Iterating over columns {#lapply-df}
 
 It is useful to keep in mind that data frames are really lists of columns, not matrices. Because they are lists, we can iterate over columns:
 

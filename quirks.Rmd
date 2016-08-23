@@ -1,17 +1,8 @@
 # Quirks {#quirks}
 
-This chapter is for when you know the right tool for the job, but don't know where it is in R; or for when you have a tool, but it behaves less like a hammer than a staple-gun shooting you in the foot. The major quirks covered so far have been:
+This chapter is a reference, for when you know the right tool for the job, but don't know where it is in R; or for when you have a tool, but it behaves less like a hammer than a nailgun shooting you in the foot. 
 
-- \@ref(classes) Vector classes may be "coerced" silently.
-- \@ref(slicing) If a vector is too short, it may be "recycled" silently.
-- \@ref(names) While objects can be made like `x <- 2`, function arguments should not be written like `f(x <- 2)`.
-- \@ref(subassigning) Important functions have documentation at ``?`[<-` `` and similar.
-- Integers are distinguished from floats by a trailing L in input, but are invisible in output.
-- dimension dropping
-
-The remaining quirks mostly have to do with the lack of a consistent naming pattern for functions, which really is for the best. ^[Should we use abbreviations? Acronyms? Dots? Underscores? Verbs? Adjectives describing output? Adjectives describing input? How about a jumble?]
-
-You can safely skim this chapter, only reading the <span class="spnote" id="quirk-dummy"></span>s the first time through and returning when you need to solve a problem. 
+The major quirks were covered in \@ref(basics)'s <span class="spnote" id="quirk-dummy"></span>s. What's left is mostly thanks to R's lack of a consistent naming pattern for functions.
 
 ## Matrix tools {#matrix-more}
 
@@ -19,13 +10,7 @@ You can safely skim this chapter, only reading the <span class="spnote" id="quir
 - *Make matrix with vector on diagonal* `diag(v)`
 - *Extract diagonal* `diag(X)`
 
-standard basis?
-
-## Reshaping
-
-## Using data.tables efficiently
-
-by=1:nrow(DT) is always an option, but probably means you're doing it wrong
+I don't know of a clean way to make standard basis vectors.
 
 ## Randomization
 
@@ -65,80 +50,55 @@ sample(n)
 sample(vec) -- very unsafe if length is dynamic
 replicate
 
-## Time series operators
+## Lag operators {#lag}
 
-`head(x, n)` will return the front of a vector up to the first `n` elements; while `tail(x,n)` works from the end of the vector.
+Data.table provides a convenient tool for the lag operator and its inverse:
 
-```{r head-tail-pre}
+```{r shift}
 x = c(1, 2, 3, 4)
-```
-```{r head-tail}
-head(x, 2)
-tail(x, 3)
-tail(x, 111) # it selects up to n terms
+shift(x)                # lag
+shift(x, 0:3)           # multiple lags
+shift(x, type = "lead") # lead
 ```
 
-`head(x, -n)` returns the front of the vector, chopping off the final `n` elements. This can be used to apply the lag operator to `x`:
+`shift` always returns vectors of the same length. The `embed` function from base R instead simply cuts all the vectors down to size:
 
-```{r lag}
-c(NA, head(x, -1))
+```{r embed}
+embed(x, 3)
 ```
-
-Higher-order lags and leads can be be constructed similarly. In \@ref(data-table), we'll see data.table's `shift` function, which is more useful in practice.
 
 ## Functions' methods {#methods}
 
-With a data.frame, `head` behaves very differently:
+`head` behaves very differently depending on whether it is working with a vector or a data.table:
 
 ```{r head-tail-DF}
-L = list(x = c(1,2,3), y = c("a", "b", "c"), z = c(3L, 2L, 1L))
-head(L, 1)
-DF = as.data.frame(L)
-head(DF, 1)
+v = 1:11
+head(v, 3)
+DT = data.table(1:11, letters[1:11])
+head(DT, 3)
 ```
 
-<span class="spnote" id="methods">
-**Methods.** `head(x, n)` looks at `class(x)` and may "dispatch" to a class-specific "method." In this case, it dispatches to `head.data.frame`, which has documentation at `?head.data.frame` like any other function. This help page overlaps with vanilla `?head`, but this is not always the case (e.g., for `?seq` versus `?seq.Date`, introduced in the next section).
-</span>
+If we look at the head function, we see a fairly unhelpful definition:
+
+```{r head-def}
+head
+```
+
+This tells us that `head(x, n)` looks at `class(x)` and may "dispatch" to a class-specific "method." In this case, it dispatches to `head.data.frame`, which has documentation at `?head.data.frame` like any other function. This help page overlaps with vanilla `?head`, but this is not always the case (e.g., for `?seq` versus `?seq.Date`, introduced in the next section).
 
 To investigate whether a method is being used on `x`, use the `methods` function, which performs a search.
 
 ```{r methods}
-methods("head")
-methods(class = "data.frame")
+methods("head", class(v))
+methods("head", class(DT))
 ```
+
+This is not terribly useful either, in terms of narrowing down what's going on, but at least we have some functions to look closer at, using `?` to see docs, or the steps in \@ref(inspect-fns) to see source code. Probably, formal debugging procedures are the proper way to investigate, but that's beyond my skill set currently.
 
 <span class="spdetails" id="fancy-methods">
 Methods are part of R's support for object-oriented programming. In other languages' OO systems, methods are attached to classes; while in R they are attached to functions. (R has countless OO systems, some added by packages, so this might not be strictly true.) To make your own methods, start by reading `?Methods`. I've never needed this functionality myself. 
 </span>
 
-## Sequences
-
-The simplest syntax for integer sequences is `n:m`. To work with a different step size, use `seq`:
-
-```{r seq2}
-seq(from = 1, to = 9, by = 2)
-seq(from = 101, to = 1, by = -10)
-```
-
-You can mix and match arguments as long as it makes sense: 
-
-```{r seq-more}
-seq(from = 0, by = 15, length.out = 10)
-seq(to = 100, by = 10, length.out = 5)
-```
-
-<span class="spnote" id="badseq">
-**Sequences starting from 1.** Resist the temptation to write a program with `1:length(x)` or `seq(from = 1, to = length(x))`. If `x` is zero-length, this vector will be `1:0`, which can lead to all sorts of weird results. Instead, use `seq_along(x)`. And more generally, use `seq_len(n)` instead of `1:n` or `seq(from = 1, to = n)` when programming. 
-</span>
-
-Following the "See Also" section of `?seq`, you will find `sequence` and `gl`, which are rather esoteric, and `seq.Date`, which is very useful:
-
-```{r seq-date}
-seq.Date(from = as.Date("2013-11-11"), to = as.Date("2015-01-01"), by = "month")
-```
-
-In \@ref(dates-times), we'll look more at working with dates and times.
 
 ## Tallying {#tallying}
 
@@ -179,12 +139,11 @@ y = x^2 + rpois(n, lambda = 10)
 table(hix = x > 10, hiy = y > x + 50)
 ```
 
-
-We will revisit tabulation with data.tables in \@ref(exploring-data).
+Data.table syntax for counting rows is covered in \@ref(counting-rows).
 
 ## Finding bins for values
 
-With a continuous variable `x`, it often doesn't make sense to tally values. However, we can specify bins and find where the values fall:
+With a continuous variable `x`, it often doesn't make sense to tally values as in the last section. However, we can specify bins and find where the values fall:
 
 ```{r cut}
 set.seed(1)
@@ -194,11 +153,23 @@ xc = cut(x, breaks = c(0, 5, 10, 15, 20, Inf)) # or max(x) in place of Inf
 table(xc)
 ```
 
-However, see the note in `?cut` for details on more efficient alternatives:
+See the note in `?cut` for details on more efficient alternatives:
 
 > Instead of `table(cut(x, br))`, `hist(x, br, plot = FALSE)` is more efficient and less memory hungry. Instead of `cut(*, labels = FALSE)`, `findInterval()` is more efficient.
 
-We will revisit summarizing data in \@ref(exploring-data).
+## Building grouping variables
+
+`cut` and `findInterval` are good ways to construct groups from intervals of a continuous variable.
+
+To group by sequences, it is often useful to take advantage of...
+
+- *Cumulative sums*: `cumsum`
+- *Differencing*: `diff` or `x - shift(x)`, explained in \@ref(lag)
+- *Runs*: `rleid` and `rle`
+
+To label rows *within* a group, use data.table's `rowid`. To label groups, use data.table's `.GRP`, like `DT[, g_id := .GRP, by=g]`.
+
+It's often tempting in R to run computations by row, like `DT[, ..., by=1:nrow(DT)]` but this is almost always a bad idea, both in terms of clarity and speed.
 
 ## Finding where a condition holds
 
@@ -211,9 +182,19 @@ which(cond)
 
 So, it takes us from a logical index to one of positions. This can sometimes speed up computations; and is necessary when facing functions that don't take logical indices.
 
-mention arr.ind
+When using `which` on a matrix or array (see \@ref(matrix-array)), we can find out "where" in terms of row and column using the `arr.ind` option.
 
-warn x = 1:5; x[-which(x==6)] per r.inf, so: subset by integers, but be careful of length zero
+Beware of using `which` output as an index:
+
+```{r bad-which}
+x  = 1:5
+w  = which(x^2 > 50)
+x[-w]
+```
+
+We wanted to filter to where `x` meeting our condition, but instead we lost the whole vector. Straight-up logical filtering is the safer route here.
+
+Data.table has `DT[i, which = TRUE]` syntax as well.
 
 ## Finding a value
 
@@ -223,7 +204,9 @@ To find exactly matching values:
 match(x = c(23, 45, 15), c(11, 23, 34, 45, 23))
 ```
 
-This tells us where `x[1]`, `x[2]` and `x[3]` found their matches in the second vector. If multiple matches exist, only the first is found and returned; and if no match is found, `NA` is returned (or a custom value). This is occasionally useful for merges, and is the workhorse behind all the set operators in \@ref(set-ops).
+This tells us where `x[1]`, `x[2]` and `x[3]` found their matches in the second vector. If multiple matches exist, only the first is found and returned; and if no match is found, `NA` is returned (or a custom value). 
+
+This is occasionally useful for merges, and is the workhorse behind all the set operators in \@ref(set-ops).
 
 ## String operations
 

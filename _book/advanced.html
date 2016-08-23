@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2016-08-22" />
+<meta name="date" content="2016-08-23" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -133,7 +133,7 @@ img {
 <li><a href="basics.html#testing-membership"><span class="toc-section-number">2.1.14</span> Testing membership</a></li>
 <li><a href="basics.html#exercises"><span class="toc-section-number">2.1.15</span> Exercises</a></li>
 </ul></li>
-<li class="has-sub"><a href="basics.html#matrices-and-arrays"><span class="toc-section-number">2.2</span> Matrices and Arrays</a><ul>
+<li class="has-sub"><a href="basics.html#matrix-array"><span class="toc-section-number">2.2</span> Matrices and Arrays</a><ul>
 <li><a href="basics.html#building-matrices"><span class="toc-section-number">2.2.1</span> Building matrices</a></li>
 <li><a href="basics.html#named-rows-and-columns"><span class="toc-section-number">2.2.2</span> Named rows and columns</a></li>
 <li><a href="basics.html#slicing-to-a-submatrix"><span class="toc-section-number">2.2.3</span> Slicing to a submatrix</a></li>
@@ -159,14 +159,14 @@ img {
 <li><a href="basics.html#environment"><span class="toc-section-number">2.4.7</span> Environment</a></li>
 <li><a href="basics.html#default-arguments"><span class="toc-section-number">2.4.8</span> Default arguments</a></li>
 <li><a href="basics.html#finding-a-function-by-name"><span class="toc-section-number">2.4.9</span> Finding a function by name</a></li>
-<li><a href="basics.html#inspecting-function-source-code"><span class="toc-section-number">2.4.10</span> Inspecting function source code</a></li>
+<li><a href="basics.html#inspect-fns"><span class="toc-section-number">2.4.10</span> Inspecting function source code</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#loops"><span class="toc-section-number">2.5</span> Loops and control flow</a><ul>
 <li><a href="basics.html#thinking-about-for-loops"><span class="toc-section-number">2.5.1</span> Thinking about <code>for</code> loops</a></li>
-<li><a href="basics.html#elementwise-ifelse"><span class="toc-section-number">2.5.2</span> Elementwise <code>if</code>/<code>else</code></a></li>
+<li><a href="basics.html#ifelse"><span class="toc-section-number">2.5.2</span> <code>if</code>/<code>else</code> elementwise</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#data-frames"><span class="toc-section-number">2.6</span> Data frames</a><ul>
-<li><a href="basics.html#iterating-over-columns"><span class="toc-section-number">2.6.1</span> Iterating over columns</a></li>
+<li><a href="basics.html#lapply-df"><span class="toc-section-number">2.6.1</span> Iterating over columns</a></li>
 <li><a href="basics.html#inspection"><span class="toc-section-number">2.6.2</span> Inspection</a></li>
 </ul></li>
 </ul></li>
@@ -179,58 +179,63 @@ img {
 <li><a href="work.html#counting-upwards"><span class="toc-section-number">3.2.1</span> Counting upwards</a></li>
 <li><a href="work.html#fancier-sequences"><span class="toc-section-number">3.2.2</span> Fancier sequences</a></li>
 </ul></li>
-<li class="has-sub"><a href="work.html#dt-subset"><span class="toc-section-number">3.3</span> Subsetting data</a><ul>
+<li class="has-sub"><a href="work.html#dt-subset"><span class="toc-section-number">3.3</span> Subsetting</a><ul>
 <li><a href="work.html#selecting-by-value"><span class="toc-section-number">3.3.1</span> Selecting by value</a></li>
 <li><a href="work.html#selecting-by-group-statistic"><span class="toc-section-number">3.3.2</span> Selecting by group statistic</a></li>
 <li><a href="work.html#selecting-rows-within-each-group"><span class="toc-section-number">3.3.3</span> Selecting rows within each group</a></li>
 </ul></li>
-<li class="has-sub"><a href="work.html#dt-cols"><span class="toc-section-number">3.4</span> Modifying data</a><ul>
-<li><a href="work.html#creating-columns"><span class="toc-section-number">3.4.1</span> Creating columns</a></li>
-<li><a href="work.html#removing-columns"><span class="toc-section-number">3.4.2</span> Removing columns</a></li>
-<li><a href="work.html#replacing-entire-columns"><span class="toc-section-number">3.4.3</span> Replacing entire columns</a></li>
-<li><a href="work.html#dt-ifelse"><span class="toc-section-number">3.4.4</span> Replacing columns conditionally</a></li>
-<li><a href="work.html#iterating-over-columns-1"><span class="toc-section-number">3.4.5</span> Iterating over columns</a></li>
+<li class="has-sub"><a href="work.html#dt-summary-stats"><span class="toc-section-number">3.4</span> Summary statistics</a><ul>
+<li><a href="work.html#counting-rows"><span class="toc-section-number">3.4.1</span> Counting rows</a></li>
+<li><a href="work.html#the-summary-function"><span class="toc-section-number">3.4.2</span> The <code>summary</code> function</a></li>
+<li><a href="work.html#create-aggregated-table"><span class="toc-section-number">3.4.3</span> Create aggregated table</a></li>
+<li><a href="work.html#save-to-current-table"><span class="toc-section-number">3.4.4</span> Save to current table</a></li>
 </ul></li>
-<li class="has-sub"><a href="work.html#dt-grouping"><span class="toc-section-number">3.5</span> Operations by group</a><ul>
-<li><a href="work.html#splitting-data"><span class="toc-section-number">3.5.1</span> Splitting data</a></li>
-<li><a href="work.html#dt-summary-stats"><span class="toc-section-number">3.5.2</span> Summary statistics</a></li>
+<li class="has-sub"><a href="work.html#dt-subassign"><span class="toc-section-number">3.5</span> Modifying data in-place</a><ul>
+<li><a href="work.html#dt-col-create"><span class="toc-section-number">3.5.1</span> Creating columns</a></li>
+<li><a href="work.html#removing-columns"><span class="toc-section-number">3.5.2</span> Removing columns</a></li>
+<li><a href="work.html#replacing-entire-columns"><span class="toc-section-number">3.5.3</span> Replacing entire columns</a></li>
+<li><a href="work.html#dt-ifelse"><span class="toc-section-number">3.5.4</span> Replacing columns conditionally</a></li>
+<li><a href="work.html#iterating-over-columns"><span class="toc-section-number">3.5.5</span> Iterating over columns</a></li>
+<li><a href="work.html#another-interface-set"><span class="toc-section-number">3.5.6</span> Another interface, <code>set</code></a></li>
+<li><a href="work.html#avoiding-in-place-modification"><span class="toc-section-number">3.5.7</span> Avoiding in-place modification</a></li>
 </ul></li>
 <li><a href="work.html#dt-merging"><span class="toc-section-number">3.6</span> Joins</a></li>
-<li><a href="work.html#modification-in-place"><span class="toc-section-number">3.7</span> Modification in-place</a></li>
-<li><a href="work.html#inspecting-all-objects"><span class="toc-section-number">3.8</span> Inspecting all objects</a></li>
-<li class="has-sub"><a href="work.html#structuring-data"><span class="toc-section-number">3.9</span> Structuring data</a><ul>
-<li><a href="work.html#dates-times"><span class="toc-section-number">3.9.1</span> Dates and times</a></li>
+<li class="has-sub"><a href="work.html#managing-data-types"><span class="toc-section-number">3.7</span> Managing data types</a><ul>
+<li><a href="work.html#dates-times"><span class="toc-section-number">3.7.1</span> Dates and times</a></li>
+<li><a href="work.html#list-columns"><span class="toc-section-number">3.7.2</span> List columns</a></li>
 </ul></li>
-<li><a href="work.html#exploring-data"><span class="toc-section-number">3.10</span> Exploring data</a></li>
-<li><a href="work.html#input-output"><span class="toc-section-number">3.11</span> Input and output</a></li>
-<li><a href="work.html#tables"><span class="toc-section-number">3.12</span> Browsing loaded objects</a></li>
-<li><a href="work.html#approximation-optimization-and-regression"><span class="toc-section-number">3.13</span> Approximation, optimization and regression</a></li>
+<li class="has-sub"><a href="work.html#structuring-data"><span class="toc-section-number">3.8</span> Managing multiple data sets</a><ul>
+<li><a href="work.html#tables"><span class="toc-section-number">3.8.1</span> Browsing loaded objects</a></li>
+</ul></li>
+<li class="has-sub"><a href="work.html#exploring-data"><span class="toc-section-number">3.9</span> Exploring data</a><ul>
+<li><a href="work.html#reshaping"><span class="toc-section-number">3.9.1</span> Reshaping</a></li>
+</ul></li>
+<li><a href="work.html#input-output"><span class="toc-section-number">3.10</span> Input and output</a></li>
+<li><a href="work.html#approximation-optimization-and-regression"><span class="toc-section-number">3.11</span> Approximation, optimization and regression</a></li>
 </ul></li>
 <li class="has-sub"><a href="quirks.html#quirks"><span class="toc-section-number">4</span> Quirks</a><ul>
 <li><a href="quirks.html#matrix-more"><span class="toc-section-number">4.1</span> Matrix tools</a></li>
-<li><a href="quirks.html#reshaping"><span class="toc-section-number">4.2</span> Reshaping</a></li>
-<li><a href="quirks.html#using-data.tables-efficiently"><span class="toc-section-number">4.3</span> Using data.tables efficiently</a></li>
-<li><a href="quirks.html#randomization"><span class="toc-section-number">4.4</span> Randomization</a></li>
-<li><a href="quirks.html#time-series-operators"><span class="toc-section-number">4.5</span> Time series operators</a></li>
-<li><a href="quirks.html#methods"><span class="toc-section-number">4.6</span> Functions’ methods</a></li>
-<li><a href="quirks.html#sequences"><span class="toc-section-number">4.7</span> Sequences</a></li>
-<li><a href="quirks.html#tallying"><span class="toc-section-number">4.8</span> Tallying</a></li>
-<li><a href="quirks.html#finding-bins-for-values"><span class="toc-section-number">4.9</span> Finding bins for values</a></li>
-<li><a href="quirks.html#finding-where-a-condition-holds"><span class="toc-section-number">4.10</span> Finding where a condition holds</a></li>
-<li><a href="quirks.html#finding-a-value"><span class="toc-section-number">4.11</span> Finding a value</a></li>
-<li><a href="quirks.html#string-operations"><span class="toc-section-number">4.12</span> String operations</a></li>
-<li><a href="quirks.html#built-in-constants"><span class="toc-section-number">4.13</span> Built-in constants</a></li>
-<li class="has-sub"><a href="quirks.html#set-ops"><span class="toc-section-number">4.14</span> Set operators</a><ul>
-<li><a href="quirks.html#dt-set-ops"><span class="toc-section-number">4.14.1</span> set operations</a></li>
+<li><a href="quirks.html#randomization"><span class="toc-section-number">4.2</span> Randomization</a></li>
+<li><a href="quirks.html#lag"><span class="toc-section-number">4.3</span> Lag operators</a></li>
+<li><a href="quirks.html#methods"><span class="toc-section-number">4.4</span> Functions’ methods</a></li>
+<li><a href="quirks.html#tallying"><span class="toc-section-number">4.5</span> Tallying</a></li>
+<li><a href="quirks.html#finding-bins-for-values"><span class="toc-section-number">4.6</span> Finding bins for values</a></li>
+<li><a href="quirks.html#building-grouping-variables"><span class="toc-section-number">4.7</span> Building grouping variables</a></li>
+<li><a href="quirks.html#finding-where-a-condition-holds"><span class="toc-section-number">4.8</span> Finding where a condition holds</a></li>
+<li><a href="quirks.html#finding-a-value"><span class="toc-section-number">4.9</span> Finding a value</a></li>
+<li><a href="quirks.html#string-operations"><span class="toc-section-number">4.10</span> String operations</a></li>
+<li><a href="quirks.html#built-in-constants"><span class="toc-section-number">4.11</span> Built-in constants</a></li>
+<li class="has-sub"><a href="quirks.html#set-ops"><span class="toc-section-number">4.12</span> Set operators</a><ul>
+<li><a href="quirks.html#dt-set-ops"><span class="toc-section-number">4.12.1</span> set operations</a></li>
 </ul></li>
-<li><a href="quirks.html#working-with-lists-and-data-frames"><span class="toc-section-number">4.15</span> Working with lists and data frames</a></li>
-<li><a href="quirks.html#combinatorics"><span class="toc-section-number">4.16</span> Combinatorics</a></li>
-<li><a href="quirks.html#runs"><span class="toc-section-number">4.17</span> Runs</a></li>
-<li><a href="basics.html#lapply"><span class="toc-section-number">4.18</span> Iterating over lists</a></li>
-<li><a href="quirks.html#applying-functions-along-a-dimension-of-an-array-or-matrix"><span class="toc-section-number">4.19</span> Applying functions along a dimension of an array or matrix</a></li>
-<li><a href="quirks.html#using-grouping-variables"><span class="toc-section-number">4.20</span> Using grouping variables</a></li>
-<li><a href="quirks.html#chains-of-functions"><span class="toc-section-number">4.21</span> Chains of functions</a></li>
-<li><a href="quirks.html#asking-questions-online"><span class="toc-section-number">4.22</span> Asking questions online</a></li>
+<li><a href="quirks.html#working-with-lists-and-data-frames"><span class="toc-section-number">4.13</span> Working with lists and data frames</a></li>
+<li><a href="quirks.html#combinatorics"><span class="toc-section-number">4.14</span> Combinatorics</a></li>
+<li><a href="quirks.html#runs"><span class="toc-section-number">4.15</span> Runs</a></li>
+<li><a href="basics.html#lapply"><span class="toc-section-number">4.16</span> Iterating over lists</a></li>
+<li><a href="quirks.html#applying-functions-along-a-dimension-of-an-array-or-matrix"><span class="toc-section-number">4.17</span> Applying functions along a dimension of an array or matrix</a></li>
+<li><a href="quirks.html#using-grouping-variables"><span class="toc-section-number">4.18</span> Using grouping variables</a></li>
+<li><a href="quirks.html#chains-of-functions"><span class="toc-section-number">4.19</span> Chains of functions</a></li>
+<li><a href="quirks.html#asking-questions-online"><span class="toc-section-number">4.20</span> Asking questions online</a></li>
 </ul></li>
 <li class="has-sub"><a href="advanced.html#advanced"><span class="toc-section-number">5</span> Miscellaneous</a><ul>
 <li class="has-sub"><a href="advanced.html#fancy-function-definitions"><span class="toc-section-number">5.1</span> Fancy function definitions</a><ul>
@@ -404,12 +409,6 @@ img {
 </div>
 </div>
 </div>
-
-
-
-
-
-
 <p style="text-align: center;">
 <a href="quirks.html"><button class="btn btn-default">Previous</button></a>
 </p>
