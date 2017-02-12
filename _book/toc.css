@@ -12,7 +12,9 @@
   background: #141414;
   background: linear-gradient(to bottom, #333333 0%, #141414 100%);
   border-bottom: 2px solid #0fa1e0;
-  width: auto;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
 }
 #TOC:after,
 #TOC ul:after {
@@ -171,6 +173,14 @@
   background:#66FF66;
   content: "\2318";
 }
-
-
+.level1 {
+  margin-top: 60px;
+}
+.section::before {
+  /*Using @Jerry's answer http://stackoverflow.com/a/9618795/ */
+  content:"";
+  display:block;
+  height:60px;
+  margin:-60px 0 0;
+}
 

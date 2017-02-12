@@ -245,6 +245,10 @@ DT[ , .SD[N == max(N)], by=Class ]
 The second task here is [somewhat inefficient](https://github.com/Rdatatable/data.table/issues/735) currently, with a faster workaround [provided by eddi](http://stackoverflow.com/a/16574176): `DT[DT[ , .I[N == max(N)], by=Class ]$V1]`. The variable `.I` represents the row number in the full table, or at least it *should* do that. Currently, `.I` does [not always behave like this](https://github.com/Rdatatable/data.table/issues/1494).
 ```
 
+## Expanding rows
+
+to fill in missing values
+
 ## Summary statistics {#dt-summary-stats}
 
 ### Counting rows {#counting-rows}
