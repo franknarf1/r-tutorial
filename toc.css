@@ -125,33 +125,37 @@
 #TOC ul {
   font-size: 1.2rem;
 }
-.rmdcaution {
+.rmd-caution {
   padding: 1em 1em 1em 4em;
   margin-bottom: 10px;
-  background: #FFFF99 url("images/1459472920_attention.png") left center/3em no-repeat;
+  background: /* #FFFF99 */ url("images/1459472920_attention.png") left center/3em no-repeat;
+  border-style:solid;
+  border-color:#FFFF00;
 }
-.rmdcaution:before {
+.rmd-caution:before {
   font-style: italic;
-  content: "Word of warning";
+  content: "";
 }
-.rmdnote {
+.rmd-details {
   padding: 1em 1em 1em 4em;
   margin-bottom: 10px;
-  background: #99FF99 url("images/1459472947_idea.png") left center/3em no-repeat;
+  background: /* #99FF99 */ url("images/1459472947_idea.png") left center/3em no-repeat;
+  border-style:solid;
+  border-color:#00FF00;
 }
-.rmdnote:before {
+.rmd-details:before {
   font-style: italic;
-  content: "Technical detail";
+  content: "";
 }
-.spnote {
+.spcaution {
   /*background: #FFFFCC;*/
 }
-.spnote:before {
+.spcaution:before {
   font-variant:small-caps;
   content:"Note";
   background:#FFFF33;
 }
-.spnote:after {
+.spcaution:after {
   background:#FFFF33;
   content: "\2318";
 }
@@ -166,9 +170,6 @@
 .spdetails:after {
   background:#66FF66;
   content: "\2318";
-}
-blockquote {
-  font-size: small;
 }
 
 

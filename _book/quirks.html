@@ -17,14 +17,14 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2016-09-20" />
+<meta name="date" content="2017-02-12" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   TeX: { equationNumbers: { autoNumber: "AMS" } }
 });
 </script>
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
 <meta name="description" content="This book covers the essentials for using R.">
 
@@ -36,6 +36,7 @@ MathJax.Hub.Config({
 <script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -113,7 +114,8 @@ img {
 <ul>
 <li class="has-sub"><a href="index.html#introduction"><span class="toc-section-number">1</span> Introduction</a><ul>
 <li><a href="index.html#getting-started-with-r"><span class="toc-section-number">1.1</span> Getting started with R</a></li>
-<li><a href="index.html#about-this-book"><span class="toc-section-number">1.2</span> About this book</a></li>
+<li><a href="index.html#reading-this-book"><span class="toc-section-number">1.2</span> Reading this book</a></li>
+<li><a href="index.html#about-this-book"><span class="toc-section-number">1.3</span> About this book</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#basics"><span class="toc-section-number">2</span> Basics</a><ul>
 <li class="has-sub"><a href="basics.html#vectors"><span class="toc-section-number">2.1</span> Vectors</a><ul>
@@ -271,7 +273,7 @@ img {
 <div id="quirks" class="section level1">
 <h1><span class="header-section-number">Chapter 4</span> Quirks</h1>
 <p>This chapter is a reference, for when you know the right tool for the job, but don’t know where it is in R; or for when you have a tool, but it behaves less like a hammer than a nailgun shooting you in the foot.</p>
-<p>The major quirks were covered in <a href="basics.html#basics">2</a>’s <span id="quirk-dummy" class="spnote"></span>s. What’s left is mostly thanks to R’s lack of a consistent naming pattern for functions.</p>
+<p>The major quirks were covered in <a href="basics.html#basics">2</a>’s <span>x</span>s. What’s left is mostly thanks to R’s lack of a consistent naming pattern for functions.</p>
 <div id="matrix-more" class="section level2">
 <h2><span class="header-section-number">4.1</span> Matrix tools</h2>
 <ul>
@@ -298,7 +300,11 @@ x =<span class="st"> </span><span class="kw">c</span>(<span class="fl">6.17</spa
 <span class="kw">sample</span>(y, <span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code># [1] 4 6</code></pre>
 <p>Where did <code>4</code> and <code>6</code> come from? Those aren’t elements of <code>y</code>!</p>
-<p><span id="sampling" class="spnote"> <strong>Sampling from a numeric vector.</strong> I should have sampled from <code>y</code>s indices like <code>y[sample.int(length(y), size = 2, replace = TRUE)]</code>. Vanilla <code>sample</code> cannot be trusted on numeric or integer vectors unless you are sure they have a length greater than 1. </span></p>
+
+<div class="rmd-caution">
+<strong>Sampling from a numeric vector.</strong> I should have sampled from <code>y</code>s indices like <code>y[sample.int(length(y), size = 2, replace = TRUE)]</code>. Vanilla <code>sample</code> cannot be trusted on numeric or integer vectors unless you are sure they have a length greater than 1.
+</div>
+<p></p>
 <p>runif sample(n) sample(vec) – very unsafe if length is dynamic replicate</p>
 </div>
 <div id="lag" class="section level2">
@@ -343,7 +349,7 @@ x =<span class="st"> </span><span class="kw">c</span>(<span class="fl">6.17</spa
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">head</code></pre></div>
 <pre><code># function (x, ...) 
 # UseMethod(&quot;head&quot;)
-# &lt;bytecode: 0x0000000015c6a348&gt;
+# &lt;bytecode: 0x000000001242cf68&gt;
 # &lt;environment: namespace:utils&gt;</code></pre>
 <p>This tells us that <code>head(x, n)</code> looks at <code>class(x)</code> and may “dispatch” to a class-specific “method.” In this case, it dispatches to <code>head.data.frame</code>, which has documentation at <code>?head.data.frame</code> like any other function. This help page overlaps with vanilla <code>?head</code>, but this is not always the case (e.g., for <code>?seq</code> versus <code>?seq.Date</code>, introduced in the next section).</p>
 <p>To investigate whether a method is being used on <code>x</code>, use the <code>methods</code> function, which performs a search.</p>
@@ -356,7 +362,11 @@ x =<span class="st"> </span><span class="kw">c</span>(<span class="fl">6.17</spa
 # [5] head.function*   head.matrix      head.table*     
 # see &#39;?methods&#39; for accessing help and source code</code></pre>
 <p>This is not terribly useful either, in terms of narrowing down what’s going on, but at least we have some functions to look closer at, using <code>?</code> to see docs, or the steps in <a href="basics.html#inspect-fns">2.4.10</a> to see source code. Probably, formal debugging procedures are the proper way to investigate, but that’s beyond my skill set currently.</p>
-<p><span id="fancy-methods" class="spdetails"> Methods are part of R’s support for object-oriented programming. In other languages’ OO systems, methods are attached to classes; while in R they are attached to functions. (R has countless OO systems, some added by packages, so this might not be strictly true.) To make your own methods, start by reading <code>?Methods</code>. I’ve never needed this functionality myself. </span></p>
+
+<div class="rmd-details">
+Methods are part of R’s support for object-oriented programming. In other languages’ OO systems, methods are attached to classes; while in R they are attached to functions. (R has countless OO systems, some added by packages, so this might not be strictly true.) To make your own methods, start by reading <code>?Methods</code>. I’ve never needed this functionality myself.
+</div>
+<p></p>
 </div>
 <div id="tallying" class="section level2">
 <h2><span class="header-section-number">4.5</span> Tallying</h2>
@@ -510,7 +520,11 @@ DF$x +<span class="st"> </span>DF$y</code></pre></div>
   result
 })</code></pre></div>
 <p>The next section shows a use-case. In <a href="work.html#data-table">3.1.2</a>, we will see data.table’s solution to this problem. In <a href="advanced.html#formula-interface">5.4.4</a>, a</p>
-<p><span id="dont-attach" class="spnote"> <strong><code>attach()</code>.</strong> Don’t use it. </span></p>
+
+<div class="rmd-caution">
+<strong><code>attach()</code>.</strong> Don’t use it.
+</div>
+<p></p>
 <blockquote>
 <p>The possibilities for creating errors when using attach are numerous. Avoid it. – <a href="https://google.github.io/styleguide/Rguide.xml#attach">Google’s R Style Guide</a></p>
 </blockquote>

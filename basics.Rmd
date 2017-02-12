@@ -37,9 +37,9 @@ Every vanilla vector has a class. That is, every element of the vector contains 
 c(4, c("A", "B"))
 ```
 
-<span class="spnote" id="coercion">
+```{block2 note-coercion, type='rmd-caution'}
 **Coercion.** The `4` is "coerced" to `character` above, with no warning given. Since coercion is so central to R and confusing for new users, I strongly suggest reading its documentation, in the Details section of `?c`.
-</span>
+```
 
 The doc at `?c` also conveniently lists all of the vanilla ("atomic") classes. The key ones are""
 
@@ -62,9 +62,9 @@ L3
 
 The `[[1]]` printed here indicates the first element of the list, similar to the `[1]` we see for atomic vectors.
 
-<span class="spdetails" id="classes_detail">
+```{block2 det-classes, type='rmd-details'} 
 **Fancier classes** are generally built on top of atomic classes or lists. Behind the scenes, date formats are numeric or integer; while complex objects like data sets and regression results are lists. For details on storage modes, see `?typeof` and the [R internals](https://cran.r-project.org/doc/manuals/r-release/R-ints.html) documentation. While some fancy data structures like linked lists and unordered sets are absent in base R, they can be used through packages like Rcpp. 
-</span>
+```
 
 For lists, in addition to a `length` attribute, we also have `lengths` for each element:
 
@@ -110,9 +110,9 @@ list(A = c(1, 2), B = 4)
 
 The names of an objects' elements can be accessed with the `names` function.
 
-<span class="spnote" id="argument-names">
+```{block2 argument-names, type='rmd-caution'}
 **Passing arguments.** Inside `c(A = 1)`, the equals sign is not interchangeable with the `<-`, so don't write `c(A <- 1)`. Think of `c` as a function with syntax like `c(argname = argvalue, argname2 = argvalue2, ...)`. The equals sign has the special role of giving names to the function's arguments.
-</span>
+```
 
 ### Missing values {#na}
 
@@ -124,10 +124,9 @@ R differs from other programming languages in its careful treatment of missing v
 
 A missing value means "there is a value here, but we don't know what it is." So a comparison against a missing value, like `2 == NA` or `2 != NA`, will always return `NA`, since we cannot determine whether the condition is true or false. To test whether a value is missing, use the `is.na` function.
 
-<span class="spnote" id="na-classes">
+```{block2 na-classes, type='rmd-caution'}
 **Implementation of missing values.** The class of an `NA` is different depending on the vector it is in. Sometimes, it is important to ensure that a missing value belongs to a particular class. To ensure this, the safest approach is to "slice" an object of that class with `NA_integer_`. For example, to get a missing numeric value, you can use the number `10` like `10[NA_integer_]`; or for a date value, we can use the current date, `Sys.Date()`, like `Sys.Date()[NA_integer_]`. 
-</span>
-
+```
 
 ### Slicing to a subvector {#slicing}
 
@@ -154,13 +153,13 @@ So, the index `i` can be...
 
 `i` can even contain repeated elements, like `x[c(1,1,2)]`, which is some more general "slice" of `x`, not really a subvector.
 
-<span class="spnote" id="recycling">
+```{block2 recycling, type='rmd-caution'}
 **Recycling.** What would you expect `x[TRUE]` to do in the example above? Well, in R, it is treated like `x[c(TRUE, TRUE, TRUE, TRUE)]`, without giving any warning. This is called recycling -- the argument `i` is repeated until it is long enough for the context is used in. Can you guess what `x[c(TRUE, FALSE)]` does? The full rules for recycling can be found in the [R intro doc](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#The-recycling-rule).
-</span>
+```
 
-<span class="spdetails" id="fancy-slicing">
-**Special slices.** There are a few edge cases worth noting. As mentioned in \@ref(na), it can be useful to set `i` as `NA_integer_` to find the "missing value version of `x`." Similarly, we can set `i` to `0L` to find the "empty version of `x`." Setting `i` to include positions or names outside of range will just yield missing values and is typically not useful.
-</span>
+```{block2 fancy-splicing, type='rmd-details'} **Special slices.** 
+There are a few edge cases worth noting. As mentioned in \@ref(na), it can be useful to set `i` as `NA_integer_` to find the "missing value version of `x`." Similarly, we can set `i` to `0L` to find the "empty version of `x`." Setting `i` to include positions or names outside of range will just yield missing values and is typically not useful.
+```
 
 Convenience functions `head` and `tail` enable easy slicing from the start or end of a vector.
 
@@ -197,9 +196,9 @@ L[c("Y", "Z")] = list(21, 31)
 
 The allowed values of `i` are the same as we saw for slicing a vector in \@ref(slicing). This is fairly unsafe on account of silent coercion, recycling and failure (when `i` is not a valid index of `x`). We will revisit how to modify vectors in data.tables in \@ref(dt-subassign).
 
-<span class="spnote" id="hidden-docs">
+```{block2 hidden-docs, type='rmd-caution'}
 **Hard-to-find documentation.** For documentation on slicing and extracting, you can type ``?`[` ``. Even though there is a `]` for every `[`, it is the opening bracket that is the function's actual name, which will come back in \@ref(lapply). For documentation on sub-assignment, type ``?`[<-` ``.
-</span>
+```
 
 ### Assigning to a list element
 
@@ -300,9 +299,9 @@ The dimensions of a matrix can be extracted with the `dim` function or `nrow` an
 
 All elements of a matrix must have the same class, just like a vector. So you can have a "character matrix", a "numeric matrix", etc. 
 
-<span class="spdetails" id="classes_detail">
+```{block2 det-matrices, type='rmd-details'}
 **Vectors with attributes.** In fact, a matrix *is* a vector, just augmented by the `dim` attribute. As mentioned at the top, all data in R is stored in vectors; and as mentioned in \@ref(classes), most classes are built on top of vectors. One wrinkle is that `is.vector` is false for matrices. However, this makes sense in light of the doc, `?is.vector`.
-</span>
+```
 
 ### Building matrices
 
@@ -337,9 +336,9 @@ m[1, c(1,2), drop = FALSE]
 
 You can get fancy with indices, in all the ways described in \@ref(slicing). It is often covenient to leave one index blank, which means "select all"; try `m[, 2, drop = FALSE]`. 
 
-<span class="spnote" id="drop">
+```{block2 drop, type='rmd-caution'}
 **Dropped dimensions.** The `drop = FALSE` option is necessary to ensure that the result is a submatrix. R's default behavior is to "drop" dimensions when it can, which makes for unpredictable output.
-</span>
+```
 
 Implicitly, matrices are thought of as having observations as rows and variables as columns. As a result, `head` and `tail` will return rows from the top and bottom of a matrix, respectively.
 
@@ -397,8 +396,9 @@ Essentially all computations involving missing values will return a missing valu
 
 As in [any other programming environment](http://floating-point-gui.de/), floating point arithmetic in R can trip up calculations. For example, try `.1 + .05 - .15 == 0`.
 
-<span class="spnote" id="arithmetic-bools">
-**Arithmetic with logical values.** Particularly when exploring data, we often want to tally observations meeting some condition. To do this in R, we can treat true/false like 1/0: `is_gt = c(1,5,2) > c(1,2,3); sum(is_gt)`. Tallying will be revisited in \@ref(tallying).</span>
+```{block2 arithmetic-bools, type='rmd-caution'}
+**Arithmetic with logical values.** Particularly when exploring data, we often want to tally observations meeting some condition. To do this in R, we can treat true/false like 1/0: `is_gt = c(1,5,2) > c(1,2,3); sum(is_gt)`. Tallying will be revisited in \@ref(tallying).
+```
 
 
 ### Logical operators
@@ -409,8 +409,9 @@ The self-explanatory symbols `!`, `&` and `|` are used to construct compound log
 - `NA & TRUE` is `NA`, since we need to know the missing value to determine the truth or falsehood of the compound statement.
 - And so on.
 
-<span class="spnote" id="logical-nums">
-**Logic with numeric values.** Numbers are treated as `FALSE` when zero and `TRUE` otherwise. This allows us to use `length(x)` as a test instead of `length(x) > 0`.</span>
+```{block2 logical-nums, type='rmd-caution'}
+**Logic with numeric values.** Numbers are treated as `FALSE` when zero and `TRUE` otherwise. This allows us to use `length(x)` as a test instead of `length(x) > 0`.
+```
 
 A couple additional symbols, `||` and `&&`, do short circuiting and will be explained in \@ref(vectorization).
 
@@ -449,8 +450,9 @@ x ^ y
 
 We call functions with this behavior "vectorized." R is a lot faster when operations are performed elementwise rather than in a loop, so there's a common mantra to "vectorize your code," especially when doing arithmetic. The idea is similar to translating a statistical model into matrix algebra.
 
-<span class="spnote" id="recycling-again">
-**Recycling, again.** As we saw in \@ref(slicing), recycling kicks for any vectorized function. So we have `c(-2,2) ^ c(1,2,3,4)` working, with no warning given. Fortunately, there is a warning if the recycling is imperfect, like `c(-2,2) ^ c(1,2,3)`.</span>
+```{block2 recycling-again, type='rmd-caution'}
+**Recycling, again.** As we saw in \@ref(slicing), recycling kicks for any vectorized function. So we have `c(-2,2) ^ c(1,2,3,4)` working, with no warning given. Fortunately, there is a warning if the recycling is imperfect, like `c(-2,2) ^ c(1,2,3)`.
+```
 
 A couple of notably non-vectorized functions are `&&` and `||`. These will (silently) only look at the first element on each side; and if the result can be determined using the left-hand side, for example in `FALSE && x`, then the right-hand side will not be evaluated. These are useful mostly for improving efficiency on the margins.
 
@@ -530,9 +532,9 @@ install.packages("fortunes")
 
 If a package is loaded, it cannot be updated, so close all R sessions where the package is loaded before updating it.
 
-<span class="spdetails">
-**Managing packages.** With `installed.packages`, dependencies and version numbers can be viewed. Some other tools, [rocker](https://github.com/rocker-org/rocker) and [drat](https://github.com/eddelbuettel/drat), also look promising.
-</span>
+```{block2, type='rmd-details'} **Managing packages.** 
+With `installed.packages`, dependencies and version numbers can be viewed. Some other tools, [rocker](https://github.com/rocker-org/rocker) and [drat](https://github.com/eddelbuettel/drat), also look promising.
+```
 
 ### Passing arguments
 
@@ -756,15 +758,15 @@ x   = 2*i2 - 1
 
 Vectorized code and matrix algebra are much faster than a loop. Loops should be reserved for tasks that really must be performed iteratively. When speed becomes an issue for such tasks, it is time to learn [the Rcpp family of packages](http://www.rcpp.org/), which allow for coding in C++.
 
-<span class="spnote">
+```{block2, type='rmd-caution'}
 **Breaking an operation.** When running a malfeasant loop (eating up too much memory or taking too long) in the R console, the operation can be broken by pressing `ESC`. This applies elsewhere in R as well, but I usually run into it with loops or one of the several functions documented at `?lapply`.
-</span>
+```
 
 ### `if`/`else` elementwise {#ifelse}
 
-<span class="spnote">
+```{block2, type='rmd-caution'}
 **Dummy variables.** First, if you find yourself wanting to do `x = if (cond) 1 else 0`, don't. As mentioned in \@ref(arithmetic), the logical variable `cond` itself is perfect for storing this dummy variable. It will be treated as numeric in any arithmetic calculations. Besides, there is certainly no reason to prefer the floating-point values `0` and `1` over integers `0L` and `1L`.
-</span>
+```
 
 The base R tool for handling elementwise `if`/`else` rules is the function `ifelse`. However, it has some serious shortcomings. A better way, similar to the `gen`/`replace` pattern in Stata, is covered in \@ref(dt-ifelse).
 
@@ -807,9 +809,9 @@ It is useful to keep in mind that data frames are really lists of columns, not m
 lapply(DF, function(x) x[3])
 ```
 
-<span class="spnote">
+```{block2, type='rmd-caution'}
 **Manual coercion.** We can also get the result of that `lapply` call by coercion to a list: `as.list(DF[3, ])`. The names of similar functions can be guessed: `as.matrix`, `as.data.frame`, `as.vector`, `as.logical`, `as.integer`, `as.numeric`, `as.character`, `as.factor`, and so on. There is `as(x, "class_name")`, but I have found the latter to be finicky.
-</span>
+```
 
 ### Inspection
 

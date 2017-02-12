@@ -2,7 +2,7 @@
 
 This chapter is a reference, for when you know the right tool for the job, but don't know where it is in R; or for when you have a tool, but it behaves less like a hammer than a nailgun shooting you in the foot. 
 
-The major quirks were covered in \@ref(basics)'s <span class="spnote" id="quirk-dummy"></span>s. What's left is mostly thanks to R's lack of a consistent naming pattern for functions.
+The major quirks were covered in \@ref(basics)'s <span>x</span>s. What's left is mostly thanks to R's lack of a consistent naming pattern for functions.
 
 ## Matrix tools {#matrix-more}
 
@@ -41,9 +41,9 @@ sample(y, size = 2, replace = TRUE)
 
 Where did `4` and `6` come from? Those aren't elements of `y`!
 
-<span class="spnote" id="sampling">
+```{block2 sampling, type='rmd-caution'}
 **Sampling from a numeric vector.** I should have sampled from `y`s indices like `y[sample.int(length(y), size = 2, replace = TRUE)]`. Vanilla `sample` cannot be trusted on numeric or integer vectors unless you are sure they have a length greater than 1. 
-</span>
+```
 
 runif
 sample(n)
@@ -95,9 +95,9 @@ methods("head", class(DT))
 
 This is not terribly useful either, in terms of narrowing down what's going on, but at least we have some functions to look closer at, using `?` to see docs, or the steps in \@ref(inspect-fns) to see source code. Probably, formal debugging procedures are the proper way to investigate, but that's beyond my skill set currently.
 
-<span class="spdetails" id="fancy-methods">
+```{block2 fancy-methods, type='rmd-details'}
 Methods are part of R's support for object-oriented programming. In other languages' OO systems, methods are attached to classes; while in R they are attached to functions. (R has countless OO systems, some added by packages, so this might not be strictly true.) To make your own methods, start by reading `?Methods`. I've never needed this functionality myself. 
-</span>
+```
 
 
 ## Tallying {#tallying}
@@ -290,9 +290,9 @@ with(L, {
 
 The next section shows a use-case. In \@ref(data-table), we will see data.table's solution to this problem. In \@ref(formula-interface), a 
 
-<span class="spnote" id="dont-attach">
+```{block2 dont-attach, type='rmd-caution'}
 **`attach()`.** Don't use it.
-</span>
+```
 
 > The possibilities for creating errors when using attach are numerous. Avoid it. -- [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml#attach)
 
