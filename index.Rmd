@@ -40,3 +40,12 @@ The book's R code was compiled using R, maintained by [the R Foundation](https:/
 </span>
 
 Exercises are interspersed and should be pretty quick to do.
+
+... testing ...
+
+```{block2 bracket-docs, type='rmdcaution'}
+For documentation on the last two sections, you can type ``?`[[` ``. Paired brackets are just named after their opener. This naming pattern will come up again in \@ref(lapply) when working with lists of lists. 
+```
+
+
+
