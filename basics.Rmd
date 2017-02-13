@@ -327,11 +327,9 @@ matrix(c(1,2,3,4), nrow = 2, dimnames = list(c("a","b"), c("x","y")))
 
 To take a matrix slice, selecting a submatrix, use `m[i,j]` as in math:
 
-```{r matrix-slicing-pre}
+```{r matrix-slicing-pre, echo=1:2}
 # example data
 m = matrix(c(1,2,3,4,5,6), nrow = 2, dimnames = list(c("a", "b"), c("x", "y", "z")))
-```
-```{r matrix-slicing-pre-print, echo=FALSE}
 m
 ```
 ```{r matrix-slicing}
@@ -351,11 +349,9 @@ Implicitly, matrices are regarded as having observations as rows and variables a
 
 Since matrices *are* vectors, we can extract a vector of values in the same way:
 
-```{r matrix-subset-pre}
+```{r matrix-subset-pre, echo=1:2}
 # example data
 m = matrix(c(1,2,3,4,5,6), nrow = 2, dimnames = list(c("a", "b"), c("x", "y", "z")))
-```
-```{r matrix-subset-pre-print, echo=FALSE}
 m
 ```
 
@@ -739,7 +735,7 @@ As in most programming languages, we have `for` loops, `if`/`else` blocks, and s
 - Use `next` to bust out of the current iteration of a loop.
 - Use `break` to bust out of the loop entirely.
 
-### Thinking about `for` loops
+### Thinking about `for` loops {#for-loops}
 
 Suppose we have this loop:
 

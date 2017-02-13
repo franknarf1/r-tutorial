@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-02-12" />
+<meta name="date" content="2017-02-13" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -164,7 +164,7 @@ img {
 <li><a href="basics.html#inspect-fns"><span class="toc-section-number">2.4.10</span> Inspecting function source code</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#loops"><span class="toc-section-number">2.5</span> Loops and control flow</a><ul>
-<li><a href="basics.html#thinking-about-for-loops"><span class="toc-section-number">2.5.1</span> Thinking about <code>for</code> loops</a></li>
+<li><a href="basics.html#for-loops"><span class="toc-section-number">2.5.1</span> Thinking about <code>for</code> loops</a></li>
 <li><a href="basics.html#ifelse"><span class="toc-section-number">2.5.2</span> <code>if</code>/<code>else</code> elementwise</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#data-frames"><span class="toc-section-number">2.6</span> Data frames</a><ul>
@@ -186,23 +186,28 @@ img {
 <li><a href="work.html#selecting-by-group-statistic"><span class="toc-section-number">3.3.2</span> Selecting by group statistic</a></li>
 <li><a href="work.html#selecting-rows-within-each-group"><span class="toc-section-number">3.3.3</span> Selecting rows within each group</a></li>
 </ul></li>
-<li><a href="work.html#expanding-rows"><span class="toc-section-number">3.4</span> Expanding rows</a></li>
-<li class="has-sub"><a href="work.html#dt-summary-stats"><span class="toc-section-number">3.5</span> Summary statistics</a><ul>
-<li><a href="work.html#counting-rows"><span class="toc-section-number">3.5.1</span> Counting rows</a></li>
-<li><a href="work.html#the-summary-function"><span class="toc-section-number">3.5.2</span> The <code>summary</code> function</a></li>
-<li><a href="work.html#create-aggregated-table"><span class="toc-section-number">3.5.3</span> Create aggregated table</a></li>
-<li><a href="work.html#save-to-current-table"><span class="toc-section-number">3.5.4</span> Save to current table</a></li>
+<li class="has-sub"><a href="work.html#dt-subassign"><span class="toc-section-number">3.4</span> Modifying data in-place</a><ul>
+<li><a href="work.html#dt-col-create"><span class="toc-section-number">3.4.1</span> Creating columns</a></li>
+<li><a href="work.html#removing-columns"><span class="toc-section-number">3.4.2</span> Removing columns</a></li>
+<li><a href="work.html#replacing-entire-columns"><span class="toc-section-number">3.4.3</span> Replacing entire columns</a></li>
+<li><a href="work.html#dt-ifelse"><span class="toc-section-number">3.4.4</span> Replacing columns conditionally</a></li>
+<li><a href="work.html#iterating-over-columns"><span class="toc-section-number">3.4.5</span> Iterating over columns</a></li>
+<li><a href="work.html#avoiding-in-place-modification"><span class="toc-section-number">3.4.6</span> Avoiding in-place modification</a></li>
 </ul></li>
-<li class="has-sub"><a href="work.html#dt-subassign"><span class="toc-section-number">3.6</span> Modifying data in-place</a><ul>
-<li><a href="work.html#dt-col-create"><span class="toc-section-number">3.6.1</span> Creating columns</a></li>
-<li><a href="work.html#removing-columns"><span class="toc-section-number">3.6.2</span> Removing columns</a></li>
-<li><a href="work.html#replacing-entire-columns"><span class="toc-section-number">3.6.3</span> Replacing entire columns</a></li>
-<li><a href="work.html#dt-ifelse"><span class="toc-section-number">3.6.4</span> Replacing columns conditionally</a></li>
-<li><a href="work.html#iterating-over-columns"><span class="toc-section-number">3.6.5</span> Iterating over columns</a></li>
-<li><a href="work.html#another-interface-set"><span class="toc-section-number">3.6.6</span> Another interface, <code>set</code></a></li>
-<li><a href="work.html#avoiding-in-place-modification"><span class="toc-section-number">3.6.7</span> Avoiding in-place modification</a></li>
+<li class="has-sub"><a href="work.html#dt-merging"><span class="toc-section-number">3.5</span> Joins</a><ul>
+<li><a href="work.html#join-multimatch"><span class="toc-section-number">3.5.1</span> Handling multiply-matched rows</a></li>
+<li><a href="work.html#handling-unmatched-rows"><span class="toc-section-number">3.5.2</span> Handling unmatched rows</a></li>
+<li><a href="work.html#update-join"><span class="toc-section-number">3.5.3</span> Update join</a></li>
+<li><a href="work.html#cross-join"><span class="toc-section-number">3.5.4</span> Cross join</a></li>
+<li><a href="work.html#advanced-joins"><span class="toc-section-number">3.5.5</span> Advanced joins</a></li>
 </ul></li>
-<li><a href="work.html#dt-merging"><span class="toc-section-number">3.7</span> Joins</a></li>
+<li><a href="work.html#expanding-rows"><span class="toc-section-number">3.6</span> Expanding rows</a></li>
+<li class="has-sub"><a href="work.html#dt-summary-stats"><span class="toc-section-number">3.7</span> Summary statistics</a><ul>
+<li><a href="work.html#counting-rows"><span class="toc-section-number">3.7.1</span> Counting rows</a></li>
+<li><a href="work.html#the-summary-function"><span class="toc-section-number">3.7.2</span> The <code>summary</code> function</a></li>
+<li><a href="work.html#create-aggregated-table"><span class="toc-section-number">3.7.3</span> Create aggregated table</a></li>
+<li><a href="work.html#save-to-current-table"><span class="toc-section-number">3.7.4</span> Save to current table</a></li>
+</ul></li>
 <li class="has-sub"><a href="work.html#managing-data-types"><span class="toc-section-number">3.8</span> Managing data types</a><ul>
 <li><a href="work.html#dates-times"><span class="toc-section-number">3.8.1</span> Dates and times</a></li>
 <li><a href="work.html#list-columns"><span class="toc-section-number">3.8.2</span> List columns</a></li>
@@ -213,7 +218,9 @@ img {
 <li class="has-sub"><a href="work.html#exploring-data"><span class="toc-section-number">3.10</span> Exploring data</a><ul>
 <li><a href="work.html#reshaping"><span class="toc-section-number">3.10.1</span> Reshaping</a></li>
 </ul></li>
-<li><a href="work.html#input-output"><span class="toc-section-number">3.11</span> Input and output</a></li>
+<li class="has-sub"><a href="work.html#input-output"><span class="toc-section-number">3.11</span> Input and output</a><ul>
+<li><a href="work.html#fread"><span class="toc-section-number">3.11.1</span> fread</a></li>
+</ul></li>
 <li><a href="work.html#approximation-optimization-and-regression"><span class="toc-section-number">3.12</span> Approximation, optimization and regression</a></li>
 </ul></li>
 <li class="has-sub"><a href="quirks.html#quirks"><span class="toc-section-number">4</span> Quirks</a><ul>
@@ -446,7 +453,7 @@ x =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&q
 L =<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</span> <span class="dv">1</span>, <span class="dt">Y =</span> <span class="dv">2</span>, <span class="dt">Z =</span> <span class="dv">3</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)] &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;bada&quot;</span>, <span class="st">&quot;bing&quot;</span>)
 L[<span class="kw">c</span>(<span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Z&quot;</span>)] =<span class="st"> </span><span class="kw">list</span>(<span class="dv">21</span>, <span class="dv">31</span>)</code></pre></div>
-<p>The allowed values of <code>i</code> are the same as we saw for slicing a vector in <a href="basics.html#slicing">2.1.7</a>. This is fairly unsafe on account of silent coercion, recycling and failure (when <code>i</code> is not a valid index of <code>x</code>). We will revisit how to modify vectors in data.tables in <a href="work.html#dt-subassign">3.6</a>.</p>
+<p>The allowed values of <code>i</code> are the same as we saw for slicing a vector in <a href="basics.html#slicing">2.1.7</a>. This is fairly unsafe on account of silent coercion, recycling and failure (when <code>i</code> is not a valid index of <code>x</code>). We will revisit how to modify vectors in data.tables in <a href="work.html#dt-subassign">3.4</a>.</p>
 
 <div class="rmd-caution">
 <strong>Hard-to-find documentation.</strong> For documentation on slicing and extracting, you can type <code>?`[`</code>. Even though there is a <code>]</code> for every <code>[</code>, it is the opening bracket that is the function’s actual name, which will come back in <a href="basics.html#lapply">2.4.3</a>. For documentation on sub-assignment, type <code>?`[&lt;-`</code>.
@@ -636,7 +643,7 @@ m[im]</code></pre></div>
 <div id="arithmetic" class="section level3">
 <h3><span class="header-section-number">2.3.2</span> Arithmetic</h3>
 <p>The full set of arithmetic operators is documented at <code>?Arithmetic</code>. The integer division and modulo operators look like <code>%/%</code> and <code>%%</code>, but otherwise, everything is standard. Other basic functions include <code>round</code>, <code>floor</code>, <code>ceiling</code>, <code>min</code>, <code>max</code>, <code>log</code>, <code>exp</code>, <code>sqrt</code>.</p>
-<p>Essentially all computations involving missing values will return a missing value. One exception is <code>NA^0</code> since no matter what number the true value is, this expression will evaluate to <code>1</code>. (Recall that a missing value means “there is some true value, but we don’t know what it is.”) The <code>min</code> and <code>max</code> functions can ignore missing values, as noted in their docs. <a href="work.html#dt-summary-stats">3.5</a> covers other summarizing functions, all of which similarly offer to ignore <code>NA</code>s.</p>
+<p>Essentially all computations involving missing values will return a missing value. One exception is <code>NA^0</code> since no matter what number the true value is, this expression will evaluate to <code>1</code>. (Recall that a missing value means “there is some true value, but we don’t know what it is.”) The <code>min</code> and <code>max</code> functions can ignore missing values, as noted in their docs. <a href="work.html#dt-summary-stats">3.7</a> covers other summarizing functions, all of which similarly offer to ignore <code>NA</code>s.</p>
 <p>As in <a href="http://floating-point-gui.de/">any other programming environment</a>, floating point arithmetic in R can trip up calculations. For example, try <code>.1 + .05 - .15 == 0</code>.</p>
 
 <div class="rmd-caution">
@@ -770,7 +777,7 @@ x /<span class="st"> </span>y</code></pre></div>
 <h3><span class="header-section-number">2.4.2</span> Passing arguments</h3>
 <p>Compare the documentation <code>?vector</code> against usage in <a href="basics.html#initializing">2.1.11</a>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="kw">vector</span>(<span class="dt">length =</span> <span class="dv">5</span>, <span class="dt">mode =</span> <span class="st">&quot;list&quot;</span>)</code></pre></div>
-<p>The arguments are being passed out-of-order, but this still works since the arguments are being passed by name. Passing arguments by the position, like <code>sort(x, TRUE)</code>, is a riskier proposition, since it is harder to get right initially and to interpret correctly later. Some data.table idioms for merging (<a href="work.html#dt-merging">3.7</a>) involve passing arguments out-of-order.</p>
+<p>The arguments are being passed out-of-order, but this still works since the arguments are being passed by name. Passing arguments by the position, like <code>sort(x, TRUE)</code>, is a riskier proposition, since it is harder to get right initially and to interpret correctly later. Some data.table idioms for merging (<a href="work.html#dt-merging">3.5</a>) involve passing arguments out-of-order.</p>
 </div>
 <div id="lapply" class="section level3">
 <h3><span class="header-section-number">2.4.3</span> Iterating over a list</h3>
@@ -821,20 +828,10 @@ f =<span class="st"> </span>function(x){
 <p>We see that the modification does not carry over to the input itself. Usually, nothing created or altered inside a function does, meaning there are no <a href="http://programmers.stackexchange.com/q/40297/104607">side effects</a>. There are ways to write functions with side effects in base R (<code>&lt;&lt;-</code> and <code>assign</code>), but these are discouraged:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fortunes::<span class="kw">fortune</span>(<span class="st">&quot;assign&quot;</span>)</code></pre></div>
 <pre><code># 
-# So, with the item in the original query:
-# 
-#   if (x&lt;-3) do_something;
-# 
-# if they wrote it as
-# 
-#   if (x&lt;(-3)) do_something;
-# 
-# there would be no problem (and no doubt about what went with what). Of
-# course in complicated expressions this could induce an episode of ocular
-# lispopia, but apart from that it&#39;s safe!
-#    -- Ted Harding (about potential confusion between assignment and
-#       comparisons with negative numbers)
-#       R-devel (August 2010)</code></pre>
+# The only people who should use the assign function are those who fully
+# understand why you should never use the assign function.
+#    -- Greg Snow
+#       R-help (July 2009)</code></pre>
 <p>The data.table package, introduced in <a href="work.html#data-table">3.1.2</a>, has a different design philosophy regarding the mutability of objects by functions. <em>Its core functions almost all hinge on side effects</em>.</p>
 </div>
 <div id="lazy" class="section level3">
@@ -885,7 +882,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nrow</code></pre></div>
 <pre><code># function (x) 
 # dim(x)[1L]
-# &lt;bytecode: 0x000000001228c420&gt;
+# &lt;bytecode: 0x000000001435c250&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">replace</code></pre></div>
 <pre><code># function (x, list, values) 
@@ -893,7 +890,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 #     x[list] &lt;- values
 #     x
 # }
-# &lt;bytecode: 0x00000000166940c0&gt;
+# &lt;bytecode: 0x0000000012f7ec00&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <p>The last two rows of these functions show (i) that they are compiled and (ii) the environment they were defined in.</p>
 <p>Many functions are not “exported” for direct use. Nonetheless, their code may be found using <code>getAnywhere</code> or accessed directly using <code>:::</code> syntax:</p>
@@ -925,7 +922,7 @@ utils:::head.default</code></pre></div>
 <li>Use <code>next</code> to bust out of the current iteration of a loop.</li>
 <li>Use <code>break</code> to bust out of the loop entirely.</li>
 </ul>
-<div id="thinking-about-for-loops" class="section level3">
+<div id="for-loops" class="section level3">
 <h3><span class="header-section-number">2.5.1</span> Thinking about <code>for</code> loops</h3>
 <p>Suppose we have this loop:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">idx =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)
@@ -968,7 +965,7 @@ x   =<span class="st"> </span><span class="dv">2</span>*i2 -<span class="st"> </
 <strong>Dummy variables.</strong> First, if you find yourself wanting to do <code>x = if (cond) 1 else 0</code>, don’t. As mentioned in <a href="basics.html#arithmetic">2.3.2</a>, the logical variable <code>cond</code> itself is perfect for storing this dummy variable. It will be treated as numeric in any arithmetic calculations. Besides, there is certainly no reason to prefer the floating-point values <code>0</code> and <code>1</code> over integers <code>0L</code> and <code>1L</code>.
 </div>
 <p></p>
-<p>The base R tool for handling elementwise <code>if</code>/<code>else</code> rules is the function <code>ifelse</code>. However, it has some serious shortcomings. A better way, similar to the <code>gen</code>/<code>replace</code> pattern in Stata, is covered in <a href="work.html#dt-ifelse">3.6.4</a>.</p>
+<p>The base R tool for handling elementwise <code>if</code>/<code>else</code> rules is the function <code>ifelse</code>. However, it has some serious shortcomings. A better way, similar to the <code>gen</code>/<code>replace</code> pattern in Stata, is covered in <a href="work.html#dt-ifelse">3.4.4</a>.</p>
 </div>
 </div>
 <div id="data-frames" class="section level2">

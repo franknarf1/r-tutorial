@@ -1,11 +1,21 @@
 --- 
-title: "<br><br>Quick R Tutorial" # need <br> thanks to the hover menu
+title: "<br><br>Quick R Tutorial" # need <br> thanks to the hovering menu
 author: "Frank Erickson"
 date: "`r Sys.Date()`"
 knit: "bookdown::render_book"
 site: bookdown::bookdown_site
 description: "This book covers the essentials of using R."
 ---
+
+```{r edit-comments, echo=FALSE, eval=FALSE}
+# Editing notes:
+#   data.table prints on := as of Feb 2017: https://github.com/Rdatatable/data.table/issues/1930
+#   when this is fixed, go back and simplify relevant parts
+#
+#   i'd like each chapter to have a different html page title so that when i open multiple tabs i can tell them apart
+#   i think this can be done with bookdown::build_chapter per https://bookdown.org/yihui/bookdown/html.html#bootstrap-style
+```
+
 
 # Introduction
 
