@@ -8,11 +8,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:title" content="Quick R Tutorial" />
+<meta property="og:title" content="  Quick R Tutorial" />
 <meta property="og:type" content="book" />
 
 
-<meta property="og:description" content="This book covers the essentials for using R." />
+<meta property="og:description" content="This book covers the essentials of using R." />
 
 
 <meta name="author" content="Frank Erickson" />
@@ -26,9 +26,9 @@ MathJax.Hub.Config({
 </script>
   <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<meta name="description" content="This book covers the essentials for using R.">
+<meta name="description" content="This book covers the essentials of using R.">
 
-<title>Quick R Tutorial</title>
+<title>  Quick R Tutorial</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -276,10 +276,9 @@ img {
 <div id="key-packages" class="section level2">
 <h2><span class="header-section-number">3.1</span> Key packages</h2>
 <p>These packages help me work more efficiently, to the point where I regard them as essential. They’ll be used throughout the rest of this document. They don’t have any dependencies on other packages, and I expect they’ll be available as long as R is. It will be assumed in subsequent sections that these libraries have been loaded:</p>
-<pre><code># Warning: package &#39;data.table&#39; was built under R version 3.2.5</code></pre>
 <div id="magrittr" class="section level3">
 <h3><span class="header-section-number">3.1.1</span> Magrittr</h3>
-<p>Magrittr introduces syntax with “pipes”:</p>
+<p><a href="https://cran.r-project.org/package=magrittr">Magrittr</a> introduces syntax with “pipes”:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># allowing</span>
 x %&gt;%<span class="st"> </span>f %&gt;%<span class="st"> </span>g %&gt;%<span class="st"> </span>h
 <span class="co"># instead of </span>
@@ -345,6 +344,11 @@ DT[where, select|update|do, by]</code></pre></div>
 # 1: FALSE  3
 # 2:  TRUE  9</code></pre>
 <p>In addition, this call is optimized: The inequality in <code>i</code> triggers creation of an “index” in terms of <code>x</code>, making subsequent indexing on <code>x</code> faster thanks to binary search, documented at <code>?indices</code>. And the <code>sum</code> in <code>j</code> is computed using an optimized “grouped sum” or <code>gsum</code> computation, documented at <code>?GForce</code>.</p>
+
+<div class="rmd-details">
+<strong>Verbose data.table messages.</strong> To understand better how data.table works, I would recommend trying out the setting <code>options(datatable.verbose = TRUE)</code>. This option is similar to verbose output from an optimization call (reporting the value of the objective at each iteration, etc.). To only see verbose output for a single call, add <code>verbose = TRUE</code>. For example, to see see what I meant in the last paragraph, try <code>DT[x &gt; &quot;b&quot;, sum(y), by=z, verbose=TRUE]</code>.
+</div>
+<p></p>
 <p>The syntax <code>DT[i,j,by]</code> should be read as:</p>
 <ol style="list-style-type: decimal">
 <li>Subset using <code>i</code></li>

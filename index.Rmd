@@ -1,10 +1,10 @@
 --- 
-title: "Quick R Tutorial"
+title: "<br><br>Quick R Tutorial" # need <br> thanks to the hover menu
 author: "Frank Erickson"
 date: "`r Sys.Date()`"
 knit: "bookdown::render_book"
 site: bookdown::bookdown_site
-description: "This book covers the essentials for using R."
+description: "This book covers the essentials of using R."
 ---
 
 # Introduction

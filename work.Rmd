@@ -4,18 +4,15 @@
 
 These packages help me work more efficiently, to the point where I regard them as essential. They'll be used throughout the rest of this document. They don't have any dependencies on other packages, and I expect they'll be available as long as R is. It will be assumed in subsequent sections that these libraries have been loaded:
 
-```{r loadem, echo=FALSE}
+```{r loadem, echo=FALSE, warning=FALSE}
 library(magrittr)
 library(data.table)
 ```
 
 ### Magrittr
 
-Magrittr introduces syntax with "pipes":
+[Magrittr](https://cran.r-project.org/package=magrittr) introduces syntax with "pipes":
 
-```{r magrittr-load, echo=FALSE}
-library(magrittr)
-```
 ```{r magrittr-calls, eval=FALSE}
 # allowing
 x %>% f %>% g %>% h
@@ -92,6 +89,10 @@ DT[x > "b", sum(y), by=z]
 ```
 
 In addition, this call is optimized: The inequality in `i` triggers creation of an "index" in terms of `x`, making subsequent indexing on `x` faster thanks to binary search, documented at `?indices`. And the `sum` in `j` is computed using an optimized "grouped sum" or `gsum` computation, documented at `?GForce`.
+
+```{block2 dt-verbose, type='rmd-details'}
+**Verbose data.table messages.** To understand better how data.table works, I would recommend trying out the setting `options(datatable.verbose = TRUE)`. This option is similar to verbose output from an optimization call (reporting the value of the objective at each iteration, etc.). To only see verbose output for a single call, add `verbose = TRUE`. For example, to see see what I meant in the last paragraph, try `DT[x > "b", sum(y), by=z, verbose=TRUE]`.
+```
 
 The syntax `DT[i,j,by]` should be read as:
 

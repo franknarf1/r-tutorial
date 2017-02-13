@@ -8,11 +8,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:title" content="Quick R Tutorial" />
+<meta property="og:title" content="  Quick R Tutorial" />
 <meta property="og:type" content="book" />
 
 
-<meta property="og:description" content="This book covers the essentials for using R." />
+<meta property="og:description" content="This book covers the essentials of using R." />
 
 
 <meta name="author" content="Frank Erickson" />
@@ -26,9 +26,9 @@ MathJax.Hub.Config({
 </script>
   <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<meta name="description" content="This book covers the essentials for using R.">
+<meta name="description" content="This book covers the essentials of using R.">
 
-<title>Quick R Tutorial</title>
+<title>  Quick R Tutorial</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -350,7 +350,7 @@ x =<span class="st"> </span><span class="kw">c</span>(<span class="fl">6.17</spa
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">head</code></pre></div>
 <pre><code># function (x, ...) 
 # UseMethod(&quot;head&quot;)
-# &lt;bytecode: 0x00000000128a15f8&gt;
+# &lt;bytecode: 0x00000000126bf850&gt;
 # &lt;environment: namespace:utils&gt;</code></pre>
 <p>This tells us that <code>head(x, n)</code> looks at <code>class(x)</code> and may “dispatch” to a class-specific “method.” In this case, it dispatches to <code>head.data.frame</code>, which has documentation at <code>?head.data.frame</code> like any other function. This help page overlaps with vanilla <code>?head</code>, but this is not always the case (e.g., for <code>?seq</code> versus <code>?seq.Date</code>, introduced in the next section).</p>
 <p>To investigate whether a method is being used on <code>x</code>, use the <code>methods</code> function, which performs a search.</p>

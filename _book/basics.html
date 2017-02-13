@@ -8,11 +8,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:title" content="Quick R Tutorial" />
+<meta property="og:title" content="  Quick R Tutorial" />
 <meta property="og:type" content="book" />
 
 
-<meta property="og:description" content="This book covers the essentials for using R." />
+<meta property="og:description" content="This book covers the essentials of using R." />
 
 
 <meta name="author" content="Frank Erickson" />
@@ -26,9 +26,9 @@ MathJax.Hub.Config({
 </script>
   <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<meta name="description" content="This book covers the essentials for using R.">
+<meta name="description" content="This book covers the essentials of using R.">
 
-<title>Quick R Tutorial</title>
+<title>  Quick R Tutorial</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -583,7 +583,7 @@ m =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</s
 <strong>Dropped dimensions.</strong> The <code>drop = FALSE</code> option is necessary to ensure that the result is a submatrix. R’s default behavior is to “drop” dimensions when it can, which makes for unpredictable output.
 </div>
 <p></p>
-<p>Implicitly, matrices are thought of as having observations as rows and variables as columns. As a result, <code>head</code> and <code>tail</code> will return rows from the top and bottom of a matrix, respectively.</p>
+<p>Implicitly, matrices are regarded as having observations as rows and variables as columns. As a result, <code>head</code> and <code>tail</code> will return rows from the top and bottom of a matrix, respectively.</p>
 </div>
 <div id="matrix-extract" class="section level3">
 <h3><span class="header-section-number">2.2.4</span> Extracting from matrices</h3>
@@ -756,12 +756,12 @@ x /<span class="st"> </span>y</code></pre></div>
 <p>If a package is loaded, it cannot be updated, so close all R sessions where the package is loaded before updating it.</p>
 
 <div class="rmd-details">
-<strong>Managing packages.</strong> With <code>installed.packages</code>, dependencies and version numbers can be viewed. Some other tools, <a href="https://github.com/rocker-org/rocker">rocker</a> and <a href="https://github.com/eddelbuettel/drat">drat</a>, also look promising.
+<strong>Managing packages.</strong> Use <code>installed.packages</code> to view dependencies and version numbers. Some other tools, <a href="https://github.com/rocker-org/rocker">rocker</a> and <a href="https://github.com/eddelbuettel/drat">drat</a>, look promising.
 </div>
 <p></p>
 
 <div class="rmd-caution">
-<strong>My opinion on trusting packages.</strong> If you don’t understand a package’s docs, don’t use it for anything serious. If the version number of the package is below 1.0, be ready to keep track of its development (since most package developers follow a pattern like <a href="http://r-pkgs.had.co.nz/release.html">the one Hadley Wickham’s</a>). Tools for input, output or graphing are fragile in any language, so isolate the code that depends on them as much as possible.
+<strong>My opinion on trusting packages.</strong> If you don’t understand a package’s docs, don’t use it for anything serious. If the version number of the package is below 1.0, be ready to keep track of its development (since most package developers follow a pattern like <a href="http://r-pkgs.had.co.nz/release.html">Hadley Wickham’s</a>). Packages for input, output or graphing are fragile in any language, so isolate the code that depends on them as much as possible.
 </div>
 <p></p>
 </div>
@@ -770,7 +770,7 @@ x /<span class="st"> </span>y</code></pre></div>
 <h3><span class="header-section-number">2.4.2</span> Passing arguments</h3>
 <p>Compare the documentation <code>?vector</code> against usage in <a href="basics.html#initializing">2.1.11</a>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="kw">vector</span>(<span class="dt">length =</span> <span class="dv">5</span>, <span class="dt">mode =</span> <span class="st">&quot;list&quot;</span>)</code></pre></div>
-<p>The arguments are being passed out-of-order, but this still works since the arguments are being passed by name. Passing arguments by the position, like <code>sort(x, TRUE)</code>, is a riskier proposition, since it is harder to get right initially and to interpret correctly later.</p>
+<p>The arguments are being passed out-of-order, but this still works since the arguments are being passed by name. Passing arguments by the position, like <code>sort(x, TRUE)</code>, is a riskier proposition, since it is harder to get right initially and to interpret correctly later. Some data.table idioms for merging (<a href="work.html#dt-merging">3.7</a>) involve passing arguments out-of-order.</p>
 </div>
 <div id="lapply" class="section level3">
 <h3><span class="header-section-number">2.4.3</span> Iterating over a list</h3>
@@ -798,7 +798,7 @@ x /<span class="st"> </span>y</code></pre></div>
   x[<span class="dv">1</span>] =<span class="st"> </span><span class="dv">999</span>
   <span class="kw">return</span>(x)
 }</code></pre></div>
-<p><code>return</code> provides the return value. If a <code>return</code> statement is reached before the end of a function, the rest of the code is not run. If no return statement is given, the last value is used. To return multiple objects, combine them in a list and return it instead.</p>
+<p><code>return</code> provides the return value. If a <code>return</code> command is reached before the end of a function, the rest of the code is not run. If no <code>return</code> command is given, the last value is used. To return multiple objects, combine them in a list and return it instead.</p>
 <p>As with most other objects, R allows function names to be reused without warning, like</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">min =<span class="st"> </span>max</code></pre></div>
 <p>Of course, this is usually a bad idea. To eliminate the custom function and revert to the base value, use <code>rm</code>:</p>
@@ -806,23 +806,35 @@ x /<span class="st"> </span>y</code></pre></div>
 </div>
 <div id="scoping" class="section level3">
 <h3><span class="header-section-number">2.4.5</span> Scoping</h3>
-<p>Notice that in the last section, <code>f</code> modifies its input. Does this carry over after a function call?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f =<span class="st"> </span>function(x){
+<p>Consider a function that modifies its input:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># example function</span>
+f =<span class="st"> </span>function(x){
   x[<span class="dv">1</span>] =<span class="st"> </span><span class="dv">999</span>
   <span class="kw">return</span>(x)
-}
-z =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)
+}</code></pre></div>
+<p>Does modification inside the function alter the object passed to it?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">z =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)
 <span class="kw">f</span>(z)</code></pre></div>
 <pre><code># [1] 999   2   3</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">z</code></pre></div>
 <pre><code># [1] 1 2 3</code></pre>
-<p>We see that it does not carry over. Usually, nothing created or altered inside a function does, meaning there are no <a href="http://programmers.stackexchange.com/q/40297/104607">side effects</a>. There are ways to write functions with side effects in base R (<code>&lt;&lt;-</code> and <code>assign</code>), but these are discouraged:</p>
+<p>We see that the modification does not carry over to the input itself. Usually, nothing created or altered inside a function does, meaning there are no <a href="http://programmers.stackexchange.com/q/40297/104607">side effects</a>. There are ways to write functions with side effects in base R (<code>&lt;&lt;-</code> and <code>assign</code>), but these are discouraged:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fortunes::<span class="kw">fortune</span>(<span class="st">&quot;assign&quot;</span>)</code></pre></div>
 <pre><code># 
-# The only people who should use the assign function are those who fully
-# understand why you should never use the assign function.
-#    -- Greg Snow
-#       R-help (July 2009)</code></pre>
+# So, with the item in the original query:
+# 
+#   if (x&lt;-3) do_something;
+# 
+# if they wrote it as
+# 
+#   if (x&lt;(-3)) do_something;
+# 
+# there would be no problem (and no doubt about what went with what). Of
+# course in complicated expressions this could induce an episode of ocular
+# lispopia, but apart from that it&#39;s safe!
+#    -- Ted Harding (about potential confusion between assignment and
+#       comparisons with negative numbers)
+#       R-devel (August 2010)</code></pre>
 <p>The data.table package, introduced in <a href="work.html#data-table">3.1.2</a>, has a different design philosophy regarding the mutability of objects by functions. <em>Its core functions almost all hinge on side effects</em>.</p>
 </div>
 <div id="lazy" class="section level3">
@@ -873,7 +885,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nrow</code></pre></div>
 <pre><code># function (x) 
 # dim(x)[1L]
-# &lt;bytecode: 0x000000001245c2d8&gt;
+# &lt;bytecode: 0x000000001228c420&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">replace</code></pre></div>
 <pre><code># function (x, list, values) 
@@ -881,7 +893,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 #     x[list] &lt;- values
 #     x
 # }
-# &lt;bytecode: 0x0000000016501ca8&gt;
+# &lt;bytecode: 0x00000000166940c0&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <p>The last two rows of these functions show (i) that they are compiled and (ii) the environment they were defined in.</p>
 <p>Many functions are not “exported” for direct use. Nonetheless, their code may be found using <code>getAnywhere</code> or accessed directly using <code>:::</code> syntax:</p>
@@ -889,7 +901,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 utils:::head.default</code></pre></div>
 <p>Many such hidden functions are “methods,” discussed further in <a href="quirks.html#methods">4.4</a>. There are also several functions that <em>should</em> be hidden, documented at <code>?.subset</code>, <code>?.getNamespace</code> and elsewhere. These docs always have prominent notes like:</p>
 <blockquote>
-<p>Not intended to be called directly, and only visible because of the special nature of the <strong>base</strong> namespace.</p>
+<p>Not intended to be called directly, and only visible because of the special nature of the base namespace.</p>
 </blockquote>
 <p>Heed the docs and don’t use any hidden or should-be-hidden functions directly.</p>
 <p>Other functions indicate that their core functionality is written elsewhere:</p>
@@ -962,8 +974,9 @@ x   =<span class="st"> </span><span class="dv">2</span>*i2 -<span class="st"> </
 <div id="data-frames" class="section level2">
 <h2><span class="header-section-number">2.6</span> Data frames</h2>
 <p><em>My recommendation is always to use a data.table (introduced in <a href="work.html#data-table">3.1.2</a>) instead of a data frame, so I’ve kept this section short.</em></p>
-<p>Vectors and matrices are fine once we’re estimating a statistical model. However, we typically start with data consisting of many observations of multiple variables of varying types. To store data of different types, a vector of matrix won’t work; we need a list. R offers a special list structure, the data frame, for this common situation (you know, of having a tabular data set):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DF =<span class="st"> </span><span class="kw">data.frame</span>(
+<p>Vectors and matrices are fine once we’re estimating a statistical model. However, we typically start with data consisting of many observations of multiple variables of varying types. To store data of different types, a vector of matrix won’t work; we need a list. R offers a special list structure, the data frame, for this common situation:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># example data</span>
+DF =<span class="st"> </span><span class="kw">data.frame</span>(
   <span class="dt">x =</span> letters[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)], 
   <span class="dt">y =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>), 
   <span class="dt">z =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>) &gt;<span class="st"> </span><span class="dv">3</span>
@@ -975,7 +988,7 @@ DF</code></pre></div>
 # 3 c 3 FALSE
 # 4 d 4  TRUE
 # 5 e 5  TRUE</code></pre>
-<p>Data frames are printed with observations on rows and variables on columns. In many ways, they behave like matrices: working with functions like <code>dim</code>, <code>ncol</code>, <code>nrow</code>, <code>head</code> and <code>tail</code>; using <code>DF[i, j]</code> syntax for slices; and even using <code>DF[im]</code> syntax for matrix indexing (which rarely makes sense).</p>
+<p>Data frames are printed with observations on rows and variables on columns. In many ways, they behave like matrices: working with functions like <code>dim</code>, <code>ncol</code>, <code>nrow</code>, <code>head</code> and <code>tail</code>; using <code>DF[i, j]</code> syntax for slices; and even using <code>DF[im]</code> syntax for matrix indexing.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DF[<span class="dv">3</span>, ]</code></pre></div>
 <pre><code>#   x y     z
 # 3 c 3 FALSE</code></pre>
@@ -986,10 +999,10 @@ DF</code></pre></div>
 # 3 FALSE
 # 4  TRUE
 # 5  TRUE</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">im =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="dv">2</span>, <span class="dv">2</span>, <span class="dt">byrow=</span><span class="ot">TRUE</span>)
-DF[im]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">im =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="dv">2</span>, <span class="dv">2</span>, <span class="dt">byrow=</span><span class="ot">TRUE</span>) 
+DF[im] <span class="co"># DON&#39;T DO THIS</span></code></pre></div>
 <pre><code># [1] &quot;a&quot; &quot;2&quot;</code></pre>
-<p>The last item above is nonsensical in two ways:</p>
+<p>The last item above, <code>DF[im]</code> is nonsensical in two ways:</p>
 <ul>
 <li>First, all elements in the result are coerced to a single type.</li>
 <li>Second, we are referring to variables by column number instead of name.</li>
