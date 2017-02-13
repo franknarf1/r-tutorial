@@ -12,7 +12,9 @@
   background: #141414;
   background: linear-gradient(to bottom, #333333 0%, #141414 100%);
   border-bottom: 2px solid #0fa1e0;
-  width: auto;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
 }
 #TOC:after,
 #TOC ul:after {
@@ -125,33 +127,37 @@
 #TOC ul {
   font-size: 1.2rem;
 }
-.rmdcaution {
+.rmd-caution {
   padding: 1em 1em 1em 4em;
   margin-bottom: 10px;
-  background: #FFFF99 url("images/1459472920_attention.png") left center/3em no-repeat;
+  background: /* #FFFF99 */ url("images/1459472920_attention.png") left center/3em no-repeat;
+  border-style:solid;
+  border-color:#FFFF00;
 }
-.rmdcaution:before {
+.rmd-caution:before {
   font-style: italic;
-  content: "Word of warning";
+  content: "";
 }
-.rmdnote {
+.rmd-details {
   padding: 1em 1em 1em 4em;
   margin-bottom: 10px;
-  background: #99FF99 url("images/1459472947_idea.png") left center/3em no-repeat;
+  background: /* #99FF99 */ url("images/1459472947_idea.png") left center/3em no-repeat;
+  border-style:solid;
+  border-color:#00FF00;
 }
-.rmdnote:before {
+.rmd-details:before {
   font-style: italic;
-  content: "Technical detail";
+  content: "";
 }
-.spnote {
+.spcaution {
   /*background: #FFFFCC;*/
 }
-.spnote:before {
+.spcaution:before {
   font-variant:small-caps;
   content:"Note";
   background:#FFFF33;
 }
-.spnote:after {
+.spcaution:after {
   background:#FFFF33;
   content: "\2318";
 }
@@ -167,9 +173,14 @@
   background:#66FF66;
   content: "\2318";
 }
-blockquote {
-  font-size: small;
+.level1 {
+  margin-top: 60px;
 }
-
-
+.section::before {
+  /*Using @Jerry's answer http://stackoverflow.com/a/9618795/ */
+  content:"";
+  display:block;
+  height:60px;
+  margin:-60px 0 0;
+}
 

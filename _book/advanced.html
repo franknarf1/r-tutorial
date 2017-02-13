@@ -8,27 +8,27 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:title" content="Quick R Tutorial" />
+<meta property="og:title" content="  Quick R Tutorial" />
 <meta property="og:type" content="book" />
 
 
-<meta property="og:description" content="This book covers the essentials for using R." />
+<meta property="og:description" content="This book covers the essentials of using R." />
 
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2016-09-20" />
+<meta name="date" content="2017-02-13" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   TeX: { equationNumbers: { autoNumber: "AMS" } }
 });
 </script>
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<meta name="description" content="This book covers the essentials for using R.">
+<meta name="description" content="This book covers the essentials of using R.">
 
-<title>Quick R Tutorial</title>
+<title>  Quick R Tutorial</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -36,6 +36,7 @@ MathJax.Hub.Config({
 <script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -113,7 +114,8 @@ img {
 <ul>
 <li class="has-sub"><a href="index.html#introduction"><span class="toc-section-number">1</span> Introduction</a><ul>
 <li><a href="index.html#getting-started-with-r"><span class="toc-section-number">1.1</span> Getting started with R</a></li>
-<li><a href="index.html#about-this-book"><span class="toc-section-number">1.2</span> About this book</a></li>
+<li><a href="index.html#reading-this-book"><span class="toc-section-number">1.2</span> Reading this book</a></li>
+<li><a href="index.html#about-this-book"><span class="toc-section-number">1.3</span> About this book</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#basics"><span class="toc-section-number">2</span> Basics</a><ul>
 <li class="has-sub"><a href="basics.html#vectors"><span class="toc-section-number">2.1</span> Vectors</a><ul>
@@ -162,7 +164,7 @@ img {
 <li><a href="basics.html#inspect-fns"><span class="toc-section-number">2.4.10</span> Inspecting function source code</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#loops"><span class="toc-section-number">2.5</span> Loops and control flow</a><ul>
-<li><a href="basics.html#thinking-about-for-loops"><span class="toc-section-number">2.5.1</span> Thinking about <code>for</code> loops</a></li>
+<li><a href="basics.html#for-loops"><span class="toc-section-number">2.5.1</span> Thinking about <code>for</code> loops</a></li>
 <li><a href="basics.html#ifelse"><span class="toc-section-number">2.5.2</span> <code>if</code>/<code>else</code> elementwise</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#data-frames"><span class="toc-section-number">2.6</span> Data frames</a><ul>
@@ -184,34 +186,42 @@ img {
 <li><a href="work.html#selecting-by-group-statistic"><span class="toc-section-number">3.3.2</span> Selecting by group statistic</a></li>
 <li><a href="work.html#selecting-rows-within-each-group"><span class="toc-section-number">3.3.3</span> Selecting rows within each group</a></li>
 </ul></li>
-<li class="has-sub"><a href="work.html#dt-summary-stats"><span class="toc-section-number">3.4</span> Summary statistics</a><ul>
-<li><a href="work.html#counting-rows"><span class="toc-section-number">3.4.1</span> Counting rows</a></li>
-<li><a href="work.html#the-summary-function"><span class="toc-section-number">3.4.2</span> The <code>summary</code> function</a></li>
-<li><a href="work.html#create-aggregated-table"><span class="toc-section-number">3.4.3</span> Create aggregated table</a></li>
-<li><a href="work.html#save-to-current-table"><span class="toc-section-number">3.4.4</span> Save to current table</a></li>
+<li class="has-sub"><a href="work.html#dt-subassign"><span class="toc-section-number">3.4</span> Modifying data in-place</a><ul>
+<li><a href="work.html#dt-col-create"><span class="toc-section-number">3.4.1</span> Creating columns</a></li>
+<li><a href="work.html#removing-columns"><span class="toc-section-number">3.4.2</span> Removing columns</a></li>
+<li><a href="work.html#replacing-entire-columns"><span class="toc-section-number">3.4.3</span> Replacing entire columns</a></li>
+<li><a href="work.html#dt-ifelse"><span class="toc-section-number">3.4.4</span> Replacing columns conditionally</a></li>
+<li><a href="work.html#iterating-over-columns"><span class="toc-section-number">3.4.5</span> Iterating over columns</a></li>
+<li><a href="work.html#avoiding-in-place-modification"><span class="toc-section-number">3.4.6</span> Avoiding in-place modification</a></li>
 </ul></li>
-<li class="has-sub"><a href="work.html#dt-subassign"><span class="toc-section-number">3.5</span> Modifying data in-place</a><ul>
-<li><a href="work.html#dt-col-create"><span class="toc-section-number">3.5.1</span> Creating columns</a></li>
-<li><a href="work.html#removing-columns"><span class="toc-section-number">3.5.2</span> Removing columns</a></li>
-<li><a href="work.html#replacing-entire-columns"><span class="toc-section-number">3.5.3</span> Replacing entire columns</a></li>
-<li><a href="work.html#dt-ifelse"><span class="toc-section-number">3.5.4</span> Replacing columns conditionally</a></li>
-<li><a href="work.html#iterating-over-columns"><span class="toc-section-number">3.5.5</span> Iterating over columns</a></li>
-<li><a href="work.html#another-interface-set"><span class="toc-section-number">3.5.6</span> Another interface, <code>set</code></a></li>
-<li><a href="work.html#avoiding-in-place-modification"><span class="toc-section-number">3.5.7</span> Avoiding in-place modification</a></li>
+<li class="has-sub"><a href="work.html#dt-merging"><span class="toc-section-number">3.5</span> Joins</a><ul>
+<li><a href="work.html#join-multimatch"><span class="toc-section-number">3.5.1</span> Handling multiply-matched rows</a></li>
+<li><a href="work.html#handling-unmatched-rows"><span class="toc-section-number">3.5.2</span> Handling unmatched rows</a></li>
+<li><a href="work.html#update-join"><span class="toc-section-number">3.5.3</span> Update join</a></li>
+<li><a href="work.html#cross-join"><span class="toc-section-number">3.5.4</span> Cross join</a></li>
+<li><a href="work.html#advanced-joins"><span class="toc-section-number">3.5.5</span> Advanced joins</a></li>
 </ul></li>
-<li><a href="work.html#dt-merging"><span class="toc-section-number">3.6</span> Joins</a></li>
-<li class="has-sub"><a href="work.html#managing-data-types"><span class="toc-section-number">3.7</span> Managing data types</a><ul>
-<li><a href="work.html#dates-times"><span class="toc-section-number">3.7.1</span> Dates and times</a></li>
-<li><a href="work.html#list-columns"><span class="toc-section-number">3.7.2</span> List columns</a></li>
+<li><a href="work.html#expanding-rows"><span class="toc-section-number">3.6</span> Expanding rows</a></li>
+<li class="has-sub"><a href="work.html#dt-summary-stats"><span class="toc-section-number">3.7</span> Summary statistics</a><ul>
+<li><a href="work.html#counting-rows"><span class="toc-section-number">3.7.1</span> Counting rows</a></li>
+<li><a href="work.html#the-summary-function"><span class="toc-section-number">3.7.2</span> The <code>summary</code> function</a></li>
+<li><a href="work.html#create-aggregated-table"><span class="toc-section-number">3.7.3</span> Create aggregated table</a></li>
+<li><a href="work.html#save-to-current-table"><span class="toc-section-number">3.7.4</span> Save to current table</a></li>
 </ul></li>
-<li class="has-sub"><a href="work.html#structuring-data"><span class="toc-section-number">3.8</span> Managing multiple data sets</a><ul>
-<li><a href="work.html#tables"><span class="toc-section-number">3.8.1</span> Browsing loaded objects</a></li>
+<li class="has-sub"><a href="work.html#managing-data-types"><span class="toc-section-number">3.8</span> Managing data types</a><ul>
+<li><a href="work.html#dates-times"><span class="toc-section-number">3.8.1</span> Dates and times</a></li>
+<li><a href="work.html#list-columns"><span class="toc-section-number">3.8.2</span> List columns</a></li>
 </ul></li>
-<li class="has-sub"><a href="work.html#exploring-data"><span class="toc-section-number">3.9</span> Exploring data</a><ul>
-<li><a href="work.html#reshaping"><span class="toc-section-number">3.9.1</span> Reshaping</a></li>
+<li class="has-sub"><a href="work.html#structuring-data"><span class="toc-section-number">3.9</span> Managing multiple data sets</a><ul>
+<li><a href="work.html#tables"><span class="toc-section-number">3.9.1</span> Browsing loaded objects</a></li>
 </ul></li>
-<li><a href="work.html#input-output"><span class="toc-section-number">3.10</span> Input and output</a></li>
-<li><a href="work.html#approximation-optimization-and-regression"><span class="toc-section-number">3.11</span> Approximation, optimization and regression</a></li>
+<li class="has-sub"><a href="work.html#exploring-data"><span class="toc-section-number">3.10</span> Exploring data</a><ul>
+<li><a href="work.html#reshaping"><span class="toc-section-number">3.10.1</span> Reshaping</a></li>
+</ul></li>
+<li class="has-sub"><a href="work.html#input-output"><span class="toc-section-number">3.11</span> Input and output</a><ul>
+<li><a href="work.html#fread"><span class="toc-section-number">3.11.1</span> fread</a></li>
+</ul></li>
+<li><a href="work.html#approximation-optimization-and-regression"><span class="toc-section-number">3.12</span> Approximation, optimization and regression</a></li>
 </ul></li>
 <li class="has-sub"><a href="quirks.html#quirks"><span class="toc-section-number">4</span> Quirks</a><ul>
 <li><a href="quirks.html#matrix-more"><span class="toc-section-number">4.1</span> Matrix tools</a></li>
