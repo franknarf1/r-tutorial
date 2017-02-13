@@ -474,6 +474,8 @@ locDT[, .cjid := NULL ]
 
 This is likely to get simpler [eventually](https://github.com/Rdatatable/data.table/issues/1717).
 
+... explain `CJ`...
+
 ### Advanced joins
 
 The merges above work for almost everything I do, but there are other options as well. See `?merge`.
@@ -491,7 +493,26 @@ There are a few other pieces of join syntax that come in handy:
 
 ## Expanding rows
 
-to fill in missing values
+Suppose we have a table measuring wealth by person and year.
+
+```{r expandrows-pre, echo=1}
+DT = data.table(psn_id = c(1L, 1L, 2L), year = c(1998L, 2000L, 2000L), wealth = 24:22)
+DT
+```
+
+Now we want a person-year row for every every person and for every year from the lowest to the highest. We can do this with `CJ` and a standard join:
+
+```{r expandrows-pre, echo=1}
+DT = data.table(psn_id = c(1L, 1L, 2L), year = c(1998L, 2000L, 2000L), wealth = 24:22)
+DT
+```
+
+
+
+
+## Reshaping to wide format
+
+
 
 ## Summary statistics {#dt-summary-stats}
 
