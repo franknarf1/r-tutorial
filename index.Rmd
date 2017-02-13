@@ -9,7 +9,13 @@ description: "This book covers the essentials for using R."
 
 # Introduction
 
-This book covers the basics of using R, without going into discussion of statistical methodology. Chapters \@ref(basics) and \@ref(quirks) will get you up to speed on navigating R. Chapter \@ref(work) covers common tasks: working with data and running optimization routines. The final chapter covers tables and graphs; my suggestions for programming; and various computational pitfalls.
+This document covers the basics of using R, without going into discussion of statistical methodology. Chapters \@ref(basics) and \@ref(quirks) will get you up to speed on navigating R. Chapter \@ref(work) covers common tasks: working with data and running optimization routines. The final chapter covers tables and graphs; my suggestions for programming; and various computational pitfalls.
+
+Why R instead of Stata? 
+
+- Of course, it's free, so you can run your code now and into the future.
+- Objects are treated symmetrically, so we don't have to use different rules for data tables, matrices, functions and variables. Nor do we have to learn new rules for when those objects are in Stata vs Mata or when data is loaded in memory vs on disk. Nor do we have to shuttle objects around between the various levels encountered in Stata.
+- While Stata restricts by-group operations to a select few, R effectively allows `by g: {multiple lines of arbitrary code} if condition`, as seen in \@ref(data-table).
 
 ## Getting started with R
 
@@ -19,16 +25,14 @@ After installation, I know of two good options for running R on Windows:
 
 - Hook up R to notepad++ with [NppToR](https://sourceforge.net/projects/npptor/). This allows you to edit R scripts alongside all other documents. Commands are passed to the R console by customizable shortcuts and switching between multiple running consoles is easy.
 
-- Install [the Rstudio development environment](https://www.rstudio.com/), which is restricted to one instance of R at a time and has a clumsy interface (no drag-and-drop of scripts into the editor, nor data into the console; an unhidable sidebar). On the other hand, it has handy "development" features that made compiling this tutorial a snap and would probably prove helpful if writing a package to contribute to CRAN.
-
-Rstudio also has the nice feature of not requiring administrator privileges for installation, which makes it a good choice for trying out R.
+- Install [the Rstudio development environment](https://www.rstudio.com/), which is restricted to one instance of R at a time and has a clumsy interface: an unhidable sidebar, and no drag-and-drop (of scripts into the editor, nor data into the console). On the other hand, it has handy "development" features that made compiling this tutorial a snap and would probably prove helpful if writing a package to contribute to CRAN. Rstudio also has the nice feature of not requiring administrator privileges for installation, which makes it a good choice for trying out R.
 
 ## About this book
 
 The book's R code was compiled using R, maintained by [the R Foundation](https://www.r-project.org/); written in the [Rstudio IDE](https://www.rstudio.com/products/rstudio/); and typeset with [Rmarkdown](http://rmarkdown.rstudio.com/) and [bookdown](https://bookdown.org/) by RStudio. Icons are from the ["Very Basic. Android L Lollipop" set by Ivan Boyko](https://www.iconfinder.com/iconsets/very-basic-android-l-lollipop).
 
 <span class="spdetails">
-  Some notes give technical details and can be skipped.
+  Some notes give technical details and can be skipped the first time through.
 </span>
 
 <span class="spnote">
@@ -36,3 +40,12 @@ The book's R code was compiled using R, maintained by [the R Foundation](https:/
 </span>
 
 Exercises are interspersed and should be pretty quick to do.
+
+... testing ...
+
+```{block2 bracket-docs, type='rmdcaution'}
+For documentation on the last two sections, you can type ``?`[[` ``. Paired brackets are just named after their opener. This naming pattern will come up again in \@ref(lapply) when working with lists of lists. 
+```
+
+
+

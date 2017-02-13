@@ -1,14 +1,200 @@
-# Advanced tools {#advanced}
+# Miscellaneous {#advanced}
 
 You probably won't need to think about these on your first few projects.
 
+I don't even have very fixed ideas about them myself, but decided to write down my thoughts anyways, mostly for my own reference.
+
+
+
+## Fancy function definitions
+
+list(...) fanciness in functions
+
+### Custom operators 
+
+#### Custom unary prefix operator
+
+#### Custom binary infix operator
+
+
 ## Output tables and graphs
 
+automatic selection with plot
+  (numeric, numeric)
+  (numeric, factor)
 
-## Program structure
+output to pdf slideshow
+
+par + mfrow
+
+tricks for printing text tables
+
+as with I/O functions, graphing packages will always be under active development and cannot be relied on. don't build anything too fancy on non-base syntax or it will become a nightmare to maintain.
+
+exploring data feeds (my rr() and rr2() functions ... need to work on hideby=/noby=)
+
+note: for loops are fine/good for this; DT[, j, by] also work; lapply(res, `[[`,"name") is another common idiom
+
+https://www.datacamp.com/community/tutorials/15-questions-about-r-plots
+
+## Style
+
+write so that you do not need to repeat variable names
+
+don't refer to columns by number
 
 
 
-## Rcpp {#rcpp}
+## Program structure {#programming}
+
+source is for scripts, load is for data, etc.
+
+decide what should be a parameter and use it as such, obvs.
+
+setwd
+
+preamble -- clear, get libraries, document
+
+clearly separate data processing from analysis, to the point where you could easily split them into two separate scripts in a few minutes if needed
+
+similarly, separate analysis from generation of output tables and graphs
+
+similarly, separate run parameters related to each stage into groups in the preamble
+
+define dirs at the top of the file and always refer to them by var name, not raw path
+
+choose a comment structure and stick to it
+
+indent and use white space liberally
+
+
+### Reused code
+
+auxiliary files with reused functions
+
+again, i don't want to develop a package just for this. from where i sit, it looks like a lot more overhead and fragility than a plain file
+
+### Shortcuts
+
+personally, i write and use a qw. it may make excerpts from the code nonportable to forum posts, but who cares? if a colleague needs to read my code, it costs them 10 seconds to learn what the function does.
+
+on the other hand, i would never use T and F as shortcuts to TRUE and FALSE. F is a CDF and T is the number of periods
+
+and absolutely no to regex outside the data-cleaning phase, and even there it should be limited. never use regex on column names
+
+### Mapping values
+
+always have a table, either as an input csv or defined in the program
+
+merge on that table -- don't do if-else
+
+if you're making a categorical variable in some more complicated way that demands an if-else structure, still save the resulting map 
+
+### The formula interface {#formula-interface}
+
+needed for regression, whether with `model.matrix` or a regression function like `lm`
+
+also needed for reshaping, whether with `aggregate` or `dcast`
+
+read the docs carefully for the syntax, which is quite nice. however, it's not so easy to change a formula
+
+do what you can to minimize its scope
+
+http://stackoverflow.com/q/4951442
+
+http://stackoverflow.com/q/18017765
+
+?formula
+
+http://ww2.coastal.edu/kingw/statistics/R-tutorials/formulae.html
+
+http://faculty.chicagobooth.edu/richard.hahn/teaching/formulanotation.pdf
+
+http://stackoverflow.com/q/4392042/
+
+http://stackoverflow.com/questions/9585890 -- a very nice usage, i think
+
+http://stackoverflow.com/q/21330633/
+
+http://stackoverflow.com/q/29563622/
+
+http://stackoverflow.com/q/2427279/
+
+http://stackoverflow.com/q/1300575/
+
+http://stackoverflow.com/q/32616762/ -- very helpful
+
+### Reproducible research
+
+develop and publish a package? maybe. sounds like overkill to me
+
+knitr/rmarkdown seem promising, plus whatever that tool is that bundles/snapshots package versions
+
+## Advanced tools
+
+### Profiling
+
+common sense takes you a long ways. i have never needed profiling -- just think carefully about your problem and notice when you're stepping into combinatorially costly operations.
+
+options(datatable.verbose = TRUE)
+
+debugonce()
+
+(whatever else for profiling)
+
+
+### Rcpp {#rcpp}
+
+it can speed up your code
+
+it is dead simple to read and write
+
+it is often be more elegant, e.g., because C++ has unordered sets as a basic data type http://stackoverflow.com/a/35559972 and also linked lists and such. all the nice stuff proper programming languages have
+
+R itself is written in C, as is the core functionality of data.table
+
+### Combinatorial problems
+
+If you're iterating over rows in DT1 and rows in DT2 -- do a merge
+
+if you're running a simulation, be aware of how many dimensions you're varying
+
+outer -- eats memory right quick
+
+CJ, combn, expand.grid
+
+### Rolling operations
+
+fill down with by
+
+fill down with na.locf
+
+merge-fill down with rolling joins
+
+### Parallelization
+
+e.g., for bootstrapping. the cheap way is to use perl or r to write a script that calls the program many times
+
+### Intervals 
+
+IRanges, foverlaps
+
+(compare with rle), overlap joins
+
+### Graph theory
+
+Don't reinvent the wheel. Use igraph if it fits
+
+### Dynamic programming
+
+i did it with data.table, but there may be more efficient approaches that rely only on matrices
+
+### Working with files on disk
+
+yeah, this seems to be changing all the time
+
+database interfacing and such, maybe you are tied to the DB and can't switch to R (no problem); maybe you can't fit the data in memory (start over from the beginning and rethink everything and/or learn AWS)
+
+
 
 

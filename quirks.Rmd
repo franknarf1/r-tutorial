@@ -1,37 +1,386 @@
 # Quirks {#quirks}
 
-This chapter is for when you know the right tool for the job, but don't know where it is in R; or for when you have picked up a tool, but it is behaving less like a hammer than a staple-gun shooting you in the foot.
+This chapter is a reference, for when you know the right tool for the job, but don't know where it is in R; or for when you have a tool, but it behaves less like a hammer than a nailgun shooting you in the foot. 
 
-## Tallying
+The major quirks were covered in \@ref(basics)'s <span class="spnote" id="quirk-dummy"></span>s. What's left is mostly thanks to R's lack of a consistent naming pattern for functions.
 
-coercion of logical to integer -- very useful
+## Matrix tools {#matrix-more}
 
-table
+- *Make identity matrix* `diag(n)`
+- *Make matrix with vector on diagonal* `diag(v)`
+- *Extract diagonal* `diag(X)`
 
-plot.table
+I don't know of a clean way to make standard basis vectors.
 
-note -- methods("plot"), methods(class="table")
+## Randomization
 
-tallying continuous variables with cut
+To draw `n` random numbers from the unit interval, use `runif(n)`. All random-draw functions follow this naming convention -- `rnorm`, `rpoisson`, `rbinom` -- for a full list of the built-in ones, type `?distributions`. Many more are offered in packages that can be found by searching online.
 
-## Finding a value or interval
+To make your draw reproducible, use `set.seed` before it:
 
-match with lists is not great
+```{r set-seed, eval=FALSE}
+set.seed(1)
+rnorm(10)
+```
 
-findInterval
+To take `n` samples from `x` with replacement, where `p[i]` is the probability of drawing `x[i]`: 
 
-## Set operations
+```{r sample, eval=FALSE}
+sample(x, prob = p, size = n, replace = TRUE)
+```
 
-%in% is really match
+The help page `?sample` covers many other use cases. There is one to be very wary of, however:
 
-we'll see these again with data.tables
+```{r sample-bad}
+set.seed(1)
+x = c(6.17, 5.16, 4.15, 3.14)
+sample(x, 2, replace = TRUE)
+y = c(6.17)
+sample(y, size = 2, replace = TRUE)
+```
 
-## Runs and sequences
+Where did `4` and `6` come from? Those aren't elements of `y`!
 
-seq is dangerous
+<span class="spnote" id="sampling">
+**Sampling from a numeric vector.** I should have sampled from `y`s indices like `y[sample.int(length(y), size = 2, replace = TRUE)]`. Vanilla `sample` cannot be trusted on numeric or integer vectors unless you are sure they have a length greater than 1. 
+</span>
 
-rle is excellent
+runif
+sample(n)
+sample(vec) -- very unsafe if length is dynamic
+replicate
 
-## `lapply` {#lapply}
+## Lag operators {#lag}
 
+Data.table provides a convenient tool for the lag operator and its inverse:
+
+```{r shift}
+x = c(1, 2, 3, 4)
+shift(x)                # lag
+shift(x, 0:3)           # multiple lags
+shift(x, type = "lead") # lead
+```
+
+`shift` always returns vectors of the same length. The `embed` function from base R instead simply cuts all the vectors down to size:
+
+```{r embed}
+embed(x, 3)
+```
+
+## Functions' methods {#methods}
+
+`head` behaves very differently depending on whether it is working with a vector or a data.table:
+
+```{r head-tail-DF}
+v = 1:11
+head(v, 3)
+DT = data.table(1:11, letters[1:11])
+head(DT, 3)
+```
+
+If we look at the head function, we see a fairly unhelpful definition:
+
+```{r head-def}
+head
+```
+
+This tells us that `head(x, n)` looks at `class(x)` and may "dispatch" to a class-specific "method." In this case, it dispatches to `head.data.frame`, which has documentation at `?head.data.frame` like any other function. This help page overlaps with vanilla `?head`, but this is not always the case (e.g., for `?seq` versus `?seq.Date`, introduced in the next section).
+
+To investigate whether a method is being used on `x`, use the `methods` function, which performs a search.
+
+```{r methods}
+methods("head", class(v))
+methods("head", class(DT))
+```
+
+This is not terribly useful either, in terms of narrowing down what's going on, but at least we have some functions to look closer at, using `?` to see docs, or the steps in \@ref(inspect-fns) to see source code. Probably, formal debugging procedures are the proper way to investigate, but that's beyond my skill set currently.
+
+<span class="spdetails" id="fancy-methods">
+Methods are part of R's support for object-oriented programming. In other languages' OO systems, methods are attached to classes; while in R they are attached to functions. (R has countless OO systems, some added by packages, so this might not be strictly true.) To make your own methods, start by reading `?Methods`. I've never needed this functionality myself. 
+</span>
+
+
+## Tallying {#tallying}
+
+To tabulate a variable, use `table`:
+
+```{r table}
+set.seed(1)
+n  = 100
+f  = factor(c("a", "b", "c"))
+x  = f[ sample.int(length(f), size = n, replace = TRUE) ]
+table(x)
+```
+
+For details, consider exploring: 
+
+```{r table-more, eval=FALSE}
+plot(x)
+plot(table(x))
+methods("plot")
+methods(class="table")
+```
+
+We can also tabulate conditions:
+
+```{r table-cond}
+set.seed(1)
+x = rpois(100, lambda = 10)
+table(hix = x > 10)
+```
+
+And make cross-tabs:
+
+```{r table-cross}
+set.seed(1)
+n = 100
+x = rpois(n, lambda = 10)
+y = x^2 + rpois(n, lambda = 10)
+table(hix = x > 10, hiy = y > x + 50)
+```
+
+Data.table syntax for counting rows is covered in \@ref(counting-rows).
+
+## Finding bins for values
+
+With a continuous variable `x`, it often doesn't make sense to tally values as in the last section. However, we can specify bins and find where the values fall:
+
+```{r cut}
+set.seed(1)
+n  = 1000
+x  = rchisq(n, df = 10)
+xc = cut(x, breaks = c(0, 5, 10, 15, 20, Inf)) # or max(x) in place of Inf
+table(xc)
+```
+
+See the note in `?cut` for details on more efficient alternatives:
+
+> Instead of `table(cut(x, br))`, `hist(x, br, plot = FALSE)` is more efficient and less memory hungry. Instead of `cut(*, labels = FALSE)`, `findInterval()` is more efficient.
+
+## Building grouping variables
+
+`cut` and `findInterval` are good ways to construct groups from intervals of a continuous variable.
+
+To group by sequences, it is often useful to take advantage of...
+
+- *Cumulative sums*: `cumsum`
+- *Differencing*: `diff` or `x - shift(x)`, explained in \@ref(lag)
+- *Runs*: `rleid` and `rle`
+
+To label rows *within* a group, use data.table's `rowid`. To label groups, use data.table's `.GRP`, like `DT[, g_id := .GRP, by=g]`.
+
+It's often tempting in R to run computations by row, like `DT[, ..., by=1:nrow(DT)]` but this is almost always a bad idea, both in terms of clarity and speed.
+
+## Finding where a condition holds
+
+To find where a condition holds:
+
+```{r which}
+cond = c("aleph", "baz", "boz") > "b"
+which(cond)
+```
+
+So, it takes us from a logical index to one of positions. This can sometimes speed up computations; and is necessary when facing functions that don't take logical indices.
+
+When using `which` on a matrix or array (see \@ref(matrix-array)), we can find out "where" in terms of row and column using the `arr.ind` option.
+
+Beware of using `which` output as an index:
+
+```{r bad-which}
+x  = 1:5
+w  = which(x^2 > 50)
+x[-w]
+```
+
+We wanted to filter to where `x` meeting our condition, but instead we lost the whole vector. Straight-up logical filtering is the safer route here.
+
+Data.table has `DT[i, which = TRUE]` syntax as well.
+
+## Finding a value
+
+To find exactly matching values:
+
+```{r match}
+match(x = c(23, 45, 15), c(11, 23, 34, 45, 23))
+```
+
+This tells us where `x[1]`, `x[2]` and `x[3]` found their matches in the second vector. If multiple matches exist, only the first is found and returned; and if no match is found, `NA` is returned (or a custom value). 
+
+This is occasionally useful for merges, and is the workhorse behind all the set operators in \@ref(set-ops).
+
+## String operations
+
+In my opinion, very few string operations are necessary after proper data cleaning (discussed in \@ref(structuring-data)).
+
+`nchar(x)` tells you how long a string is, and `substr(x, start, end)` extracts a contiguous substring. `paste`, `paste0` and `sprintf` are used to build strings, while `sub` and `gsub` rewrite strings.
+
+`grep` and its family will match a string pattern, while `regmatches` can extract what matches. `strsplit(x, sep=",")` can split `"Butte, Montana"` into its constituent parts. Handier tools for these tasks are discussed in \@ref(structuring-data).
+
+escaping in regex `\\`
+
+## Built-in constants
+
+R includes several handy constants, like `pi`, the alphabet (`?letters`), months (`?month.name`), days of the week (`?weekdays`) and US state names and abbreviations (`?state`). You don't need to worry about accidentally reusing any of these contants' names for your own variables (though redefining `pi` might not be a great idea).
+
+On a related note, `?Reserved` lists all of R's important built-ins that cannot be overwritten.
+
+## Set operators {#set-ops}
+
+`unique(x)` returns the values appearing of `x`. That is, every element of `unique(x)` is unique .
+
+`x %in% y` tests each element of `x` for membership in `y`, returning a TRUE/FALSE vector of the same length as `x`. 
+
+As documented at `?sets`, we can write
+
+- $x\cup y$ as `union(x,y)`,
+- $x\cap y$ as `intersect(x,y)`,
+- $x\ \backslash\ y$ as `setdiff(x,y)` and 
+- $x = y$ as `setequal(x,y)`.
+
+To extend to finite unions and intersections, we can write
+
+- $\bigcup_{{s}_i=1}^n {s}_i$ as `Reduce(union, sList)` and 
+- $\bigcap_{{s}_i=1}^n {s}_i$ as `Reduce(intersect, sList)`.
+
+To test whether a condition holds anywhere, use `any(cond)`; and to test if it holds everywhere, `all(cond)`.
+
+To investigate overlap between two sets, I suggest rolling a custom function:
+
+```{r set-overlap}
+xtab_set <- function(A, B){
+  both    <-  c(A, B)     # or union(A, B) if there are no dupes in either set
+  inA     <-  both %in% A
+  inB     <-  both %in% B
+  
+  return(table(inA, inB))
+}
+
+set.seed(1)
+A <- sample(letters[1:20], 10, replace = TRUE)
+B <- sample(letters[1:20], 10, replace = TRUE)
+xtab_set(A, B)
+```
+
+It is also possible to visualize set overlaps [using nice packages for Venn diagrams](http://stackoverflow.com/q/31681110).
+
+`unique` works as one might expect on a data.frame (by "dropping duplicated rows" in Stata-speak), but none of the other functions carry over. In section \@ref(dt-set-ops), we'll look at set operations for data.tables.
+
+### set operations {#dt-set-ops}
+
+
+## Working with lists and data frames
+
+If we want to compute a new column for a data frame, the syntax can get messy:
+
+```{r with-needed}
+DF = data.frame(x = 1:3, y = 4:6)
+DF$x + DF$y
+```
+
+There are a few ways to get around this: `with`, `within`, `attach` and `transform`. Among these, only `with` is worth learning, in my opinion. Its syntax -- which works for both data frames and lists -- is like
+
+```{r with, eval=FALSE}
+with(L, {
+  ... do stuff ...
+  
+  result
+})
+```
+
+
+The next section shows a use-case. In \@ref(data-table), we will see data.table's solution to this problem. In \@ref(formula-interface), a 
+
+<span class="spnote" id="dont-attach">
+**`attach()`.** Don't use it.
+</span>
+
+> The possibilities for creating errors when using attach are numerous. Avoid it. -- [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml#attach)
+
+## Combinatorics
+
+outer -> combn section
+
+maybe a nice combinatorics example http://stackoverflow.com/a/36942700
+
+## Runs
+
+In time series, it is common to have repeated values, called "runs" or "spells." To work with these, use `rle` ("run length encoding") and `inverse.rle`: 
+
+```{r rle}
+x = c(1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1)
+rle(x)
+```
+
+Because the result is a list, we can use `with` on it (as discussed in the last section). For example, if we just want the final three runs:
+
+```{r with-rle}
+r = rle(x)
+new_r = with(r, {
+  new_lengths = tail(lengths, 3)
+  new_values  = tail(values, 3)
+  
+  list(lengths = new_lengths, values = new_values)
+})
+inverse.rle(new_r)
+```
+
+In section  ... rleid
+
+## Iterating over lists {#lapply}
+
+lapply
+
+lengths
+
+rbind, cbind
+
+pmin, pmax
+
+do.call and lists of arguments
+
+Map, Reduce
+
+unlist
+
+## Applying functions along a dimension of an array or matrix
+
+only use apply with matrices/arrays and only when there's no better alternative (max.col, etc.)
+
+## Using grouping variables
+
+tapply, ave -- too many quirks in functionality, arguments, names, so don't bother. e.g., x = c("A","B","B"); ave(x, x, FUN = function(z) length(unique(z)) > 1L)  gives characters -- forget that
+
+split
+
+## Chains of functions
+
+magrittr is great for interactive use
+
+but it can slow your code down
+
+
+## Asking questions online
+
+if using random example data, use set.seed
+
+test the example in a new session to make sure it runs on its own
+
+built-in data sets
+
+don't worry about making objects with the same names as built-ins (rivers, state.abb, etc)
+
+use built-in data sets or simple hand-made examples
+
+provide expected output
+
+isolate the problem
+
+if it's a performance question, write the example as a function of n and look at other good performance questions
+
+try your code in a new R session to make sure it works as you described
+
+if it's regex (it's usually regex), maybe don't post to SO, try chat
+
+
+library(help="datasets") as here http://stackoverflow.com/a/8368263/
 

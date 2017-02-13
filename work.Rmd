@@ -1,26 +1,530 @@
-# Getting work done in R {#work}
+# Getting work done {#work}
+
+## Key packages
+
+These packages help me work more efficiently, to the point where I regard them as essential. They'll be used throughout the rest of this document. They don't have any dependencies on other packages, and I expect they'll be available as long as R is. It will be assumed in subsequent sections that these libraries have been loaded:
+
+```{r loadem, echo=FALSE}
+library(magrittr)
+library(data.table)
+```
+
+### Magrittr
+
+Magrittr introduces syntax with "pipes":
+
+```{r magrittr-load, echo=FALSE}
+library(magrittr)
+```
+```{r magrittr-calls, eval=FALSE}
+# allowing
+x %>% f %>% g %>% h
+# instead of 
+h(g(f(x)))
+```
+
+That is, it allows unnesting of function calls for readability. 
+
+In addition, it allows more compact function definitions (\@ref(function-writing)):
+
+```{r magrittr-funs}
+fun = . %>% .^2 %>% sum %>% sqrt
+fun(1:3)
+```
+
+Despite these advantages, magrittr can greatly slow down code, so avoid using it anywhere where speed might be an issue.
+
+To install, just use CRAN:
+
+```{r inst-mgr, eval=FALSE}
+install.packages('magrittr')
+```
+
+The name is a pun on [René Magritte's pipe painting](https://en.wikipedia.org/wiki/The_Treachery_of_Images).
+
+### data.table {#data-table}
+
+Data.table offers a variant of the data frame class (from \@ref(data-frames)), optimized for fast sorted and grouped operations and enhanced with cleaner syntax. It also bundles in a variety of other improvements on base R functionality.
+
+#### Modification by reference
+
+In contrast with the rest of R, data.tables are primarily modified "in-place" without assigning the result, which can be much more efficient. As a first example, we can switch the class of a data frame to data.table:
+
+```{r setDT}
+DF = data.frame(
+  x = letters[c(1, 2, 3, 4, 5)], 
+  y = c(1, 2, 3, 4, 5), 
+  z = c(1, 2, 3, 4, 5) > 3
+)
+str(DF)
+setDT(DF)
+str(DF)
+```
+
+We did not use `=` or `<-` to assign the result of `setDT`; the function simply altered `DF` in-place. All of data.table's functions named like `set*` do this.
+
+#### Factor vs character columns
+
+Another difference is that `data.frame` takes string input as a `factor` variable, as seen above; while `data.table` interprets it as character:
+
+```{r DT}
+DT = data.table(
+  x = letters[c(1, 2, 3, 4, 5)], 
+  y = c(1, 2, 3, 4, 5), 
+  z = c(1, 2, 3, 4, 5) > 3
+)
+str(DT)
+```
+
+#### Syntax
+
+The third major difference is a change in syntax from a data frame's `DF[i,j]`, with `i` and `j` as indices, to SQL-style syntax that is cleaner for by-group operations:
+
+```{r DTsyntax, eval=FALSE}
+# this is only pseudocode:
+DT[where, select|update|do, by]
+```
+
+We can type column names as barewords here, and even form expressions in terms of columns:
+
+```{r DT-ex}
+DT[x > "b", sum(y), by=z]
+```
+
+In addition, this call is optimized: The inequality in `i` triggers creation of an "index" in terms of `x`, making subsequent indexing on `x` faster thanks to binary search, documented at `?indices`. And the `sum` in `j` is computed using an optimized "grouped sum" or `gsum` computation, documented at `?GForce`.
+
+The syntax `DT[i,j,by]` should be read as:
+
+1. Subset using `i`
+1. Group using `by`
+1. Do `j`
+
+The task for `j` can really be anything. For example, going beyond the scope of this document, it's really handy for saving per-group plots:
+
+```{r}
+# note: this will save to your current working directory
+# type getwd() and read ?setwd for details
+
+bwDT = data.table(MASS::birthwt)
+
+pdf(file="birthweight_graphs.pdf")
+bwDT[, {
+  case = sprintf("ftv = %s, smoke = %s", .BY$high_vis, .BY$smoke)
+  
+  cat("Handling", case, "...\n")
+  plot(
+    age ~ lwt, 
+    main = case
+  )  
+}, by=.(high_vis = ftv >= 1, smoke)]
+dev.off()
+```
+
+For each group, we're now printing a line with `cat` and saving a plot. This is better than a `for` loop, since we don't have to manually construct some "split-up data" to iterate over; don't have to worry about intermediate variables like `case` contaminating the global environment; and don't have do define what we're doing as a function of prespecified variables -- we can just use any columns of the data.table.
+
+Plotting graphs is beyond the scope of this document, but the example above should make sense after reading the docs for each object, `?MASS::birtwt`, `?pdf`, et al.
+
+#### Installation
+
+Again, CRAN can be used:
+
+```{r inst-dt, eval=FALSE}
+install.packages('data.table')
+```
+
+However, the package is under active development, with new features available only in the development version. To install it, follow [the instructions from the package wiki](https://github.com/Rdatatable/data.table/wiki/Installation):
+
+```{r inst-dt-dev, eval=FALSE}
+remove.packages("data.table")
+install.packages("data.table", type = "source",
+  repos = "http://Rdatatable.github.io/data.table")
+```
+
+#### Getting started
+
+[The official vignettes](https://github.com/Rdatatable/data.table/wiki/Getting-started) for the package are a great way to start with the package. I started by reading some slides and the FAQ in full before using the package. 
+
+I also found it helpful to turn on verbose output when first learning:
+
+```{r verbose, eval=FALSE}
+options(datatable.verbose=TRUE)
+```
+
+This makes a variety of data.table operations more transparent by means of more detailed messages in the console. See `?data.table` and `?options` for details.
+
+## Building sequences
+
+Use a single colon to build a sequence of integers:
+
+```{r seq-colon}
+3:5
+```
+
+### Counting upwards
+
+If we are running `1..n`, it is safer and more efficient to use `seq_len` than `1:n`:
+
+```{r seq-len, eval=FALSE}
+n_x = 1e5
+n_y = 1e5
+n   = x + y
+z   = seq_len(n)
+```
+
+It is safer in the sense that, were `n` zero, we would get the correct result of a zero-length vector, while `1:0` gives `c(1L, 0L)`.
+
+If we are running a sequence `1...` alongside a vector, then `seq_along` is the right tool:
+
+```{r seq-along}
+x = c(3, 3, 4)
+seq_along(x)
+```
+
+<span class="spdetails"> **R function names.**
+It is not worth trying to make sense of R's naming conventions. Presumably thanks to historical accidents (some involving R's ancestor, S), we have names like `seq.int`, `seq_along`, `setNames` and `Recall`.
+</span>
+
+### Fancier sequences
+
+From here, the variety of options start to resemble what we saw for the `rep` function in \@ref(initializing).
+
+The function `seq.int` extends the colon operator:
+
+```{r seq-int}
+seq.int(5, 10)
+seq.int(5, 10, by = 2)
+seq.int(5, by = 3, length.out = 3)
+seq.int(to = 100, by = -11, length.out = 3)
+```
+
+The `seq` function extends further by allowing for non-integer values:
+
+```{r seq}
+seq(5, 10, by=.5)
+```
+
+## Subsetting {#dt-subset}
+
+### Selecting by value
+
+This is analogous to a SQL WHERE clause or a Stata `if` clause.
+
+```{r dt-sub-pre}
+# example data
+DT = data.table(Titanic)
+```
+
+```{r dt-sub}
+DT[ Class == "Crew" & N > 100 ]
+```
+
+This case, `DT[i]`, is the subsetting task needed in the vast majority of cases. The rest of \@ref(dt-subset) can safely be skipped the first time through; it is mostly useful for reference.
+
+### Selecting by group statistic
+
+This is analogous to a SQL HAVING clause.
+
+```{r dt-sub-gstat}
+DT[ , if (sum(N) < 300) .SD, by=Class ]
+```
+
+We are including the group only if it meets our condition. The structure `if (cond) x` returns `x` if the condition is true and nothing (`NULL`) otherwise, omitting those rows. `.SD` refers to the Subset of the Data associated with each `by=` group.
+
+This syntax isn't as clean as a HAVING clause, but it is likely to improve.
+
+### Selecting rows within each group
+
+```{r dt-sub-grow}
+# select first row
+DT[ , .SD[1L], by=Class ]
+# select row(s) with highest count
+DT[ , .SD[N == max(N)], by=Class ]
+```
+
+<span class="spdetails"> **Efficient selection of rows within each group.** 
+The second task here is [somewhat inefficient](https://github.com/Rdatatable/data.table/issues/735) currently, with a faster workaround [provided by eddi](http://stackoverflow.com/a/16574176): `DT[DT[ , .I[N == max(N)], by=Class ]$V1]`. The variable `.I` represents the row number in the full table, or at least it *should* do that. Currently, `.I` does [not always behave like this](https://github.com/Rdatatable/data.table/issues/1494).
+</span>
+
+## Summary statistics {#dt-summary-stats}
+
+### Counting rows {#counting-rows}
+
+bwDT[, .N, by=ftv]
+
+refer to \@ref(tallying)
+
+### The `summary` function
 
 
-## data.table {#data.table}
 
-subsetting
+### Create aggregated table
 
-subassignment
+collapse
 
-set operations
 
-merges
-
-## Structuring data
+### Save to current table
 
 
 
-## Exploring data
 
 
-## Reading, converting and writing data
+## Modifying data in-place {#dt-subassign}
+
+Creating, editing and removing columns are all done using `:=` in `j` of `DT[i, j, by]`. This functionality operates in-place, in the sense that the underlying data stays in the same place.
+
+<span class="spdetails">
+**What can be modified in-place?** The scope of in-place operations is currently limited to altering columns. Adding and removing rows by reference is not yet supported, since this is harder to do in R, thanks to its column-oriented storage of tables (contrasting with many database systems that store data rowwise for easy INSERT and DELETE queries).
+</span>
+
+### Creating columns {#dt-col-create}
+
+```{r dt-add}
+DT = data.table(
+  x = letters[c(1, 2, 3, 4, 5)], 
+  y = c(1, 2, 3, 4, 5), 
+  z = c(1, 2, 3, 4, 5) > 3
+)
+# creating a column
+DT[, u := 5:1][]
+# creating multiple
+DT[, `:=`(v = 2, w = 3L)][]
+# creating with dynamic names
+nms = c("a", "b", "c")
+DT[, (nms) := .(1, 2, 3)][]
+```
+
+All of these tasks are performed in-place -- altering `DT` without making a new object. Usually, the results are not displayed. They appear here because `[]` is "chained" onto the end of each task.
+
+<span class="spnote">
+**`:=` is the function both for creation and modification of columns.** This will be covered it more detail in subsequent sections, but is worth emphasising. In particular, this contrasts with Stata.
+</span>
+
+### Removing columns
+
+```{r dt-remove}
+nms = c("u", "v", "w", "a", "b", "c")
+DT[, (nms) := NULL][]
+```
+
+A warning will print if you remove any columns that don't currently exist.
+
+### Replacing entire columns
+
+Data.table is careful about column types:
+
+```{r dt-reptot, warning=TRUE}
+DT[, a := 10L ][]
+DT[, a := 21L ][]
+DT[, a := 32.5 ][]
+```
+
+It knows that `a` is of integer type and sees that 32.5 is conspiciously not an integer and so gives a warning when coercing 32.5 to an integer (to match `a`). Elsewhere in R, in contrast, `a` would be coerced to match the float `32.5` -- probably not the behavior we want -- with no warning.
+
+As indicated in the warning message, if we want to change `a`'s type, we have to explicitly replace all values:
+
+```{r dt-reptot-class, warning=TRUE}
+DT[, a := rep(32.5, .N) ][]
+```
+
+The coercion is done silently, but it can be made more visible by turning on `verbose`, which will refer to the "plonking" of a new vector in place of the old.
+
+### Replacing columns conditionally {#dt-ifelse}
+
+This is analogous to a SQL UPDATE query or a replace statement in Stata. To illustrate, we will look again at a vectorized `if`/`else` assignment, mentioned in \@ref(ifelse):
+
+```{r dt-ifelse}
+DT[     , b := "Ants"] # initialize to baseline value
+DT[y > 1, b := "Bats"] # replace based on a condition
+```
+
+This can also be done with chaining:
+
+```{r dt-ifelse-chain}
+DT[, b := "Ants"][y > 1, b := "Bats"]
+```
+
+This chaining works because `DT[...][...]` is evaluated like `(DT[...])[...]` and the return value of the piece in parentheses is a data.table.
+
+As we saw in the last section, partial replacement of a column will trigger a warning if the classes don't match:
+
+```{r dt-ifelse-conflict, warning=TRUE}
+DT[, b := "Ants"][y > 1, b := 111]
+```
+
+Another nice feature, similar to Stata, is reporting of the number of rows modified. This can be seen by turning `verbose` on. (Unfortunately, as of August 2016, this display has [a small departure from Stata's behavior](https://github.com/Rdatatable/data.table/issues/1808).)
+
+### Iterating over columns
+
+Suppose we want to find the maximum value in each column. As we saw in \@ref(lapply-df), we can do this like `lapply(DT, max)`. The `lapply` function is an option here because a data.table, like a data frame, is a list of columns.
+
+With data.table, however, we can go beyond a simple `lapply`. We can, for example, compute the max within each value of `z`, limiting computation to numeric columns:
+
+```{r lapply-dt}
+DT[, 
+   lapply(.SD, max)
+, by=z, .SDcols = { sapply(DT, is.numeric) }]
+```
+
+`.SDcols` is used to filter the columns that appear in `.SD`, the subset of data available in `j`. 
+
+### Another interface, `set`
+
+The `set` function can also be used to modify data by reference. It has efficiency benefits in some cases, but it essentially a more limited version of `:=`.
+
+### Avoiding in-place modification
+
+If you want to create a new data.table instead of modifying in-place, use
+
+```{r dt-copy, eval=FALSE}
+DT2 = copy(DT1)
+```
+
+We have to use this instead of `DT2 = DT1` since with the latter we have only created a new "pointer" to the first data set. I routinely make copies after reading in data so that I can back out where I tripped over something in the process of data cleaning.
+
+## Joins {#dt-merging}
+
+merge-assign + transform / gen http://stackoverflow.com/q/37067905/
+
+more merge-assign http://stackoverflow.com/a/37440011/
+
+
+warn don't switch(), merge, consider using stack, note that match() is basically a merge http://stackoverflow.com/a/36755530/
+
+"joins" or "merges"
+
+
+setkey
+
+X[Y, j] + i.*
+
+ex: ...
+
+X[Y, j, by=.EACHI] + on
+
+X[!Y] + which
+
+rbind, rbindlist
+
+
+
+## Managing data types
+
+use integers when you can, use characters or integers for keys
+
+use characters when it makes sense, don't worry about memory. the real memory problems come from how data is organized, as discussed in \@ref(structuring-data).
+
+remember: do rounding as late as possible -- don't start during the cleaning and exploration phase
+
+
+### Dates and times {#dates-times}
+
+### List columns
+
+list columns -- somewhat clumsy, but sometimes convenient (no by=, shift(); inefficient %in% and match()). can store regression results, for example
+
+consider unique %>% sort %>% toString/paste instead
+
+
+
+## Managing multiple data sets {#structuring-data}
+
+11 structuring data: keys, merging and reshaping (db_design)
+
+background: tidy data / database design
+
+unique, duplicated + fromLast, CJ + unique
+
+
+
+
+setdiff, union, intersect (works with data.table from 1.9.8+)
+
+### Browsing loaded objects {#tables}
+
+ls()
+
+rm()
+
+tables()
+
+
+## Exploring data {#exploring-data}
+
+range, summary
+
+Henk Harmsen on "ergonomics" https://rpubs.com/carbonmetrics/datatable_ihub
+
+`e_bad = DT[, var, by=e_id][var==TRUE, e_id]; DT[.(e_id)] (simpler with having)`
+
+`DT[, .N, by=e_id][order(-N)]`
+
+creating temp vars, printing with []
+
+DT[, do_stuff, j] %>% print(nrow=Inf) with magrittr (warning about performance hit in real nonexploratory code)
+
+hist, hexbin
+
+cor, cormat
+
+exploring models: curve
+
+qqplot etc for the statistically literate, and other tools for ML people
+
+### Reshaping
+
+
+## Input and output {#input-output}
+
+warn forward slashes in file names
+
+
+fread
+
+tstrsplit
+
+as.IDate, IDateTime
+
+wday, weekdays, etc.
+
+show that max, min, inequalities work for dates and times
+
+show how ordered factors can be used to set up inequalities for strings
+
+lapply + .SDcols with date conversion
+
+shortcuts: .SDcols = V1:V10, .SDcols = grep("^date_", names(DT)), etc
+
+state.abb, state.names
+
+write.csv
+
+readxl
+
+writeXLS
+
+use google, these I/O functions will always be in active development
+
+haven is a thing for Stata files, but fuggedaboutit unless you can't access Stata. far better to use csvs for data transfer, metadata be damned
+
+with Rdata, use load() or just drag it into the window
+
+
 
 
 ## Approximation, optimization and regression
 
+(so far, we've just talked about data manipulation, now onto math/stats)
 
+obvs, if your problem has a closed form solution, do the matrix algebra and don't get bogged down in syntax oddities of a particular language
+
+seriously consider using a matrix or array if it fits the problem
+
+integration
+
+optimization
+
+formula interface
+
+dynamically constructing formulae -- too much trouble
+
+precomputing indices http://stackoverflow.com/q/19279075/1191259

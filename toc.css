@@ -79,7 +79,7 @@
 #TOC .has-sub ul {
   display: none;
   position: absolute;
-  width: 200px;
+  width: 300px;
   top: 100%;
   left: 0;
 }
@@ -153,7 +153,7 @@
 }
 .spnote:after {
   background:#FFFF33;
-  content: "\25A1";
+  content: "\2318";
 }
 .spdetails {
   /*background:#CCFFCC;*/
@@ -165,7 +165,10 @@
 }
 .spdetails:after {
   background:#66FF66;
-  content: "\25A1";
+  content: "\2318";
+}
+blockquote {
+  font-size: small;
 }
 
 
