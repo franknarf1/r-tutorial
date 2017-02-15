@@ -3,6 +3,8 @@ output: html_document
 ---
 # Basics {#basics}
 
+This chapter covers R's core data structures and syntax.
+
 ## Vectors
 
 In R, all data come in vectors. If you type `x = 54.7`, then `x` will be a numeric vector of length 1. Similarly, `y = c("Yah", "Bada bing")` is a character vector of length 2. You can type a vector's name to see it, and use `length` and `class` to see those attributes.
@@ -217,7 +219,9 @@ x = numeric(length = 5)
 x = integer(length = 5)
 ```
 
-From there, you can subassign iteratively if necessary.
+From there, you can subassign iteratively if necessary: `x[1] <- "A"`, `x[2] <- "Z"`, and so on.
+
+#### Repeating values {#rep}
 
 It's also common to initialize a vector with a particular value using `rep`:
 
@@ -234,7 +238,63 @@ rep(c(3, 4), length.out = 5)
 rep(c(3, 4), c(3, 4))
 ```
 
-### Factors
+#### Integer sequences
+
+Use a single colon to build a sequence of integers:
+
+```{r seq-colon}
+3:5
+```
+
+```{block2, type='rmd-caution'} 
+**Use parentheses liberally.**
+
+- `n:n+10` does *not* run from `n` to `n+10`. Parentheses are needed: `n:(n+10)`. 
+- `-1:3+10` and `10-1:3` do not give the same results. Again, parentheses are needed to clarify which result is wanted. 
+
+See \@ref(order-ops) for more details.
+```
+
+If we are running `1..n` where `n` is a nonnegative integer variable, it is safer and more efficient to use `seq_len` than `1:n`. It is safer in the sense that, if `n` is zero, `seq_len(n)` gives the correct result of a zero-length vector, while `1:0` gives `c(1L, 0L)`.
+
+
+```{r seq-len}
+n = 0
+1:n
+seq_len(n)
+```
+
+If we are running `1...length(x)` alongside some vector `x`, then `seq_along` is the right tool:
+
+```{r seq-along}
+x = c(3, 3, 4)
+seq_along(x)
+```
+
+```{block2, type='rmd-details'} 
+**R function names.** It is not worth trying to make sense of R's naming conventions. Presumably thanks to historical accidents (some involving R's ancestor, S), we have names like `seq.int`, `seq_along`, `setNames`, `Sys.time`, `Sys.Date`, `sys.status` and `system.time`. All names are case-sensitive.
+```
+
+#### Fancy sequences {#seq-fancy}
+
+From here, the variety of options starts to resemble what we saw for the `rep` function in \@ref(rep).
+
+The function `seq.int` extends the colon operator:
+
+```{r seq-int}
+seq.int(5, 10)
+seq.int(5, 10, by = 2)
+seq.int(5, by = 3, length.out = 3)
+seq.int(to = 100, by = -11, length.out = 3)
+```
+
+The `seq` function extends further by allowing for non-integer values:
+
+```{r seq}
+seq(5, 10, by=.5)
+```
+
+### Factors {#factors}
 
 As with missing values, a lot of thought was put into the treatment of categorical data in R, captured by the `factor` data type:
 
@@ -491,7 +551,7 @@ install.packages("fortunes")
 
 The first time this is run during an R session, a prompt will pop up, asking which mirror to download from.
 
-#### Using functions from packages
+#### Using functions from packages {#namespaces}
 
 After installing a package, a direct attempt at using its functions will fail:
 
@@ -630,7 +690,7 @@ z
 We see that the modification does not carry over to the input itself. Usually, nothing created or altered inside a function does, meaning there are no [side effects](http://programmers.stackexchange.com/q/40297/104607). There are ways to write functions with side effects in base R (`<<-` and `assign`), but these are discouraged:
 
 ```{r warn-assign}
-fortunes::fortune("assign")
+fortunes::fortune("the assign function")
 ```
 
 The data.table package, introduced in \@ref(data-table), has a different design philosophy regarding the mutability of objects by functions. *Its core functions almost all hinge on side effects*.
@@ -648,9 +708,9 @@ y = 3
 g(1)
 ```
 
-So R only looks for `y` when it needs it and no sooner. This is called "lazy evaluation." It has advantages, but can lead to mistakes. 
+So R only looks for `y` when it needs it and no sooner. This is called "lazy evaluation." It has advantages, but can lead to mistakes. The next two sections (\@ref(function-environment) and \@ref(default-args)) cover ways of managing lazy evaluation.
 
-### Environment
+### Environment {#function-environment}
 
 One can use `with` to bind a value to the function:
 
@@ -666,7 +726,7 @@ Now, `y` is defined in the "environment" of the function. Environments are essen
 environment(g2)[["y"]]
 ```
 
-### Default arguments
+### Default arguments {#default-args}
 
 The documentation shows default values for arguments. After reading `?vector`, we know that `vector()` will return the same thing as `vector(mode = "logical", length = 0)`.
 
@@ -687,7 +747,7 @@ g4(2)
 
 ### Finding a function by name
 
-If you run into a function and don't know where it is from, use `help.search` or its `??` shortcut, like `??fortune`.
+If you run into a function and don't know what package it is from, use `help.search` or its `??` shortcut, like `??fortunes`. 
 
 ### Inspecting function source code {#inspect-fns}
 
@@ -751,7 +811,7 @@ for (i in idx){
 
 There are a couple problems here:
 
-- We have to refer to `x` multiple times, creating overhead if we want to reuse this code elsewhere.
+- We have to refer to `x` multiple times, requiring extra coding if we want to reuse this code elsewhere.
 - The global environment is polluted by `i` and `i2` in the end.
 - There is no need for an iterative approach, since each `x[i]` can be computed independently.
 
@@ -836,4 +896,5 @@ lapply(DF, function(x) x[3])
 ### Inspection
 
 To browse a data frame in a separate window, use `View(DF)`.
+
 

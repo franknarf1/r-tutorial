@@ -1,8 +1,6 @@
 # Quirks {#quirks}
 
-This chapter is a reference, for when you know the right tool for the job, but don't know where it is in R; or for when you have a tool, but it behaves less like the hammer you need than a nailgun shooting you in the foot. 
-
-The major quirks were covered in \@ref(basics)'s <span>x</span>s. What's left is mostly thanks to R's lack of a consistent naming pattern for functions.
+This chapter is a reference, covering R's various quirks. For more, review the yellow "caution" blocks in the preceding chapters.
 
 ## Matrix tools {#matrix-more}
 
