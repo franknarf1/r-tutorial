@@ -193,6 +193,8 @@ state.abb, state.names
 
 tstrsplit
 
+substring
+
 ### Factor columns
 
 use characters most of the time, don't worry about memory. the real memory problems come from how data is organized, as discussed in \@ref(structuring-data).

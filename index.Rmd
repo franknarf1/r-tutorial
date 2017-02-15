@@ -19,13 +19,15 @@ description: "This book covers the essentials of using R."
 
 # Introduction
 
-This document covers the basics of using R, without going into discussion of statistical methodology. Chapters \@ref(basics) and \@ref(quirks) will get you up to speed on navigating R. Chapter \@ref(work) covers common tasks: working with data and running optimization routines. The final chapter covers tables and graphs; my suggestions for programming; and various computational pitfalls.
+This document explains how to use R. Starting in chapter \@ref(data), the content is heavily influenced by the packages I recommend; and chapter \ref(work) on "Getting work done" only covers the analytical tools I find myself using as an economist. To keep it short, there is no discussion of statistical methodology or making pretty graphs. 
 
 Why R instead of Stata? 
 
 - Of course, it's free, so you can run your code now and into the future.
 - Objects are treated symmetrically, so we don't have to use different rules for data tables, matrices, functions and variables. Nor do we have to learn new rules for when those objects are in Stata vs Mata or when data is loaded in memory vs on disk. Nor do we have to shuttle objects around between the various levels encountered in Stata.
 - While Stata restricts by-group operations to a select few, R effectively allows `by g: {multiple lines of arbitrary code} if condition`, as seen in \@ref(data-table).
+
+Chapters \@ref(basics) and \@ref(data) will get you up to speed on navigating R. Chapter \@ref(work) covers common tasks. Chapter \@ref(quirks) is a reference for R's various quirks. The final chapter covers tables and graphs; my suggestions for programming; and various computational pitfalls.
 
 ## Getting started with R
 

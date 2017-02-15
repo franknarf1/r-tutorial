@@ -1,6 +1,6 @@
 book_filename: "tutorial"
 chapter_name: "Chapter "
-rmd_files: ["index.Rmd", "basics.Rmd", "work.Rmd", "quirks.Rmd", "advanced.Rmd"]
+rmd_files: ["index.Rmd", "basics.Rmd", "tables.Rmd", "work.Rmd", "quirks.Rmd", "extra.Rmd"]
 before_chapter_script: "before_chapter.r"
 
 

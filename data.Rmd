@@ -1,24 +1,26 @@
-# Tables {#data}
+# Advanced
 
-This chapter covers navigating tabular data with R.
+## Key packages
 
-The first two sections -- on magrittr and data.table -- cover packages that help me work more efficiently, to the point where I regard them as essential. They'll be used throughout the rest of this document. They don't have any dependencies on other packages, and I expect they'll be available as long as R is. It will be assumed in subsequent sections that these libraries have been loaded:
+These packages help me work more efficiently, to the point where I regard them as essential. They'll be used throughout the rest of this document. They don't have any dependencies on other packages, and I expect they'll be available as long as R is. It will be assumed in subsequent sections that these libraries have been loaded:
 
 ```{r loadem, echo=FALSE, warning=FALSE}
 library(magrittr)
 library(data.table)
 ```
 
-## Magrittr
+### Magrittr
 
-[Magrittr](https://cran.r-project.org/package=magrittr) introduces syntax with "pipes," improving readability by unnesting function calls:
+[Magrittr](https://cran.r-project.org/package=magrittr) introduces syntax with "pipes":
 
 ```{r magrittr-calls, eval=FALSE}
-# we can do
+# allowing
 x %>% f %>% g %>% h
 # instead of 
 h(g(f(x)))
 ```
+
+That is, it allows unnesting of function calls for readability. 
 
 In addition, it allows more compact function definitions (\@ref(function-writing)):
 
@@ -27,7 +29,7 @@ fun = . %>% .^2 %>% sum %>% sqrt
 fun(1:3)
 ```
 
-Despite these advantages, magrittr can slow down code, so avoid using it anywhere where speed might be an issue.
+Despite these advantages, magrittr can greatly slow down code, so avoid using it anywhere where speed might be an issue.
 
 To install, just use CRAN:
 
@@ -37,11 +39,11 @@ install.packages('magrittr')
 
 The name is a pun on [René Magritte's pipe painting](https://en.wikipedia.org/wiki/The_Treachery_of_Images).
 
-## data.table {#data-table}
+### data.table {#data-table}
 
-[Data.table](http://r-datatable.com) offers a variant of the data frame class (from \@ref(data-frames)), optimized for fast sorted and grouped operations and enhanced with cleaner syntax. It also bundles in a variety of other improvements on base R functionality.
+Data.table offers a variant of the data frame class (from \@ref(data-frames)), optimized for fast sorted and grouped operations and enhanced with cleaner syntax. It also bundles in a variety of other improvements on base R functionality.
 
-### Modification by reference
+#### Modification by reference
 
 In contrast with the rest of R, data.tables are primarily modified "in-place" without assigning the result, which can be much more efficient. As a first example, we can switch the class of a data frame to data.table:
 
@@ -58,7 +60,7 @@ str(DF)
 
 We did not use `=` or `<-` to assign the result of `setDT`; the function simply altered `DF` in-place. All of data.table's functions named like `set*` do this.
 
-### Factor vs character columns {#dt-factorvchar}
+#### Factor vs character columns
 
 Another difference is that `data.frame` takes string input as a `factor` categorical variable (\@ref(factors)), as seen above; while `data.table` interprets it as character:
 
@@ -71,21 +73,14 @@ DT = data.table(
 str(DT)
 ```
 
-### Syntax
+#### Syntax
 
 The third major difference is a change in syntax from a data frame's `DF[i,j]`, with `i` and `j` as indices, to SQL-style syntax that is cleaner for by-group operations:
 
 ```{r DTsyntax, eval=FALSE}
 # this is only pseudocode:
-DT[where, select|update|do, by] # SQL verbs
-DT[i, j, by]                    # R function arguments
+DT[where, select|update|do, by]
 ```
-
-This should be read as:
-
-1. Subset using `i`
-1. Group using `by`
-1. Do `j`
 
 We can type column names as barewords here, and even form expressions in terms of columns:
 
@@ -93,18 +88,22 @@ We can type column names as barewords here, and even form expressions in terms o
 DT[x > "b", sum(y), by=z]
 ```
 
-```{block2 dt-optimized, type='rmd-details'}
-**Optimized data.table calls.** The last call is optimized in a couple ways. First, the inequality in `i` triggers creation of an "index" in terms of `x`, making subsequent indexing on `x` faster thanks to binary search, documented at `?indices`. Second, the `sum` in `j` is computed using an optimized "grouped sum" or `gsum` computation, documented at `?GForce`.
-```
+In addition, this call is optimized: The inequality in `i` triggers creation of an "index" in terms of `x`, making subsequent indexing on `x` faster thanks to binary search, documented at `?indices`. And the `sum` in `j` is computed using an optimized "grouped sum" or `gsum` computation, documented at `?GForce`.
 
 ```{block2 dt-verbose, type='rmd-details'}
 **Verbose data.table messages.** To understand better how data.table works, I would recommend trying out the setting `options(datatable.verbose = TRUE)`. This option is similar to verbose output from an optimization call (reporting the value of the objective at each iteration, etc.). To only see verbose output for a single call, add `verbose = TRUE`. For example, to see see what I meant in the last paragraph, try `DT[x > "b", sum(y), by=z, verbose=TRUE]`.
 ```
 
-The task for `j` can really be anything. For example, it's really handy for saving per-group plots:
+The syntax `DT[i,j,by]` should be read as:
+
+1. Subset using `i`
+1. Group using `by`
+1. Do `j`
+
+The task for `j` can really be anything. For example, going beyond the scope of this document, it's really handy for saving per-group plots:
 
 ```{r}
-# note: this code will save to your current working directory
+# note: this will save to your current working directory
 # type getwd() and read ?setwd for details
 
 bwDT = data.table(MASS::birthwt)
@@ -126,20 +125,7 @@ For each group, we're now printing a line with `cat` and saving a plot. This is 
 
 Plotting graphs is beyond the scope of this document, but the example above should make sense after reading the docs for each object, `?MASS::birtwt`, `?pdf`, et al.
 
-
-caution re `by=` columns: use integers, characters, factors -- not floats
-
-### Other features
-
-Besides the data.table class, the package provides other useful features that will come up later:
-
-- ITime and IDate date and time classes
-- `fread` and `fwrite` for fast reading and writing of delimited files
-- `dcast` and `melt` for reshaping tables
-
-Because these disparate features are bundled together in data.table, we don't have to load more packages and worry about their complicated dependencies or namespace conflicts (\ref(namespaces)).
-
-### Installation
+#### Installation
 
 Again, CRAN can be used:
 
@@ -157,123 +143,64 @@ install.packages("data.table", type = "source",
 
 If using Windows, you'll need to first install [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (requiring administrator privileges), as explained in the last link.
 
-### Getting started
+#### Getting started
 
 [The official vignettes](https://github.com/Rdatatable/data.table/wiki/Getting-started) for the package are a great way to start with the package. I started by reading some slides and the FAQ in full before using the package. 
 
-## Input and output {#input-output}
+## Building sequences
 
-### File paths
+Use a single colon to build a sequence of integers:
 
-Don't give R paths like `"C:\data\input.csv"`. The backslash is an "escape character" and can't be used to delineate folders. There are a few alternatives:
+```{r seq-colon}
+3:5
+```
 
-- Escape the escape character: `"C:\\data\\input.csv"`
-- Use forward slashes: `"C:/data/input.csv"`
-- Build with `file.path`: `file.path("c:", "data", "input.csv")`
+### Counting upwards
 
-As far as I know, the latter two options will also work in Linux and so are preferable.
+If we are running `1..n`, it is safer and more efficient to use `seq_len` than `1:n`:
 
-`dir()` and `list.files()` will list the contents of a folder. `getwd()` returns the current path (or "working directory"), while `setwd(new_path)` will change it.
+```{r seq-len, eval=FALSE}
+n_x = 1e5
+n_y = 1e5
+n   = x + y
+z   = seq_len(n)
+```
 
-`dir.create`, `file.copy` do what you would expect. See `?files` and `?files2` for related functions.
+It is safer in the sense that, were `n` zero, we would get the correct result of a zero-length vector, while `1:0` gives `c(1L, 0L)`.
 
-absolute vs relative paths, `normalizePath`
+If we are running a sequence `1...length(x)` alongside some vector `x`, then `seq_along` is the right tool:
 
-### `fread` to read delimited files {#fread}
+```{r seq-along}
+x = c(3, 3, 4)
+seq_along(x)
+```
 
-zzz
+```{block2, type='rmd-details'} 
+**R function names.** It is not worth trying to make sense of R's naming conventions. Presumably thanks to historical accidents (some involving R's ancestor, S), we have names like `seq.int`, `seq_along`, `setNames` and `Recall`.
+```
 
-### `.SDcols` for a set of columns
+### Fancier sequences
 
-shortcuts: .SDcols = V1:V10, .SDcols = grep("^date_", names(DT)), etc
+From here, the variety of options starts to resemble what we saw for the `rep` function in \@ref(initializing).
 
-### Character columns
+The function `seq.int` extends the colon operator:
 
-state.abb, state.names
+```{r seq-int}
+seq.int(5, 10)
+seq.int(5, 10, by = 2)
+seq.int(5, by = 3, length.out = 3)
+seq.int(to = 100, by = -11, length.out = 3)
+```
 
-tstrsplit
+The `seq` function extends further by allowing for non-integer values:
 
-### Factor columns
+```{r seq}
+seq(5, 10, by=.5)
+```
 
-use characters most of the time, don't worry about memory. the real memory problems come from how data is organized, as discussed in \@ref(structuring-data).
+## Subsetting {#dt-subset}
 
-show how ordered factors can be used to set up inequalities for strings
-
-### Date and time columns {#dates-times}
-
-as.IDate, IDateTime
-
-wday, weekdays, etc.
-
-show that max, min, inequalities work for dates and times
-
-lapply + .SDcols with date conversion
-
-### List columns
-
-list columns -- somewhat clumsy, but sometimes convenient (no by=, shift(); inefficient %in% and match()). can store regression results, for example
-
-consider unique %>% sort %>% toString/paste instead if it's just for browsing; or going to long format (see data structure)
-
-### Source-file index columns
-
-rbindlist idcol
-
-
-### `fwrite` to write delimited files {#fwrite}
-
-zzz
-
-### Saving and loading R objects
-
-with Rdata, use load() or just drag it into the window
-
-### Reading and writing other formats
-
-For "foreign" table formats (excel, stata, etc), use google. these I/O functions will always be in active development because the formats themselves are in flux. of course, it's unsafe to use such formats for long-term data storage
-
-details: feather is eventually for storage and transfer but is still under heavy development at this point.
-
-### Formatting the display of columns
-
-remember: do rounding as late as possible -- don't start during the cleaning and exploration phase
-
-## Exploring data {#exploring-data}
-
-range, summary
-
-Henk Harmsen on "ergonomics" https://rpubs.com/carbonmetrics/datatable_ihub
-
-`e_bad = DT[, var, by=e_id][var==TRUE, e_id]; DT[.(e_id)] (simpler with having)`
-
-`DT[, .N, by=e_id][order(-N)]`
-
-creating temp vars, printing with []
-
-DT[, do_stuff, j] %>% print(nrow=Inf) with magrittr (warning about performance hit in real nonexploratory code)
-
-hist, hexbin
-
-cor, cormat
-
-x11() for multiple windows
-
-eyeball-exploring models: curve
-
-qqplot etc for the statistically literate, and other tools for ML people
-
-### Browsing loaded objects {#tables}
-
-ls()
-
-rm()
-
-tables()
-
-
-### Subsetting {#dt-subset}
-
-#### Selecting by value
+### Selecting by value
 
 This is analogous to a SQL WHERE clause or a Stata `if` clause.
 
@@ -288,7 +215,7 @@ DT[ Class == "Crew" & N > 100 ]
 
 This syntax, `DT[i]`, is the subsetting task needed in the vast majority of cases. The rest of \@ref(dt-subset) can safely be skipped the first time through; it is mostly useful for reference.
 
-#### Selecting by group statistic
+### Selecting by group statistic
 
 This is analogous to a SQL HAVING clause.
 
@@ -300,7 +227,7 @@ We are including the group only if it meets our condition. The structure `if (co
 
 This syntax isn't as clean as a HAVING clause, but it is likely to improve.
 
-#### Selecting rows within each group
+### Selecting rows within each group
 
 ```{r dt-sub-grow}
 # select first row
@@ -312,55 +239,6 @@ DT[ , .SD[N == max(N)], by=Class ]
 ```{block2, type='rmd-details'}
 **Efficient selection of rows within each group.**  The second task here is [somewhat inefficient](https://github.com/Rdatatable/data.table/issues/735) currently, with a faster workaround [provided by eddi](http://stackoverflow.com/a/16574176): `DT[DT[ , .I[N == max(N)], by=Class ]$V1]`. And [Arun provided a further improvement](http://stackoverflow.com/a/31854111), taking advantage of `gmax`, an efficient by-group `max` (see `?GForce`): `DT[DT[, max(N), by=Class], on=.(Class, N = V1)]`. The variable `.I` represents the row number in the full table, or at least it *should* do that. Currently, `.I` does [not always behave like this](https://github.com/Rdatatable/data.table/issues/1494). "V1" is the default name given to the result in `j`. 
 ```
-
-### Sorting
-
-order(x, -y)
-
-setorder
-
-setkey
-
-### Summaries {#dt-summary-stats}
-
-#### The `summary` function
-
-similar to stata
-
-doesn't really return a useful object, only for printing
-
-#### Collapsing a table
-
-collapse
-
-various custom summary functions
-
-maybe mention GForce again
-
-
-#### Counting missing values
-
-mdesc, count missing per column colSums(is.na(.SD))
-
-
-#### Tabulating {#counting-rows}
-
-bwDT[, .N, by=ftv]
-
-refer to \@ref(tallying)
-
-
-### Reshaping to wide
-
-wide format is rarely useful for storing data (see structuring data)
-
-but it is good for browsing
-
-dcast
-
-analogy with blacksmithing or something (re cast and melt), molten into its most flexible form, cast into a rigid shape for a particular purpose
-
-
 
 ## Modifying data in-place {#dt-subassign}
 
@@ -394,7 +272,7 @@ All of these tasks are performed in-place -- altering `DT` without making a new 
 ```
 
 ```{block2, type='rmd-details'}
-**Iterative column creation.** The `` `:=`(...)`` syntax does *not* support iterative definitions like ``DT[, `:=`(W1 = u + y, W2 = W1^2)]``. One typical way of getting around this is ``DT[, `:=`(W1 = W1 <- u + y, W2 = W1^2)]``. The workings of this are not obvious to new R users, but the gist is: `W1 <- u + y` creates `W1` as an object in `DT[...]` and then returns its value, let's call it `v`. Now, `W2 = W1^2` can find `W1`, since it was created by `<-`; and `W1 = W1 <- u + y` simplifies to `W1 <- v`, where `v` is the return value of `W1 <- u + y`.
+**Iterative column creation.** The ```:=`(...) `` syntax does *not* support iterative definitions like ``DT[, `:=`(W1 = u + y, W2 = W1^2)]``. One typical way of getting around this is ``DT[, `:=`(W1 = W1 <- u + y, W2 = W1^2)]``. The workings of this are not obvious to new R users, but the gist is: `W1 <- u + y` creates `W1` as an object in `DT[...]` and then returns its value, let's call it `v`. Now, `W2 = W1^2` can find `W1`, since it was created by `<-`; and `W1 = W1 <- u + y` simplifies to `W1 <- v`, where `v` is the return value of `W1 <- u + y`.
 ```
 
 ### Removing columns
@@ -546,87 +424,9 @@ We also have the option of selecting *unmatched* rows:
 a[!b, on=.(id)]
 ```
 
-This "not-join" or "anti-join" returns all rows of `a` that are not matched by rows in `b`.
+This "not-join" returns all rows of `a` that are not matched by rows in `b`.
 
-### Fancy joins
-
-Besides not-joins, there are many join features introduced elsewhere in this tutorial: aggregate joins (by=.EACHI), cross joins, update joins, rolling joins, non-equi joins.
-
-If a table is always joined on the same column(s), these can be set as its "key." Setting the key of `x` sorts the table and allows for skipping `on=` during `x[i,on=]` joins. See `?setkey`. 
-
-
-## Organizing relational tables {#structuring-data}
-
-background: tidy data / database design
-
-### Reshaping to long format
-
-
-### Choosing tables and keys
-
-
-### Listing levels
-
-make a "skeleton" for the data
-
-consider igraph if the order does not matter
-
-use CJ(col1, col2), maybe seq
-
-if it's not cartesian, then DT[, col2, by=col1]
-
-
-### Exploring levels
-
-setdiff, union, intersect (works with data.table from 1.9.8+)
-
-does the table have any dupes?
-
-does the table have all levels?
-
-stopifnot
-
-### Collapsing {#aggregate-join}
-
-essentially an aggregate join -- we join so that we can aggregate
-
-maybe collapsing because we want a table aggregated at a higher level
-
-maybe collapsing because we have "duplicates" hanging around for other reasons
-
-unique, duplicated + fromLast
-
-```{block2 dt-join-beware, type='rmd-caution'}
-**Beware `DT[i,on=,j,by=bycols]`.** Only `by=.EACHI` works in a join. Typing other `by=` values there will cause `i`'s columns to become unavailable. This [may eventually change](https://github.com/Rdatatable/data.table/issues/733).
-```
-
-use CJ for missing levels
-
-### Expanding
-
-CJ + unique
-
-
-use CJ for missing levels
-
-Suppose we have a table measuring wealth by person and year.
-
-```{r expandrows-pre, echo=1}
-DT = data.table(psn_id = c(1L, 1L, 2L), year = c(1998L, 2000L, 2000L), wealth = 24:22)
-DT
-```
-
-Now we want a person-year row for every every person and for every year from the lowest to the highest. We can do this with `CJ` and a standard join:
-
-```{r expandrows, echo=1}
-DT = data.table(psn_id = c(1L, 1L, 2L), year = c(1998L, 2000L, 2000L), wealth = 24:22)
-DT
-```
-
-
-### Update joins
-
-we join so that we can update the table on the left
+### Update join
 
 As we saw in \@ref(dt-ifelse), we can do a SQL-style UPDATE like `x[i, var := ...]`:
 
@@ -641,14 +441,201 @@ The `i.*` syntax allows for unambiguously referring to columns from `i` (in case
 **Beware multiple matches in an update join.** When there are multiple matches (\@ref(join-multimatch)), an update join will apparently only use the last one. [Unfortunately](https://github.com/Rdatatable/data.table/issues/2022), this is done silently. Try `b[a, on=.(id), x := i.x, verbose = TRUE ][]`. At least with `verbose` on it helpfully reports that it assigned "to 3 row subset of 2 rows."
 ```
 
+### Cross join
+
+If you have two tables and want to take all combinations, then a cross join (or "Cartesian join") is needed. For example, suppose we have people and places and want to capture the last year each person visited each place:
+
+```{r dt-join-cross-pre, echo=c(1,3)}
+psnDT = data.table(id = 1:2, name = LETTERS[1:2])
+psnDT
+locDT = data.table(id = 1:2, name = state.abb[1:2])
+locDT
+```
+
+In principle, we should be able to do `psnDT[locDT, on=.()]`. The workaround is:
+
+```{r dt-join-cross, results="hide"}
+psnDT[, .cjid := NA ]
+locDT[, .cjid := NA ]
+visitDT = psnDT[locDT, on=.(.cjid), 
+  .(psn_id = x.id, loc_id = i.id, psn_name = x.name, loc_name = i.name)]
+visitDT[, last_visit_year := c(1972L, NA, 2005L, 1990L) ]
+```
+```{r dt-join-cross-grr1, echo=FALSE}
+visitDT
+```
+```{r dt-join-cross-grr2, results="hide"}
+# cleanup
+psnDT[, .cjid := NULL ]
+locDT[, .cjid := NULL ]
+```
+
+This is likely to get simpler [eventually](https://github.com/Rdatatable/data.table/issues/1717).
+
+... explain `CJ`...
+
+### Advanced joins
+
+The merges above work for almost everything I do, but there are other options as well. See `?merge`.
+
+There are a few other pieces of join syntax that come in handy:
+
+- If a table is always joined on the same column(s), these can be set as its "key." Setting the key of `x` sorts the table and allows for skipping `on=` during `x[i,on=]` joins. See `?setkey`. 
+- `x[i, on = .(...), which = TRUE]` will report which rows of `x` were matched; and `x[i, which = TRUE]`, which were unmatched.
+- `x[i, on = .(...), expr, by=.EACHI]` will compute `expr` separately for each row of `i`. Remember that a single row of `i` can have multiple matches in `x`.
+- The most advanced joins are "rolling" and "non-equi" joins. These will be covered later {insert a ref}
+
+```{block2 dt-join-beware, type='rmd-caution'}
+**Beware `DT[i,on=,j,by=bycols]`.** Only `by=.EACHI` works in a join. Typing other `by=` values there will cause `i`'s columns to become unavailable. This [may eventually change](https://github.com/Rdatatable/data.table/issues/733).
+```
+
+## Expanding rows
+
+Suppose we have a table measuring wealth by person and year.
+
+```{r expandrows-pre, echo=1}
+DT = data.table(psn_id = c(1L, 1L, 2L), year = c(1998L, 2000L, 2000L), wealth = 24:22)
+DT
+```
+
+Now we want a person-year row for every every person and for every year from the lowest to the highest. We can do this with `CJ` and a standard join:
+
+```{r expandrows-pre, echo=1}
+DT = data.table(psn_id = c(1L, 1L, 2L), year = c(1998L, 2000L, 2000L), wealth = 24:22)
+DT
+```
+
+
+
+
+## Reshaping to wide format
+
+
+
+## Summary statistics {#dt-summary-stats}
+
+### Counting rows {#counting-rows}
+
+bwDT[, .N, by=ftv]
+
+refer to \@ref(tallying)
+
+### The `summary` function
+
+
+
+### Create aggregated table
+
+collapse
+
+
+### Save to current table
 
 
 
 
 
 
+## Managing data types
+
+use integers when you can, use characters or integers for keys
+
+use characters when it makes sense, don't worry about memory. the real memory problems come from how data is organized, as discussed in \@ref(structuring-data).
+
+remember: do rounding as late as possible -- don't start during the cleaning and exploration phase
 
 
+### Dates and times {#dates-times}
+
+### List columns
+
+list columns -- somewhat clumsy, but sometimes convenient (no by=, shift(); inefficient %in% and match()). can store regression results, for example
+
+consider unique %>% sort %>% toString/paste instead
+
+
+
+## Managing multiple data sets {#structuring-data}
+
+11 structuring data: keys, merging and reshaping (db_design)
+
+background: tidy data / database design
+
+unique, duplicated + fromLast, CJ + unique
+
+
+
+
+setdiff, union, intersect (works with data.table from 1.9.8+)
+
+### Browsing loaded objects {#tables}
+
+ls()
+
+rm()
+
+tables()
+
+
+## Exploring data {#exploring-data}
+
+range, summary
+
+Henk Harmsen on "ergonomics" https://rpubs.com/carbonmetrics/datatable_ihub
+
+`e_bad = DT[, var, by=e_id][var==TRUE, e_id]; DT[.(e_id)] (simpler with having)`
+
+`DT[, .N, by=e_id][order(-N)]`
+
+creating temp vars, printing with []
+
+DT[, do_stuff, j] %>% print(nrow=Inf) with magrittr (warning about performance hit in real nonexploratory code)
+
+hist, hexbin
+
+cor, cormat
+
+exploring models: curve
+
+qqplot etc for the statistically literate, and other tools for ML people
+
+### Reshaping
+
+
+## Input and output {#input-output}
+
+warn forward slashes in file names
+
+
+### fread {#fread}
+
+tstrsplit
+
+as.IDate, IDateTime
+
+wday, weekdays, etc.
+
+show that max, min, inequalities work for dates and times
+
+show how ordered factors can be used to set up inequalities for strings
+
+lapply + .SDcols with date conversion
+
+shortcuts: .SDcols = V1:V10, .SDcols = grep("^date_", names(DT)), etc
+
+state.abb, state.names
+
+write.csv
+
+readxl
+
+writeXLS
+
+use google, these I/O functions will always be in active development
+
+haven is a thing for Stata files, but fuggedaboutit unless you can't access Stata. far better to use csvs for data transfer, metadata be damned
+
+with Rdata, use load() or just drag it into the window
 
 
 
