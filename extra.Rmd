@@ -6,6 +6,168 @@ You probably won't need to think about these on your first few projects.
 
 I don't even have very fixed ideas about them myself, but decided to write down my thoughts anyways, mostly for my own reference.
 
+## Tallying {#tallying}
+
+To tabulate a variable, use `table`:
+
+```{r table}
+set.seed(1)
+n  = 100
+f  = factor(c("a", "b", "c"))
+x  = f[ sample.int(length(f), size = n, replace = TRUE) ]
+table(x)
+```
+
+For details, consider exploring: 
+
+```{r table-more, eval=FALSE}
+plot(x)
+plot(table(x))
+methods("plot")
+methods(class="table")
+```
+
+We can also tabulate conditions:
+
+```{r table-cond}
+set.seed(1)
+x = rpois(100, lambda = 10)
+table(hix = x > 10)
+```
+
+And make cross-tabs:
+
+```{r table-cross}
+set.seed(1)
+n = 100
+x = rpois(n, lambda = 10)
+y = x^2 + rpois(n, lambda = 10)
+table(hix = x > 10, hiy = y > x + 50)
+```
+
+Data.table syntax for counting rows is covered in \@ref(counting-rows).
+
+## Finding a value
+
+To find exactly matching values:
+
+```{r match}
+match(x = c(23, 45, 15), c(11, 23, 34, 45, 23))
+```
+
+This tells us where `x[1]`, `x[2]` and `x[3]` found their matches in the second vector. If multiple matches exist, only the first is found and returned; and if no match is found, `NA` is returned (or a custom value). 
+
+This is occasionally useful for merges, and is the workhorse behind all the set operators in \@ref(set-ops).
+
+## Matrix columns
+
+max.col
+
+apply -- strongly discouraged
+
+colSums
+
+## Matrix rows
+
+rowSums
+
+
+## Set operators {#set-ops}
+
+### On vectors
+
+`unique(x)` returns the values appearing of `x`. That is, every element of `unique(x)` is unique .
+
+`x %in% y` tests each element of `x` for membership in `y`, returning a TRUE/FALSE vector of the same length as `x`. 
+
+As documented at `?sets`, we can write
+
+- $x\cup y$ as `union(x,y)`,
+- $x\cap y$ as `intersect(x,y)`,
+- $x\ \backslash\ y$ as `setdiff(x,y)` and 
+- $x = y$ as `setequal(x,y)`.
+
+To extend to finite unions and intersections, we can write
+
+- $\bigcup_{{s}_i=1}^n {s}_i$ as `Reduce(union, sList)` and 
+- $\bigcap_{{s}_i=1}^n {s}_i$ as `Reduce(intersect, sList)`.
+
+To test whether a condition holds anywhere, use `any(cond)`; and to test if it holds everywhere, `all(cond)`.
+
+To investigate overlap between two sets, I suggest rolling a custom function:
+
+```{r set-overlap}
+xtab_set <- function(A, B){
+  both    <-  c(A, B)     # or union(A, B) if there are no dupes in either set
+  inA     <-  both %in% A
+  inB     <-  both %in% B
+  
+  return(table(inA, inB))
+}
+
+set.seed(1)
+A <- sample(letters[1:20], 10, replace = TRUE)
+B <- sample(letters[1:20], 10, replace = TRUE)
+xtab_set(A, B)
+```
+
+It is also possible to visualize set overlaps [using nice packages for Venn diagrams](http://stackoverflow.com/q/31681110).
+
+`unique` works as one might expect on a data.frame (by "dropping duplicated rows" in Stata-speak), but none of the other functions carry over. In section \@ref(dt-set-ops), we'll look at set operations for data.tables.
+
+... and in data.table set operations
+
+### On tables
+
+
+### Combinatorics
+
+Refer to CJ in the tables chapter
+
+outer -> combn section
+
+maybe a nice combinatorics example http://stackoverflow.com/a/36942700
+no, actually docendo should have used a two-sided graph there...
+
+
+## Functions' methods {#methods}
+
+`head` behaves very differently depending on whether it is working with a vector or a data.table:
+
+```{r head-tail-DF}
+v = 1:11
+head(v, 3)
+DT = data.table(1:11, letters[1:11])
+head(DT, 3)
+```
+
+If we look at the head function, we see a fairly unhelpful definition:
+
+```{r head-def}
+head
+```
+
+This code tells us that `head(x, n)` looks at `class(x)` and may "dispatch" to a class-specific "method." In this case, it dispatches to `head.data.frame`, which has documentation at `?head.data.frame` like any other function. This help page is shared with vanilla `?head`, but this is not always the case. For example, `?seq` and `?seq.Date` (\@ref(seq-fancy)) are on different pages.
+
+To investigate whether a method is being used on `x`, use the `methods` function, which performs a search.
+
+```{r methods}
+methods("head", class(v))
+methods("head", class(DT))
+```
+
+This is not terribly useful either, in terms of narrowing down what's going on, but at least we have some functions to look closer at, using `?` to see docs, or the steps in \@ref(inspect-fns) to see source code. Probably, formal debugging procedures are the proper way to investigate, but that's beyond my skill set currently.
+
+```{block2 fancy-methods, type='rmd-details'}
+Methods are part of R's support for object-oriented programming. In other languages' OO systems, methods are attached to classes; while in R they are attached to functions. (R has countless OO systems, some added by packages, so this might not be strictly true.) To make your own methods, start by reading `?Methods`. I've never needed this functionality myself. 
+```
+
+
+## Passing a list of arguments to a function
+
+do.call
+
+
 ## Fancy function definitions
 
 list(...) fanciness in functions
@@ -227,6 +389,31 @@ i did it with data.table, but there may be more efficient approaches that rely o
 yeah, this seems to be changing all the time
 
 database interfacing and such, maybe you are tied to the DB and can't switch to R (no problem); maybe you can't fit the data in memory (start over from the beginning and rethink everything and/or learn AWS)
+
+## Asking questions online
+
+if using random example data, use set.seed
+
+test the example in a new session to make sure it runs on its own
+
+built-in data sets
+
+don't worry about making objects with the same names as built-ins (rivers, state.abb, etc)
+
+use built-in data sets or simple hand-made examples
+
+provide expected output
+
+isolate the problem
+
+if it's a performance question, write the example as a function of n and look at other good performance questions
+
+try your code in a new R session to make sure it works as you described
+
+if it's regex (it's usually regex), maybe don't post to SO, try chat
+
+
+library(help="datasets") as here http://stackoverflow.com/a/8368263/
 
 
 

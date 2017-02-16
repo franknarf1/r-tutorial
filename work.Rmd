@@ -2,12 +2,142 @@
 
 This chapter covers common analytical tasks (without any discussion of their statisical justification).
 
-## Quick math tools
 
-curve()
+## Randomization
+
+To make your draw reproducible, use `set.seed` before it:
+
+```{r set-seed, eval=FALSE}
+set.seed(1)
+rnorm(10)
+```
 
 
-## Regression
+### Draws from distributions
+
+To draw `n` random numbers from the unit interval, use `runif(n)`. All random-draw functions follow this naming convention -- `rnorm`, `rpoisson`, `rbinom` -- for a full list of the built-in ones, type `?distributions`. Many more are offered in packages that can be found by searching online.
+
+details -- quickly glance at a function with curve()
+
+
+### Urn draws and permutations
+
+To take `n` samples from `x` with replacement, where `p[i]` is the probability of drawing `x[i]`: 
+
+```{r sample, eval=FALSE}
+sample(x, prob = p, size = n, replace = TRUE)
+```
+
+The help page `?sample` covers many other use cases. There is one to be very wary of, however:
+
+```{r sample-bad}
+set.seed(1)
+x = c(6.17, 5.16, 4.15, 3.14)
+sample(x, 2, replace = TRUE)
+y = c(6.17)
+sample(y, size = 2, replace = TRUE)
+```
+
+Where did `4` and `6` come from? Those aren't elements of `y`!
+
+```{block2 sampling, type='rmd-caution'}
+**Sampling from a numeric vector.** I should have sampled from `y`s indices like `y[sample.int(length(y), size = 2, replace = TRUE)]`. Vanilla `sample` cannot be trusted on numeric or integer vectors unless you are sure they have a length greater than 1. 
+```
+
+### Simulations
+
+replicate
+
+## Working with sequences
+
+Often we care not only about the value in the current row, but also in the previous `k` rows or all previous rows.
+
+### Lag operators {#lag}
+
+Data.table provides a convenient tool for the lag operator and its inverse:
+
+```{r shift}
+x = c(1, 2, 3, 4)
+shift(x)                # lag
+shift(x, 0:3)           # multiple lags
+shift(x, type = "lead") # lead
+```
+
+`shift` always returns vectors of the same length. The `embed` function from base R instead simply cuts all the vectors down to size:
+
+```{r embed}
+embed(x, 3)
+```
+
+### Rolling computations
+
+cummax, cummin, cumsum
+
+
+zoo, RcppRoll also exist
+
+
+### Run-length encoding
+
+In time series, it is common to have repeated values, called "runs" or "spells." To work with these in a vector, use `rle` ("run length encoding") and `inverse.rle`: 
+
+```{r rle}
+x = c(1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1)
+rle(x)
+```
+
+Because the result is a list, we can use `with` on it (as discussed in the last section). For example, if we just want the final three runs:
+
+```{r with-rle}
+r = rle(x)
+new_r = with(r, {
+  new_lengths = tail(lengths, 3)
+  new_values  = tail(values, 3)
+  
+  list(lengths = new_lengths, values = new_values)
+})
+inverse.rle(new_r)
+```
+
+In section  ... rleid
+
+show with(rle(x), ) refer to environments
+
+### Grouping on runs
+
+`cut` and `findInterval` are good ways to construct groups from intervals of a continuous variable.
+
+To group by sequences, it is often useful to take advantage of...
+
+- *Cumulative sums*: `cumsum`
+- *Differencing*: `diff` or `x - shift(x)`, explained in \@ref(lag)
+- *Runs*: `rleid` and `rle`
+
+To label rows *within* a group, use data.table's `rowid`. To label groups, use data.table's `.GRP`, like `DT[, g_id := .GRP, by=g]`.
+
+It's often tempting in R to run computations by row, like `DT[, ..., by=1:nrow(DT)]` but this is almost always a bad idea, both in terms of clarity and speed.
+
+
+## Combining table columns
+
+do.call
+pmin, pmax
+shift
+
+ex, creating indices with Map, Reduce
+
+ex, computing euclidean distance moved: shift lapply Reduce sqrt
+
+ex, with pmin vs some capacity
+
+
+details -- Passing a list of arguments to a function with do.call like python kwargs
+
+caution -- never write a program with rowwise operations on a table, which is column-major -- super slow, weird side effects from combining classes
+
+precomputing indices http://stackoverflow.com/q/19279075
+
+## Regression {#reg}
 
 (so far, we've just talked about data manipulation, now onto math/stats)
 
@@ -15,12 +145,11 @@ obvs, if your problem has a closed form solution, do the matrix algebra and don'
 
 seriously consider using a matrix or array if it fits the problem
 
-### The formula interface
+show an example of reg by group
 
+### Extracting results
 
-### Alternatives to the formula interface
-
-precomputing indices http://stackoverflow.com/q/19279075
+zzz
 
 
 ## Optimization
@@ -31,6 +160,17 @@ of course, we end up with an approximation
 
 of course, we end up with an approximation
 
+## String operations
+
+In my opinion, very few string operations are necessary after proper data cleaning (discussed in \@ref(structuring-data)).
+
+`nchar(x)` tells you how long a string is, and `substr(x, start, end)` extracts a contiguous substring. `paste`, `paste0` and `sprintf` are used to build strings, while `sub` and `gsub` rewrite strings.
+
+nzchar
+
+`grep` and its family will match a string pattern, while `regmatches` can extract what matches. `strsplit(x, sep=",")` can split `"Butte, Montana"` into its constituent parts. Handier tools for these tasks are discussed in \@ref(structuring-data).
+
+escaping in regex `\\`
 
 
 

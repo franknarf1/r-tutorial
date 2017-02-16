@@ -5,7 +5,7 @@ output: html_document
 
 This chapter covers R's core data structures and syntax.
 
-## Vectors
+## Vectors {#vectors}
 
 In R, all data come in vectors. If you type `x = 54.7`, then `x` will be a numeric vector of length 1. Similarly, `y = c("Yah", "Bada bing")` is a character vector of length 2. You can type a vector's name to see it, and use `length` and `class` to see those attributes.
 
@@ -23,11 +23,13 @@ The bracketed `[1]` indicates that we are seeing the first element of a vector. 
 
 You can assign with `=` or `<-`. You can even assign like `c(2,3) -> z`, but this is rare and hard to read in my opinion. If an existing vector is overwritten, no warning is given.
 
+caution -- indexing starting from 1, for those coming from 0-indexed langs, treatment of negative indices in slicing will also be a surprise (ref it)
+
 ### Documentation
 
 Everything is documented in convenient wikified html pages, accessible with `?` or `help`. For example, `?TRUE`, `?LETTERS` or `?length`. Backticks are sometimes required, as for ``?`for` `` and ``?`?` ``. Keep a close eye on the Description and Value sections, which concisely explain what to expect from a function. 
 
-Manuals and additional reference documents can be found by typing `help.start()` and clicking through to "An Introduction to R" or other documents.
+Try typing `help.start()`. You should see links to documents including "An Introduction to R" and "The R language definition". These are the essential reference documents on R, also [available in pdf online](https://cran.r-project.org/manuals.html).
 
 R doesn't do error codes, only error messages and warnings. If you don't understand a message you're seeing, a search online or a review of the relevant docs is usually sufficient.
 
@@ -99,7 +101,7 @@ For complicated objects, like `L3` above, `class(L3)` is not very informative. E
 str(L3)
 ```
 
-To explore the set of loaded objects, see the tools in \@ref(tables).
+To explore the set of loaded objects, see the tools in \@ref(browse-env).
 
 ### Named elements {#names}
 
@@ -126,7 +128,7 @@ R differs from other programming languages in its careful treatment of missing v
 
 A missing value means "there is a value here, but we don't know what it is." So a comparison against a missing value, like `2 == NA` or `2 != NA`, will always return `NA`, since we cannot determine whether the condition is true or false. To test whether a value is missing, use the `is.na` function.
 
-```{block2 na-classes, type='rmd-caution'}
+```{block2 na-classes, type='rmd-details'}
 **Implementation of missing values.** The class of an `NA` is different depending on the vector it is in. Sometimes, it is important to ensure that a missing value belongs to a particular class. To ensure this, the safest approach is to "slice" an object of that class with `NA_integer_`. For example, to get a missing numeric value, you can use the number `10` like `10[NA_integer_]`; or for a date value, we can use the current date, `Sys.Date()`, like `Sys.Date()[NA_integer_]`. 
 ```
 
@@ -166,6 +168,8 @@ There are a few edge cases worth noting. As mentioned in \@ref(na), it can be us
 
 Convenience functions `head` and `tail` enable easy slicing from the start or end of a vector.
 
+... also mention blank slice
+
 ### Extracting from a list {#extract-list}
 
 Grab a single element of a vector like `x[[i]]`, where `i` is a single name or number:
@@ -203,6 +207,10 @@ The allowed values of `i` are the same as we saw for slicing a vector in \@ref(s
 **Hard-to-find documentation.** For documentation on slicing and extracting, you can type ``?`[` ``. Even though there is a `]` for every `[`, it is the opening bracket that is the function's actual name, which will come back in \@ref(lapply). For documentation on sub-assignment, type ``?`[<-` ``.
 ```
 
+caution -- silent extension of vector when assigning at a new index
+
+empty index means the whole thing
+
 ### Assigning to a list element
 
 One can similarly assign to a single element of a list with `x[[i]] <- y`. If an existing element is overwritten, no warning is given.
@@ -219,7 +227,7 @@ x = numeric(length = 5)
 x = integer(length = 5)
 ```
 
-From there, you can subassign iteratively if necessary: `x[1] <- "A"`, `x[2] <- "Z"`, and so on.
+From there, you can subassign iteratively if necessary: `x[1] <- "A"`, `x[2] <- "B"`, and so on.
 
 #### Repeating values {#rep}
 
@@ -257,13 +265,6 @@ See \@ref(order-ops) for more details.
 
 If we are running `1..n` where `n` is a nonnegative integer variable, it is safer and more efficient to use `seq_len` than `1:n`. It is safer in the sense that, if `n` is zero, `seq_len(n)` gives the correct result of a zero-length vector, while `1:0` gives `c(1L, 0L)`.
 
-
-```{r seq-len}
-n = 0
-1:n
-seq_len(n)
-```
-
 If we are running `1...length(x)` alongside some vector `x`, then `seq_along` is the right tool:
 
 ```{r seq-along}
@@ -294,6 +295,8 @@ The `seq` function extends further by allowing for non-integer values:
 seq(5, 10, by=.5)
 ```
 
+Other vector classes have their own `seq` methods. For example, `seq.Date` will allow for a sequence of dates.
+
 ### Factors {#factors}
 
 As with missing values, a lot of thought was put into the treatment of categorical data in R, captured by the `factor` data type:
@@ -302,7 +305,7 @@ As with missing values, a lot of thought was put into the treatment of categoric
 factor(c("New York", "Tokyo", "Mumbai", "Tokyo"))
 ```
 
-Factors usually have no sense of ordering (like "Tokyo" naturally coming before "Bombay"), but one can be added if appropriate:
+Factors often have no sense of ordering (like "Tokyo" naturally coming before "Bombay"), but one can be added if appropriate:
 
 ```{r ordered-factors}
 factor(c("Worst", "Best", "Not Bad", "Worst"), levels = c("Worst", "Not Bad", "Best"), ordered = TRUE)
@@ -315,7 +318,7 @@ To see whether a factor has an order, use `is.ordered`. Details on manipulating 
 There are three key functions here:
 
 - `sort(x)` will sort the vector.
-- `rank(x)` tells how far forward each element of `x` is in its pecking order.
+- `rank(x)` tells where each element of `x` is in the pecking order.
 - `order(x)` is rarely useful on its own, but `y[order(x, z)]` will sort `y` by `x` and `z`.
 
 Be careful not to use these functions on an unordered factor, where they will make no sense but run without warning.
@@ -323,6 +326,8 @@ Be careful not to use these functions on an unordered factor, where they will ma
 The `frank()` function (yes, really) from the data.table package is also useful, for its "dense" rank tie-breaking rule.
 
 ### Testing membership
+
+-- move this to Syntax -- too early for the reader to learn elementwise stuff
 
 Besides comparisons, `x == y`, we can test membership like `x %in% y`:
 
@@ -343,7 +348,7 @@ Unlike `==`, here we always get a true/false result, even when missing values ar
 3. If I run `x = c("a","b")` and then `x[c(2,1)] = c("c","d")`, what is the value of `x[1]`?
 4. Write the command to summon documenation for for the assignment procedure used in `L$X <- list(3)`.
 
-## Matrices and Arrays {#matrix-array}
+## Matrices and arrays {#matrix-array}
 
 The `matrix` function is used for construction:
 
@@ -356,6 +361,8 @@ matrix(v, nrow = 2, ncol = 2)
 matrix(v, nrow = 2, ncol = 2, byrow = TRUE)
 ```
 
+By default, the matrix is built with column-major order; but `byrow = TRUE` will read as row-major.
+
 The dimensions of a matrix can be extracted with the `dim` function or `nrow` and `ncol`.
 
 All elements of a matrix must have the same class, just like a vector. So you can have a "character matrix", a "numeric matrix", etc. 
@@ -364,16 +371,20 @@ All elements of a matrix must have the same class, just like a vector. So you ca
 **Vectors with attributes.** In fact, a matrix *is* a vector, just augmented by the `dim` attribute. As mentioned at the top, all data in R is stored in vectors; and as mentioned in \@ref(classes), most classes are built on top of vectors. One wrinkle is that `is.vector` is false for matrices. However, this makes sense in light of the doc, `?is.vector`.
 ```
 
+caution -- column-major, not sure if this needs a box
+
 ### Building matrices
 
-Matrices can also be built from vectors with `cbind` and `rbind`:
+Matrices can also be built from vectors with `cbind` and `rbind` (for "binding" columns or rows):
 
 ```{r matrix-bind}
 rbind(c(1,1), c(2,2))
 cbind(c(1,1), c(2,2), c(3,3))
 ```
 
-These functions also take matrices as arguments.
+These functions can also build matrices from other matrices.
+
+`diag(n)` will make an identity matrix of size `n`; and `diag(v)` will make a diagonal matrix with `v` on the diagonal.
 
 ### Named rows and columns
 
@@ -427,17 +438,19 @@ im = matrix(c(1,1,2,2), 2, 2, byrow=TRUE)
 m[im]
 ```
 
-The first column corresponds to rows, and the second to columns.
+The first column of `im` corresponds to rows, and the second to columns. Elements are extracted in the order they are listed in `im`.
 
-Finally, `drop = TRUE` can be used to select a column or row, like `m[, 2]` (where `drop = TRUE` is the default) or a single element, like `m[1, 2]` or `m["a", "y"]`.
+`drop = TRUE` can be used to select a column or row, like `m[, 2]` (where `drop = TRUE` is the default) or a single element, like `m[1, 2]` or `m["a", "y"]`. 
+
+Finally, `diag(m)` will extract the diagonal from a matrix; while `upper.tri` and `lower.tri` extract those parts (in column-major order).
 
 ### Subassigning to matrices
 
 Assign to elements of a matrix in one of a few ways: 
 
-- `x[i,j] = z` where `i` and `j` are rows and columns, respectively
-- `x[i] = z` with `i` being an index vector
-- `X[Y] = z` with `Y` being an index matrix
+- `X[i,j] = z` where `i` and `j` are rows and columns, respectively
+- `X[i] = z` with `i` being an index vector
+- `X[im] = z` with `im` being an index matrix
 
 In all cases, `z` is a vector or matrix of values.
 
@@ -458,6 +471,11 @@ There are convenience functions for modifying object attributes, with syntax lik
 - matrix or array names, `` ?`dimnames<-` `` 
 
 These are rarely needed and can be confusing for obvious reasons.
+
+... also, link to data.table mod by ref
+
+... insert a section on vectorization / elementwise operators, mention interaction with recycling
+oh, that section already exists, well, move it up here or carefully avoid elementwise stuff until after that section...
 
 ### Arithmetic {#arithmetic}
 
@@ -493,7 +511,7 @@ A couple additional symbols, `||` and `&&`, do short circuiting and will be expl
 
 These functions treat a vanilla vector as a column vector.
 
-Remember that the undecorated `*` will always work elementwise and silently recycle values.
+Remember that the undecorated `*` will always work elementwise (ref above) and silently recycle values.
 
 Additional convenience functions for matrix algebra are covered in \@ref(matrix-more).
 
@@ -600,6 +618,8 @@ install.packages("fortunes")
 ```
 
 If a package is loaded, it cannot be updated, so close all R sessions where the package is loaded before updating it.
+
+type sessionInfo() to view packages and other details about the r session
 
 ```{block2, type='rmd-details'} 
 **Managing packages.** Use `installed.packages` to view dependencies and version numbers. Some other tools, [rocker](https://github.com/rocker-org/rocker) and [drat](https://github.com/eddelbuettel/drat), look promising.
@@ -844,7 +864,7 @@ Vectorized code and matrix algebra are much faster than a loop. Loops should be 
 ### `if`/`else` elementwise {#ifelse}
 
 ```{block2, type='rmd-caution'}
-**Dummy variables.** First, if you find yourself wanting to do `x = if (cond) 1 else 0`, don't. As mentioned in \@ref(arithmetic), the logical variable `cond` itself is perfect for storing this dummy variable. It will be treated as numeric in any arithmetic calculations. Besides, there is certainly no reason to prefer the floating-point values `0` and `1` over integers `0L` and `1L`.
+**Dummy variables.** First, if you find yourself wanting to do `x = if (cond) 1 else 0`, don't. As mentioned in \@ref(arithmetic), the logical variable `cond` itself is perfect for storing this dummy variable. It will be treated as numeric in any arithmetic calculations. Besides, there is certainly no reason to prefer the floating-point values `0` and `1` over integers `0L` and `1L`. Finally, use a factor...
 ```
 
 The base R tool for handling elementwise `if`/`else` rules is the function `ifelse`. However, it has some serious shortcomings. A better way, similar to the `gen`/`replace` pattern in Stata, is covered in \@ref(dt-ifelse).
@@ -897,4 +917,10 @@ lapply(DF, function(x) x[3])
 
 To browse a data frame in a separate window, use `View(DF)`.
 
+## Built-in constants
 
+R includes several handy constants, like `pi`, the alphabet (`?letters`), months (`?month.name`), days of the week (`?weekdays`) and US state names and abbreviations (`?state`). You don't need to worry about accidentally reusing any of these contants' names for your own variables (though redefining `pi` might not be a great idea).
+
+details -- masking and reserved words. it's okay to "mask" a function or object that exists. it's just not a good idea if it's going to confuse you or others later. for example, don't name a matrix "matrix", since that's the name of the constructor function
+
+On a related note, `?Reserved` lists all of R's important built-ins that cannot be overwritten.

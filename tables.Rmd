@@ -1,4 +1,4 @@
-# Tables {#data}
+# Tables {#tables}
 
 This chapter covers navigating tabular data with R.
 
@@ -75,11 +75,9 @@ str(DT)
 
 The third major difference is a change in syntax from a data frame's `DF[i,j]`, with `i` and `j` as indices, to SQL-style syntax that is cleaner for by-group operations:
 
-```{r DTsyntax, eval=FALSE}
-# this is only pseudocode:
-DT[where, select|update|do, by] # SQL verbs
-DT[i, j, by]                    # R function arguments
-```
+    # this is only pseudocode:
+    DT[where, select|update|do, by] # SQL verbs
+    DT[i, j, by]                    # R function arguments
 
 This should be read as:
 
@@ -264,7 +262,7 @@ eyeball-exploring models: curve
 
 qqplot etc for the statistically literate, and other tools for ML people
 
-### Browsing loaded objects {#tables}
+### Browsing loaded objects {#browse-env}
 
 ls()
 
@@ -315,6 +313,32 @@ DT[ , .SD[N == max(N)], by=Class ]
 **Efficient selection of rows within each group.**  The second task here is [somewhat inefficient](https://github.com/Rdatatable/data.table/issues/735) currently, with a faster workaround [provided by eddi](http://stackoverflow.com/a/16574176): `DT[DT[ , .I[N == max(N)], by=Class ]$V1]`. And [Arun provided a further improvement](http://stackoverflow.com/a/31854111), taking advantage of `gmax`, an efficient by-group `max` (see `?GForce`): `DT[DT[, max(N), by=Class], on=.(Class, N = V1)]`. The variable `.I` represents the row number in the full table, or at least it *should* do that. Currently, `.I` does [not always behave like this](https://github.com/Rdatatable/data.table/issues/1494). "V1" is the default name given to the result in `j`. 
 ```
 
+#### Finding where a condition holds
+
+To find where a condition holds:
+
+```{r which}
+cond = c("aleph", "baz", "boz") > "b"
+which(cond)
+```
+
+So, it takes us from a logical index to one of positions. This can sometimes speed up computations; and is necessary when facing functions that don't take logical indices.
+
+When using `which` on a matrix or array (see \@ref(matrix-array)), we can find out "where" in terms of row and column using the `arr.ind` option.
+
+Beware of using `which` output as an index:
+
+```{r bad-which}
+x  = 1:5
+w  = which(x^2 > 50)
+x[-w]
+```
+
+We wanted to filter to where `x` meeting our condition, but instead we lost the whole vector. Straight-up logical filtering is the safer route here.
+
+Data.table has `DT[i, which = TRUE]` syntax as well.
+
+
 ### Sorting
 
 order(x, -y)
@@ -347,9 +371,26 @@ mdesc, count missing per column colSums(is.na(.SD))
 
 #### Tabulating {#counting-rows}
 
+Tabulating or tallying
+
 bwDT[, .N, by=ftv]
 
-refer to \@ref(tallying)
+refer to table() and plot.table()
+
+With a continuous variable `x`, it often doesn't make sense to tally values as in the last section. However, we can specify bins and find where the values fall:
+
+```{r cut}
+set.seed(1)
+n  = 1000
+x  = rchisq(n, df = 10)
+xc = cut(x, breaks = c(0, 5, 10, 15, 20, Inf)) # or max(x) in place of Inf
+table(xc)
+```
+
+See the note in `?cut` for details on more efficient alternatives:
+
+> Instead of `table(cut(x, br))`, `hist(x, br, plot = FALSE)` is more efficient and less memory hungry. Instead of `cut(*, labels = FALSE)`, `findInterval()` is more efficient.
+
 
 
 ### Reshaping to wide
@@ -642,6 +683,8 @@ The `i.*` syntax allows for unambiguously referring to columns from `i` (in case
 ```{block2 dt-updatejoin-beware, type='rmd-caution'}
 **Beware multiple matches in an update join.** When there are multiple matches (\@ref(join-multimatch)), an update join will apparently only use the last one. [Unfortunately](https://github.com/Rdatatable/data.table/issues/2022), this is done silently. Try `b[a, on=.(id), x := i.x, verbose = TRUE ][]`. At least with `verbose` on it helpfully reports that it assigned "to 3 row subset of 2 rows."
 ```
+
+
 
 
 

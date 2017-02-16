@@ -17,14 +17,8 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-02-15" />
+<meta name="date" content="2017-02-16" />
 
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-});
-</script>
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
 <meta name="description" content="This book covers the essentials of using R.">
 
@@ -171,119 +165,81 @@ img {
 <li><a href="basics.html#lapply-df"><span class="toc-section-number">2.6.1</span> Iterating over columns</a></li>
 <li><a href="basics.html#inspection"><span class="toc-section-number">2.6.2</span> Inspection</a></li>
 </ul></li>
+<li><a href="basics.html#built-in-constants"><span class="toc-section-number">2.7</span> Built-in constants</a></li>
 </ul></li>
-<li class="has-sub"><a href="data.html#data"><span class="toc-section-number">3</span> Tables</a><ul>
-<li><a href="data.html#magrittr"><span class="toc-section-number">3.1</span> Magrittr</a></li>
-<li class="has-sub"><a href="data.html#data-table"><span class="toc-section-number">3.2</span> data.table</a><ul>
-<li><a href="data.html#modification-by-reference"><span class="toc-section-number">3.2.1</span> Modification by reference</a></li>
-<li><a href="data.html#dt-factorvchar"><span class="toc-section-number">3.2.2</span> Factor vs character columns</a></li>
-<li><a href="data.html#syntax-1"><span class="toc-section-number">3.2.3</span> Syntax</a></li>
-<li><a href="data.html#other-features"><span class="toc-section-number">3.2.4</span> Other features</a></li>
-<li><a href="data.html#installation"><span class="toc-section-number">3.2.5</span> Installation</a></li>
-<li><a href="data.html#getting-started"><span class="toc-section-number">3.2.6</span> Getting started</a></li>
+<li class="has-sub"><a href="tables.html#tables"><span class="toc-section-number">3</span> Tables</a><ul>
+<li><a href="tables.html#magrittr"><span class="toc-section-number">3.1</span> Magrittr</a></li>
+<li class="has-sub"><a href="tables.html#data-table"><span class="toc-section-number">3.2</span> data.table</a><ul>
+<li><a href="tables.html#modification-by-reference"><span class="toc-section-number">3.2.1</span> Modification by reference</a></li>
+<li><a href="tables.html#dt-factorvchar"><span class="toc-section-number">3.2.2</span> Factor vs character columns</a></li>
+<li><a href="tables.html#syntax-1"><span class="toc-section-number">3.2.3</span> Syntax</a></li>
+<li><a href="tables.html#other-features"><span class="toc-section-number">3.2.4</span> Other features</a></li>
+<li><a href="tables.html#installation"><span class="toc-section-number">3.2.5</span> Installation</a></li>
+<li><a href="tables.html#getting-started"><span class="toc-section-number">3.2.6</span> Getting started</a></li>
 </ul></li>
-<li class="has-sub"><a href="data.html#input-output"><span class="toc-section-number">3.3</span> Input and output</a><ul>
-<li><a href="data.html#file-paths"><span class="toc-section-number">3.3.1</span> File paths</a></li>
-<li><a href="data.html#fread"><span class="toc-section-number">3.3.2</span> <code>fread</code> to read delimited files</a></li>
-<li><a href="data.html#sdcols-for-a-set-of-columns"><span class="toc-section-number">3.3.3</span> <code>.SDcols</code> for a set of columns</a></li>
-<li><a href="data.html#character-columns"><span class="toc-section-number">3.3.4</span> Character columns</a></li>
-<li><a href="data.html#factor-columns"><span class="toc-section-number">3.3.5</span> Factor columns</a></li>
-<li><a href="data.html#dates-times"><span class="toc-section-number">3.3.6</span> Date and time columns</a></li>
-<li><a href="data.html#list-columns"><span class="toc-section-number">3.3.7</span> List columns</a></li>
-<li><a href="data.html#source-file-index-columns"><span class="toc-section-number">3.3.8</span> Source-file index columns</a></li>
-<li><a href="data.html#fwrite"><span class="toc-section-number">3.3.9</span> <code>fwrite</code> to write delimited files</a></li>
-<li><a href="data.html#saving-and-loading-r-objects"><span class="toc-section-number">3.3.10</span> Saving and loading R objects</a></li>
-<li><a href="data.html#reading-and-writing-other-formats"><span class="toc-section-number">3.3.11</span> Reading and writing other formats</a></li>
-<li><a href="data.html#formatting-the-display-of-columns"><span class="toc-section-number">3.3.12</span> Formatting the display of columns</a></li>
+<li class="has-sub"><a href="tables.html#input-output"><span class="toc-section-number">3.3</span> Input and output</a><ul>
+<li><a href="tables.html#file-paths"><span class="toc-section-number">3.3.1</span> File paths</a></li>
+<li><a href="tables.html#fread"><span class="toc-section-number">3.3.2</span> <code>fread</code> to read delimited files</a></li>
+<li><a href="tables.html#sdcols-for-a-set-of-columns"><span class="toc-section-number">3.3.3</span> <code>.SDcols</code> for a set of columns</a></li>
+<li><a href="tables.html#character-columns"><span class="toc-section-number">3.3.4</span> Character columns</a></li>
+<li><a href="tables.html#factor-columns"><span class="toc-section-number">3.3.5</span> Factor columns</a></li>
+<li><a href="tables.html#dates-times"><span class="toc-section-number">3.3.6</span> Date and time columns</a></li>
+<li><a href="tables.html#list-columns"><span class="toc-section-number">3.3.7</span> List columns</a></li>
+<li><a href="tables.html#source-file-index-columns"><span class="toc-section-number">3.3.8</span> Source-file index columns</a></li>
+<li><a href="tables.html#fwrite"><span class="toc-section-number">3.3.9</span> <code>fwrite</code> to write delimited files</a></li>
+<li><a href="tables.html#saving-and-loading-r-objects"><span class="toc-section-number">3.3.10</span> Saving and loading R objects</a></li>
+<li><a href="tables.html#reading-and-writing-other-formats"><span class="toc-section-number">3.3.11</span> Reading and writing other formats</a></li>
+<li><a href="tables.html#formatting-the-display-of-columns"><span class="toc-section-number">3.3.12</span> Formatting the display of columns</a></li>
 </ul></li>
-<li class="has-sub"><a href="data.html#exploring-data"><span class="toc-section-number">3.4</span> Exploring data</a><ul>
-<li><a href="data.html#tables"><span class="toc-section-number">3.4.1</span> Browsing loaded objects</a></li>
-<li><a href="data.html#dt-subset"><span class="toc-section-number">3.4.2</span> Subsetting</a></li>
-<li><a href="data.html#sorting"><span class="toc-section-number">3.4.3</span> Sorting</a></li>
-<li><a href="data.html#dt-summary-stats"><span class="toc-section-number">3.4.4</span> Summaries</a></li>
-<li><a href="data.html#reshaping-to-wide"><span class="toc-section-number">3.4.5</span> Reshaping to wide</a></li>
+<li class="has-sub"><a href="tables.html#exploring-data"><span class="toc-section-number">3.4</span> Exploring data</a><ul>
+<li><a href="tables.html#tables"><span class="toc-section-number">3.4.1</span> Browsing loaded objects</a></li>
+<li><a href="tables.html#dt-subset"><span class="toc-section-number">3.4.2</span> Subsetting</a></li>
+<li><a href="tables.html#sorting"><span class="toc-section-number">3.4.3</span> Sorting</a></li>
+<li><a href="tables.html#dt-summary-stats"><span class="toc-section-number">3.4.4</span> Summaries</a></li>
+<li><a href="tables.html#reshaping-to-wide"><span class="toc-section-number">3.4.5</span> Reshaping to wide</a></li>
 </ul></li>
-<li class="has-sub"><a href="data.html#dt-subassign"><span class="toc-section-number">3.5</span> Modifying data in-place</a><ul>
-<li><a href="data.html#dt-col-create"><span class="toc-section-number">3.5.1</span> Creating columns</a></li>
-<li><a href="data.html#removing-columns"><span class="toc-section-number">3.5.2</span> Removing columns</a></li>
-<li><a href="data.html#replacing-entire-columns"><span class="toc-section-number">3.5.3</span> Replacing entire columns</a></li>
-<li><a href="data.html#dt-ifelse"><span class="toc-section-number">3.5.4</span> Replacing columns conditionally</a></li>
-<li><a href="data.html#iterating-over-columns"><span class="toc-section-number">3.5.5</span> Iterating over columns</a></li>
-<li><a href="data.html#avoiding-in-place-modification"><span class="toc-section-number">3.5.6</span> Avoiding in-place modification</a></li>
+<li class="has-sub"><a href="tables.html#dt-subassign"><span class="toc-section-number">3.5</span> Modifying data in-place</a><ul>
+<li><a href="tables.html#dt-col-create"><span class="toc-section-number">3.5.1</span> Creating columns</a></li>
+<li><a href="tables.html#removing-columns"><span class="toc-section-number">3.5.2</span> Removing columns</a></li>
+<li><a href="tables.html#replacing-entire-columns"><span class="toc-section-number">3.5.3</span> Replacing entire columns</a></li>
+<li><a href="tables.html#dt-ifelse"><span class="toc-section-number">3.5.4</span> Replacing columns conditionally</a></li>
+<li><a href="tables.html#iterating-over-columns"><span class="toc-section-number">3.5.5</span> Iterating over columns</a></li>
+<li><a href="tables.html#avoiding-in-place-modification"><span class="toc-section-number">3.5.6</span> Avoiding in-place modification</a></li>
 </ul></li>
-<li class="has-sub"><a href="data.html#dt-merging"><span class="toc-section-number">3.6</span> Joins</a><ul>
-<li><a href="data.html#join-multimatch"><span class="toc-section-number">3.6.1</span> Handling multiply-matched rows</a></li>
-<li><a href="data.html#handling-unmatched-rows"><span class="toc-section-number">3.6.2</span> Handling unmatched rows</a></li>
-<li><a href="data.html#fancy-joins"><span class="toc-section-number">3.6.3</span> Fancy joins</a></li>
+<li class="has-sub"><a href="tables.html#dt-merging"><span class="toc-section-number">3.6</span> Joins</a><ul>
+<li><a href="tables.html#join-multimatch"><span class="toc-section-number">3.6.1</span> Handling multiply-matched rows</a></li>
+<li><a href="tables.html#handling-unmatched-rows"><span class="toc-section-number">3.6.2</span> Handling unmatched rows</a></li>
+<li><a href="tables.html#fancy-joins"><span class="toc-section-number">3.6.3</span> Fancy joins</a></li>
 </ul></li>
-<li class="has-sub"><a href="data.html#structuring-data"><span class="toc-section-number">3.7</span> Organizing relational tables</a><ul>
-<li><a href="data.html#reshaping-to-long-format"><span class="toc-section-number">3.7.1</span> Reshaping to long format</a></li>
-<li><a href="data.html#choosing-tables-and-keys"><span class="toc-section-number">3.7.2</span> Choosing tables and keys</a></li>
-<li><a href="data.html#listing-levels"><span class="toc-section-number">3.7.3</span> Listing levels</a></li>
-<li><a href="data.html#exploring-levels"><span class="toc-section-number">3.7.4</span> Exploring levels</a></li>
-<li><a href="data.html#aggregate-join"><span class="toc-section-number">3.7.5</span> Collapsing</a></li>
-<li><a href="data.html#expanding"><span class="toc-section-number">3.7.6</span> Expanding</a></li>
-<li><a href="data.html#update-joins"><span class="toc-section-number">3.7.7</span> Update joins</a></li>
+<li class="has-sub"><a href="tables.html#structuring-data"><span class="toc-section-number">3.7</span> Organizing relational tables</a><ul>
+<li><a href="tables.html#reshaping-to-long-format"><span class="toc-section-number">3.7.1</span> Reshaping to long format</a></li>
+<li><a href="tables.html#choosing-tables-and-keys"><span class="toc-section-number">3.7.2</span> Choosing tables and keys</a></li>
+<li><a href="tables.html#listing-levels"><span class="toc-section-number">3.7.3</span> Listing levels</a></li>
+<li><a href="tables.html#exploring-levels"><span class="toc-section-number">3.7.4</span> Exploring levels</a></li>
+<li><a href="tables.html#aggregate-join"><span class="toc-section-number">3.7.5</span> Collapsing</a></li>
+<li><a href="tables.html#expanding"><span class="toc-section-number">3.7.6</span> Expanding</a></li>
+<li><a href="tables.html#update-joins"><span class="toc-section-number">3.7.7</span> Update joins</a></li>
 </ul></li>
 </ul></li>
 <li class="has-sub"><a href="work.html#work"><span class="toc-section-number">4</span> Getting work done</a><ul>
-<li><a href="work.html#quick-math-tools"><span class="toc-section-number">4.1</span> Quick math tools</a></li>
-<li class="has-sub"><a href="work.html#regression"><span class="toc-section-number">4.2</span> Regression</a><ul>
-<li><a href="work.html#the-formula-interface"><span class="toc-section-number">4.2.1</span> The formula interface</a></li>
-<li><a href="work.html#alternatives-to-the-formula-interface"><span class="toc-section-number">4.2.2</span> Alternatives to the formula interface</a></li>
+<li class="has-sub"><a href="work.html#randomization"><span class="toc-section-number">4.1</span> Randomization</a><ul>
+<li><a href="work.html#draws-from-distributions"><span class="toc-section-number">4.1.1</span> Draws from distributions</a></li>
+<li><a href="work.html#urn-draws-and-permutations"><span class="toc-section-number">4.1.2</span> Urn draws and permutations</a></li>
+<li><a href="work.html#simulations"><span class="toc-section-number">4.1.3</span> Simulations</a></li>
 </ul></li>
-<li><a href="work.html#optimization"><span class="toc-section-number">4.3</span> Optimization</a></li>
-<li><a href="work.html#integration"><span class="toc-section-number">4.4</span> Integration</a></li>
+<li class="has-sub"><a href="work.html#working-with-sequences"><span class="toc-section-number">4.2</span> Working with sequences</a><ul>
+<li><a href="work.html#lag"><span class="toc-section-number">4.2.1</span> Lag operators</a></li>
+<li><a href="work.html#rolling-computations"><span class="toc-section-number">4.2.2</span> Rolling computations</a></li>
+<li><a href="work.html#run-length-encoding"><span class="toc-section-number">4.2.3</span> Run-length encoding</a></li>
+<li><a href="work.html#grouping-on-runs"><span class="toc-section-number">4.2.4</span> Grouping on runs</a></li>
 </ul></li>
-<li class="has-sub"><a href="quirks.html#quirks"><span class="toc-section-number">5</span> Quirks</a><ul>
-<li><a href="quirks.html#matrix-more"><span class="toc-section-number">5.1</span> Matrix tools</a></li>
-<li><a href="quirks.html#randomization"><span class="toc-section-number">5.2</span> Randomization</a></li>
-<li><a href="quirks.html#lag"><span class="toc-section-number">5.3</span> Lag operators</a></li>
-<li><a href="quirks.html#methods"><span class="toc-section-number">5.4</span> Functions’ methods</a></li>
-<li><a href="quirks.html#tallying"><span class="toc-section-number">5.5</span> Tallying</a></li>
-<li><a href="quirks.html#finding-bins-for-values"><span class="toc-section-number">5.6</span> Finding bins for values</a></li>
-<li><a href="quirks.html#building-grouping-variables"><span class="toc-section-number">5.7</span> Building grouping variables</a></li>
-<li><a href="quirks.html#finding-where-a-condition-holds"><span class="toc-section-number">5.8</span> Finding where a condition holds</a></li>
-<li><a href="quirks.html#finding-a-value"><span class="toc-section-number">5.9</span> Finding a value</a></li>
-<li><a href="quirks.html#string-operations"><span class="toc-section-number">5.10</span> String operations</a></li>
-<li><a href="quirks.html#built-in-constants"><span class="toc-section-number">5.11</span> Built-in constants</a></li>
-<li class="has-sub"><a href="quirks.html#set-ops"><span class="toc-section-number">5.12</span> Set operators</a><ul>
-<li><a href="quirks.html#dt-set-ops"><span class="toc-section-number">5.12.1</span> set operations</a></li>
+<li><a href="work.html#combining-table-columns"><span class="toc-section-number">4.3</span> Combining table columns</a></li>
+<li class="has-sub"><a href="work.html#reg"><span class="toc-section-number">4.4</span> Regression</a><ul>
+<li><a href="work.html#extracting-results"><span class="toc-section-number">4.4.1</span> Extracting results</a></li>
 </ul></li>
-<li><a href="quirks.html#working-with-lists-and-data-frames"><span class="toc-section-number">5.13</span> Working with lists and data frames</a></li>
-<li><a href="quirks.html#combinatorics"><span class="toc-section-number">5.14</span> Combinatorics</a></li>
-<li><a href="quirks.html#runs"><span class="toc-section-number">5.15</span> Runs</a></li>
-<li><a href="basics.html#lapply"><span class="toc-section-number">5.16</span> Iterating over lists</a></li>
-<li><a href="quirks.html#applying-functions-along-a-dimension-of-an-array-or-matrix"><span class="toc-section-number">5.17</span> Applying functions along a dimension of an array or matrix</a></li>
-<li><a href="quirks.html#using-grouping-variables"><span class="toc-section-number">5.18</span> Using grouping variables</a></li>
-<li><a href="quirks.html#chains-of-functions"><span class="toc-section-number">5.19</span> Chains of functions</a></li>
-<li><a href="quirks.html#asking-questions-online"><span class="toc-section-number">5.20</span> Asking questions online</a></li>
-</ul></li>
-<li class="has-sub"><a href="extra.html#extra"><span class="toc-section-number">6</span> Miscellaneous</a><ul>
-<li class="has-sub"><a href="extra.html#fancy-function-definitions"><span class="toc-section-number">6.1</span> Fancy function definitions</a><ul>
-<li><a href="extra.html#custom-operators"><span class="toc-section-number">6.1.1</span> Custom operators</a></li>
-</ul></li>
-<li><a href="extra.html#cross-join-two-tables"><span class="toc-section-number">6.2</span> Cross join two tables</a></li>
-<li><a href="extra.html#output-tables-and-graphs"><span class="toc-section-number">6.3</span> Output tables and graphs</a></li>
-<li><a href="extra.html#style"><span class="toc-section-number">6.4</span> Style</a></li>
-<li class="has-sub"><a href="extra.html#programming"><span class="toc-section-number">6.5</span> Program structure</a><ul>
-<li><a href="extra.html#reused-code"><span class="toc-section-number">6.5.1</span> Reused code</a></li>
-<li><a href="extra.html#shortcuts"><span class="toc-section-number">6.5.2</span> Shortcuts</a></li>
-<li><a href="extra.html#mapping-values"><span class="toc-section-number">6.5.3</span> Mapping values</a></li>
-<li><a href="extra.html#formula-interface"><span class="toc-section-number">6.5.4</span> The formula interface</a></li>
-<li><a href="extra.html#reproducible-research"><span class="toc-section-number">6.5.5</span> Reproducible research</a></li>
-</ul></li>
-<li class="has-sub"><a href="extra.html#advanced-tools"><span class="toc-section-number">6.6</span> Advanced tools</a><ul>
-<li><a href="extra.html#profiling"><span class="toc-section-number">6.6.1</span> Profiling</a></li>
-<li><a href="extra.html#rcpp"><span class="toc-section-number">6.6.2</span> Rcpp</a></li>
-<li><a href="extra.html#combinatorial-problems"><span class="toc-section-number">6.6.3</span> Combinatorial problems</a></li>
-<li><a href="extra.html#rolling-operations"><span class="toc-section-number">6.6.4</span> Rolling operations</a></li>
-<li><a href="extra.html#parallelization"><span class="toc-section-number">6.6.5</span> Parallelization</a></li>
-<li><a href="extra.html#intervals"><span class="toc-section-number">6.6.6</span> Intervals</a></li>
-<li><a href="extra.html#graph-theory"><span class="toc-section-number">6.6.7</span> Graph theory</a></li>
-<li><a href="extra.html#dynamic-programming"><span class="toc-section-number">6.6.8</span> Dynamic programming</a></li>
-<li><a href="extra.html#working-with-files-on-disk"><span class="toc-section-number">6.6.9</span> Working with files on disk</a></li>
-</ul></li>
+<li><a href="work.html#optimization"><span class="toc-section-number">4.5</span> Optimization</a></li>
+<li><a href="work.html#integration"><span class="toc-section-number">4.6</span> Integration</a></li>
+<li><a href="work.html#string-operations"><span class="toc-section-number">4.7</span> String operations</a></li>
 </ul></li>
 </ul>
 </div>
@@ -291,7 +247,7 @@ img {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="data" class="section level1">
+<div id="tables" class="section level1">
 <h1><span class="header-section-number">Chapter 3</span> Tables</h1>
 <p>This chapter covers navigating tabular data with R.</p>
 <p>The first two sections – on magrittr and data.table – cover packages that help me work more efficiently, to the point where I regard them as essential. They’ll be used throughout the rest of this document. They don’t have any dependencies on other packages, and I expect they’ll be available as long as R is. It will be assumed in subsequent sections that these libraries have been loaded:</p>
@@ -354,9 +310,9 @@ x %&gt;%<span class="st"> </span>f %&gt;%<span class="st"> </span>g %&gt;%<span 
 <div id="syntax-1" class="section level3">
 <h3><span class="header-section-number">3.2.3</span> Syntax</h3>
 <p>The third major difference is a change in syntax from a data frame’s <code>DF[i,j]</code>, with <code>i</code> and <code>j</code> as indices, to SQL-style syntax that is cleaner for by-group operations:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># this is only pseudocode:</span>
-DT[where, select|update|do, by] <span class="co"># SQL verbs</span>
-DT[i, j, by]                    <span class="co"># R function arguments</span></code></pre></div>
+<pre><code># this is only pseudocode:
+DT[where, select|update|do, by] # SQL verbs
+DT[i, j, by]                    # R function arguments</code></pre>
 <p>This should be read as:</p>
 <ol style="list-style-type: decimal">
 <li>Subset using <code>i</code></li>
@@ -462,7 +418,7 @@ bwDT[, {
 </div>
 <div id="factor-columns" class="section level3">
 <h3><span class="header-section-number">3.3.5</span> Factor columns</h3>
-<p>use characters most of the time, don’t worry about memory. the real memory problems come from how data is organized, as discussed in <a href="data.html#structuring-data">3.7</a>.</p>
+<p>use characters most of the time, don’t worry about memory. the real memory problems come from how data is organized, as discussed in <a href="tables.html#structuring-data">3.7</a>.</p>
 <p>show how ordered factors can be used to set up inequalities for strings</p>
 </div>
 <div id="dates-times" class="section level3">
@@ -529,7 +485,7 @@ DT =<span class="st"> </span><span class="kw">data.table</span>(Titanic)</code><
 <pre><code>#    Class  Sex   Age Survived   N
 # 1:  Crew Male Adult       No 670
 # 2:  Crew Male Adult      Yes 192</code></pre>
-<p>This syntax, <code>DT[i]</code>, is the subsetting task needed in the vast majority of cases. The rest of <a href="data.html#dt-subset">3.4.2</a> can safely be skipped the first time through; it is mostly useful for reference.</p>
+<p>This syntax, <code>DT[i]</code>, is the subsetting task needed in the vast majority of cases. The rest of <a href="tables.html#dt-subset">3.4.2</a> can safely be skipped the first time through; it is mostly useful for reference.</p>
 </div>
 <div id="selecting-by-group-statistic" class="section level4">
 <h4><span class="header-section-number">3.4.2.2</span> Selecting by group statistic</h4>
@@ -569,6 +525,22 @@ DT[ , .SD[N ==<span class="st"> </span><span class="kw">max</span>(N)], by=Class
 </div>
 <p></p>
 </div>
+<div id="finding-where-a-condition-holds" class="section level4">
+<h4><span class="header-section-number">3.4.2.4</span> Finding where a condition holds</h4>
+<p>To find where a condition holds:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cond =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;aleph&quot;</span>, <span class="st">&quot;baz&quot;</span>, <span class="st">&quot;boz&quot;</span>) &gt;<span class="st"> &quot;b&quot;</span>
+<span class="kw">which</span>(cond)</code></pre></div>
+<pre><code># [1] 2 3</code></pre>
+<p>So, it takes us from a logical index to one of positions. This can sometimes speed up computations; and is necessary when facing functions that don’t take logical indices.</p>
+<p>When using <code>which</code> on a matrix or array (see <a href="basics.html#matrix-array">2.2</a>), we can find out “where” in terms of row and column using the <code>arr.ind</code> option.</p>
+<p>Beware of using <code>which</code> output as an index:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x  =<span class="st"> </span><span class="dv">1</span>:<span class="dv">5</span>
+w  =<span class="st"> </span><span class="kw">which</span>(x^<span class="dv">2</span> &gt;<span class="st"> </span><span class="dv">50</span>)
+x[-w]</code></pre></div>
+<pre><code># integer(0)</code></pre>
+<p>We wanted to filter to where <code>x</code> meeting our condition, but instead we lost the whole vector. Straight-up logical filtering is the safer route here.</p>
+<p>Data.table has <code>DT[i, which = TRUE]</code> syntax as well.</p>
+</div>
 </div>
 <div id="sorting" class="section level3">
 <h3><span class="header-section-number">3.4.3</span> Sorting</h3>
@@ -595,8 +567,22 @@ DT[ , .SD[N ==<span class="st"> </span><span class="kw">max</span>(N)], by=Class
 </div>
 <div id="counting-rows" class="section level4">
 <h4><span class="header-section-number">3.4.4.4</span> Tabulating</h4>
+<p>Tabulating or tallying</p>
 <p>bwDT[, .N, by=ftv]</p>
-<p>refer to <a href="quirks.html#tallying">5.5</a></p>
+<p>refer to table() and plot.table()</p>
+<p>With a continuous variable <code>x</code>, it often doesn’t make sense to tally values as in the last section. However, we can specify bins and find where the values fall:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)
+n  =<span class="st"> </span><span class="dv">1000</span>
+x  =<span class="st"> </span><span class="kw">rchisq</span>(n, <span class="dt">df =</span> <span class="dv">10</span>)
+xc =<span class="st"> </span><span class="kw">cut</span>(x, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">20</span>, <span class="ot">Inf</span>)) <span class="co"># or max(x) in place of Inf</span>
+<span class="kw">table</span>(xc)</code></pre></div>
+<pre><code># xc
+#    (0,5]   (5,10]  (10,15]  (15,20] (20,Inf] 
+#      120      473      274      106       27</code></pre>
+<p>See the note in <code>?cut</code> for details on more efficient alternatives:</p>
+<blockquote>
+<p>Instead of <code>table(cut(x, br))</code>, <code>hist(x, br, plot = FALSE)</code> is more efficient and less memory hungry. Instead of <code>cut(*, labels = FALSE)</code>, <code>findInterval()</code> is more efficient.</p>
+</blockquote>
 </div>
 </div>
 <div id="reshaping-to-wide" class="section level3">
@@ -782,7 +768,7 @@ DT[, (nms) :<span class="er">=</span><span class="st"> </span><span class="ot">N
 <h3><span class="header-section-number">3.5.6</span> Avoiding in-place modification</h3>
 <p>If you want to create a new data.table instead of modifying in-place, use</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT2 =<span class="st"> </span><span class="kw">copy</span>(DT1)</code></pre></div>
-<p>We have to use this instead of <code>DT2 = DT1</code> since with the latter we have only created a new “pointer” to the first data set. I routinely make copies after reading in data (<a href="data.html#fread">3.3.2</a>) so that I can back out where I tripped over something in the process of data cleaning.</p>
+<p>We have to use this instead of <code>DT2 = DT1</code> since with the latter we have only created a new “pointer” to the first data set. I routinely make copies after reading in data (<a href="tables.html#fread">3.3.2</a>) so that I can back out where I tripped over something in the process of data cleaning.</p>
 </div>
 </div>
 <div id="dt-merging" class="section level2">
@@ -911,7 +897,7 @@ a =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">
 <div id="update-joins" class="section level3">
 <h3><span class="header-section-number">3.7.7</span> Update joins</h3>
 <p>we join so that we can update the table on the left</p>
-<p>As we saw in <a href="data.html#dt-ifelse">3.5.4</a>, we can do a SQL-style UPDATE like <code>x[i, var := ...]</code>:</p>
+<p>As we saw in <a href="tables.html#dt-ifelse">3.5.4</a>, we can do a SQL-style UPDATE like <code>x[i, var := ...]</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a[b, on=.(id), y :<span class="er">=</span><span class="st"> </span>i.y ]    <span class="co"># create column, assign to each matched row of a </span></code></pre></div>
 <pre><code>#    id  x  y
 # 1:  1 11 -1
@@ -929,7 +915,7 @@ a =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">
 <p>The <code>i.*</code> syntax allows for unambiguously referring to columns from <code>i</code> (in case the two tables have columns with the same names). Similarly, the <code>x.*</code> prefix can be used to refer to columns of <code>x</code>.</p>
 
 <div class="rmd-caution">
-<strong>Beware multiple matches in an update join.</strong> When there are multiple matches (<a href="data.html#join-multimatch">3.6.1</a>), an update join will apparently only use the last one. <a href="https://github.com/Rdatatable/data.table/issues/2022">Unfortunately</a>, this is done silently. Try <code>b[a, on=.(id), x := i.x, verbose = TRUE ][]</code>. At least with <code>verbose</code> on it helpfully reports that it assigned “to 3 row subset of 2 rows.”
+<strong>Beware multiple matches in an update join.</strong> When there are multiple matches (<a href="tables.html#join-multimatch">3.6.1</a>), an update join will apparently only use the last one. <a href="https://github.com/Rdatatable/data.table/issues/2022">Unfortunately</a>, this is done silently. Try <code>b[a, on=.(id), x := i.x, verbose = TRUE ][]</code>. At least with <code>verbose</code> on it helpfully reports that it assigned “to 3 row subset of 2 rows.”
 </div>
 <p></p>
 

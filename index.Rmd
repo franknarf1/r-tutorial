@@ -19,15 +19,21 @@ description: "This book covers the essentials of using R."
 
 # Introduction
 
-This document explains how to use R. Starting in chapter \@ref(data), the content is heavily influenced by the packages I recommend; and chapter \ref(work) on "Getting work done" only covers the analytical tools I find myself using as an economist. To keep it short, there is no discussion of statistical methodology or making pretty graphs. 
+This document explains how to use R, subject to some caveats: starting in chapter \@ref(tables), I only cover the packages I use; chapter \@ref(work) only covers the analytical tools I use; and, to keep it short, I have skipped discussion of statistical methodology and pretty graphs. 
 
 Why R instead of Stata? 
 
-- Of course, it's free, so you can run your code now and into the future.
-- Objects are treated symmetrically, so we don't have to use different rules for data tables, matrices, functions and variables. Nor do we have to learn new rules for when those objects are in Stata vs Mata or when data is loaded in memory vs on disk. Nor do we have to shuttle objects around between the various levels encountered in Stata.
-- While Stata restricts by-group operations to a select few, R effectively allows `by g: {multiple lines of arbitrary code} if condition`, as seen in \@ref(data-table).
+- It's free, so you and others can run your code now and into the future.
+- While Stata restricts by-group operations to a select few, R's data.table package allows the equivalent of
 
-Chapters \@ref(basics) and \@ref(data) will get you up to speed on navigating R. Chapter \@ref(work) covers common tasks. Chapter \@ref(quirks) is a reference for R's various quirks. The final chapter covers tables and graphs; my suggestions for programming; and various computational pitfalls.
+        # Stata pseudocode
+        by g: {
+          ...
+          ...
+        } if condition
+
+- Objects are treated symmetrically, so we don't have to use different rules for data tables, matrices, functions and variables. Nor do we have to learn new rules for when those objects are in Stata vs Mata or when data is loaded in memory vs on disk. Nor do we have to shuttle objects around between the various levels encountered in Stata.
+
 
 ## Getting started with R
 
@@ -35,26 +41,35 @@ Go to [the R project site](https://www.r-project.org/) and follow the instructio
 
 After installation, I know of two good options for running R on Windows:
 
-- Hook up R to notepad++ with [NppToR](https://sourceforge.net/projects/npptor/). This allows you to edit R scripts alongside all other documents. Commands are passed to the R console by customizable shortcuts and switching between multiple running consoles is easy.
+- Hook up R to notepad++ with [NppToR](https://sourceforge.net/projects/npptor/). This allows you to edit R scripts alongside all other documents. Commands are passed to the R console by customizable keyboard shortcuts and switching between multiple running R consoles is easy.
 
-- Install [the Rstudio development environment](https://www.rstudio.com/), which is restricted to one instance of R at a time and has a clumsy interface: an unhidable sidebar, and no drag-and-drop (of scripts into the editor, nor data into the console). On the other hand, it has handy "development" features that made compiling this tutorial a snap and would probably prove helpful if writing a package to contribute to CRAN. Rstudio also has the nice feature of not requiring administrator privileges for installation.
+- Install [the Rstudio development environment](https://www.rstudio.com/). It puts everything in a monolithic window, which means you cannot maximize the R console on one monitor while viewing a help file on another. Although you can open multiple scripts, searching text across them is not supported. It also lacks drag-and-drop (of scripts into the editor or data into the console). On the plus side, it is cross-platform; does not require administrator privileges to install; and has "development" features like project management and report compilation.
 
 ## Reading this book
 
+```{r, eval=FALSE}
+code that you can type at the console appears in boxes like this.
+```
+```{r, echo=FALSE}
+cat("Results from code appear in boxes like this.")
+```
+
+The comment symbol, `#`, appears in the results box so that you can safely copy-paste them into the console as well (when dragging over multiple code blocks). Unfortunately, R does not have any syntax for block comments.
+
 ```{block2, type='rmd-caution'}
-  Some notes warn about inconsistencies and pitfalls and should be read.
+Some notes warn about inconsistencies and pitfalls and should be read.
 ```
 
 
 ```{block2, type='rmd-details'}
-  Other notes give technical details and can be skipped the first time through.
+Other notes give technical details and can be skipped the first time through.
 ```
 
 Exercises are interspersed and should be pretty quick to do.
 
 ## About this book
 
-The book's R code was compiled using R, maintained by [the R Foundation](https://www.r-project.org/); written in the [Rstudio IDE](https://www.rstudio.com/products/rstudio/); and typeset with [Rmarkdown](http://rmarkdown.rstudio.com/) and [bookdown](https://bookdown.org/) by RStudio. Icons are from the ["Very Basic. Android L Lollipop" set by Ivan Boyko](https://www.iconfinder.com/iconsets/very-basic-android-l-lollipop) licensed under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) without any implied endorsement of this document by the icons' author.
+The book's R code was compiled using R, maintained by [the R Foundation](https://www.r-project.org/); written in the [Rstudio IDE](https://www.rstudio.com/products/rstudio/); and typeset with [Rmarkdown](http://rmarkdown.rstudio.com/) and [bookdown](https://bookdown.org/) by RStudio. Icons are from the ["Very Basic. Android L Lollipop" set by Ivan Boyko](https://www.iconfinder.com/iconsets/very-basic-android-l-lollipop) licensed under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/). There is no explicit or implied endorsement of this document by any of the parties mentioned.
 
 
 
