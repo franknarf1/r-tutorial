@@ -54,7 +54,7 @@ code that you can type at the console appears in boxes like this.
 cat("Results from code appear in boxes like this.")
 ```
 
-The comment symbol, `#`, appears in the results box so that you can safely copy-paste them into the console as well (when dragging over multiple code blocks). Unfortunately, R does not have any syntax for block comments.
+The comment symbol, `#`, appears in the results box so that you can safely copy-paste them into the console as well. Unfortunately, R does not have any syntax for block comments.
 
 ```{block2, type='rmd-caution'}
 Some notes warn about inconsistencies and pitfalls and should be read.

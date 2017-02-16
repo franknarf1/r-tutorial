@@ -129,7 +129,7 @@ img {
 <li><a href="basics.html#testing-membership"><span class="toc-section-number">2.1.14</span> Testing membership</a></li>
 <li><a href="basics.html#exercises"><span class="toc-section-number">2.1.15</span> Exercises</a></li>
 </ul></li>
-<li class="has-sub"><a href="basics.html#matrix-array"><span class="toc-section-number">2.2</span> Matrices and Arrays</a><ul>
+<li class="has-sub"><a href="basics.html#matrix-array"><span class="toc-section-number">2.2</span> Matrices and arrays</a><ul>
 <li><a href="basics.html#building-matrices"><span class="toc-section-number">2.2.1</span> Building matrices</a></li>
 <li><a href="basics.html#named-rows-and-columns"><span class="toc-section-number">2.2.2</span> Named rows and columns</a></li>
 <li><a href="basics.html#slicing-to-a-submatrix"><span class="toc-section-number">2.2.3</span> Slicing to a submatrix</a></li>
@@ -192,7 +192,7 @@ img {
 <li><a href="tables.html#formatting-the-display-of-columns"><span class="toc-section-number">3.3.12</span> Formatting the display of columns</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#exploring-data"><span class="toc-section-number">3.4</span> Exploring data</a><ul>
-<li><a href="tables.html#tables"><span class="toc-section-number">3.4.1</span> Browsing loaded objects</a></li>
+<li><a href="tables.html#browse-env"><span class="toc-section-number">3.4.1</span> Browsing loaded objects</a></li>
 <li><a href="tables.html#dt-subset"><span class="toc-section-number">3.4.2</span> Subsetting</a></li>
 <li><a href="tables.html#sorting"><span class="toc-section-number">3.4.3</span> Sorting</a></li>
 <li><a href="tables.html#dt-summary-stats"><span class="toc-section-number">3.4.4</span> Summaries</a></li>
@@ -272,14 +272,14 @@ by g: {
 <p>After installation, I know of two good options for running R on Windows:</p>
 <ul>
 <li><p>Hook up R to notepad++ with <a href="https://sourceforge.net/projects/npptor/">NppToR</a>. This allows you to edit R scripts alongside all other documents. Commands are passed to the R console by customizable keyboard shortcuts and switching between multiple running R consoles is easy.</p></li>
-<li><p>Install <a href="https://www.rstudio.com/">the Rstudio development environment</a>. It puts everything in a monolithic window, which means you cannot maximize the R console on one monitor while viewing a help file on another. It also lacks drag-and-drop (of scripts into the editor or data into the console). On the plus side, it is cross-platform; does not require administrator privileges to install; and has “development” features like project management and report compilation.</p></li>
+<li><p>Install <a href="https://www.rstudio.com/">the Rstudio development environment</a>. It puts everything in a monolithic window, which means you cannot maximize the R console on one monitor while viewing a help file on another. Although you can open multiple scripts, searching text across them is not supported. It also lacks drag-and-drop (of scripts into the editor or data into the console). On the plus side, it is cross-platform; does not require administrator privileges to install; and has “development” features like project management and report compilation.</p></li>
 </ul>
 </div>
 <div id="reading-this-book" class="section level2">
 <h2><span class="header-section-number">1.2</span> Reading this book</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">code you can type at the console appear in boxes like this</code></pre></div>
-<pre><code># # Results from code appear in boxes like this</code></pre>
-<p>The comment symbol <code>#</code> appears in the results so that you can safely copy-paste them into the console as well (when dragging over multiple code blocks).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">code that you can type at the console appears in boxes like this.</code></pre></div>
+<pre><code># Results from code appear in boxes like this.</code></pre>
+<p>The comment symbol, <code>#</code>, appears in the results box so that you can safely copy-paste them into the console as well (when dragging over multiple code blocks). Unfortunately, R does not have any syntax for block comments.</p>
 
 <div class="rmd-caution">
 Some notes warn about inconsistencies and pitfalls and should be read.

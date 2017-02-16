@@ -129,7 +129,7 @@ img {
 <li><a href="basics.html#testing-membership"><span class="toc-section-number">2.1.14</span> Testing membership</a></li>
 <li><a href="basics.html#exercises"><span class="toc-section-number">2.1.15</span> Exercises</a></li>
 </ul></li>
-<li class="has-sub"><a href="basics.html#matrix-array"><span class="toc-section-number">2.2</span> Matrices and Arrays</a><ul>
+<li class="has-sub"><a href="basics.html#matrix-array"><span class="toc-section-number">2.2</span> Matrices and arrays</a><ul>
 <li><a href="basics.html#building-matrices"><span class="toc-section-number">2.2.1</span> Building matrices</a></li>
 <li><a href="basics.html#named-rows-and-columns"><span class="toc-section-number">2.2.2</span> Named rows and columns</a></li>
 <li><a href="basics.html#slicing-to-a-submatrix"><span class="toc-section-number">2.2.3</span> Slicing to a submatrix</a></li>
@@ -192,7 +192,7 @@ img {
 <li><a href="tables.html#formatting-the-display-of-columns"><span class="toc-section-number">3.3.12</span> Formatting the display of columns</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#exploring-data"><span class="toc-section-number">3.4</span> Exploring data</a><ul>
-<li><a href="tables.html#tables"><span class="toc-section-number">3.4.1</span> Browsing loaded objects</a></li>
+<li><a href="tables.html#browse-env"><span class="toc-section-number">3.4.1</span> Browsing loaded objects</a></li>
 <li><a href="tables.html#dt-subset"><span class="toc-section-number">3.4.2</span> Subsetting</a></li>
 <li><a href="tables.html#sorting"><span class="toc-section-number">3.4.3</span> Sorting</a></li>
 <li><a href="tables.html#dt-summary-stats"><span class="toc-section-number">3.4.4</span> Summaries</a></li>
@@ -263,10 +263,11 @@ x =<span class="st"> </span><span class="kw">c</span>(<span class="ot">TRUE</spa
 <pre><code># [1] &quot;logical&quot;</code></pre>
 <p>The bracketed <code>[1]</code> indicates that we are seeing the first element of a vector. This printing pattern is handy with vectors too long for a single line, like <code>c(LETTERS, letters)</code>.</p>
 <p>You can assign with <code>=</code> or <code>&lt;-</code>. You can even assign like <code>c(2,3) -&gt; z</code>, but this is rare and hard to read in my opinion. If an existing vector is overwritten, no warning is given.</p>
+<p>caution – indexing starting from 1, for those coming from 0-indexed langs, treatment of negative indices in slicing will also be a surprise (ref it)</p>
 <div id="documentation" class="section level3">
 <h3><span class="header-section-number">2.1.1</span> Documentation</h3>
 <p>Everything is documented in convenient wikified html pages, accessible with <code>?</code> or <code>help</code>. For example, <code>?TRUE</code>, <code>?LETTERS</code> or <code>?length</code>. Backticks are sometimes required, as for <code>?`for`</code> and <code>?`?`</code>. Keep a close eye on the Description and Value sections, which concisely explain what to expect from a function.</p>
-<p>Manuals and additional reference documents can be found by typing <code>help.start()</code> and clicking through to “An Introduction to R” or other documents.</p>
+<p>Try typing <code>help.start()</code>. You should see links to documents including “An Introduction to R” and “The R language definition”. These are the essential reference documents on R, also <a href="https://cran.r-project.org/manuals.html">available in pdf online</a>.</p>
 <p>R doesn’t do error codes, only error messages and warnings. If you don’t understand a message you’re seeing, a search online or a review of the relevant docs is usually sufficient.</p>
 </div>
 <div id="classes" class="section level3">
@@ -328,7 +329,7 @@ L3 =<span class="st"> </span><span class="kw">c</span>(L, L2)</code></pre></div>
 #  $ : chr &quot;A&quot;
 #  $ : num [1:2] 1 2
 #  $ : logi FALSE</code></pre>
-<p>To explore the set of loaded objects, see the tools in <a href="tables.html#tables">3</a>.</p>
+<p>To explore the set of loaded objects, see the tools in <a href="tables.html#browse-env">3.4.1</a>.</p>
 </div>
 <div id="names" class="section level3">
 <h3><span class="header-section-number">2.1.5</span> Named elements</h3>
@@ -359,7 +360,7 @@ L3 =<span class="st"> </span><span class="kw">c</span>(L, L2)</code></pre></div>
 </ul>
 <p>A missing value means “there is a value here, but we don’t know what it is.” So a comparison against a missing value, like <code>2 == NA</code> or <code>2 != NA</code>, will always return <code>NA</code>, since we cannot determine whether the condition is true or false. To test whether a value is missing, use the <code>is.na</code> function.</p>
 
-<div class="rmd-caution">
+<div class="rmd-details">
 <strong>Implementation of missing values.</strong> The class of an <code>NA</code> is different depending on the vector it is in. Sometimes, it is important to ensure that a missing value belongs to a particular class. To ensure this, the safest approach is to “slice” an object of that class with <code>NA_integer_</code>. For example, to get a missing numeric value, you can use the number <code>10</code> like <code>10[NA_integer_]</code>; or for a date value, we can use the current date, <code>Sys.Date()</code>, like <code>Sys.Date()[NA_integer_]</code>.
 </div>
 <p></p>
@@ -401,6 +402,7 @@ L =<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</s
 </div>
 <p></p>
 <p>Convenience functions <code>head</code> and <code>tail</code> enable easy slicing from the start or end of a vector.</p>
+<p>… also mention blank slice</p>
 </div>
 <div id="extract-list" class="section level3">
 <h3><span class="header-section-number">2.1.8</span> Extracting from a list</h3>
@@ -429,6 +431,8 @@ L[<span class="kw">c</span>(<span class="st">&quot;Y&quot;</span>, <span class="
 <strong>Hard-to-find documentation.</strong> For documentation on slicing and extracting, you can type <code>?`[`</code>. Even though there is a <code>]</code> for every <code>[</code>, it is the opening bracket that is the function’s actual name, which will come back in <a href="basics.html#lapply">2.4.3</a>. For documentation on sub-assignment, type <code>?`[&lt;-`</code>.
 </div>
 <p></p>
+<p>caution – silent extension of vector when assigning at a new index</p>
+<p>empty index means the whole thing</p>
 </div>
 <div id="assigning-to-a-list-element" class="section level3">
 <h3><span class="header-section-number">2.1.10</span> Assigning to a list element</h3>
@@ -442,7 +446,7 @@ x =<span class="st"> </span><span class="kw">character</span>(<span class="dt">l
 x =<span class="st"> </span><span class="kw">logical</span>(<span class="dt">length =</span> <span class="dv">5</span>)
 x =<span class="st"> </span><span class="kw">numeric</span>(<span class="dt">length =</span> <span class="dv">5</span>)
 x =<span class="st"> </span><span class="kw">integer</span>(<span class="dt">length =</span> <span class="dv">5</span>)</code></pre></div>
-<p>From there, you can subassign iteratively if necessary: <code>x[1] &lt;- &quot;A&quot;</code>, <code>x[2] &lt;- &quot;Z&quot;</code>, and so on.</p>
+<p>From there, you can subassign iteratively if necessary: <code>x[1] &lt;- &quot;A&quot;</code>, <code>x[2] &lt;- &quot;B&quot;</code>, and so on.</p>
 <div id="rep" class="section level4">
 <h4><span class="header-section-number">2.1.11.1</span> Repeating values</h4>
 <p>It’s also common to initialize a vector with a particular value using <code>rep</code>:</p>
@@ -474,11 +478,6 @@ See <a href="basics.html#order-ops">2.3.5</a> for more details.
 </div>
 <p></p>
 <p>If we are running <code>1..n</code> where <code>n</code> is a nonnegative integer variable, it is safer and more efficient to use <code>seq_len</code> than <code>1:n</code>. It is safer in the sense that, if <code>n</code> is zero, <code>seq_len(n)</code> gives the correct result of a zero-length vector, while <code>1:0</code> gives <code>c(1L, 0L)</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">n =<span class="st"> </span><span class="dv">0</span>
-<span class="dv">1</span>:n</code></pre></div>
-<pre><code># [1] 1 0</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">seq_len</span>(n)</code></pre></div>
-<pre><code># integer(0)</code></pre>
 <p>If we are running <code>1...length(x)</code> alongside some vector <code>x</code>, then <code>seq_along</code> is the right tool:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">4</span>)
 <span class="kw">seq_along</span>(x)</code></pre></div>
@@ -513,7 +512,7 @@ See <a href="basics.html#order-ops">2.3.5</a> for more details.
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&quot;New York&quot;</span>, <span class="st">&quot;Tokyo&quot;</span>, <span class="st">&quot;Mumbai&quot;</span>, <span class="st">&quot;Tokyo&quot;</span>))</code></pre></div>
 <pre><code># [1] New York Tokyo    Mumbai   Tokyo   
 # Levels: Mumbai New York Tokyo</code></pre>
-<p>Factors usually have no sense of ordering (like “Tokyo” naturally coming before “Bombay”), but one can be added if appropriate:</p>
+<p>Factors often have no sense of ordering (like “Tokyo” naturally coming before “Bombay”), but one can be added if appropriate:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&quot;Worst&quot;</span>, <span class="st">&quot;Best&quot;</span>, <span class="st">&quot;Not Bad&quot;</span>, <span class="st">&quot;Worst&quot;</span>), <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;Worst&quot;</span>, <span class="st">&quot;Not Bad&quot;</span>, <span class="st">&quot;Best&quot;</span>), <span class="dt">ordered =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code># [1] Worst   Best    Not Bad Worst  
 # Levels: Worst &lt; Not Bad &lt; Best</code></pre>
@@ -524,7 +523,7 @@ See <a href="basics.html#order-ops">2.3.5</a> for more details.
 <p>There are three key functions here:</p>
 <ul>
 <li><code>sort(x)</code> will sort the vector.</li>
-<li><code>rank(x)</code> tells how far forward each element of <code>x</code> is in its pecking order.</li>
+<li><code>rank(x)</code> tells where each element of <code>x</code> is in the pecking order.</li>
 <li><code>order(x)</code> is rarely useful on its own, but <code>y[order(x, z)]</code> will sort <code>y</code> by <code>x</code> and <code>z</code>.</li>
 </ul>
 <p>Be careful not to use these functions on an unordered factor, where they will make no sense but run without warning.</p>
@@ -532,6 +531,7 @@ See <a href="basics.html#order-ops">2.3.5</a> for more details.
 </div>
 <div id="testing-membership" class="section level3">
 <h3><span class="header-section-number">2.1.14</span> Testing membership</h3>
+<p>– move this to Syntax – too early for the reader to learn elementwise stuff</p>
 <p>Besides comparisons, <code>x == y</code>, we can test membership like <code>x %in% y</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="ot">NA</span>) %in%<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</code></pre></div>
 <pre><code># [1]  TRUE FALSE FALSE</code></pre>
@@ -551,7 +551,7 @@ See <a href="basics.html#order-ops">2.3.5</a> for more details.
 </div>
 </div>
 <div id="matrix-array" class="section level2">
-<h2><span class="header-section-number">2.2</span> Matrices and Arrays</h2>
+<h2><span class="header-section-number">2.2</span> Matrices and arrays</h2>
 <p>The <code>matrix</code> function is used for construction:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># example data</span>
 v =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)</code></pre></div>
@@ -571,9 +571,10 @@ v =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,
 <strong>Vectors with attributes.</strong> In fact, a matrix <em>is</em> a vector, just augmented by the <code>dim</code> attribute. As mentioned at the top, all data in R is stored in vectors; and as mentioned in <a href="basics.html#classes">2.1.2</a>, most classes are built on top of vectors. One wrinkle is that <code>is.vector</code> is false for matrices. However, this makes sense in light of the doc, <code>?is.vector</code>.
 </div>
 <p></p>
+<p>caution – column-major, not sure if this needs a box</p>
 <div id="building-matrices" class="section level3">
 <h3><span class="header-section-number">2.2.1</span> Building matrices</h3>
-<p>Matrices can also be built from vectors with <code>cbind</code> and <code>rbind</code>:</p>
+<p>Matrices can also be built from vectors with <code>cbind</code> and <code>rbind</code> (for “binding” columns or rows):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rbind</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</code></pre></div>
 <pre><code>#      [,1] [,2]
 # [1,]    1    1
@@ -633,15 +634,15 @@ m[im]</code></pre></div>
 <pre><code># [1] 1 4</code></pre>
 <p>The first column of <code>im</code> corresponds to rows, and the second to columns. Elements are extracted in the order they are listed in <code>im</code>.</p>
 <p><code>drop = TRUE</code> can be used to select a column or row, like <code>m[, 2]</code> (where <code>drop = TRUE</code> is the default) or a single element, like <code>m[1, 2]</code> or <code>m[&quot;a&quot;, &quot;y&quot;]</code>.</p>
-<p>Finally, <code>diag(m)</code> will extract the diagonal from a matrix; while <code>upper.triangle</code> and <code>lower.triangle</code> extract those parts (in column-major order).</p>
+<p>Finally, <code>diag(m)</code> will extract the diagonal from a matrix; while <code>upper.tri</code> and <code>lower.tri</code> extract those parts (in column-major order).</p>
 </div>
 <div id="subassigning-to-matrices" class="section level3">
 <h3><span class="header-section-number">2.2.5</span> Subassigning to matrices</h3>
 <p>Assign to elements of a matrix in one of a few ways:</p>
 <ul>
-<li><code>x[i,j] = z</code> where <code>i</code> and <code>j</code> are rows and columns, respectively</li>
-<li><code>x[i] = z</code> with <code>i</code> being an index vector</li>
-<li><code>X[Y] = z</code> with <code>Y</code> being an index matrix</li>
+<li><code>X[i,j] = z</code> where <code>i</code> and <code>j</code> are rows and columns, respectively</li>
+<li><code>X[i] = z</code> with <code>i</code> being an index vector</li>
+<li><code>X[im] = z</code> with <code>im</code> being an index matrix</li>
 </ul>
 <p>In all cases, <code>z</code> is a vector or matrix of values.</p>
 </div>
@@ -663,6 +664,8 @@ m[im]</code></pre></div>
 <li>matrix or array names, <code>?`dimnames&lt;-`</code></li>
 </ul>
 <p>These are rarely needed and can be confusing for obvious reasons.</p>
+<p>… also, link to data.table mod by ref</p>
+<p>… insert a section on vectorization / elementwise operators, mention interaction with recycling oh, that section already exists, well, move it up here or carefully avoid elementwise stuff until after that section…</p>
 </div>
 <div id="arithmetic" class="section level3">
 <h3><span class="header-section-number">2.3.2</span> Arithmetic</h3>
@@ -697,7 +700,7 @@ m[im]</code></pre></div>
 <li><em>Multiply</em> <code>X %*% Y</code></li>
 </ul>
 <p>These functions treat a vanilla vector as a column vector.</p>
-<p>Remember that the undecorated <code>*</code> will always work elementwise and silently recycle values.</p>
+<p>Remember that the undecorated <code>*</code> will always work elementwise (ref above) and silently recycle values.</p>
 <p>Additional convenience functions for matrix algebra are covered in <a href="#matrix-more"><strong>??</strong></a>.</p>
 </div>
 <div id="order-ops" class="section level3">
@@ -785,6 +788,7 @@ x /<span class="st"> </span>y</code></pre></div>
 <p>To update a package, just install it again:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;fortunes&quot;</span>)</code></pre></div>
 <p>If a package is loaded, it cannot be updated, so close all R sessions where the package is loaded before updating it.</p>
+<p>type sessionInfo() to view packages and other details about the r session</p>
 
 <div class="rmd-details">
 <strong>Managing packages.</strong> Use <code>installed.packages</code> to view dependencies and version numbers. Some other tools, <a href="https://github.com/rocker-org/rocker">rocker</a> and <a href="https://github.com/eddelbuettel/drat">drat</a>, look promising.
@@ -906,7 +910,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nrow</code></pre></div>
 <pre><code># function (x) 
 # dim(x)[1L]
-# &lt;bytecode: 0x000000001218c270&gt;
+# &lt;bytecode: 0x000000000691cbc0&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">replace</code></pre></div>
 <pre><code># function (x, list, values) 
@@ -914,7 +918,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 #     x[list] &lt;- values
 #     x
 # }
-# &lt;bytecode: 0x0000000012081bf8&gt;
+# &lt;bytecode: 0x00000000064f95c0&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <p>The last two rows of these functions show (i) that they are compiled and (ii) the environment they were defined in.</p>
 <p>Many functions are not “exported” for direct use. Nonetheless, their code may be found using <code>getAnywhere</code> or accessed directly using <code>:::</code> syntax:</p>
@@ -986,7 +990,7 @@ x   =<span class="st"> </span><span class="dv">2</span>*i2 -<span class="st"> </
 <h3><span class="header-section-number">2.5.2</span> <code>if</code>/<code>else</code> elementwise</h3>
 
 <div class="rmd-caution">
-<strong>Dummy variables.</strong> First, if you find yourself wanting to do <code>x = if (cond) 1 else 0</code>, don’t. As mentioned in <a href="basics.html#arithmetic">2.3.2</a>, the logical variable <code>cond</code> itself is perfect for storing this dummy variable. It will be treated as numeric in any arithmetic calculations. Besides, there is certainly no reason to prefer the floating-point values <code>0</code> and <code>1</code> over integers <code>0L</code> and <code>1L</code>.
+<strong>Dummy variables.</strong> First, if you find yourself wanting to do <code>x = if (cond) 1 else 0</code>, don’t. As mentioned in <a href="basics.html#arithmetic">2.3.2</a>, the logical variable <code>cond</code> itself is perfect for storing this dummy variable. It will be treated as numeric in any arithmetic calculations. Besides, there is certainly no reason to prefer the floating-point values <code>0</code> and <code>1</code> over integers <code>0L</code> and <code>1L</code>. Finally, use a factor…
 </div>
 <p></p>
 <p>The base R tool for handling elementwise <code>if</code>/<code>else</code> rules is the function <code>ifelse</code>. However, it has some serious shortcomings. A better way, similar to the <code>gen</code>/<code>replace</code> pattern in Stata, is covered in <a href="tables.html#dt-ifelse">3.5.4</a>.</p>
@@ -1056,6 +1060,7 @@ DF[im] <span class="co"># DON&#39;T DO THIS</span></code></pre></div>
 <div id="built-in-constants" class="section level2">
 <h2><span class="header-section-number">2.7</span> Built-in constants</h2>
 <p>R includes several handy constants, like <code>pi</code>, the alphabet (<code>?letters</code>), months (<code>?month.name</code>), days of the week (<code>?weekdays</code>) and US state names and abbreviations (<code>?state</code>). You don’t need to worry about accidentally reusing any of these contants’ names for your own variables (though redefining <code>pi</code> might not be a great idea).</p>
+<p>details – masking and reserved words. it’s okay to “mask” a function or object that exists. it’s just not a good idea if it’s going to confuse you or others later. for example, don’t name a matrix “matrix”, since that’s the name of the constructor function</p>
 <p>On a related note, <code>?Reserved</code> lists all of R’s important built-ins that cannot be overwritten.</p>
 
 </div>
