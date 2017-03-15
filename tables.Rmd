@@ -9,6 +9,10 @@ library(magrittr)
 library(data.table)
 ```
 
+-- todo insert more links to official vignettes --
+
+-- todo prolly use fewer distinct example data sets. this can be done after everything's in and organized throughout the full tutorial --
+
 ## Magrittr
 
 [Magrittr](https://cran.r-project.org/package=magrittr) introduces syntax with "pipes," improving readability by unnesting function calls:
@@ -40,6 +44,28 @@ The name is a pun on [René Magritte's pipe painting](https://en.wikipedia.org/w
 ## data.table {#data-table}
 
 [Data.table](http://r-datatable.com) offers a variant of the data frame class (from \@ref(data-frames)), optimized for fast sorted and grouped operations and enhanced with cleaner syntax. It also bundles in a variety of other improvements on base R functionality.
+
+### Installation
+
+Again, CRAN can be used:
+
+```{r inst-dt, eval=FALSE}
+install.packages('data.table')
+```
+
+However, the package is under active development, with new features available only in the development version. To install it, follow [the instructions from the package wiki](https://github.com/Rdatatable/data.table/wiki/Installation):
+
+```{r inst-dt-dev, eval=FALSE}
+remove.packages("data.table")
+install.packages("data.table", type = "source",
+  repos = "http://Rdatatable.github.io/data.table")
+```
+
+If using Windows, you'll need to first install [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (requiring administrator privileges), as explained in the last link.
+
+### Getting started
+
+[The official vignettes](https://github.com/Rdatatable/data.table/wiki/Getting-started) for the package are a great way to start with the package. I started by reading some slides and the FAQ in full before using the package. 
 
 ### Modification by reference
 
@@ -137,53 +163,301 @@ Besides the data.table class, the package provides other useful features that wi
 
 Because these disparate features are bundled together in data.table, we don't have to load more packages and worry about their complicated dependencies or namespace conflicts (\ref(namespaces)).
 
-### Installation
 
-Again, CRAN can be used:
 
-```{r inst-dt, eval=FALSE}
-install.packages('data.table')
+## Modifying data {#dt-subassign}
+
+refer to http://stackoverflow.com/documentation/data.table/3781
+
+Creating, editing and removing columns are all done using `:=` in `j` of `DT[i, j, by]`. This functionality operates in-place, in the sense that the underlying data stays in the same place, which is more efficient in terms of how much RAM and time is taken.
+
+```{block2, type='rmd-details'}
+**What can be modified in-place?** The scope of in-place operations is currently limited to altering columns. Adding and removing rows by reference is not yet supported, since this is harder to do in R, thanks to its column-oriented storage of tables (contrasting with many database systems that store data rowwise for easy INSERT and DELETE queries).
 ```
 
-However, the package is under active development, with new features available only in the development version. To install it, follow [the instructions from the package wiki](https://github.com/Rdatatable/data.table/wiki/Installation):
+### Creating columns {#dt-col-create}
 
-```{r inst-dt-dev, eval=FALSE}
-remove.packages("data.table")
-install.packages("data.table", type = "source",
-  repos = "http://Rdatatable.github.io/data.table")
+```{r dt-add}
+DT = data.table(
+  x = letters[c(1, 2, 3, 4, 5)], 
+  y = c(1, 2, 3, 4, 5), 
+  z = c(1, 2, 3, 4, 5) > 3
+)
+# creating a column
+DT[, u := 5:1][]
+# creating multiple
+DT[, `:=`(v = 2, w = 3L)][]
+# creating with dynamic names
+nms = c("a", "b", "c")
+DT[, (nms) := .(1, 2, 3)][]
 ```
 
-If using Windows, you'll need to first install [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (requiring administrator privileges), as explained in the last link.
+All of these tasks are performed in-place -- altering `DT` without making a new object. Usually, the results are not displayed. They appear here because `[]` is "chained" onto the end of each task.
 
-### Getting started
+```{block2, type='rmd-caution'}
+**`:=` is the function both for creation and modification of columns.** This will be covered it more detail in subsequent sections, but is worth emphasising. In particular, this contrasts with Stata (which uses `gen`, `egen` and `replace`).
+```
 
-[The official vignettes](https://github.com/Rdatatable/data.table/wiki/Getting-started) for the package are a great way to start with the package. I started by reading some slides and the FAQ in full before using the package. 
+```{block2, type='rmd-details'}
+**Iterative column creation.** The `` `:=`(...)`` syntax does *not* support iterative definitions like ``DT[, `:=`(W1 = u + y, W2 = W1^2)]``. One typical way of getting around this is ``DT[, `:=`(W1 = W1 <- u + y, W2 = W1^2)]``. The workings of this are not obvious to new R users, but the gist is: `W1 <- u + y` creates `W1` as an object in `DT[...]` and then returns its value, let's call it `v`. Now, `W2 = W1^2` can find `W1`, since it was created by `<-`; and `W1 = W1 <- u + y` simplifies to `W1 <- v`, where `v` is the return value of `W1 <- u + y`.
+```
+
+### Removing columns
+
+```{r dt-remove}
+nms = c("u", "v", "w", "a", "b", "c")
+DT[, (nms) := NULL][]
+```
+
+A warning will print if you remove any columns that don't currently exist.
+
+### Replacing entire columns
+
+Data.table is careful about column types:
+
+```{r dt-reptot, warning=TRUE}
+DT[, a := 10L ][]  # Create a new column of integers
+DT[, a := 21L ][]  # Replace it with another column of integers
+DT[, a := 32.5 ][] # Replace it with a float
+```
+
+The verbose warning printed above is typical for the package and an excellent feature. Running the final command, data.table knows that `a` is of integer type and sees that 32.5 is conspiciously *not an integer*. So it gives a warning when coercing 32.5 to an integer (to match `a`). Elsewhere in R, `a` would be coerced to match the float `32.5` -- probably not the behavior we want -- with no warning. That is, if we have `x <- c(21L, 22L)`, we can freely assign `x[1] <- 32.5`; and the same freedom (by which I mean "danger") is present even if `x` is a data frame column.
+
+As indicated in the warning message, if we want to change `a`'s type, we have to explicitly replace all values:
+
+```{r dt-reptot-class, warning=TRUE}
+DT[, a := rep(32.5, .N) ][]
+```
+
+The coercion is done silently, but it can be made more visible by turning on `verbose`.
+
+### Replacing columns conditionally {#dt-ifelse}
+
+This is analogous to a SQL UPDATE query or a replace statement in Stata. To illustrate, we will look again at a vectorized `if`/`else` assignment, mentioned in \@ref(ifelse):
+
+```{r dt-ifelse-1, results="hide"}
+DT[     , b := "Ants"] # initialize to baseline value
+```
+```{r dt-ifelse-2}
+DT[y > 1, b := "Bats"][] # replace based on a condition
+```
+
+This can also be done with chaining:
+
+```{r dt-ifelse-chain}
+DT[, b := "Ants"][y > 1, b := "Bats"]
+```
+
+This chaining works because `DT[...][...]` is evaluated like `(DT[...])[...]` and the return value of the piece in parentheses is a data.table.
+
+As we saw in the last section, partial replacement of a column will trigger a warning if the classes don't match:
+
+```{r dt-ifelse-conflict, warning=TRUE}
+DT[, b := "Ants"][y > 1, b := 111]
+```
+
+Another nice feature, similar to Stata, is reporting of the number of rows modified. This can be seen by turning `verbose` on:
+
+```{r dt-ifelse-count}
+DT[, b := "Ants"][y > 1, b := "Gerbils", verbose = TRUE]
+```
+
+
+### Iterating over columns
+
+todo -- this section does not relate to modification and should be moved -- 
+
+Suppose we want to find the maximum value in each column. As we saw in \@ref(lapply-df), we can do this like `lapply(DT, max)`. The `lapply` function is an option here because a data.table, like a data frame, is a list of columns.
+
+With data.table, however, we can go beyond a simple `lapply`. We can, for example, compute the max within each value of `z`, limiting computation to numeric columns:
+
+```{r lapply-dt}
+DT[, 
+   lapply(.SD, max)
+, by=z, .SDcols = { sapply(DT, is.numeric) }]
+```
+
+`.SDcols` is used to filter the columns that appear in `.SD`, the subset of data available in `j`. 
+
+```{block2 dt-set, type='rmd-details'}
+**Another interface, `set`.** The `set` function can also be used to modify data by reference. It has efficiency benefits in some cases, but it essentially a more limited version of `:=`.
+```
+
+... split this section into iterating over columns and iterating over groups. explain that by= will take any appropriate-length vector, warn about by=1:nrow(DT)
+
+### Avoiding in-place modification
+
+If you want to create a new data.table instead of modifying in-place, use
+
+```{r dt-copy, eval=FALSE}
+DT2 = copy(DT1)
+```
+
+We have to use this instead of `DT2 = DT1` since with the latter we have only created a new "pointer" to the first data set. I routinely make copies after reading in data (\@ref(fread)) so that I can back out where I tripped over something in the process of data cleaning.
+
+
+## Joins {#dt-merging}
+
+refer to http://stackoverflow.com/documentation/data.table/4976
+
+You can call them "joins" or "merges."
+
+```{r dt-join-prea, echo=c(1:2,4L)}
+# example data
+a = data.table(id = c(1L, 1L, 2L, 3L, NA_integer_), x = 11:15)
+a
+b = data.table(id = 1:2, y = -(1:2))
+b
+```
+
+The idiom for a simple join is `x[i]` or `x[i, on=.(...)]`: 
+
+```{r dt-join}
+a[b, on=.(id)]
+```
+
+Think of `x[i]` as using index `i` to look up rows of `x`, in the same way an "index matrix" can look up elements of a matrix (\@ref(matrix-extract)). 
+
+### Handling multiply-matched rows {#join-multimatch}
+
+In this example, we are indexing by rows of `b` and so get matches for every row of `b`. By default, we get *all* matches in `a`, but this can be tweaked:
+
+```{r dt-join-mult}
+a[b, on=.(id), mult="first"]
+```
+
+Now each row of `b` only returns the first matching row (from the top) in `a`.
+
+### Handling unmatched rows
+
+Flipping it around, if we use `a` to index `b`, we have some index rows from `a` that don't have any matches in `b`:
+
+```{r dt-join-nomatch}
+b[a, on=.(id)]
+```
+
+These unmatched rows still show up in the result, which is usually nice. However, this behavior can also be tweaked:
+
+```{r dt-join-nomatch0}
+b[a, on=.(id), nomatch=0]
+```
+
+```{block2 dt-dot, type='rmd-caution'}
+todo -- move this block to wherever .() is first used --
+
+**The `.()` convenience function.** Inside certain arguments of `DT[...]`, like `on=` above, we can use the shorthand `.()`, which stands for `list()`.
+```
+
+```{block2 dt-merge-res, type='rmd-details'}
+**Diagnostics for merges.** In Stata, joins report on how well they went -- did everything match? how many didn't match? The analogous question for an `x[i]` join is -- for each row of `i`, how many matches did we find in `x`? To see the answer, use `b[a, on=.(id), .N, by=.EACHI]`.
+```
+
+We also have the option of selecting *unmatched* rows:
+
+```{r dt-join-notjoin}
+a[!b, on=.(id)]
+```
+
+This "not-join" or "anti-join" returns all rows of `a` that are not matched by rows in `b`.
+
+### Handling unmatched levels with `CJ`
+
+### Update joins
+
+update joins, motivated by relational data
+
+aggregate joins (by=.EACHI)
+
+extension of SQL UPDATE
+
+### Rolling and non-equi joins
+
+
+### Shortcuts and tricks
+
+If a table is always joined on the same column(s), these can be set as its "key." Setting the key of `x` sorts the table and allows for skipping `on=` during `x[i,on=]` joins. See `?setkey`. 
+When joining on a single character column, the `.()` in `i` can be skipped.
+
+review Remarks here http://stackoverflow.com/documentation/data.table/4977
+
 
 ## Input and output {#input-output}
 
 ### File paths
 
-Don't give R paths like `"C:\data\input.csv"`. The backslash is an "escape character" and can't be used to delineate folders. There are a few alternatives:
+Don't provide paths with backslashes, like `"C:\data\input.csv"`, since `\` is special character in R. My workaround is to use forward slashes or construct the path using `file.path`.
 
-- Escape the escape character: `"C:\\data\\input.csv"`
-- Use forward slashes: `"C:/data/input.csv"`
-- Build with `file.path`: `file.path("c:", "data", "input.csv")`
+- For a list of files and folders, use `dir` or `list.files`. 
+- For relative paths, `"."` is the current folder; `".."` navigates one level up; and `normalizePath` converts to an absolute path. 
+- For the current path, use `getwd`; and to alter it, `setwd(new_path)`.
+- To extract parts of a path, use, e.g., `file_ext` from the tools package (included in the base R installation).
 
-As far as I know, the latter two options will also work in Linux and so are preferable.
-
-`dir()` and `list.files()` will list the contents of a folder. `getwd()` returns the current path (or "working directory"), while `setwd(new_path)` will change it.
-
-`dir.create`, `file.copy` do what you would expect. See `?files` and `?files2` for related functions.
-
-absolute vs relative paths, `normalizePath`
+For functions to manipulate files, see `?files` and `?dir.create`; and for file attributes, `?file.info`.
 
 ### `fread` to read delimited files {#fread}
 
-zzz
+To read tables from CSVs or other delimited formats, `fread` is quite fast and reliable:
 
-### `.SDcols` for a set of columns
+```{r fread, eval=FALSE}
+DT = fread("file.csv")
+```
 
-shortcuts: .SDcols = V1:V10, .SDcols = grep("^date_", names(DT)), etc
+To read and combine several tables with the same columns, `rbindlist` is the right tool. The short approach is:
+
+```{r fread-list, eval=FALSE}
+rbindlist(lapply(list.files(patt="csv$"), fread), id=TRUE)
+# or...
+list.files(patt="csv$") %>% lapply(fread) %>% rbindlist(id=TRUE)
+```
+
+The rest of this section covers the longer approach I recommend, using a table with one row per file:
+
+```{r fread-list-long}
+# note: this code will save to your current working directory
+# type getwd() and read ?setwd for details
+
+# example data
+set.seed(1)
+for (i in 1:3) 
+  fwrite(data.table(id = 1:2, v = sample(letters, 2)), file = sprintf("file201%s.csv", i))
+
+# First, identify the files you want:
+fileDT = data.table(fn = list.files(pattern="csv$"))
+
+# Next, optionally parse the names for metadata using regex:
+fileDT[, year := type.convert(sub(".*([0-9]{4}).*", "\\1", fn))]
+
+# Finally construct a string file-ID column:
+fileDT[, id := as.character(.I)][]
+```
+
+From here, read in the files as a new column:
+
+```{r fread-list-long2}
+fileDT[, contents := .(lapply(fn, fread))][]
+```
+
+Then, combine them for the final table:
+
+```{r fread-list-long3}
+DT = fileDT[, rbindlist(setNames(contents, id), idcol="file_id")]
+
+# Perhaps add in metadata using an update join
+DT[fileDT, on=.(file_id = id), year := i.year ][]
+```
+
+Results can be debugged by investigating individual files like `fileDT[year == 2012, contents[[1]]]`. 
+
+### Date and time columns {#dates-times}
+
+Currently, `fread` does not recognize or translate time or date columns to native R formats
+
+as.IDate, IDateTime
+
+wday, weekdays, etc.
+
+show that max, min, inequalities work for dates and times
+
 
 ### Character columns
 
@@ -199,25 +473,20 @@ use characters most of the time, don't worry about memory. the real memory probl
 
 show how ordered factors can be used to set up inequalities for strings
 
-### Date and time columns {#dates-times}
+### `.SDcols` for a set of columns
 
-as.IDate, IDateTime
 
-wday, weekdays, etc.
-
-show that max, min, inequalities work for dates and times
+refer to http://stackoverflow.com/documentation/data.table/3787
 
 lapply + .SDcols with date conversion
+
+shortcuts: .SDcols = V1:V10, .SDcols = grep("^date_", names(DT)), etc
 
 ### List columns
 
 list columns -- somewhat clumsy, but sometimes convenient (no by=, shift(); inefficient %in% and match()). can store regression results, for example
 
 consider unique %>% sort %>% toString/paste instead if it's just for browsing; or going to long format (see data structure)
-
-### Source-file index columns
-
-rbindlist idcol
 
 
 ### `fwrite` to write delimited files {#fwrite}
@@ -227,6 +496,8 @@ zzz
 ### Saving and loading R objects
 
 with Rdata, use load() or just drag it into the window
+
+RDS
 
 ### Reading and writing other formats
 
@@ -349,6 +620,9 @@ setkey
 
 ### Summaries {#dt-summary-stats}
 
+draw from http://stackoverflow.com/documentation/data.table/3785 
+
+
 #### The `summary` function
 
 similar to stata
@@ -371,7 +645,7 @@ mdesc, count missing per column colSums(is.na(.SD))
 
 #### Tabulating {#counting-rows}
 
-Tabulating or tallying
+Tabulating or tallying 
 
 bwDT[, .N, by=ftv]
 
@@ -395,6 +669,8 @@ See the note in `?cut` for details on more efficient alternatives:
 
 ### Reshaping to wide
 
+draw from http://stackoverflow.com/documentation/data.table/4117
+
 wide format is rarely useful for storing data (see structuring data)
 
 but it is good for browsing
@@ -405,197 +681,7 @@ analogy with blacksmithing or something (re cast and melt), molten into its most
 
 
 
-## Modifying data in-place {#dt-subassign}
 
-Creating, editing and removing columns are all done using `:=` in `j` of `DT[i, j, by]`. This functionality operates in-place, in the sense that the underlying data stays in the same place, which is more efficient in terms of how much RAM and time is taken.
-
-```{block2, type='rmd-details'}
-**What can be modified in-place?** The scope of in-place operations is currently limited to altering columns. Adding and removing rows by reference is not yet supported, since this is harder to do in R, thanks to its column-oriented storage of tables (contrasting with many database systems that store data rowwise for easy INSERT and DELETE queries).
-```
-
-### Creating columns {#dt-col-create}
-
-```{r dt-add}
-DT = data.table(
-  x = letters[c(1, 2, 3, 4, 5)], 
-  y = c(1, 2, 3, 4, 5), 
-  z = c(1, 2, 3, 4, 5) > 3
-)
-# creating a column
-DT[, u := 5:1][]
-# creating multiple
-DT[, `:=`(v = 2, w = 3L)][]
-# creating with dynamic names
-nms = c("a", "b", "c")
-DT[, (nms) := .(1, 2, 3)][]
-```
-
-All of these tasks are performed in-place -- altering `DT` without making a new object. Usually, the results are not displayed. They appear here because `[]` is "chained" onto the end of each task.
-
-```{block2, type='rmd-caution'}
-**`:=` is the function both for creation and modification of columns.** This will be covered it more detail in subsequent sections, but is worth emphasising. In particular, this contrasts with Stata (which uses `gen`, `egen` and `replace`).
-```
-
-```{block2, type='rmd-details'}
-**Iterative column creation.** The `` `:=`(...)`` syntax does *not* support iterative definitions like ``DT[, `:=`(W1 = u + y, W2 = W1^2)]``. One typical way of getting around this is ``DT[, `:=`(W1 = W1 <- u + y, W2 = W1^2)]``. The workings of this are not obvious to new R users, but the gist is: `W1 <- u + y` creates `W1` as an object in `DT[...]` and then returns its value, let's call it `v`. Now, `W2 = W1^2` can find `W1`, since it was created by `<-`; and `W1 = W1 <- u + y` simplifies to `W1 <- v`, where `v` is the return value of `W1 <- u + y`.
-```
-
-### Removing columns
-
-```{r dt-remove}
-nms = c("u", "v", "w", "a", "b", "c")
-DT[, (nms) := NULL][]
-```
-
-A warning will print if you remove any columns that don't currently exist.
-
-### Replacing entire columns
-
-Data.table is careful about column types:
-
-```{r dt-reptot, warning=TRUE}
-DT[, a := 10L ][]  # Create a new column of integers
-DT[, a := 21L ][]  # Replace it with another column of integers
-DT[, a := 32.5 ][] # Replace it with a float
-```
-
-The verbose warning printed above is typical for the package and an excellent feature. Running the final command, data.table knows that `a` is of integer type and sees that 32.5 is conspiciously *not an integer*. So it gives a warning when coercing 32.5 to an integer (to match `a`). Elsewhere in R, `a` would be coerced to match the float `32.5` -- probably not the behavior we want -- with no warning. That is, if we have `x <- c(21L, 22L)`, we can freely assign `x[1] <- 32.5`; and the same freedom (by which I mean "danger") is present even if `x` is a data frame column.
-
-As indicated in the warning message, if we want to change `a`'s type, we have to explicitly replace all values:
-
-```{r dt-reptot-class, warning=TRUE}
-DT[, a := rep(32.5, .N) ][]
-```
-
-The coercion is done silently, but it can be made more visible by turning on `verbose`.
-
-### Replacing columns conditionally {#dt-ifelse}
-
-This is analogous to a SQL UPDATE query or a replace statement in Stata. To illustrate, we will look again at a vectorized `if`/`else` assignment, mentioned in \@ref(ifelse):
-
-```{r dt-ifelse-1, results="hide"}
-DT[     , b := "Ants"] # initialize to baseline value
-```
-```{r dt-ifelse-2}
-DT[y > 1, b := "Bats"][] # replace based on a condition
-```
-
-This can also be done with chaining:
-
-```{r dt-ifelse-chain}
-DT[, b := "Ants"][y > 1, b := "Bats"]
-```
-
-This chaining works because `DT[...][...]` is evaluated like `(DT[...])[...]` and the return value of the piece in parentheses is a data.table.
-
-As we saw in the last section, partial replacement of a column will trigger a warning if the classes don't match:
-
-```{r dt-ifelse-conflict, warning=TRUE}
-DT[, b := "Ants"][y > 1, b := 111]
-```
-
-Another nice feature, similar to Stata, is reporting of the number of rows modified. This can be seen by turning `verbose` on:
-
-```{r dt-ifelse-count}
-DT[, b := "Ants"][y > 1, b := "Gerbils", verbose = TRUE]
-```
-
-
-### Iterating over columns
-
-Suppose we want to find the maximum value in each column. As we saw in \@ref(lapply-df), we can do this like `lapply(DT, max)`. The `lapply` function is an option here because a data.table, like a data frame, is a list of columns.
-
-With data.table, however, we can go beyond a simple `lapply`. We can, for example, compute the max within each value of `z`, limiting computation to numeric columns:
-
-```{r lapply-dt}
-DT[, 
-   lapply(.SD, max)
-, by=z, .SDcols = { sapply(DT, is.numeric) }]
-```
-
-`.SDcols` is used to filter the columns that appear in `.SD`, the subset of data available in `j`. 
-
-```{block2 dt-set, type='rmd-details'}
-**Another interface, `set`.** The `set` function can also be used to modify data by reference. It has efficiency benefits in some cases, but it essentially a more limited version of `:=`.
-```
-
-... split this section into iterating over columns and iterating over groups. explain that by= will take any appropriate-length vector, warn about by=1:nrow(DT)
-
-### Avoiding in-place modification
-
-If you want to create a new data.table instead of modifying in-place, use
-
-```{r dt-copy, eval=FALSE}
-DT2 = copy(DT1)
-```
-
-We have to use this instead of `DT2 = DT1` since with the latter we have only created a new "pointer" to the first data set. I routinely make copies after reading in data (\@ref(fread)) so that I can back out where I tripped over something in the process of data cleaning.
-
-## Joins {#dt-merging}
-
-You can call them "joins" or "merges."
-
-```{r dt-join-prea, echo=c(1:2,4L)}
-# example data
-a = data.table(id = c(1L, 1L, 2L, 3L, NA_integer_), x = 11:15)
-a
-b = data.table(id = 1:2, y = -(1:2))
-b
-```
-
-The idiom for a simple join is `x[i]` or `x[i, on=.(...)]`: 
-
-```{r dt-join}
-a[b, on=.(id)]
-```
-
-Think of `x[i]` as using index `i` to look up rows of `x`, in the same way an "index matrix" can look up elements of a matrix (\@ref(matrix-extract)). 
-
-### Handling multiply-matched rows {#join-multimatch}
-
-In this example, we are indexing by rows of `b` and so get matches for every row of `b`. By default, we get *all* matches in `a`, but this can be tweaked:
-
-```{r dt-join-mult}
-a[b, on=.(id), mult="first"]
-```
-
-Now each row of `b` only returns the first matching row (from the top) in `a`.
-
-### Handling unmatched rows
-
-Flipping it around, if we use `a` to index `b`, we have some index rows from `a` that don't have any matches in `b`:
-
-```{r dt-join-nomatch}
-b[a, on=.(id)]
-```
-
-These unmatched rows still show up in the result, which is usually nice. However, this behavior can also be tweaked:
-
-```{r dt-join-nomatch0}
-b[a, on=.(id), nomatch=0]
-```
-
-```{block2 dt-dot, type='rmd-caution'}
-**The `.()` convenience function.** Inside certain arguments of `DT[...]`, like `on=` above, we can use the shorthand `.()`, which stands for `list()`.
-```
-
-```{block2 dt-merge-res, type='rmd-details'}
-**Diagnostics for merges.** In Stata, joins report on how well they went -- did everything match? how many didn't match? The analogous question for an `x[i]` join is -- for each row of `i`, how many matches did we find in `x`? To see the answer, use `b[a, on=.(id), .N, by=.EACHI]`.
-```
-
-We also have the option of selecting *unmatched* rows:
-
-```{r dt-join-notjoin}
-a[!b, on=.(id)]
-```
-
-This "not-join" or "anti-join" returns all rows of `a` that are not matched by rows in `b`.
-
-### Fancy joins
-
-Besides not-joins, there are many join features introduced elsewhere in this tutorial: aggregate joins (by=.EACHI), cross joins, update joins, rolling joins, non-equi joins.
-
-If a table is always joined on the same column(s), these can be set as its "key." Setting the key of `x` sorts the table and allows for skipping `on=` during `x[i,on=]` joins. See `?setkey`. 
 
 
 ## Organizing relational tables {#structuring-data}
