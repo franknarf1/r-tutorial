@@ -171,7 +171,6 @@ Besides the data.table class, the package provides other useful features that wi
 Because these disparate features are bundled together in data.table, we don't have to load more packages and worry about their complicated dependencies or namespace conflicts (\ref(namespaces)).
 
 
-
 ## Modifying data {#dt-subassign}
 
 refer to http://stackoverflow.com/documentation/data.table/3781
@@ -368,6 +367,8 @@ a[!b, on=.(id)]
 This "not-join" or "anti-join" returns all rows of `a` that are not matched by rows in `b`.
 
 ### Handling unmatched levels with `CJ`
+
+-- argh, I wrote a bit about self-joins here but apparently mis-git it. will have to see if it can be recovered
 
 ### Update joins
 
