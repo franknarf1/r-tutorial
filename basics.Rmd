@@ -26,6 +26,8 @@ caution -- indexing starting from 1, for those coming from 0-indexed langs, trea
 
 Everything is documented in convenient wikified html pages, accessible with `?` or `help`. For example, `?TRUE`, `?LETTERS` or `?length`. Backticks are sometimes required, as for ``?`for` `` and ``?`?` ``. Keep a close eye on the Description and Value sections, which concisely explain what to expect from a function. 
 
+The Examples section always usefully illustrates functionality; you can run it in your own console like `example("LETTERS")`. Additional illustrations are available using `demo`; type `demo()` for a listing.
+
 Try typing `help.start()`. You should see links to documents including "An Introduction to R" and "The R language definition". These are the essential reference documents on R, also [available in pdf online](https://cran.r-project.org/manuals.html).
 
 R doesn't do error codes, only error messages and warnings. If you don't understand a message you're seeing, a search online or a review of the relevant docs is usually sufficient.

@@ -65,7 +65,14 @@ If using Windows, you'll need to first install [Rtools](https://cran.r-project.o
 
 ### Getting started
 
-[The official vignettes](https://github.com/Rdatatable/data.table/wiki/Getting-started) for the package are a great way to start with the package. I started by reading some slides and the FAQ in full before using the package. 
+[The official vignettes](https://github.com/Rdatatable/data.table/wiki/Getting-started) for the package are a great way to start with the package. I started by reading some slides and the FAQ in full before using the package. Further introductory materials are offered when the package is loaded:
+
+-- todo watch SO for a resolution to this issue of non-printing msgs
+
+```{r dt-startup, echo=-1, message=TRUE, verbose=TRUE, hide=FALSE}
+if ("data.table" %in% .packages()) detach("package:data.table")
+library(data.table)
+```
 
 ### Modification by reference
 

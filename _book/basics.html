@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-03-15" />
+<meta name="date" content="2017-03-16" />
 
 
 <meta name="description" content="This book covers the essentials of using R.">
@@ -269,6 +269,7 @@ x =<span class="st"> </span><span class="kw">c</span>(<span class="ot">TRUE</spa
 <div id="documentation" class="section level3">
 <h3><span class="header-section-number">2.1.1</span> Documentation</h3>
 <p>Everything is documented in convenient wikified html pages, accessible with <code>?</code> or <code>help</code>. For example, <code>?TRUE</code>, <code>?LETTERS</code> or <code>?length</code>. Backticks are sometimes required, as for <code>?`for`</code> and <code>?`?`</code>. Keep a close eye on the Description and Value sections, which concisely explain what to expect from a function.</p>
+<p>The Examples section always usefully illustrates functionality; you can run it in your own console like <code>example(&quot;LETTERS&quot;)</code>. Additional illustrations are available using <code>demo</code>; type <code>demo()</code> for a listing.</p>
 <p>Try typing <code>help.start()</code>. You should see links to documents including “An Introduction to R” and “The R language definition”. These are the essential reference documents on R, also <a href="https://cran.r-project.org/manuals.html">available in pdf online</a>.</p>
 <p>R doesn’t do error codes, only error messages and warnings. If you don’t understand a message you’re seeing, a search online or a review of the relevant docs is usually sufficient.</p>
 </div>
@@ -913,7 +914,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nrow</code></pre></div>
 <pre><code># function (x) 
 # dim(x)[1L]
-# &lt;bytecode: 0x000000000691ccc0&gt;
+# &lt;bytecode: 0x000000000691cbc0&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">replace</code></pre></div>
 <pre><code># function (x, list, values) 
@@ -921,7 +922,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 #     x[list] &lt;- values
 #     x
 # }
-# &lt;bytecode: 0x00000000074cbe10&gt;
+# &lt;bytecode: 0x00000000071a3060&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <p>The last two rows of these functions show (i) that they are compiled and (ii) the environment they were defined in.</p>
 <p>Many functions are not “exported” for direct use. Nonetheless, their code may be found using <code>getAnywhere</code> or accessed directly using <code>:::</code> syntax:</p>
