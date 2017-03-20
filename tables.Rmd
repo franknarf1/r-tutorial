@@ -13,7 +13,7 @@ library(data.table)
 
 -- todo prolly use fewer distinct example data sets. this can be done after everything's in and organized throughout the full tutorial --
 
-## Magrittr
+## Magrittr {#magrittr}
 
 [Magrittr](https://cran.r-project.org/package=magrittr) introduces syntax with "pipes," improving readability by unnesting function calls:
 
@@ -69,10 +69,13 @@ If using Windows, you'll need to first install [Rtools](https://cran.r-project.o
 
 -- todo watch SO for a resolution to this issue of non-printing msgs
 
-```{r dt-startup, echo=-1, message=TRUE, verbose=TRUE, hide=FALSE}
-if ("data.table" %in% .packages()) detach("package:data.table")
+```{r dt-startup, echo=1}
 library(data.table)
+my_attach = data.table:::.onAttach
+body(my_attach) <- body(my_attach)[[2]][[3]]
+my_attach()
 ```
+
 
 ### Modification by reference
 
@@ -380,6 +383,7 @@ extension of SQL UPDATE
 
 ### Rolling and non-equi joins
 
+leave the efficiency bit to the next chapter (on sequences > rolling computations)
 
 ### Shortcuts and tricks
 
@@ -409,6 +413,8 @@ To read tables from CSVs or other delimited formats, `fread` is quite fast and r
 ```{r fread, eval=FALSE}
 DT = fread("file.csv")
 ```
+
+### `rbindlist` to combine tables {#rbindlist-read}
 
 To read and combine several tables with the same columns, `rbindlist` is the right tool. The short approach is:
 
