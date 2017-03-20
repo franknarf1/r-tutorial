@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-03-16" />
+<meta name="date" content="2017-03-20" />
 
 
 <meta name="description" content="This book covers the essentials of using R.">
@@ -196,15 +196,16 @@ img {
 <li class="has-sub"><a href="tables.html#input-output"><span class="toc-section-number">3.5</span> Input and output</a><ul>
 <li><a href="tables.html#file-paths"><span class="toc-section-number">3.5.1</span> File paths</a></li>
 <li><a href="tables.html#fread"><span class="toc-section-number">3.5.2</span> <code>fread</code> to read delimited files</a></li>
-<li><a href="tables.html#dates-times"><span class="toc-section-number">3.5.3</span> Date and time columns</a></li>
-<li><a href="tables.html#character-columns"><span class="toc-section-number">3.5.4</span> Character columns</a></li>
-<li><a href="tables.html#factor-columns"><span class="toc-section-number">3.5.5</span> Factor columns</a></li>
-<li><a href="tables.html#sdcols-for-a-set-of-columns"><span class="toc-section-number">3.5.6</span> <code>.SDcols</code> for a set of columns</a></li>
-<li><a href="tables.html#list-columns"><span class="toc-section-number">3.5.7</span> List columns</a></li>
-<li><a href="tables.html#fwrite"><span class="toc-section-number">3.5.8</span> <code>fwrite</code> to write delimited files</a></li>
-<li><a href="tables.html#saving-and-loading-r-objects"><span class="toc-section-number">3.5.9</span> Saving and loading R objects</a></li>
-<li><a href="tables.html#reading-and-writing-other-formats"><span class="toc-section-number">3.5.10</span> Reading and writing other formats</a></li>
-<li><a href="tables.html#formatting-the-display-of-columns"><span class="toc-section-number">3.5.11</span> Formatting the display of columns</a></li>
+<li><a href="tables.html#rbindlist-read"><span class="toc-section-number">3.5.3</span> <code>rbindlist</code> to combine tables</a></li>
+<li><a href="tables.html#dates-times"><span class="toc-section-number">3.5.4</span> Date and time columns</a></li>
+<li><a href="tables.html#character-columns"><span class="toc-section-number">3.5.5</span> Character columns</a></li>
+<li><a href="tables.html#factor-columns"><span class="toc-section-number">3.5.6</span> Factor columns</a></li>
+<li><a href="tables.html#sdcols-for-a-set-of-columns"><span class="toc-section-number">3.5.7</span> <code>.SDcols</code> for a set of columns</a></li>
+<li><a href="tables.html#list-columns"><span class="toc-section-number">3.5.8</span> List columns</a></li>
+<li><a href="tables.html#fwrite"><span class="toc-section-number">3.5.9</span> <code>fwrite</code> to write delimited files</a></li>
+<li><a href="tables.html#saving-and-loading-r-objects"><span class="toc-section-number">3.5.10</span> Saving and loading R objects</a></li>
+<li><a href="tables.html#reading-and-writing-other-formats"><span class="toc-section-number">3.5.11</span> Reading and writing other formats</a></li>
+<li><a href="tables.html#formatting-the-display-of-columns"><span class="toc-section-number">3.5.12</span> Formatting the display of columns</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#exploring-data"><span class="toc-section-number">3.6</span> Exploring data</a><ul>
 <li><a href="tables.html#browse-env"><span class="toc-section-number">3.6.1</span> Browsing loaded objects</a></li>
@@ -226,8 +227,9 @@ img {
 <li class="has-sub"><a href="work.html#work"><span class="toc-section-number">4</span> Getting work done</a><ul>
 <li class="has-sub"><a href="work.html#randomization"><span class="toc-section-number">4.1</span> Randomization</a><ul>
 <li><a href="work.html#draws-from-distributions"><span class="toc-section-number">4.1.1</span> Draws from distributions</a></li>
-<li><a href="work.html#urn-draws-and-permutations"><span class="toc-section-number">4.1.2</span> Urn draws and permutations</a></li>
-<li><a href="work.html#simulations"><span class="toc-section-number">4.1.3</span> Simulations</a></li>
+<li><a href="work.html#urn-draws"><span class="toc-section-number">4.1.2</span> Urn draws</a></li>
+<li><a href="work.html#permutations"><span class="toc-section-number">4.1.3</span> Permutations</a></li>
+<li><a href="work.html#simulations"><span class="toc-section-number">4.1.4</span> Simulations</a></li>
 </ul></li>
 <li class="has-sub"><a href="work.html#working-with-sequences"><span class="toc-section-number">4.2</span> Working with sequences</a><ul>
 <li><a href="work.html#lag"><span class="toc-section-number">4.2.1</span> Lag operators</a></li>
@@ -262,8 +264,8 @@ img {
 <p>To draw <code>n</code> random numbers from the unit interval, use <code>runif(n)</code>. All random-draw functions follow this naming convention – <code>rnorm</code>, <code>rpoisson</code>, <code>rbinom</code> – for a full list of the built-in ones, type <code>?distributions</code>. Many more are offered in packages that can be found by searching online.</p>
 <p>details – quickly glance at a function with curve()</p>
 </div>
-<div id="urn-draws-and-permutations" class="section level3">
-<h3><span class="header-section-number">4.1.2</span> Urn draws and permutations</h3>
+<div id="urn-draws" class="section level3">
+<h3><span class="header-section-number">4.1.2</span> Urn draws</h3>
 <p>To take <code>n</code> samples from <code>x</code> with replacement, where <code>p[i]</code> is the probability of drawing <code>x[i]</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sample</span>(x, <span class="dt">prob =</span> p, <span class="dt">size =</span> n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p>The help page <code>?sample</code> covers many other use cases. There is one to be very wary of, however:</p>
@@ -277,13 +279,137 @@ x =<span class="st"> </span><span class="kw">c</span>(<span class="fl">6.17</spa
 <p>Where did <code>4</code> and <code>6</code> come from? Those aren’t elements of <code>y</code>!</p>
 
 <div class="rmd-caution">
-<strong>Sampling from a numeric vector.</strong> I should have sampled from <code>y</code>s indices like <code>y[sample.int(length(y), size = 2, replace = TRUE)]</code>. Vanilla <code>sample</code> cannot be trusted on numeric or integer vectors unless you are sure they have a length greater than 1.
+<strong>Sampling from a numeric vector.</strong> Vanilla <code>sample</code> cannot be trusted on numeric or integer vectors unless you are sure they have a length greater than 1.
+</div>
+<p></p>
+<p>I should have instead sampled from <code>y</code>s indices like</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y[<span class="kw">sample.int</span>(<span class="kw">length</span>(y), <span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)]  
+<span class="co"># or</span>
+y[<span class="kw">sample</span>(<span class="kw">seq_along</span>(y), <span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)]  </code></pre></div>
+<p>To take draws without replacement, just use the option <code>replace = FALSE</code>.</p>
+</div>
+<div id="permutations" class="section level3">
+<h3><span class="header-section-number">4.1.3</span> Permutations</h3>
+<p>Taking a random permutation of a vector is just a special case of drawing from an urn. We’re drawing <em>all</em> balls from the urn without replacement:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)
+<span class="kw">sample</span>(y) <span class="co"># using default replace = FALSE</span></code></pre></div>
+<p>The same warning for length-zero or length-one vectors applies here. The safer way is:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)
+y[<span class="kw">sample.int</span>(<span class="kw">length</span>(y))]
+<span class="co"># or</span>
+y[<span class="kw">sample</span>(<span class="kw">seq_along</span>(y))]</code></pre></div>
+</div>
+<div id="simulations" class="section level3">
+<h3><span class="header-section-number">4.1.4</span> Simulations</h3>
+<p>If you have a random process to repeat <code>nsim</code> times, the <code>replicate</code> function is the answer. Suppose we want to take 10 standard normal draws and return the top three:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nsim =<span class="st"> </span><span class="dv">2</span>
+n    =<span class="st"> </span><span class="dv">10</span>
+<span class="kw">set.seed</span>(<span class="dv">1</span>)
+<span class="kw">replicate</span>(nsim, <span class="kw">rnorm</span>(n) %&gt;%<span class="st"> </span>sort %&gt;%<span class="st"> </span><span class="kw">tail</span>(<span class="dv">3</span>))</code></pre></div>
+<pre><code>#           [,1]      [,2]
+# [1,] 0.5757814 0.9438362
+# [2,] 0.7383247 1.1249309
+# [3,] 1.5952808 1.5117812</code></pre>
+<p>The <code>set.seed</code> line is added so that the results are reproducible.</p>
+<div id="complicated-output" class="section level4">
+<h4><span class="header-section-number">4.1.4.1</span> Complicated output</h4>
+<p>By default, <code>replicate</code> simplifies the result to a matrix. For more complicated results, it is often better to have a list. Suppose we want to grab the top three values as well as the mean:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nsim =<span class="st"> </span><span class="dv">2</span>
+n    =<span class="st"> </span><span class="dv">10</span>
+<span class="kw">set.seed</span>(<span class="dv">1</span>)
+<span class="kw">replicate</span>(nsim, <span class="kw">rnorm</span>(n) %&gt;%<span class="st"> </span>{ <span class="kw">list</span>(<span class="dt">mu =</span> <span class="kw">mean</span>(.), <span class="dt">top3 =</span> <span class="kw">sort</span>(.) %&gt;%<span class="st"> </span><span class="kw">tail</span>(<span class="dv">3</span>)) }, <span class="dt">simplify =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code># [[1]]
+# [[1]]$mu
+# [1] 0.1322028
+# 
+# [[1]]$top3
+# [1] 0.5757814 0.7383247 1.5952808
+# 
+# 
+# [[2]]
+# [[2]]$mu
+# [1] 0.248845
+# 
+# [[2]]$top3
+# [1] 0.9438362 1.1249309 1.5117812</code></pre>
+<p>Thanks to use of the same seed (with <code>set.seed</code>), the simulated values here are the same as in the last section.</p>
+</div>
+<div id="speed-and-pipes" class="section level4">
+<h4><span class="header-section-number">4.1.4.2</span> Speed and pipes</h4>
+<p>As a reminder, magrittr pipes – <code>%&gt;%</code> – are slow. Here’s a benchmark (with results measured in seconds):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nsim =<span class="st"> </span><span class="fl">1e4</span>
+n    =<span class="st"> </span><span class="fl">1e2</span>
+<span class="kw">system.time</span>(<span class="kw">replicate</span>(nsim, <span class="dt">simplify =</span> <span class="ot">FALSE</span>,
+    <span class="kw">rnorm</span>(n) %&gt;%<span class="st"> </span>{ <span class="kw">list</span>(<span class="dt">mu =</span> <span class="kw">mean</span>(.), <span class="dt">top3 =</span> <span class="kw">sort</span>(.) %&gt;%<span class="st"> </span><span class="kw">tail</span>(<span class="dv">3</span>))}
+))</code></pre></div>
+<pre><code>#    user  system elapsed 
+#    3.21    0.01    3.26</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(<span class="kw">replicate</span>(nsim, <span class="dt">simplify =</span> <span class="ot">FALSE</span>, {
+    x =<span class="st"> </span><span class="kw">rnorm</span>(n)
+    <span class="kw">list</span>(<span class="dt">mu =</span> <span class="kw">mean</span>(x), <span class="dt">top3 =</span> <span class="kw">tail</span>(<span class="kw">sort</span>(x),<span class="dv">3</span>))
+}))</code></pre></div>
+<pre><code>#    user  system elapsed 
+#    1.06    0.00    1.06</code></pre>
+<p>So while it may be convenient to write a quick simulation using pipes, it’s better to switch to vanilla R when speed is important.</p>
+
+<div class="rmd-details">
+<strong>Other options for speed.</strong> Beyond writing in vanilla R instead of pipes, further improvements might be found by writing as much of the simulation as possible in matrix algebra (possibly even combining “separate” simulations into a single computation). Translating to C++ or parallelizing may also be worth considering. For more details, the <a href="https://cran.r-project.org/view=HighPerformanceComputing">High Performance Computing Task View on CRAN</a>.
 </div>
 <p></p>
 </div>
-<div id="simulations" class="section level3">
-<h3><span class="header-section-number">4.1.3</span> Simulations</h3>
-<p>replicate</p>
+<div id="multiple-parameters" class="section level4">
+<h4><span class="header-section-number">4.1.4.3</span> Multiple parameters</h4>
+<p>If running multiple simulations with different parameters, I recommend starting with results in a data.table with one row per run:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">simparmDT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">set_id =</span> LETTERS[<span class="dv">1</span>:<span class="dv">2</span>], <span class="dt">nsim =</span> <span class="dv">3</span>, <span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">mu =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="dt">sd =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
+
+<span class="kw">set.seed</span>(<span class="dv">1</span>)
+simDT =<span class="st"> </span>simparmDT[, .(
+    <span class="co"># assign a unique ID to each run</span>
+    <span class="dt">run_id =</span> <span class="kw">sprintf</span>(<span class="st">&quot;%s%03d&quot;</span>, set_id, <span class="kw">seq.int</span>(nsim)),  
+    <span class="co"># run simulations, storing results in a list column</span>
+    <span class="dt">res =</span> <span class="kw">replicate</span>(nsim, <span class="dt">simplify =</span> <span class="ot">FALSE</span>, {
+        x =<span class="st"> </span><span class="kw">rnorm</span>(n, mu, sd)
+        <span class="kw">list</span>(<span class="dt">mu =</span> <span class="kw">mean</span>(x), <span class="dt">top3 =</span> <span class="kw">tail</span>(<span class="kw">sort</span>(x),<span class="dv">3</span>))
+    })
+), by=set_id]</code></pre></div>
+<pre><code>#    set_id run_id    res
+# 1:      A   A001 &lt;list&gt;
+# 2:      A   A002 &lt;list&gt;
+# 3:      A   A003 &lt;list&gt;
+# 4:      B   B001 &lt;list&gt;
+# 5:      B   B002 &lt;list&gt;
+# 6:      B   B003 &lt;list&gt;</code></pre>
+<p>For cleaner code and easier debugging, it’s probably best to write the core simulation code as a separate function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim_fun =<span class="st"> </span>function(n, mu, sd){
+    x =<span class="st"> </span><span class="kw">rnorm</span>(n, mu, sd)
+    <span class="kw">list</span>(<span class="dt">mu =</span> <span class="kw">mean</span>(x), <span class="dt">top3 =</span> <span class="kw">tail</span>(<span class="kw">sort</span>(x),<span class="dv">3</span>))
+}</code></pre></div>
+<p>Then the code to call it can be agnostic regarding the details of the function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)
+simDT =<span class="st"> </span>simparmDT[, .(
+    <span class="dt">run_id =</span> <span class="kw">sprintf</span>(<span class="st">&quot;%s%03d&quot;</span>, set_id, <span class="kw">seq.int</span>(nsim)),  
+    <span class="dt">res =</span> <span class="kw">replicate</span>(nsim, <span class="kw">do.call</span>(sim_fun, .SD), <span class="dt">simplify =</span> <span class="ot">FALSE</span>)
+), by=set_id, .SDcols =<span class="st"> </span><span class="kw">intersect</span>(<span class="kw">names</span>(simparmDT), <span class="kw">names</span>(<span class="kw">formals</span>(sim_fun)))]</code></pre></div>
+<p>We are setting <code>.SDcols</code> to be those names that are used as arguments to <code>sim_fun</code> and also appear as columns in <code>simparmDT</code>. That is, we are taking the intersection of these two vectors of names.</p>
+<p>todo – check where do.call and intersect are introduced and link to them</p>
+<p>Next we can extract all components as new columns (still sticking with one row per simulation run):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">simDT[, (<span class="kw">names</span>(simDT$res[[<span class="dv">1</span>]])) :<span class="er">=</span><span class="st"> </span>res %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="co"># put non-scalar components into lists</span>
+<span class="st">    </span><span class="kw">lapply</span>(function(run) <span class="kw">lapply</span>(run, function(x) 
+        if (<span class="kw">is.atomic</span>(x) &amp;&amp;<span class="st"> </span><span class="kw">length</span>(x) ==<span class="st"> </span>1L) x
+        else <span class="kw">list</span>(x)
+    )) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="co"># combine rows into one table</span>
+<span class="st">    </span>rbindlist
+][]</code></pre></div>
+<pre><code>#    set_id run_id    res         mu                          top3
+# 1:      A   A001 &lt;list&gt;  0.1322028 0.5757814,0.7383247,1.5952808
+# 2:      A   A002 &lt;list&gt;  0.2488450 0.9438362,1.1249309,1.5117812
+# 3:      A   A003 &lt;list&gt; -0.1336732 0.6198257,0.7821363,0.9189774
+# 4:      B   B001 &lt;list&gt; 10.2414604    11.52635,12.20005,12.71736
+# 5:      B   B002 &lt;list&gt; 10.2682734    11.39393,11.53707,11.76222
+# 6:      B   B003 &lt;list&gt; 10.2869137    11.13944,12.86605,13.96080</code></pre>
+</div>
 </div>
 </div>
 <div id="working-with-sequences" class="section level2">
@@ -291,32 +417,50 @@ x =<span class="st"> </span><span class="kw">c</span>(<span class="fl">6.17</spa
 <p>Often we care not only about the value in the current row, but also in the previous <code>k</code> rows or all previous rows.</p>
 <div id="lag" class="section level3">
 <h3><span class="header-section-number">4.2.1</span> Lag operators</h3>
-<p>Data.table provides a convenient tool for the lag operator and its inverse:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)
+<p>Data.table provides a convenient tool for the lag operator and its inverse, a “lead operator”:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">10</span>)
 <span class="kw">shift</span>(x)                <span class="co"># lag</span></code></pre></div>
-<pre><code># [1] NA  1  2  3</code></pre>
+<pre><code># [1] NA  1  3  7</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shift</span>(x, <span class="dt">type =</span> <span class="st">&quot;lead&quot;</span>) <span class="co"># lead</span></code></pre></div>
+<pre><code># [1]  3  7 10 NA</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shift</span>(x, <span class="dv">0</span>:<span class="dv">3</span>)           <span class="co"># multiple lags</span></code></pre></div>
 <pre><code># [[1]]
-# [1] 1 2 3 4
+# [1]  1  3  7 10
 # 
 # [[2]]
-# [1] NA  1  2  3
+# [1] NA  1  3  7
 # 
 # [[3]]
-# [1] NA NA  1  2
+# [1] NA NA  1  3
 # 
 # [[4]]
 # [1] NA NA NA  1</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shift</span>(x, <span class="dt">type =</span> <span class="st">&quot;lead&quot;</span>) <span class="co"># lead</span></code></pre></div>
-<pre><code># [1]  2  3  4 NA</code></pre>
-<p><code>shift</code> always returns vectors of the same length. The <code>embed</code> function from base R instead simply cuts all the vectors down to size:</p>
+<p><code>shift</code> always returns vectors of the same length as <code>x</code>, which works well with data.tables:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># make a new table</span>
+shiftDT =<span class="st"> </span><span class="kw">setDT</span>(<span class="kw">c</span>(<span class="kw">list</span>(<span class="dt">x =</span> x), <span class="kw">shift</span>(x, <span class="dv">0</span>:<span class="dv">3</span>)))    </code></pre></div>
+<pre><code>#     x V1 V2 V3 V4
+# 1:  1  1 NA NA NA
+# 2:  3  3  1 NA NA
+# 3:  7  7  3  1 NA
+# 4: 10 10  7  3  1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># add to an existing table</span>
+DT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">id =</span> <span class="kw">seq_along</span>(x), x)
+DT[, <span class="kw">sprintf</span>(<span class="st">&quot;V%02d&quot;</span>, <span class="dv">0</span>:<span class="dv">3</span>) :<span class="er">=</span><span class="st"> </span><span class="kw">shift</span>(x, <span class="dv">0</span>:<span class="dv">3</span>)][]</code></pre></div>
+<pre><code>#    id  x V00 V01 V02 V03
+# 1:  1  1   1  NA  NA  NA
+# 2:  2  3   3   1  NA  NA
+# 3:  3  7   7   3   1  NA
+# 4:  4 10  10   7   3   1</code></pre>
+<p>The <code>embed</code> function from base R may also be useful when handling lags. It extracts all sequences of a given size.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">embed</span>(x, <span class="dv">3</span>)</code></pre></div>
 <pre><code>#      [,1] [,2] [,3]
-# [1,]    3    2    1
-# [2,]    4    3    2</code></pre>
+# [1,]    7    3    1
+# [2,]   10    7    3</code></pre>
 </div>
 <div id="rolling-computations" class="section level3">
 <h3><span class="header-section-number">4.2.2</span> Rolling computations</h3>
+<p>general solution is a non-equi join</p>
+<p>for computational reasons, this is best avoided</p>
 <p>cummax, cummin, cumsum</p>
 <p>zoo, RcppRoll also exist</p>
 </div>

@@ -2,6 +2,10 @@
 
 This chapter covers common analytical tasks (without any discussion of their statisical justification).
 
+## Sets and combinations
+
+todo -- bring this section back
+
 
 ## Randomization
 
@@ -13,14 +17,14 @@ rnorm(10)
 ```
 
 
-### Draws from distributions
+### Distribution draws
 
 To draw `n` random numbers from the unit interval, use `runif(n)`. All random-draw functions follow this naming convention -- `rnorm`, `rpoisson`, `rbinom` -- for a full list of the built-in ones, type `?distributions`. Many more are offered in packages that can be found by searching online.
 
 details -- quickly glance at a function with curve()
 
 
-### Urn draws and permutations
+### Urn draws
 
 To take `n` samples from `x` with replacement, where `p[i]` is the probability of drawing `x[i]`: 
 
@@ -41,35 +45,197 @@ sample(y, size = 2, replace = TRUE)
 Where did `4` and `6` come from? Those aren't elements of `y`!
 
 ```{block2 sampling, type='rmd-caution'}
-**Sampling from a numeric vector.** I should have sampled from `y`s indices like `y[sample.int(length(y), size = 2, replace = TRUE)]`. Vanilla `sample` cannot be trusted on numeric or integer vectors unless you are sure they have a length greater than 1. 
+**Sampling from a numeric vector.** Vanilla `sample` cannot be trusted on numeric or integer vectors unless you are sure they have a length greater than 1. 
 ```
+
+I should have instead sampled from `y`s indices like 
+
+```{r sample-better, eval=FALSE}
+y[sample.int(length(y), size = 2, replace = TRUE)]  
+# or
+y[sample(seq_along(y), size = 2, replace = TRUE)]  
+```
+
+To take draws without replacement, just use the option `replace = FALSE`.
+
+### Permutations
+
+Taking a random permutation of a vector is just a special case of drawing from an urn. We're drawing *all* balls from the urn without replacement:
+
+```{r permute-danger, eval=FALSE}
+y = c(1, 2, 3, 4)
+sample(y) # using default replace = FALSE
+```
+
+The same warning for length-zero or length-one vectors applies here. The safer way is:
+
+```{r permute-better, eval=FALSE}
+y = c(1, 2, 3, 4)
+y[sample.int(length(y))]
+# or
+y[sample(seq_along(y))]
+```
+
 
 ### Simulations
 
-replicate
+If you have a random process to repeat `nsim` times, the `replicate` function is the answer. Suppose we want to take 10 standard normal draws and return the top three:
 
-## Working with sequences
+```{r replicate}
+nsim = 2
+n    = 10
+set.seed(1)
+replicate(nsim, rnorm(n) %>% sort %>% tail(3))
+```
+
+The `set.seed` line is added so that the results are reproducible.
+
+#### Complicated output
+
+By default, `replicate` simplifies the result to a matrix. For more complicated results, it is often better to have a list. Suppose we want to grab the top three values as well as the mean:
+
+```{r replicate-list}
+nsim = 2
+n    = 10
+set.seed(1)
+replicate(nsim, rnorm(n) %>% { list(mu = mean(.), top3 = sort(.) %>% tail(3)) }, simplify = FALSE)
+```
+
+Thanks to use of the same seed (with `set.seed`), the simulated values here are the same as in the last section.
+
+#### Speed and pipes
+
+As a reminder, magrittr pipes -- `%>%` -- are slow. Here's a benchmark (with results measured in seconds):
+
+```{r magrittr-perf, cache=TRUE}
+nsim = 1e4
+n    = 1e2
+system.time(replicate(nsim, simplify = FALSE,
+    rnorm(n) %>% { list(mu = mean(.), top3 = sort(.) %>% tail(3))}
+))
+
+system.time(replicate(nsim, simplify = FALSE, {
+    x = rnorm(n)
+    list(mu = mean(x), top3 = tail(sort(x),3))
+}))
+```
+
+So while it may be convenient to write a quick simulation using pipes, it's better to switch to vanilla R when speed is important. 
+
+```{block2 sim-speed, type='rmd-details'}
+**Other options for speed.** Beyond writing in vanilla R instead of pipes, further improvements might be found by writing as much of the simulation as possible in matrix algebra (possibly even combining "separate" simulations into a single computation). Translating to C++ or parallelizing may also be worth considering. For more details, the [High Performance Computing Task View on CRAN](https://cran.r-project.org/view=HighPerformanceComputing).
+```
+
+#### Multiple parameters
+
+If running multiple simulations with different parameters, I recommend starting with results in a data.table with one row per run:
+
+```{r sim-fancy, echo=-5}
+simparmDT = data.table(set_id = LETTERS[1:2], nsim = 3, n = 10, mu = c(0, 10), sd = c(1, 2))
+
+set.seed(1)
+simDT = simparmDT[, .(
+    # assign a unique ID to each run
+    run_id = sprintf("%s%03d", set_id, seq.int(nsim)),  
+    # run simulations, storing results in a list column
+    res = replicate(nsim, simplify = FALSE, {
+        x = rnorm(n, mu, sd)
+        list(mu = mean(x), top3 = tail(sort(x),3))
+    })
+), by=set_id]
+simDT
+```
+
+For cleaner code and easier debugging, it's probably best to write the core simulation code as a separate function:
+
+```{r sim-fn}
+sim_fun = function(n, mu, sd){
+    x = rnorm(n, mu, sd)
+    list(mu = mean(x), top3 = tail(sort(x),3))
+}
+```
+
+Then the code to call it can be agnostic regarding the details of the function:
+
+```{r sim-fn-use}
+set.seed(1)
+simDT = simparmDT[, .(
+    run_id = sprintf("%s%03d", set_id, seq.int(nsim)),  
+    res = replicate(nsim, do.call(sim_fun, .SD), simplify = FALSE)
+), by=set_id, .SDcols = intersect(names(simparmDT), names(formals(sim_fun)))]
+
+```
+
+We are setting `.SDcols` to be those names that are used as arguments to `sim_fun` and also appear as columns in `simparmDT`. That is, we are taking the intersection of these two vectors of names.
+
+todo -- check where do.call and intersect are introduced and link to them
+
+Next we can extract all components as new columns (still sticking with one row per simulation run):
+
+```{r sim-fancy-fin}
+simDT[, (names(simDT$res[[1]])) := res %>% 
+    # put non-scalar components into lists
+    lapply(function(run) lapply(run, function(x) 
+        if (is.atomic(x) && length(x) == 1L) x
+        else list(x)
+    )) %>% 
+    # combine rows into one table
+    rbindlist
+][]
+```
+
+## Working with sequences {#sequences}
 
 Often we care not only about the value in the current row, but also in the previous `k` rows or all previous rows.
 
 ### Lag operators {#lag}
 
-Data.table provides a convenient tool for the lag operator and its inverse:
+Data.table provides a convenient tool for the lag operator and its inverse, a "lead operator":
 
 ```{r shift}
-x = c(1, 2, 3, 4)
+x = c(1, 3, 7, 10)
 shift(x)                # lag
-shift(x, 0:3)           # multiple lags
 shift(x, type = "lead") # lead
+shift(x, 0:3)           # multiple lags
 ```
 
-`shift` always returns vectors of the same length. The `embed` function from base R instead simply cuts all the vectors down to size:
+`shift` always returns vectors of the same length as `x`, which works well with data.tables:
+
+```{r shift-dt, echo=-3}
+# add to an existing table
+DT = data.table(id = seq_along(x), x)
+DT[, sprintf("V%02d", 0:3) := shift(x, 0:3)][]
+
+# make a new table
+shiftDT = setDT(c(list(x = x), shift(x, 0:3)))    
+shiftDT
+```
+
+
+The `embed` function from base R may also be useful when handling lags. It extracts all sequences of a given size:
 
 ```{r embed}
 embed(x, 3)
 ```
 
+### Taking differences
+
+A simple common use for `shift` is taking differences across rows by group:
+
+```
+DT = data.table(id = c(1L, 1L, 2L, 2L), v = c(1, 3, 7, 10))
+DT[, dv := v - shift(v), by=id]
+# fill in the missing lag for the first row
+DT[, dv_fill := v - shift(v, fill = 0), by=id][]
+```
+
+There is also a `diff` function in base R, but it is less flexible than computing differences with `shift`; and it does not return a vector of the same length as its input.
+
 ### Rolling computations
+
+general solution is a non-equi join
+
+for computational reasons, this is best avoided
 
 cummax, cummin, cumsum
 
