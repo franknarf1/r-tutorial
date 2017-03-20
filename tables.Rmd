@@ -307,13 +307,11 @@ We have to use this instead of `DT2 = DT1` since with the latter we have only cr
 
 ## Joins {#dt-merging}
 
-refer to http://stackoverflow.com/documentation/data.table/4976
-
 You can call them "joins" or "merges."
 
 ```{r dt-join-prea, echo=c(1:2,4L)}
 # example data
-a = data.table(id = c(1L, 1L, 2L, 3L, NA_integer_), x = 11:15)
+a = data.table(id = c(1L, 1L, 2L, 3L, NA_integer_), t = c(1L, 2L, 1L, 2L, NA_integer_), x = 11:15)
 a
 b = data.table(id = 1:2, y = -(1:2))
 b
@@ -327,7 +325,39 @@ a[b, on=.(id)]
 
 Think of `x[i]` as using index `i` to look up rows of `x`, in the same way an "index matrix" can look up elements of a matrix (\@ref(matrix-extract)). 
 
-### Handling multiply-matched rows {#join-multimatch}
+### Aggregating in a join
+
+aggregate joins (by=.EACHI)
+
+
+### Updating in a join
+
+If your data is well organized, this will be the join you need most of the time. It modifies one table, `x`, by
+
+update joins, motivated by relational data
+
+
+extension of SQL UPDATE
+
+### Self join to fill in missing levels
+
+Suppose we have data per year for each ID:
+
+```{r dt-join-CJ-pre}
+DT = data.table(id = c(1L, 1L, 2L), year = c(1999L, 2000L, 1999L), v = c(5, 7, 9))
+```
+
+Now we want to complete the data set so that every ID has a row for every year:
+
+```{r dt-join-CJ}
+DT[CJ(id = id, year = year, unique=TRUE), on=.(id, year)]
+```
+
+This is called a self join because we are using the table's own columns in `i` of `DT[i, on=]`. The CJ function is a helper that takes all combinations of vectors, alternately called the Cartesian product or a "cross join."
+
+### Handling matches
+
+#### Handling multiply-matched rows {#join-multimatch}
 
 In this example, we are indexing by rows of `b` and so get matches for every row of `b`. By default, we get *all* matches in `a`, but this can be tweaked:
 
@@ -337,7 +367,7 @@ a[b, on=.(id), mult="first"]
 
 Now each row of `b` only returns the first matching row (from the top) in `a`.
 
-### Handling unmatched rows
+#### Handling unmatched rows
 
 Flipping it around, if we use `a` to index `b`, we have some index rows from `a` that don't have any matches in `b`:
 
@@ -361,6 +391,29 @@ todo -- move this block to wherever .() is first used --
 **Diagnostics for merges.** In Stata, joins report on how well they went -- did everything match? how many didn't match? The analogous question for an `x[i]` join is -- for each row of `i`, how many matches did we find in `x`? To see the answer, use `b[a, on=.(id), .N, by=.EACHI]`.
 ```
 
+#### Handling imperfect matches with rolling joins
+
+
+### Interval joins
+
+note combinatorial cost
+
+use example of cumulative sum
+
+
+### Shortcuts and tricks
+
+When joining on a single character column, the `.()` in `i` can be skipped.
+
+
+#### Setting keys
+
+If a table is always joined on the same column(s), these can be set as its "key." Setting the key of `x` sorts the table and allows for skipping `on=` during `x[i,on=]` joins. See `?setkey`. 
+
+review Remarks here http://stackoverflow.com/documentation/data.table/4977
+
+#### Anti-joins
+
 We also have the option of selecting *unmatched* rows:
 
 ```{r dt-join-notjoin}
@@ -369,29 +422,9 @@ a[!b, on=.(id)]
 
 This "not-join" or "anti-join" returns all rows of `a` that are not matched by rows in `b`.
 
-### Handling unmatched levels with `CJ`
+using indices
 
--- argh, I wrote a bit about self-joins here but apparently mis-git it. will have to see if it can be recovered
-
-### Update joins
-
-update joins, motivated by relational data
-
-aggregate joins (by=.EACHI)
-
-extension of SQL UPDATE
-
-### Rolling and non-equi joins
-
-leave the efficiency bit to the next chapter (on sequences > rolling computations)
-
-### Shortcuts and tricks
-
-If a table is always joined on the same column(s), these can be set as its "key." Setting the key of `x` sorts the table and allows for skipping `on=` during `x[i,on=]` joins. See `?setkey`. 
-When joining on a single character column, the `.()` in `i` can be skipped.
-
-review Remarks here http://stackoverflow.com/documentation/data.table/4977
-
+see the vignette
 
 ## Input and output {#input-output}
 
