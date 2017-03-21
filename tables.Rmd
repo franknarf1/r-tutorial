@@ -65,11 +65,15 @@ If using Windows, you'll need to first install [Rtools](https://cran.r-project.o
 
 ### Getting started
 
-The official vignettes for the package are a great way to start with the package. Run `browseVignettes(package="data.table")` or visit the [wiki](https://github.com/Rdatatable/data.table/wiki/Getting-started) to brows them. The website also includes links to other useful materials (an online course, presentation materials, blog posts).
+The official vignettes for the package are a great way to start with the package. Run `browseVignettes(package="data.table")` or visit the [wiki](http://r-datatable.com/Getting-started) to browse them. (Beware that as of March 2017, the website vignettes are somewhat out-of-date.) 
 
-I started by reading some slides and the FAQ in full before using the package.
+The website also includes links to other useful materials (an online course, presentation materials, blog posts). I started by reading some slides and the FAQ in full before using the package.
 
-### Modification by reference
+### Extensions to the data.frame class
+
+todo -- note CEDTA or generally safety of using data.table where data frame is expected
+
+#### Modification by reference
 
 In contrast with the rest of R, data.tables are primarily modified "in-place" without assigning the result, which can be much more efficient. As a first example, we can switch the class of a data frame to data.table:
 
@@ -86,7 +90,7 @@ str(DF)
 
 We did not use `=` or `<-` to assign the result of `setDT`; the function simply altered `DF` in-place. All of data.table's functions named like `set*` do this.
 
-### Factor vs character columns {#dt-factorvchar}
+#### Factor vs character columns {#dt-factorvchar}
 
 Another difference is that `data.frame` takes string input as a `factor` categorical variable (\@ref(factors)), as seen above; while `data.table` interprets it as character:
 
@@ -99,7 +103,7 @@ DT = data.table(
 str(DT)
 ```
 
-### Syntax
+#### Powerful syntax {#dt-syntax-better}
 
 The third major difference is a change in syntax from a data frame's `DF[i,j]`, with `i` and `j` as indices, to SQL-style syntax that is cleaner for by-group operations:
 
@@ -120,14 +124,14 @@ DT[x > "b", sum(y), by=z]
 ```
 
 ```{block2 dt-optimized, type='rmd-details'}
-**Optimized data.table calls.** The last call is optimized in a couple ways. First, the inequality in `i` triggers creation of an "index" in terms of `x`, making subsequent indexing on `x` faster thanks to binary search, documented at `?indices`. Second, the `sum` in `j` is computed using an optimized "grouped sum" or `gsum` computation, documented at `?GForce`.
+**Optimized data.table calls.** The last call is optimized in a couple ways. First, the inequality in `i` triggers creation of an "index" in terms of `x` (or [will do](https://github.com/Rdatatable/data.table/issues/1068)), making subsequent indexing on `x` faster thanks to binary search, documented at `?indices`. Second, the `sum` in `j` is computed using an optimized "grouped sum" or `gsum` computation, documented at `?GForce`.
 ```
 
 ```{block2 dt-verbose, type='rmd-details'}
 **Verbose data.table messages.** To understand better how data.table works, I would recommend trying out the setting `options(datatable.verbose = TRUE)`. This option is similar to verbose output from an optimization call (reporting the value of the objective at each iteration, etc.). To only see verbose output for a single call, add `verbose = TRUE`. For example, to see see what I meant in the last paragraph, try `DT[x > "b", sum(y), by=z, verbose=TRUE]`.
 ```
 
-The task for `j` can really be anything. For example, it's really handy for saving per-group plots:
+The task for `j` can really be anything. Just as a demonstration of this power, here's how it can be used for saving per-group plots to a PDF:
 
 ```{r}
 # note: this code will save to your current working directory
@@ -148,12 +152,12 @@ bwDT[, {
 dev.off()
 ```
 
-For each group, we're now printing a line with `cat` and saving a plot. This is better than a `for` loop (\@ref(for-loops)), since we don't have to manually construct some "split-up data" to iterate over; don't have to worry about intermediate variables like `case` contaminating the global environment; and don't have do define what we're doing as a function of prespecified variables -- we can just use any columns of the data.table.
+Plotting graphs is beyond the scope of this document, but the example above should make intuitive sense after reading the docs for each object, `?MASS::birtwt`, `?pdf`, et al. For each group, we're now printing a line with `cat` and saving a plot. 
 
-Plotting graphs is beyond the scope of this document, but the example above should make sense after reading the docs for each object, `?MASS::birtwt`, `?pdf`, et al.
+This is better than a `for` loop (\@ref(for-loops)), since we don't have to manually construct some "split-up data" to iterate over; don't have to worry about intermediate variables like `case` contaminating the global environment; and don't have to define what we're doing as a function of prespecified variables -- we can just use any columns of the data.table.
 
-```{block2 dt-byfloats, type='rmd-details'}
-**Grouping on floats.** Much of the computational and syntactical magic of the package comes from grouping rows together. To group on a floating-point variable, however, is just asking for trouble, [for the usual numerical computing reasons](http://floating-point-gui.de/). Instead, always use characters, integers or factors. To put a continuous variable into (factor) bins, use `cut`.
+```{block2 dt-byfloats, type='rmd-caution'}
+**Grouping on floats.** Much of the computational and syntactical magic of the package comes from grouping rows together with the `by=` argument. To group on a floating-point variable, however, is just asking for trouble, [for the usual numerical computing reasons](http://floating-point-gui.de/). Instead, always use characters, integers or factors. To put a continuous variable into (factor) bins, use `cut`.
 ```
 
 
@@ -167,8 +171,67 @@ Besides the data.table class, the package provides other useful features that wi
 
 Because these disparate features are bundled together in data.table, we don't have to load more packages and worry about their complicated dependencies or namespace conflicts (\@ref(namespaces)).
 
+## Basics
+
+this section just reviews how to take actions familiar from the last chapter
+
+### Slicing
+
+DT[i, j, by] is the primary syntax, but for consistency with data frames, DT[i, j] is avaiable for taking slices.
+
+e.g., mtcars[1:2, c("mpg", "cyl")] drop=FALSE is *always* enforced
+
+when using a normal j statement... `mtcars[1:2, .(mpg, cyl)]`
+
+if you want to characterize a row slice for some reason (debugging?), use j=.N or which=TRUE
+
+todo -- move .() note here
+
+### Extracting
+
+again, it's a list
+
+DT[[colname]] for the full vector
+
+DT[i, colname] just a special case of evaluating `j`
+
+
+### Inspecting
+
+Consider the `mtcars` data set on cars:
+
+```{r agg-pre}
+carsDT = data.table(mtcars, keep.rownames = TRUE)
+```
+
+As seen in (\@ref(View)),  that we can view the full data set in a new window with `View`. Alternately, we can print the whole table to the console with `print` and `nrow=Inf`:
+
+```{r dt-view, eval=FALSE}
+carsDT %>% print(nrow = Inf)
+
+carsDT %>% View
+# or if using RStudio
+carsDT %>% utils::View()
+```
+
+str -- extra attributes (indices, key), pointer (ref save/load)
+
 ## Aggregation
 
+review http://stackoverflow.com/documentation/data.table/3785
+
+
+This data set has two categorical variables: `am` for automatic (0) or manual (1) transmission; and `vs` for v (0) or straight (1) engine shape. Suppose we want to compare the mean horsepower, `hp`, across these categories:
+
+```{r agg}
+carsDT[, .(mean_hp = mean(hp)), by=.(am, vs)]
+```
+
+
+
+```{block2 dt-dot, type='rmd-caution'}
+**The `.()` convenience function.** Inside certain arguments of `DT[...]`, like `on=` above, we can use the shorthand `.()`, which stands for `list()`.
+```
 
 ### `.SDcols` for a set of columns
 
@@ -206,7 +269,7 @@ DT[,
 
 ## Modifying data {#dt-subassign}
 
-Creating, editing and removing columns are all done using `:=` in `j` of `DT[i, j, by]`. This functionality operates in-place, in the sense that the underlying data stays in the same place, which is more efficient in terms of how much RAM and time is taken.
+Creating, editing and removing columns are all done using `:=` in `j` of `DT[i, j, by]`. This functionality operates in-place, in the sense that the underlying data stays in the same place, which is more efficient in terms of how much RAM and time is taken. See `vignette("datatable-reference-semantics")` for details.
 
 ```{block2, type='rmd-details'}
 **What can be modified in-place?** The scope of in-place operations is currently limited to altering columns. Adding and removing rows by reference is not yet supported; it is harder to do in R, due to its column-oriented storage of tables (contrasting with many database systems that store data rowwise for easy INSERT and DELETE queries).
@@ -300,6 +363,7 @@ DT[, b := "Aardvark"][y > 1, b := "Zebra", verbose = TRUE]
 ```
 
 
+todo warning similar to vignette about chaining. vignette says: "What is the difference between `flights[hour == 24L, hour := 0L]` and `flights[hour == 24L][, hour := 0L]`?"
 
 
 ### Avoiding in-place modification
@@ -312,8 +376,18 @@ DT2 = copy(DT1)
 
 We have to use this instead of `DT2 = DT1` since with the latter we have only created a new "pointer" to the first data set. I routinely make copies after reading in data (\@ref(fread)) so that I can back out where I tripped over something in the process of data cleaning.
 
+todo -- note about functions altering input by reference, covered in the ":= for its side effect" section of the vignette. also perhaps mention shallow()
+
+also warn about names
+
+### Exercises
+
+todo -- use carsDT = data.table(mtcars, rn = TRUE), overwrite am with factor "automatic" and "manual"
+
 
 ## Joins {#dt-merging}
+
+todo explain on=.(xcol = icol)
 
 You can call them "joins" or "merges."
 
@@ -332,6 +406,8 @@ a[b, on=.(id)]
 ```
 
 Think of `x[i]` as using index `i` to look up rows of `x`, in the same way an "index matrix" can look up elements of a matrix (\@ref(matrix-extract)). 
+
+todo -- details re efficiency, citing "binary search vs vector scans" section of `vignette("datatable-keys-fast-subset")` and perhaps a benchmark
 
 ### Aggregating in a join
 
@@ -389,11 +465,7 @@ These unmatched rows still show up in the result, which is usually nice. However
 b[a, on=.(id), nomatch=0]
 ```
 
-```{block2 dt-dot, type='rmd-caution'}
-todo -- move this block to wherever .() is first used --
 
-**The `.()` convenience function.** Inside certain arguments of `DT[...]`, like `on=` above, we can use the shorthand `.()`, which stands for `list()`.
-```
 
 ```{block2 dt-merge-res, type='rmd-details'}
 **Diagnostics for merges.** In Stata, joins report on how well they went -- did everything match? how many didn't match? The analogous question for an `x[i]` join is -- for each row of `i`, how many matches did we find in `x`? To see the answer, use `b[a, on=.(id), .N, by=.EACHI]`.
@@ -419,7 +491,7 @@ It can also be set to `roll="nearest"` to find the closest match in either direc
 
 ### Interval joins
 
-It is sometimes useful to match on a range of values. To do this, we explicitly name all columns in `i` and define inequalities in `on=`. Suppose we want to see, for every time `t`, how many individuals were seen in the previous three days:
+It is sometimes useful to match on a range of values. To do this, we explicitly name all columns in `i` and define inequalities in `on=`. Suppose we want to see, for every time `t` in 1..5, how many individuals were seen in the preceding three days:
 
 ```{r join-interval, echo=-2}
 DT = data.table(
@@ -428,7 +500,7 @@ DT = data.table(
     v  = c(1, 0.2, 1.2, 0.4, 1.4, 0.8, 0.6)
 )
 DT
-tg = DT[, seq.int(min(t), max(t))] # range of dates of interest
+tg = 1:5 # times of interest
 DT[.(t0 = tg - 3, t1 = tg), on=.(t >= t0, t < t1),
    uniqueN(ID, na.rm = TRUE)
 , by=.EACHI]
@@ -465,6 +537,11 @@ DT[.("F", 13)]
 
 review Remarks here http://stackoverflow.com/documentation/data.table/4977
 
+details -- Note that keys are costly, as explained in `vignette("datatable-secondary-indices-and-auto-indexing")`. Tutorials written before `on=` was available might leave the impression that keys are of central importance. Also https://github.com/Rdatatable/data.table/issues/1232#issuecomment-131190268 
+
+
+
+
 #### Anti-joins
 
 We also have the option of selecting *unmatched* rows:
@@ -499,6 +576,8 @@ To read tables from CSVs or other delimited formats, `fread` is quite fast and r
 ```{r fread, eval=FALSE}
 DT = fread("file.csv")
 ```
+
+todo cite https://github.com/Rdatatable/data.table/wiki/Convenience-features-of-fread and ?fread for a fuller list of features in lieu of a vignette
 
 ### `rbindlist` to combine tables {#rbindlist-read}
 
@@ -600,6 +679,19 @@ details: feather is eventually for storage and transfer but is still under heavy
 ### Formatting the display of columns
 
 remember: do rounding as late as possible -- don't start during the cleaning and exploration phase
+
+#### Writing data out
+
+use fwrite squash for dates, etc
+
+#### Saving and reloading data
+
+RDS, dput and needing to fix pointers -- FAQ 5.3
+
+saving sets of tables (ref organizing data) and loading it into an environment
+
+review Gavin's post and comments below http://www.fromthebottomoftheheap.net/2012/04/01/saving-and-loading-r-objects/ 
+
 
 ## Exploring data {#exploring-data}
 
@@ -772,7 +864,7 @@ dcast
 analogy with blacksmithing or something (re cast and melt), molten into its most flexible form, cast into a rigid shape for a particular purpose
 
 
-
+todo cite `vignette("datatable-reshape")`
 
 
 
@@ -780,7 +872,11 @@ analogy with blacksmithing or something (re cast and melt), molten into its most
 
 background: tidy data / database design
 
+data.table(C02) might be a good example, with its redundant cols
+
 ### Reshaping to long format
+
+todo cite `vignette("datatable-reshape")` again
 
 
 ### Choosing tables and keys
@@ -861,6 +957,16 @@ The `i.*` syntax allows for unambiguously referring to columns from `i` (in case
 ```{block2 dt-updatejoin-beware, type='rmd-caution'}
 **Beware multiple matches in an update join.** When there are multiple matches (\@ref(join-multimatch)), an update join will apparently only use the last one. [Unfortunately](https://github.com/Rdatatable/data.table/issues/2022), this is done silently. Try `b[a, on=.(id), x := i.x, verbose = TRUE ][]`. At least with `verbose` on it helpfully reports that it assigned "to 3 row subset of 2 rows."
 ```
+
+### Programming data.table calls
+
+getting into the weeds
+
+DT[, if (.GRP == 1) {}, by=.(x,y,z)] for testing, or alternately browser()
+
+eval-quote for constructing efficient calls
+
+mget / get
 
 
 
