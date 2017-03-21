@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-03-20" />
+<meta name="date" content="2017-03-21" />
 
 
 <meta name="description" content="This book covers the essentials of using R.">
@@ -177,73 +177,77 @@ img {
 <li><a href="tables.html#syntax-1"><span class="toc-section-number">3.2.5</span> Syntax</a></li>
 <li><a href="tables.html#other-features"><span class="toc-section-number">3.2.6</span> Other features</a></li>
 </ul></li>
-<li class="has-sub"><a href="tables.html#dt-subassign"><span class="toc-section-number">3.3</span> Modifying data</a><ul>
-<li><a href="tables.html#dt-col-create"><span class="toc-section-number">3.3.1</span> Creating columns</a></li>
-<li><a href="tables.html#removing-columns"><span class="toc-section-number">3.3.2</span> Removing columns</a></li>
-<li><a href="tables.html#replacing-entire-columns"><span class="toc-section-number">3.3.3</span> Replacing entire columns</a></li>
-<li><a href="tables.html#dt-ifelse"><span class="toc-section-number">3.3.4</span> Replacing columns conditionally</a></li>
-<li><a href="tables.html#iterating-over-columns"><span class="toc-section-number">3.3.5</span> Iterating over columns</a></li>
-<li><a href="tables.html#avoiding-in-place-modification"><span class="toc-section-number">3.3.6</span> Avoiding in-place modification</a></li>
+<li class="has-sub"><a href="tables.html#aggregation"><span class="toc-section-number">3.3</span> Aggregation</a><ul>
+<li><a href="tables.html#sdcols-for-a-set-of-columns"><span class="toc-section-number">3.3.1</span> <code>.SDcols</code> for a set of columns</a></li>
+<li><a href="tables.html#iterating-over-columns"><span class="toc-section-number">3.3.2</span> Iterating over columns</a></li>
 </ul></li>
-<li class="has-sub"><a href="tables.html#dt-merging"><span class="toc-section-number">3.4</span> Joins</a><ul>
-<li><a href="tables.html#join-multimatch"><span class="toc-section-number">3.4.1</span> Handling multiply-matched rows</a></li>
-<li><a href="tables.html#handling-unmatched-rows"><span class="toc-section-number">3.4.2</span> Handling unmatched rows</a></li>
-<li><a href="tables.html#handling-unmatched-levels-with-cj"><span class="toc-section-number">3.4.3</span> Handling unmatched levels with <code>CJ</code></a></li>
-<li><a href="tables.html#update-joins"><span class="toc-section-number">3.4.4</span> Update joins</a></li>
-<li><a href="tables.html#rolling-and-non-equi-joins"><span class="toc-section-number">3.4.5</span> Rolling and non-equi joins</a></li>
-<li><a href="tables.html#shortcuts-and-tricks"><span class="toc-section-number">3.4.6</span> Shortcuts and tricks</a></li>
+<li class="has-sub"><a href="tables.html#dt-subassign"><span class="toc-section-number">3.4</span> Modifying data</a><ul>
+<li><a href="tables.html#dt-col-create"><span class="toc-section-number">3.4.1</span> Creating columns</a></li>
+<li><a href="tables.html#removing-columns"><span class="toc-section-number">3.4.2</span> Removing columns</a></li>
+<li><a href="tables.html#replacing-entire-columns"><span class="toc-section-number">3.4.3</span> Replacing entire columns</a></li>
+<li><a href="tables.html#dt-ifelse"><span class="toc-section-number">3.4.4</span> Replacing columns conditionally</a></li>
+<li><a href="tables.html#avoiding-in-place-modification"><span class="toc-section-number">3.4.5</span> Avoiding in-place modification</a></li>
 </ul></li>
-<li class="has-sub"><a href="tables.html#input-output"><span class="toc-section-number">3.5</span> Input and output</a><ul>
-<li><a href="tables.html#file-paths"><span class="toc-section-number">3.5.1</span> File paths</a></li>
-<li><a href="tables.html#fread"><span class="toc-section-number">3.5.2</span> <code>fread</code> to read delimited files</a></li>
-<li><a href="tables.html#rbindlist-read"><span class="toc-section-number">3.5.3</span> <code>rbindlist</code> to combine tables</a></li>
-<li><a href="tables.html#dates-times"><span class="toc-section-number">3.5.4</span> Date and time columns</a></li>
-<li><a href="tables.html#character-columns"><span class="toc-section-number">3.5.5</span> Character columns</a></li>
-<li><a href="tables.html#factor-columns"><span class="toc-section-number">3.5.6</span> Factor columns</a></li>
-<li><a href="tables.html#sdcols-for-a-set-of-columns"><span class="toc-section-number">3.5.7</span> <code>.SDcols</code> for a set of columns</a></li>
-<li><a href="tables.html#list-columns"><span class="toc-section-number">3.5.8</span> List columns</a></li>
-<li><a href="tables.html#fwrite"><span class="toc-section-number">3.5.9</span> <code>fwrite</code> to write delimited files</a></li>
-<li><a href="tables.html#saving-and-loading-r-objects"><span class="toc-section-number">3.5.10</span> Saving and loading R objects</a></li>
-<li><a href="tables.html#reading-and-writing-other-formats"><span class="toc-section-number">3.5.11</span> Reading and writing other formats</a></li>
-<li><a href="tables.html#formatting-the-display-of-columns"><span class="toc-section-number">3.5.12</span> Formatting the display of columns</a></li>
+<li class="has-sub"><a href="tables.html#dt-merging"><span class="toc-section-number">3.5</span> Joins</a><ul>
+<li><a href="tables.html#aggregating-in-a-join"><span class="toc-section-number">3.5.1</span> Aggregating in a join</a></li>
+<li><a href="tables.html#updating-in-a-join"><span class="toc-section-number">3.5.2</span> Updating in a join</a></li>
+<li><a href="tables.html#self-join-to-fill-in-missing-levels"><span class="toc-section-number">3.5.3</span> Self join to fill in missing levels</a></li>
+<li><a href="tables.html#handling-matches"><span class="toc-section-number">3.5.4</span> Handling matches</a></li>
+<li><a href="tables.html#interval-joins"><span class="toc-section-number">3.5.5</span> Interval joins</a></li>
+<li><a href="tables.html#shortcuts-and-tricks"><span class="toc-section-number">3.5.6</span> Shortcuts and tricks</a></li>
 </ul></li>
-<li class="has-sub"><a href="tables.html#exploring-data"><span class="toc-section-number">3.6</span> Exploring data</a><ul>
-<li><a href="tables.html#browse-env"><span class="toc-section-number">3.6.1</span> Browsing loaded objects</a></li>
-<li><a href="tables.html#dt-subset"><span class="toc-section-number">3.6.2</span> Subsetting</a></li>
-<li><a href="tables.html#sorting"><span class="toc-section-number">3.6.3</span> Sorting</a></li>
-<li><a href="tables.html#dt-summary-stats"><span class="toc-section-number">3.6.4</span> Summaries</a></li>
-<li><a href="tables.html#reshaping-to-wide"><span class="toc-section-number">3.6.5</span> Reshaping to wide</a></li>
+<li class="has-sub"><a href="tables.html#input-output"><span class="toc-section-number">3.6</span> Input and output</a><ul>
+<li><a href="tables.html#file-paths"><span class="toc-section-number">3.6.1</span> File paths</a></li>
+<li><a href="tables.html#fread"><span class="toc-section-number">3.6.2</span> <code>fread</code> to read delimited files</a></li>
+<li><a href="tables.html#rbindlist-read"><span class="toc-section-number">3.6.3</span> <code>rbindlist</code> to combine tables</a></li>
+<li><a href="tables.html#dates-times"><span class="toc-section-number">3.6.4</span> Date and time columns</a></li>
+<li><a href="tables.html#character-columns"><span class="toc-section-number">3.6.5</span> Character columns</a></li>
+<li><a href="tables.html#factor-columns"><span class="toc-section-number">3.6.6</span> Factor columns</a></li>
+<li><a href="tables.html#list-columns"><span class="toc-section-number">3.6.7</span> List columns</a></li>
+<li><a href="tables.html#fwrite"><span class="toc-section-number">3.6.8</span> <code>fwrite</code> to write delimited files</a></li>
+<li><a href="tables.html#saving-and-loading-r-objects"><span class="toc-section-number">3.6.9</span> Saving and loading R objects</a></li>
+<li><a href="tables.html#reading-and-writing-other-formats"><span class="toc-section-number">3.6.10</span> Reading and writing other formats</a></li>
+<li><a href="tables.html#formatting-the-display-of-columns"><span class="toc-section-number">3.6.11</span> Formatting the display of columns</a></li>
 </ul></li>
-<li class="has-sub"><a href="tables.html#structuring-data"><span class="toc-section-number">3.7</span> Organizing relational tables</a><ul>
-<li><a href="tables.html#reshaping-to-long-format"><span class="toc-section-number">3.7.1</span> Reshaping to long format</a></li>
-<li><a href="tables.html#choosing-tables-and-keys"><span class="toc-section-number">3.7.2</span> Choosing tables and keys</a></li>
-<li><a href="tables.html#listing-levels"><span class="toc-section-number">3.7.3</span> Listing levels</a></li>
-<li><a href="tables.html#exploring-levels"><span class="toc-section-number">3.7.4</span> Exploring levels</a></li>
-<li><a href="tables.html#aggregate-join"><span class="toc-section-number">3.7.5</span> Collapsing</a></li>
-<li><a href="tables.html#expanding"><span class="toc-section-number">3.7.6</span> Expanding</a></li>
-<li><a href="tables.html#update-joins-1"><span class="toc-section-number">3.7.7</span> Update joins</a></li>
+<li class="has-sub"><a href="tables.html#exploring-data"><span class="toc-section-number">3.7</span> Exploring data</a><ul>
+<li><a href="tables.html#browse-env"><span class="toc-section-number">3.7.1</span> Browsing loaded objects</a></li>
+<li><a href="tables.html#dt-subset"><span class="toc-section-number">3.7.2</span> Subsetting</a></li>
+<li><a href="tables.html#sorting"><span class="toc-section-number">3.7.3</span> Sorting</a></li>
+<li><a href="tables.html#dt-summary-stats"><span class="toc-section-number">3.7.4</span> Summaries</a></li>
+<li><a href="tables.html#reshaping-to-wide"><span class="toc-section-number">3.7.5</span> Reshaping to wide</a></li>
+</ul></li>
+<li class="has-sub"><a href="tables.html#structuring-data"><span class="toc-section-number">3.8</span> Organizing relational tables</a><ul>
+<li><a href="tables.html#reshaping-to-long-format"><span class="toc-section-number">3.8.1</span> Reshaping to long format</a></li>
+<li><a href="tables.html#choosing-tables-and-keys"><span class="toc-section-number">3.8.2</span> Choosing tables and keys</a></li>
+<li><a href="tables.html#listing-levels"><span class="toc-section-number">3.8.3</span> Listing levels</a></li>
+<li><a href="tables.html#exploring-levels"><span class="toc-section-number">3.8.4</span> Exploring levels</a></li>
+<li><a href="tables.html#aggregate-join"><span class="toc-section-number">3.8.5</span> Collapsing</a></li>
+<li><a href="tables.html#expanding"><span class="toc-section-number">3.8.6</span> Expanding</a></li>
+<li><a href="tables.html#update-joins"><span class="toc-section-number">3.8.7</span> Update joins</a></li>
 </ul></li>
 </ul></li>
 <li class="has-sub"><a href="work.html#work"><span class="toc-section-number">4</span> Getting work done</a><ul>
-<li class="has-sub"><a href="work.html#randomization"><span class="toc-section-number">4.1</span> Randomization</a><ul>
-<li><a href="work.html#draws-from-distributions"><span class="toc-section-number">4.1.1</span> Draws from distributions</a></li>
-<li><a href="work.html#urn-draws"><span class="toc-section-number">4.1.2</span> Urn draws</a></li>
-<li><a href="work.html#permutations"><span class="toc-section-number">4.1.3</span> Permutations</a></li>
-<li><a href="work.html#simulations"><span class="toc-section-number">4.1.4</span> Simulations</a></li>
+<li><a href="work.html#sets-and-combinations"><span class="toc-section-number">4.1</span> Sets and combinations</a></li>
+<li class="has-sub"><a href="work.html#randomization"><span class="toc-section-number">4.2</span> Randomization</a><ul>
+<li><a href="work.html#distribution-draws"><span class="toc-section-number">4.2.1</span> Distribution draws</a></li>
+<li><a href="work.html#urn-draws"><span class="toc-section-number">4.2.2</span> Urn draws</a></li>
+<li><a href="work.html#permutations"><span class="toc-section-number">4.2.3</span> Permutations</a></li>
+<li><a href="work.html#simulations"><span class="toc-section-number">4.2.4</span> Simulations</a></li>
 </ul></li>
-<li class="has-sub"><a href="work.html#working-with-sequences"><span class="toc-section-number">4.2</span> Working with sequences</a><ul>
-<li><a href="work.html#lag"><span class="toc-section-number">4.2.1</span> Lag operators</a></li>
-<li><a href="work.html#rolling-computations"><span class="toc-section-number">4.2.2</span> Rolling computations</a></li>
-<li><a href="work.html#run-length-encoding"><span class="toc-section-number">4.2.3</span> Run-length encoding</a></li>
-<li><a href="work.html#grouping-on-runs"><span class="toc-section-number">4.2.4</span> Grouping on runs</a></li>
+<li class="has-sub"><a href="work.html#sequences"><span class="toc-section-number">4.3</span> Working with sequences</a><ul>
+<li><a href="work.html#lag"><span class="toc-section-number">4.3.1</span> Lag operators</a></li>
+<li><a href="work.html#taking-differences"><span class="toc-section-number">4.3.2</span> Taking differences</a></li>
+<li><a href="work.html#rolling-computations"><span class="toc-section-number">4.3.3</span> Rolling computations</a></li>
+<li><a href="work.html#run-length-encoding"><span class="toc-section-number">4.3.4</span> Run-length encoding</a></li>
+<li><a href="work.html#grouping-on-runs"><span class="toc-section-number">4.3.5</span> Grouping on runs</a></li>
 </ul></li>
-<li><a href="work.html#combining-table-columns"><span class="toc-section-number">4.3</span> Combining table columns</a></li>
-<li class="has-sub"><a href="work.html#reg"><span class="toc-section-number">4.4</span> Regression</a><ul>
-<li><a href="work.html#extracting-results"><span class="toc-section-number">4.4.1</span> Extracting results</a></li>
+<li><a href="work.html#combining-table-columns"><span class="toc-section-number">4.4</span> Combining table columns</a></li>
+<li class="has-sub"><a href="work.html#reg"><span class="toc-section-number">4.5</span> Regression</a><ul>
+<li><a href="work.html#extracting-results"><span class="toc-section-number">4.5.1</span> Extracting results</a></li>
 </ul></li>
-<li><a href="work.html#optimization"><span class="toc-section-number">4.5</span> Optimization</a></li>
-<li><a href="work.html#integration"><span class="toc-section-number">4.6</span> Integration</a></li>
-<li><a href="work.html#string-operations"><span class="toc-section-number">4.7</span> String operations</a></li>
+<li><a href="work.html#optimization"><span class="toc-section-number">4.6</span> Optimization</a></li>
+<li><a href="work.html#integration"><span class="toc-section-number">4.7</span> Integration</a></li>
+<li><a href="work.html#string-operations"><span class="toc-section-number">4.8</span> String operations</a></li>
 </ul></li>
 </ul>
 </div>
@@ -334,7 +338,7 @@ L3 =<span class="st"> </span><span class="kw">c</span>(L, L2)</code></pre></div>
 #  $ : chr &quot;A&quot;
 #  $ : num [1:2] 1 2
 #  $ : logi FALSE</code></pre>
-<p>To explore the set of loaded objects, see the tools in <a href="tables.html#browse-env">3.6.1</a>.</p>
+<p>To explore the set of loaded objects, see the tools in <a href="tables.html#browse-env">3.7.1</a>.</p>
 </div>
 <div id="names" class="section level3">
 <h3><span class="header-section-number">2.1.5</span> Named elements</h3>
@@ -430,7 +434,7 @@ x =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&q
 L =<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</span> <span class="dv">1</span>, <span class="dt">Y =</span> <span class="dv">2</span>, <span class="dt">Z =</span> <span class="dv">3</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)] &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;bada&quot;</span>, <span class="st">&quot;bing&quot;</span>)
 L[<span class="kw">c</span>(<span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Z&quot;</span>)] =<span class="st"> </span><span class="kw">list</span>(<span class="dv">21</span>, <span class="dv">31</span>)</code></pre></div>
-<p>The allowed values of <code>i</code> are the same as we saw for slicing a vector in <a href="basics.html#slicing">2.1.7</a>. This is fairly unsafe on account of silent coercion, recycling and failure (when <code>i</code> is not a valid index of <code>x</code>). We will revisit how to modify vectors in data.tables in <a href="tables.html#dt-subassign">3.3</a>.</p>
+<p>The allowed values of <code>i</code> are the same as we saw for slicing a vector in <a href="basics.html#slicing">2.1.7</a>. This is fairly unsafe on account of silent coercion, recycling and failure (when <code>i</code> is not a valid index of <code>x</code>). We will revisit how to modify vectors in data.tables in <a href="tables.html#dt-subassign">3.4</a>.</p>
 
 <div class="rmd-caution">
 <strong>Hard-to-find documentation.</strong> For documentation on slicing and extracting, you can type <code>?`[`</code>. Even though there is a <code>]</code> for every <code>[</code>, it is the opening bracket that is the function’s actual name, which will come back in <a href="basics.html#lapply">2.4.3</a>. For documentation on sub-assignment, type <code>?`[&lt;-`</code>.
@@ -676,7 +680,7 @@ m[im]</code></pre></div>
 <div id="arithmetic" class="section level3">
 <h3><span class="header-section-number">2.3.2</span> Arithmetic</h3>
 <p>The full set of arithmetic operators is documented at <code>?Arithmetic</code>. The integer division and modulo operators look like <code>%/%</code> and <code>%%</code>, but otherwise, everything is standard. Other basic functions include <code>round</code>, <code>floor</code>, <code>ceiling</code>, <code>min</code>, <code>max</code>, <code>log</code>, <code>exp</code>, <code>sqrt</code>.</p>
-<p>Essentially all computations involving missing values will return a missing value. One exception is <code>NA^0</code> since no matter what number the true value is, this expression will evaluate to <code>1</code>. (Recall that a missing value means “there is some true value, but we don’t know what it is.”) The <code>min</code> and <code>max</code> functions can ignore missing values, as noted in their docs. <a href="tables.html#dt-summary-stats">3.6.4</a> covers other summarizing functions, all of which similarly offer to ignore <code>NA</code>s.</p>
+<p>Essentially all computations involving missing values will return a missing value. One exception is <code>NA^0</code> since no matter what number the true value is, this expression will evaluate to <code>1</code>. (Recall that a missing value means “there is some true value, but we don’t know what it is.”) The <code>min</code> and <code>max</code> functions can ignore missing values, as noted in their docs. <a href="tables.html#dt-summary-stats">3.7.4</a> covers other summarizing functions, all of which similarly offer to ignore <code>NA</code>s.</p>
 <p>As in <a href="http://floating-point-gui.de/">any other programming environment</a>, floating point arithmetic in R can trip up calculations. For example, try <code>.1 + .05 - .15 == 0</code>.</p>
 
 <div class="rmd-caution">
@@ -811,7 +815,7 @@ x /<span class="st"> </span>y</code></pre></div>
 <h3><span class="header-section-number">2.4.2</span> Passing arguments</h3>
 <p>Compare the documentation <code>?vector</code> against usage in <a href="basics.html#initializing">2.1.11</a>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="kw">vector</span>(<span class="dt">length =</span> <span class="dv">5</span>, <span class="dt">mode =</span> <span class="st">&quot;list&quot;</span>)</code></pre></div>
-<p>The arguments are being passed out-of-order, but this still works since the arguments are being passed by name. Passing arguments by the position, like <code>sort(x, TRUE)</code>, is a riskier proposition, since it is harder to get right initially and to interpret correctly later. Some data.table idioms for merging (<a href="tables.html#dt-merging">3.4</a>) involve passing arguments out-of-order.</p>
+<p>The arguments are being passed out-of-order, but this still works since the arguments are being passed by name. Passing arguments by the position, like <code>sort(x, TRUE)</code>, is a riskier proposition, since it is harder to get right initially and to interpret correctly later. Some data.table idioms for merging (<a href="tables.html#dt-merging">3.5</a>) involve passing arguments out-of-order.</p>
 </div>
 <div id="lapply" class="section level3">
 <h3><span class="header-section-number">2.4.3</span> Iterating over a list</h3>
@@ -916,7 +920,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nrow</code></pre></div>
 <pre><code># function (x) 
 # dim(x)[1L]
-# &lt;bytecode: 0x000000000691cb70&gt;
+# &lt;bytecode: 0x000000001435c330&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">replace</code></pre></div>
 <pre><code># function (x, list, values) 
@@ -924,7 +928,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 #     x[list] &lt;- values
 #     x
 # }
-# &lt;bytecode: 0x000000000a3d1378&gt;
+# &lt;bytecode: 0x0000000016286b38&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <p>The last two rows of these functions show (i) that they are compiled and (ii) the environment they were defined in.</p>
 <p>Many functions are not “exported” for direct use. Nonetheless, their code may be found using <code>getAnywhere</code> or accessed directly using <code>:::</code> syntax:</p>
@@ -999,7 +1003,7 @@ x   =<span class="st"> </span><span class="dv">2</span>*i2 -<span class="st"> </
 <strong>Dummy variables.</strong> First, if you find yourself wanting to do <code>x = if (cond) 1 else 0</code>, don’t. As mentioned in <a href="basics.html#arithmetic">2.3.2</a>, the logical variable <code>cond</code> itself is perfect for storing this dummy variable. It will be treated as numeric in any arithmetic calculations. Besides, there is certainly no reason to prefer the floating-point values <code>0</code> and <code>1</code> over integers <code>0L</code> and <code>1L</code>. Finally, use a factor…
 </div>
 <p></p>
-<p>The base R tool for handling elementwise <code>if</code>/<code>else</code> rules is the function <code>ifelse</code>. However, it has some serious shortcomings. A better way, similar to the <code>gen</code>/<code>replace</code> pattern in Stata, is covered in <a href="tables.html#dt-ifelse">3.3.4</a>.</p>
+<p>The base R tool for handling elementwise <code>if</code>/<code>else</code> rules is the function <code>ifelse</code>. However, it has some serious shortcomings. A better way, similar to the <code>gen</code>/<code>replace</code> pattern in Stata, is covered in <a href="tables.html#dt-ifelse">3.4.4</a>.</p>
 </div>
 </div>
 <div id="data-frames" class="section level2">

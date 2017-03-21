@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-03-20" />
+<meta name="date" content="2017-03-21" />
 
 
 <meta name="description" content="This book covers the essentials of using R.">
@@ -177,73 +177,77 @@ img {
 <li><a href="tables.html#syntax-1"><span class="toc-section-number">3.2.5</span> Syntax</a></li>
 <li><a href="tables.html#other-features"><span class="toc-section-number">3.2.6</span> Other features</a></li>
 </ul></li>
-<li class="has-sub"><a href="tables.html#dt-subassign"><span class="toc-section-number">3.3</span> Modifying data</a><ul>
-<li><a href="tables.html#dt-col-create"><span class="toc-section-number">3.3.1</span> Creating columns</a></li>
-<li><a href="tables.html#removing-columns"><span class="toc-section-number">3.3.2</span> Removing columns</a></li>
-<li><a href="tables.html#replacing-entire-columns"><span class="toc-section-number">3.3.3</span> Replacing entire columns</a></li>
-<li><a href="tables.html#dt-ifelse"><span class="toc-section-number">3.3.4</span> Replacing columns conditionally</a></li>
-<li><a href="tables.html#iterating-over-columns"><span class="toc-section-number">3.3.5</span> Iterating over columns</a></li>
-<li><a href="tables.html#avoiding-in-place-modification"><span class="toc-section-number">3.3.6</span> Avoiding in-place modification</a></li>
+<li class="has-sub"><a href="tables.html#aggregation"><span class="toc-section-number">3.3</span> Aggregation</a><ul>
+<li><a href="tables.html#sdcols-for-a-set-of-columns"><span class="toc-section-number">3.3.1</span> <code>.SDcols</code> for a set of columns</a></li>
+<li><a href="tables.html#iterating-over-columns"><span class="toc-section-number">3.3.2</span> Iterating over columns</a></li>
 </ul></li>
-<li class="has-sub"><a href="tables.html#dt-merging"><span class="toc-section-number">3.4</span> Joins</a><ul>
-<li><a href="tables.html#join-multimatch"><span class="toc-section-number">3.4.1</span> Handling multiply-matched rows</a></li>
-<li><a href="tables.html#handling-unmatched-rows"><span class="toc-section-number">3.4.2</span> Handling unmatched rows</a></li>
-<li><a href="tables.html#handling-unmatched-levels-with-cj"><span class="toc-section-number">3.4.3</span> Handling unmatched levels with <code>CJ</code></a></li>
-<li><a href="tables.html#update-joins"><span class="toc-section-number">3.4.4</span> Update joins</a></li>
-<li><a href="tables.html#rolling-and-non-equi-joins"><span class="toc-section-number">3.4.5</span> Rolling and non-equi joins</a></li>
-<li><a href="tables.html#shortcuts-and-tricks"><span class="toc-section-number">3.4.6</span> Shortcuts and tricks</a></li>
+<li class="has-sub"><a href="tables.html#dt-subassign"><span class="toc-section-number">3.4</span> Modifying data</a><ul>
+<li><a href="tables.html#dt-col-create"><span class="toc-section-number">3.4.1</span> Creating columns</a></li>
+<li><a href="tables.html#removing-columns"><span class="toc-section-number">3.4.2</span> Removing columns</a></li>
+<li><a href="tables.html#replacing-entire-columns"><span class="toc-section-number">3.4.3</span> Replacing entire columns</a></li>
+<li><a href="tables.html#dt-ifelse"><span class="toc-section-number">3.4.4</span> Replacing columns conditionally</a></li>
+<li><a href="tables.html#avoiding-in-place-modification"><span class="toc-section-number">3.4.5</span> Avoiding in-place modification</a></li>
 </ul></li>
-<li class="has-sub"><a href="tables.html#input-output"><span class="toc-section-number">3.5</span> Input and output</a><ul>
-<li><a href="tables.html#file-paths"><span class="toc-section-number">3.5.1</span> File paths</a></li>
-<li><a href="tables.html#fread"><span class="toc-section-number">3.5.2</span> <code>fread</code> to read delimited files</a></li>
-<li><a href="tables.html#rbindlist-read"><span class="toc-section-number">3.5.3</span> <code>rbindlist</code> to combine tables</a></li>
-<li><a href="tables.html#dates-times"><span class="toc-section-number">3.5.4</span> Date and time columns</a></li>
-<li><a href="tables.html#character-columns"><span class="toc-section-number">3.5.5</span> Character columns</a></li>
-<li><a href="tables.html#factor-columns"><span class="toc-section-number">3.5.6</span> Factor columns</a></li>
-<li><a href="tables.html#sdcols-for-a-set-of-columns"><span class="toc-section-number">3.5.7</span> <code>.SDcols</code> for a set of columns</a></li>
-<li><a href="tables.html#list-columns"><span class="toc-section-number">3.5.8</span> List columns</a></li>
-<li><a href="tables.html#fwrite"><span class="toc-section-number">3.5.9</span> <code>fwrite</code> to write delimited files</a></li>
-<li><a href="tables.html#saving-and-loading-r-objects"><span class="toc-section-number">3.5.10</span> Saving and loading R objects</a></li>
-<li><a href="tables.html#reading-and-writing-other-formats"><span class="toc-section-number">3.5.11</span> Reading and writing other formats</a></li>
-<li><a href="tables.html#formatting-the-display-of-columns"><span class="toc-section-number">3.5.12</span> Formatting the display of columns</a></li>
+<li class="has-sub"><a href="tables.html#dt-merging"><span class="toc-section-number">3.5</span> Joins</a><ul>
+<li><a href="tables.html#aggregating-in-a-join"><span class="toc-section-number">3.5.1</span> Aggregating in a join</a></li>
+<li><a href="tables.html#updating-in-a-join"><span class="toc-section-number">3.5.2</span> Updating in a join</a></li>
+<li><a href="tables.html#self-join-to-fill-in-missing-levels"><span class="toc-section-number">3.5.3</span> Self join to fill in missing levels</a></li>
+<li><a href="tables.html#handling-matches"><span class="toc-section-number">3.5.4</span> Handling matches</a></li>
+<li><a href="tables.html#interval-joins"><span class="toc-section-number">3.5.5</span> Interval joins</a></li>
+<li><a href="tables.html#shortcuts-and-tricks"><span class="toc-section-number">3.5.6</span> Shortcuts and tricks</a></li>
 </ul></li>
-<li class="has-sub"><a href="tables.html#exploring-data"><span class="toc-section-number">3.6</span> Exploring data</a><ul>
-<li><a href="tables.html#browse-env"><span class="toc-section-number">3.6.1</span> Browsing loaded objects</a></li>
-<li><a href="tables.html#dt-subset"><span class="toc-section-number">3.6.2</span> Subsetting</a></li>
-<li><a href="tables.html#sorting"><span class="toc-section-number">3.6.3</span> Sorting</a></li>
-<li><a href="tables.html#dt-summary-stats"><span class="toc-section-number">3.6.4</span> Summaries</a></li>
-<li><a href="tables.html#reshaping-to-wide"><span class="toc-section-number">3.6.5</span> Reshaping to wide</a></li>
+<li class="has-sub"><a href="tables.html#input-output"><span class="toc-section-number">3.6</span> Input and output</a><ul>
+<li><a href="tables.html#file-paths"><span class="toc-section-number">3.6.1</span> File paths</a></li>
+<li><a href="tables.html#fread"><span class="toc-section-number">3.6.2</span> <code>fread</code> to read delimited files</a></li>
+<li><a href="tables.html#rbindlist-read"><span class="toc-section-number">3.6.3</span> <code>rbindlist</code> to combine tables</a></li>
+<li><a href="tables.html#dates-times"><span class="toc-section-number">3.6.4</span> Date and time columns</a></li>
+<li><a href="tables.html#character-columns"><span class="toc-section-number">3.6.5</span> Character columns</a></li>
+<li><a href="tables.html#factor-columns"><span class="toc-section-number">3.6.6</span> Factor columns</a></li>
+<li><a href="tables.html#list-columns"><span class="toc-section-number">3.6.7</span> List columns</a></li>
+<li><a href="tables.html#fwrite"><span class="toc-section-number">3.6.8</span> <code>fwrite</code> to write delimited files</a></li>
+<li><a href="tables.html#saving-and-loading-r-objects"><span class="toc-section-number">3.6.9</span> Saving and loading R objects</a></li>
+<li><a href="tables.html#reading-and-writing-other-formats"><span class="toc-section-number">3.6.10</span> Reading and writing other formats</a></li>
+<li><a href="tables.html#formatting-the-display-of-columns"><span class="toc-section-number">3.6.11</span> Formatting the display of columns</a></li>
 </ul></li>
-<li class="has-sub"><a href="tables.html#structuring-data"><span class="toc-section-number">3.7</span> Organizing relational tables</a><ul>
-<li><a href="tables.html#reshaping-to-long-format"><span class="toc-section-number">3.7.1</span> Reshaping to long format</a></li>
-<li><a href="tables.html#choosing-tables-and-keys"><span class="toc-section-number">3.7.2</span> Choosing tables and keys</a></li>
-<li><a href="tables.html#listing-levels"><span class="toc-section-number">3.7.3</span> Listing levels</a></li>
-<li><a href="tables.html#exploring-levels"><span class="toc-section-number">3.7.4</span> Exploring levels</a></li>
-<li><a href="tables.html#aggregate-join"><span class="toc-section-number">3.7.5</span> Collapsing</a></li>
-<li><a href="tables.html#expanding"><span class="toc-section-number">3.7.6</span> Expanding</a></li>
-<li><a href="tables.html#update-joins-1"><span class="toc-section-number">3.7.7</span> Update joins</a></li>
+<li class="has-sub"><a href="tables.html#exploring-data"><span class="toc-section-number">3.7</span> Exploring data</a><ul>
+<li><a href="tables.html#browse-env"><span class="toc-section-number">3.7.1</span> Browsing loaded objects</a></li>
+<li><a href="tables.html#dt-subset"><span class="toc-section-number">3.7.2</span> Subsetting</a></li>
+<li><a href="tables.html#sorting"><span class="toc-section-number">3.7.3</span> Sorting</a></li>
+<li><a href="tables.html#dt-summary-stats"><span class="toc-section-number">3.7.4</span> Summaries</a></li>
+<li><a href="tables.html#reshaping-to-wide"><span class="toc-section-number">3.7.5</span> Reshaping to wide</a></li>
+</ul></li>
+<li class="has-sub"><a href="tables.html#structuring-data"><span class="toc-section-number">3.8</span> Organizing relational tables</a><ul>
+<li><a href="tables.html#reshaping-to-long-format"><span class="toc-section-number">3.8.1</span> Reshaping to long format</a></li>
+<li><a href="tables.html#choosing-tables-and-keys"><span class="toc-section-number">3.8.2</span> Choosing tables and keys</a></li>
+<li><a href="tables.html#listing-levels"><span class="toc-section-number">3.8.3</span> Listing levels</a></li>
+<li><a href="tables.html#exploring-levels"><span class="toc-section-number">3.8.4</span> Exploring levels</a></li>
+<li><a href="tables.html#aggregate-join"><span class="toc-section-number">3.8.5</span> Collapsing</a></li>
+<li><a href="tables.html#expanding"><span class="toc-section-number">3.8.6</span> Expanding</a></li>
+<li><a href="tables.html#update-joins"><span class="toc-section-number">3.8.7</span> Update joins</a></li>
 </ul></li>
 </ul></li>
 <li class="has-sub"><a href="work.html#work"><span class="toc-section-number">4</span> Getting work done</a><ul>
-<li class="has-sub"><a href="work.html#randomization"><span class="toc-section-number">4.1</span> Randomization</a><ul>
-<li><a href="work.html#draws-from-distributions"><span class="toc-section-number">4.1.1</span> Draws from distributions</a></li>
-<li><a href="work.html#urn-draws"><span class="toc-section-number">4.1.2</span> Urn draws</a></li>
-<li><a href="work.html#permutations"><span class="toc-section-number">4.1.3</span> Permutations</a></li>
-<li><a href="work.html#simulations"><span class="toc-section-number">4.1.4</span> Simulations</a></li>
+<li><a href="work.html#sets-and-combinations"><span class="toc-section-number">4.1</span> Sets and combinations</a></li>
+<li class="has-sub"><a href="work.html#randomization"><span class="toc-section-number">4.2</span> Randomization</a><ul>
+<li><a href="work.html#distribution-draws"><span class="toc-section-number">4.2.1</span> Distribution draws</a></li>
+<li><a href="work.html#urn-draws"><span class="toc-section-number">4.2.2</span> Urn draws</a></li>
+<li><a href="work.html#permutations"><span class="toc-section-number">4.2.3</span> Permutations</a></li>
+<li><a href="work.html#simulations"><span class="toc-section-number">4.2.4</span> Simulations</a></li>
 </ul></li>
-<li class="has-sub"><a href="work.html#working-with-sequences"><span class="toc-section-number">4.2</span> Working with sequences</a><ul>
-<li><a href="work.html#lag"><span class="toc-section-number">4.2.1</span> Lag operators</a></li>
-<li><a href="work.html#rolling-computations"><span class="toc-section-number">4.2.2</span> Rolling computations</a></li>
-<li><a href="work.html#run-length-encoding"><span class="toc-section-number">4.2.3</span> Run-length encoding</a></li>
-<li><a href="work.html#grouping-on-runs"><span class="toc-section-number">4.2.4</span> Grouping on runs</a></li>
+<li class="has-sub"><a href="work.html#sequences"><span class="toc-section-number">4.3</span> Working with sequences</a><ul>
+<li><a href="work.html#lag"><span class="toc-section-number">4.3.1</span> Lag operators</a></li>
+<li><a href="work.html#taking-differences"><span class="toc-section-number">4.3.2</span> Taking differences</a></li>
+<li><a href="work.html#rolling-computations"><span class="toc-section-number">4.3.3</span> Rolling computations</a></li>
+<li><a href="work.html#run-length-encoding"><span class="toc-section-number">4.3.4</span> Run-length encoding</a></li>
+<li><a href="work.html#grouping-on-runs"><span class="toc-section-number">4.3.5</span> Grouping on runs</a></li>
 </ul></li>
-<li><a href="work.html#combining-table-columns"><span class="toc-section-number">4.3</span> Combining table columns</a></li>
-<li class="has-sub"><a href="work.html#reg"><span class="toc-section-number">4.4</span> Regression</a><ul>
-<li><a href="work.html#extracting-results"><span class="toc-section-number">4.4.1</span> Extracting results</a></li>
+<li><a href="work.html#combining-table-columns"><span class="toc-section-number">4.4</span> Combining table columns</a></li>
+<li class="has-sub"><a href="work.html#reg"><span class="toc-section-number">4.5</span> Regression</a><ul>
+<li><a href="work.html#extracting-results"><span class="toc-section-number">4.5.1</span> Extracting results</a></li>
 </ul></li>
-<li><a href="work.html#optimization"><span class="toc-section-number">4.5</span> Optimization</a></li>
-<li><a href="work.html#integration"><span class="toc-section-number">4.6</span> Integration</a></li>
-<li><a href="work.html#string-operations"><span class="toc-section-number">4.7</span> String operations</a></li>
+<li><a href="work.html#optimization"><span class="toc-section-number">4.6</span> Optimization</a></li>
+<li><a href="work.html#integration"><span class="toc-section-number">4.7</span> Integration</a></li>
+<li><a href="work.html#string-operations"><span class="toc-section-number">4.8</span> String operations</a></li>
 </ul></li>
 </ul>
 </div>
@@ -288,13 +292,8 @@ x %&gt;%<span class="st"> </span>f %&gt;%<span class="st"> </span>g %&gt;%<span 
 </div>
 <div id="getting-started" class="section level3">
 <h3><span class="header-section-number">3.2.2</span> Getting started</h3>
-<p><a href="https://github.com/Rdatatable/data.table/wiki/Getting-started">The official vignettes</a> for the package are a great way to start with the package. I started by reading some slides and the FAQ in full before using the package. Further introductory materials are offered when the package is loaded:</p>
-<p>– todo watch SO for a resolution to this issue of non-printing msgs</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(data.table)</code></pre></div>
-<pre><code># data.table 1.10.4</code></pre>
-<pre><code>#   The fastest way to learn (by data.table authors): https://www.datacamp.com/courses/data-analysis-the-data-table-way</code></pre>
-<pre><code>#   Documentation: ?data.table, example(data.table) and browseVignettes(&quot;data.table&quot;)</code></pre>
-<pre><code>#   Release notes, videos and slides: http://r-datatable.com</code></pre>
+<p>The official vignettes for the package are a great way to start with the package. Run <code>browseVignettes(package=&quot;data.table&quot;)</code> or visit the <a href="https://github.com/Rdatatable/data.table/wiki/Getting-started">wiki</a> to brows them. The website also includes links to other useful materials (an online course, presentation materials, blog posts).</p>
+<p>I started by reading some slides and the FAQ in full before using the package.</p>
 </div>
 <div id="modification-by-reference" class="section level3">
 <h3><span class="header-section-number">3.2.3</span> Modification by reference</h3>
@@ -386,7 +385,11 @@ bwDT[, {
 #   2</code></pre>
 <p>For each group, we’re now printing a line with <code>cat</code> and saving a plot. This is better than a <code>for</code> loop (<a href="basics.html#for-loops">2.5.1</a>), since we don’t have to manually construct some “split-up data” to iterate over; don’t have to worry about intermediate variables like <code>case</code> contaminating the global environment; and don’t have do define what we’re doing as a function of prespecified variables – we can just use any columns of the data.table.</p>
 <p>Plotting graphs is beyond the scope of this document, but the example above should make sense after reading the docs for each object, <code>?MASS::birtwt</code>, <code>?pdf</code>, et al.</p>
-<p>caution re <code>by=</code> columns: use integers, characters, factors – not floats</p>
+
+<div class="rmd-details">
+<strong>Grouping on floats.</strong> Much of the computational and syntactical magic of the package comes from grouping rows together. To group on a floating-point variable, however, is just asking for trouble, <a href="http://floating-point-gui.de/">for the usual numerical computing reasons</a>. Instead, always use characters, integers or factors. To put a continuous variable into (factor) bins, use <code>cut</code>.
+</div>
+<p></p>
 </div>
 <div id="other-features" class="section level3">
 <h3><span class="header-section-number">3.2.6</span> Other features</h3>
@@ -396,20 +399,47 @@ bwDT[, {
 <li><code>fread</code> and <code>fwrite</code> for fast reading and writing of delimited files</li>
 <li><code>dcast</code> and <code>melt</code> for reshaping tables</li>
 </ul>
-<p>Because these disparate features are bundled together in data.table, we don’t have to load more packages and worry about their complicated dependencies or namespace conflicts ((namespaces)).</p>
+<p>Because these disparate features are bundled together in data.table, we don’t have to load more packages and worry about their complicated dependencies or namespace conflicts (<a href="basics.html#namespaces">2.4.1.3</a>).</p>
+</div>
+</div>
+<div id="aggregation" class="section level2">
+<h2><span class="header-section-number">3.3</span> Aggregation</h2>
+<div id="sdcols-for-a-set-of-columns" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> <code>.SDcols</code> for a set of columns</h3>
+<p>refer to <a href="http://stackoverflow.com/documentation/data.table/3787" class="uri">http://stackoverflow.com/documentation/data.table/3787</a></p>
+<p>lapply + .SDcols with date conversion</p>
+<p>shortcuts: .SDcols = V1:V10, .SDcols = grep(“^date_”, names(DT)), etc</p>
+</div>
+<div id="iterating-over-columns" class="section level3">
+<h3><span class="header-section-number">3.3.2</span> Iterating over columns</h3>
+<p>todo – this section does not relate to modification and should be moved –</p>
+<p>Suppose we want to find the maximum value in each column. As we saw in <a href="basics.html#lapply-df">2.6.1</a>, we can do this like <code>lapply(DT, max)</code>. The <code>lapply</code> function is an option here because a data.table, like a data frame, is a list of columns.</p>
+<p>With data.table, however, we can go beyond a simple <code>lapply</code>. We can, for example, compute the max within each value of <code>z</code>, limiting computation to numeric columns:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[, 
+   <span class="kw">lapply</span>(.SD, max)
+, by=z, .SDcols =<span class="st"> </span>{ <span class="kw">sapply</span>(DT, is.numeric) }]</code></pre></div>
+<pre><code>#        z y
+# 1: FALSE 3
+# 2:  TRUE 5</code></pre>
+<p><code>.SDcols</code> is used to filter the columns that appear in <code>.SD</code>, the subset of data available in <code>j</code>.</p>
+
+<div class="rmd-details">
+<strong>Another interface, <code>set</code>.</strong> The <code>set</code> function can also be used to modify data by reference. It has efficiency benefits in some cases, but it essentially a more limited version of <code>:=</code>.
+</div>
+<p></p>
+<p>… split this section into iterating over columns and iterating over groups. explain that by= will take any appropriate-length vector, warn about by=1:nrow(DT)</p>
 </div>
 </div>
 <div id="dt-subassign" class="section level2">
-<h2><span class="header-section-number">3.3</span> Modifying data</h2>
-<p>refer to <a href="http://stackoverflow.com/documentation/data.table/3781" class="uri">http://stackoverflow.com/documentation/data.table/3781</a></p>
+<h2><span class="header-section-number">3.4</span> Modifying data</h2>
 <p>Creating, editing and removing columns are all done using <code>:=</code> in <code>j</code> of <code>DT[i, j, by]</code>. This functionality operates in-place, in the sense that the underlying data stays in the same place, which is more efficient in terms of how much RAM and time is taken.</p>
 
 <div class="rmd-details">
-<strong>What can be modified in-place?</strong> The scope of in-place operations is currently limited to altering columns. Adding and removing rows by reference is not yet supported, since this is harder to do in R, thanks to its column-oriented storage of tables (contrasting with many database systems that store data rowwise for easy INSERT and DELETE queries).
+<strong>What can be modified in-place?</strong> The scope of in-place operations is currently limited to altering columns. Adding and removing rows by reference is not yet supported; it is harder to do in R, due to its column-oriented storage of tables (contrasting with many database systems that store data rowwise for easy INSERT and DELETE queries).
 </div>
 <p></p>
 <div id="dt-col-create" class="section level3">
-<h3><span class="header-section-number">3.3.1</span> Creating columns</h3>
+<h3><span class="header-section-number">3.4.1</span> Creating columns</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT =<span class="st"> </span><span class="kw">data.table</span>(
   <span class="dt">x =</span> letters[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)], 
   <span class="dt">y =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>), 
@@ -443,7 +473,7 @@ DT[, (nms) :<span class="er">=</span><span class="st"> </span>.(<span class="dv"
 <p>All of these tasks are performed in-place – altering <code>DT</code> without making a new object. Usually, the results are not displayed. They appear here because <code>[]</code> is “chained” onto the end of each task.</p>
 
 <div class="rmd-caution">
-<strong><code>:=</code> is the function both for creation and modification of columns.</strong> This will be covered it more detail in subsequent sections, but is worth emphasising. In particular, this contrasts with Stata (which uses <code>gen</code>, <code>egen</code> and <code>replace</code>).
+<strong><code>:=</code> is the function both for creation <em>and</em> modification of columns.</strong> This will be covered it more detail in subsequent sections, but is worth emphasising. In particular, this contrasts with Stata (which uses distinct verbs <code>gen</code>, <code>egen</code> and <code>replace</code>).
 </div>
 <p></p>
 
@@ -453,7 +483,7 @@ DT[, (nms) :<span class="er">=</span><span class="st"> </span>.(<span class="dv"
 <p></p>
 </div>
 <div id="removing-columns" class="section level3">
-<h3><span class="header-section-number">3.3.2</span> Removing columns</h3>
+<h3><span class="header-section-number">3.4.2</span> Removing columns</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nms =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;u&quot;</span>, <span class="st">&quot;v&quot;</span>, <span class="st">&quot;w&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>)
 DT[, (nms) :<span class="er">=</span><span class="st"> </span><span class="ot">NULL</span>][]</code></pre></div>
 <pre><code>#    x y     z
@@ -465,7 +495,7 @@ DT[, (nms) :<span class="er">=</span><span class="st"> </span><span class="ot">N
 <p>A warning will print if you remove any columns that don’t currently exist.</p>
 </div>
 <div id="replacing-entire-columns" class="section level3">
-<h3><span class="header-section-number">3.3.3</span> Replacing entire columns</h3>
+<h3><span class="header-section-number">3.4.3</span> Replacing entire columns</h3>
 <p>Data.table is careful about column types:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[, a :<span class="er">=</span><span class="st"> </span>10L ][]  <span class="co"># Create a new column of integers</span></code></pre></div>
 <pre><code>#    x y     z  a
@@ -507,22 +537,22 @@ DT[, (nms) :<span class="er">=</span><span class="st"> </span><span class="ot">N
 <p>The coercion is done silently, but it can be made more visible by turning on <code>verbose</code>.</p>
 </div>
 <div id="dt-ifelse" class="section level3">
-<h3><span class="header-section-number">3.3.4</span> Replacing columns conditionally</h3>
+<h3><span class="header-section-number">3.4.4</span> Replacing columns conditionally</h3>
 <p>This is analogous to a SQL UPDATE query or a replace statement in Stata. To illustrate, we will look again at a vectorized <code>if</code>/<code>else</code> assignment, mentioned in <a href="basics.html#ifelse">2.5.2</a>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[     , b :<span class="er">=</span><span class="st"> &quot;Ants&quot;</span>] <span class="co"># initialize to baseline value</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[y &gt;<span class="st"> </span><span class="dv">1</span>, b :<span class="er">=</span><span class="st"> &quot;Bats&quot;</span>][] <span class="co"># replace based on a condition</span></code></pre></div>
-<pre><code>#    x y     z    a    b
-# 1: a 1 FALSE 32.5 Ants
-# 2: b 2 FALSE 32.5 Bats
-# 3: c 3 FALSE 32.5 Bats
-# 4: d 4  TRUE 32.5 Bats
-# 5: e 5  TRUE 32.5 Bats</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[     , b :<span class="er">=</span><span class="st"> &quot;Aardvark&quot;</span>] <span class="co"># initialize to baseline value</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[y &gt;<span class="st"> </span><span class="dv">1</span>, b :<span class="er">=</span><span class="st"> &quot;Zebra&quot;</span>][] <span class="co"># replace based on a condition</span></code></pre></div>
+<pre><code>#    x y     z    a        b
+# 1: a 1 FALSE 32.5 Aardvark
+# 2: b 2 FALSE 32.5    Zebra
+# 3: c 3 FALSE 32.5    Zebra
+# 4: d 4  TRUE 32.5    Zebra
+# 5: e 5  TRUE 32.5    Zebra</code></pre>
 <p>This can also be done with chaining:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[, b :<span class="er">=</span><span class="st"> &quot;Ants&quot;</span>][y &gt;<span class="st"> </span><span class="dv">1</span>, b :<span class="er">=</span><span class="st"> &quot;Bats&quot;</span>]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[, b :<span class="er">=</span><span class="st"> &quot;Aardvark&quot;</span>][y &gt;<span class="st"> </span><span class="dv">1</span>, b :<span class="er">=</span><span class="st"> &quot;Zebra&quot;</span>]</code></pre></div>
 <p>This chaining works because <code>DT[...][...]</code> is evaluated like <code>(DT[...])[...]</code> and the return value of the piece in parentheses is a data.table.</p>
 <p>As we saw in the last section, partial replacement of a column will trigger a warning if the classes don’t match:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[, b :<span class="er">=</span><span class="st"> &quot;Ants&quot;</span>][y &gt;<span class="st"> </span><span class="dv">1</span>, b :<span class="er">=</span><span class="st"> </span><span class="dv">111</span>]</code></pre></div>
-<pre><code># Warning in `[.data.table`(DT[, `:=`(b, &quot;Ants&quot;)], y &gt; 1, `:=`(b, 111)):
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[, b :<span class="er">=</span><span class="st"> &quot;Aardvark&quot;</span>][y &gt;<span class="st"> </span><span class="dv">1</span>, b :<span class="er">=</span><span class="st"> </span><span class="dv">111</span>]</code></pre></div>
+<pre><code># Warning in `[.data.table`(DT[, `:=`(b, &quot;Aardvark&quot;)], y &gt; 1, `:=`(b, 111)):
 # Coerced &#39;double&#39; RHS to &#39;character&#39; to match the column&#39;s type; may have
 # truncated precision. Either change the target column to &#39;double&#39; first
 # (by creating a new &#39;double&#39; vector length 5 (nrows of entire table) and
@@ -531,84 +561,95 @@ DT[, (nms) :<span class="er">=</span><span class="st"> </span><span class="ot">N
 # set the column type correctly up front when you create the table and stick
 # to it, please.</code></pre>
 <p>Another nice feature, similar to Stata, is reporting of the number of rows modified. This can be seen by turning <code>verbose</code> on:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[, b :<span class="er">=</span><span class="st"> &quot;Ants&quot;</span>][y &gt;<span class="st"> </span><span class="dv">1</span>, b :<span class="er">=</span><span class="st"> &quot;Gerbils&quot;</span>, verbose =<span class="st"> </span><span class="ot">TRUE</span>]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[, b :<span class="er">=</span><span class="st"> &quot;Aardvark&quot;</span>][y &gt;<span class="st"> </span><span class="dv">1</span>, b :<span class="er">=</span><span class="st"> &quot;Zebra&quot;</span>, verbose =<span class="st"> </span><span class="ot">TRUE</span>]</code></pre></div>
 <pre><code># Detected that j uses these columns: b 
 # Assigning to 4 row subset of 5 rows</code></pre>
-</div>
-<div id="iterating-over-columns" class="section level3">
-<h3><span class="header-section-number">3.3.5</span> Iterating over columns</h3>
-<p>todo – this section does not relate to modification and should be moved –</p>
-<p>Suppose we want to find the maximum value in each column. As we saw in <a href="basics.html#lapply-df">2.6.1</a>, we can do this like <code>lapply(DT, max)</code>. The <code>lapply</code> function is an option here because a data.table, like a data frame, is a list of columns.</p>
-<p>With data.table, however, we can go beyond a simple <code>lapply</code>. We can, for example, compute the max within each value of <code>z</code>, limiting computation to numeric columns:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[, 
-   <span class="kw">lapply</span>(.SD, max)
-, by=z, .SDcols =<span class="st"> </span>{ <span class="kw">sapply</span>(DT, is.numeric) }]</code></pre></div>
-<pre><code>#        z y    a
-# 1: FALSE 3 32.5
-# 2:  TRUE 5 32.5</code></pre>
-<p><code>.SDcols</code> is used to filter the columns that appear in <code>.SD</code>, the subset of data available in <code>j</code>.</p>
-
-<div class="rmd-details">
-<strong>Another interface, <code>set</code>.</strong> The <code>set</code> function can also be used to modify data by reference. It has efficiency benefits in some cases, but it essentially a more limited version of <code>:=</code>.
-</div>
-<p></p>
-<p>… split this section into iterating over columns and iterating over groups. explain that by= will take any appropriate-length vector, warn about by=1:nrow(DT)</p>
+<pre><code>#    x y     z    a        b
+# 1: a 1 FALSE 32.5 Aardvark
+# 2: b 2 FALSE 32.5    Zebra
+# 3: c 3 FALSE 32.5    Zebra
+# 4: d 4  TRUE 32.5    Zebra
+# 5: e 5  TRUE 32.5    Zebra</code></pre>
 </div>
 <div id="avoiding-in-place-modification" class="section level3">
-<h3><span class="header-section-number">3.3.6</span> Avoiding in-place modification</h3>
+<h3><span class="header-section-number">3.4.5</span> Avoiding in-place modification</h3>
 <p>If you want to create a new data.table instead of modifying in-place, use</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT2 =<span class="st"> </span><span class="kw">copy</span>(DT1)</code></pre></div>
-<p>We have to use this instead of <code>DT2 = DT1</code> since with the latter we have only created a new “pointer” to the first data set. I routinely make copies after reading in data (<a href="tables.html#fread">3.5.2</a>) so that I can back out where I tripped over something in the process of data cleaning.</p>
+<p>We have to use this instead of <code>DT2 = DT1</code> since with the latter we have only created a new “pointer” to the first data set. I routinely make copies after reading in data (<a href="tables.html#fread">3.6.2</a>) so that I can back out where I tripped over something in the process of data cleaning.</p>
 </div>
 </div>
 <div id="dt-merging" class="section level2">
-<h2><span class="header-section-number">3.4</span> Joins</h2>
-<p>refer to <a href="http://stackoverflow.com/documentation/data.table/4976" class="uri">http://stackoverflow.com/documentation/data.table/4976</a></p>
+<h2><span class="header-section-number">3.5</span> Joins</h2>
 <p>You can call them “joins” or “merges.”</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># example data</span>
-a =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">id =</span> <span class="kw">c</span>(1L, 1L, 2L, 3L, <span class="ot">NA_integer_</span>), <span class="dt">x =</span> <span class="dv">11</span>:<span class="dv">15</span>)</code></pre></div>
-<pre><code>#    id  x
-# 1:  1 11
-# 2:  1 12
-# 3:  2 13
-# 4:  3 14
-# 5: NA 15</code></pre>
+a =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">id =</span> <span class="kw">c</span>(1L, 1L, 2L, 3L, <span class="ot">NA_integer_</span>), <span class="dt">t =</span> <span class="kw">c</span>(1L, 2L, 1L, 2L, <span class="ot">NA_integer_</span>), <span class="dt">x =</span> <span class="dv">11</span>:<span class="dv">15</span>)</code></pre></div>
+<pre><code>#    id  t  x
+# 1:  1  1 11
+# 2:  1  2 12
+# 3:  2  1 13
+# 4:  3  2 14
+# 5: NA NA 15</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">b =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">id =</span> <span class="dv">1</span>:<span class="dv">2</span>, <span class="dt">y =</span> -(<span class="dv">1</span>:<span class="dv">2</span>))</code></pre></div>
 <pre><code>#    id  y
 # 1:  1 -1
 # 2:  2 -2</code></pre>
 <p>The idiom for a simple join is <code>x[i]</code> or <code>x[i, on=.(...)]</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a[b, on=.(id)]</code></pre></div>
-<pre><code>#    id  x  y
-# 1:  1 11 -1
-# 2:  1 12 -1
-# 3:  2 13 -2</code></pre>
+<pre><code>#    id t  x  y
+# 1:  1 1 11 -1
+# 2:  1 2 12 -1
+# 3:  2 1 13 -2</code></pre>
 <p>Think of <code>x[i]</code> as using index <code>i</code> to look up rows of <code>x</code>, in the same way an “index matrix” can look up elements of a matrix (<a href="basics.html#matrix-extract">2.2.4</a>).</p>
-<div id="join-multimatch" class="section level3">
-<h3><span class="header-section-number">3.4.1</span> Handling multiply-matched rows</h3>
+<div id="aggregating-in-a-join" class="section level3">
+<h3><span class="header-section-number">3.5.1</span> Aggregating in a join</h3>
+<p>aggregate joins (by=.EACHI)</p>
+</div>
+<div id="updating-in-a-join" class="section level3">
+<h3><span class="header-section-number">3.5.2</span> Updating in a join</h3>
+<p>If your data is well organized, this will be the join you need most of the time. It modifies one table, <code>x</code>, by</p>
+<p>update joins, motivated by relational data</p>
+<p>extension of SQL UPDATE</p>
+</div>
+<div id="self-join-to-fill-in-missing-levels" class="section level3">
+<h3><span class="header-section-number">3.5.3</span> Self join to fill in missing levels</h3>
+<p>Suppose we have data per year for each ID:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">id =</span> <span class="kw">c</span>(1L, 1L, 2L), <span class="dt">year =</span> <span class="kw">c</span>(1999L, 2000L, 1999L), <span class="dt">v =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>))</code></pre></div>
+<p>Now we want to complete the data set so that every ID has a row for every year:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[<span class="kw">CJ</span>(<span class="dt">id =</span> id, <span class="dt">year =</span> year, <span class="dt">unique=</span><span class="ot">TRUE</span>), on=.(id, year)]</code></pre></div>
+<pre><code>#    id year  v
+# 1:  1 1999  5
+# 2:  1 2000  7
+# 3:  2 1999  9
+# 4:  2 2000 NA</code></pre>
+<p>This is called a self join because we are using the table’s own columns in <code>i</code> of <code>DT[i, on=]</code>. The CJ function is a helper that takes all combinations of vectors, alternately called the Cartesian product or a “cross join.”</p>
+</div>
+<div id="handling-matches" class="section level3">
+<h3><span class="header-section-number">3.5.4</span> Handling matches</h3>
+<div id="join-multimatch" class="section level4">
+<h4><span class="header-section-number">3.5.4.1</span> Handling multiply-matched rows</h4>
 <p>In this example, we are indexing by rows of <code>b</code> and so get matches for every row of <code>b</code>. By default, we get <em>all</em> matches in <code>a</code>, but this can be tweaked:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a[b, on=.(id), mult=<span class="st">&quot;first&quot;</span>]</code></pre></div>
-<pre><code>#    id  x  y
-# 1:  1 11 -1
-# 2:  2 13 -2</code></pre>
+<pre><code>#    id t  x  y
+# 1:  1 1 11 -1
+# 2:  2 1 13 -2</code></pre>
 <p>Now each row of <code>b</code> only returns the first matching row (from the top) in <code>a</code>.</p>
 </div>
-<div id="handling-unmatched-rows" class="section level3">
-<h3><span class="header-section-number">3.4.2</span> Handling unmatched rows</h3>
+<div id="handling-unmatched-rows" class="section level4">
+<h4><span class="header-section-number">3.5.4.2</span> Handling unmatched rows</h4>
 <p>Flipping it around, if we use <code>a</code> to index <code>b</code>, we have some index rows from <code>a</code> that don’t have any matches in <code>b</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">b[a, on=.(id)]</code></pre></div>
-<pre><code>#    id  y  x
-# 1:  1 -1 11
-# 2:  1 -1 12
-# 3:  2 -2 13
-# 4:  3 NA 14
-# 5: NA NA 15</code></pre>
+<pre><code>#    id  y  t  x
+# 1:  1 -1  1 11
+# 2:  1 -1  2 12
+# 3:  2 -2  1 13
+# 4:  3 NA  2 14
+# 5: NA NA NA 15</code></pre>
 <p>These unmatched rows still show up in the result, which is usually nice. However, this behavior can also be tweaked:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">b[a, on=.(id), nomatch=<span class="dv">0</span>]</code></pre></div>
-<pre><code>#    id  y  x
-# 1:  1 -1 11
-# 2:  1 -1 12
-# 3:  2 -2 13</code></pre>
+<pre><code>#    id  y t  x
+# 1:  1 -1 1 11
+# 2:  1 -1 2 12
+# 3:  2 -2 1 13</code></pre>
 
 <div class="rmd-caution">
 <p>todo – move this block to wherever .() is first used –</p>
@@ -620,37 +661,107 @@ a =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">
 <strong>Diagnostics for merges.</strong> In Stata, joins report on how well they went – did everything match? how many didn’t match? The analogous question for an <code>x[i]</code> join is – for each row of <code>i</code>, how many matches did we find in <code>x</code>? To see the answer, use <code>b[a, on=.(id), .N, by=.EACHI]</code>.
 </div>
 <p></p>
-<p>We also have the option of selecting <em>unmatched</em> rows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a[!b, on=.(id)]</code></pre></div>
-<pre><code>#    id  x
-# 1:  3 14
-# 2: NA 15</code></pre>
-<p>This “not-join” or “anti-join” returns all rows of <code>a</code> that are not matched by rows in <code>b</code>.</p>
 </div>
-<div id="handling-unmatched-levels-with-cj" class="section level3">
-<h3><span class="header-section-number">3.4.3</span> Handling unmatched levels with <code>CJ</code></h3>
-<p>– argh, I wrote a bit about self-joins here but apparently mis-git it. will have to see if it can be recovered</p>
+<div id="handling-imperfect-matches-with-rolling-joins" class="section level4">
+<h4><span class="header-section-number">3.5.4.3</span> Handling imperfect matches with rolling joins</h4>
+<p>Sometimes we want unmatched rows paired with the closest match occurring earlier or later in the table:</p>
+<p>todo – eval this after standardizing DT in the section</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[.(<span class="st">&quot;F&quot;</span>, <span class="dv">1</span>:<span class="dv">3</span>), on=.(ID, t), roll =<span class="st"> </span>-<span class="ot">Inf</span>, .(v, .I), by=.EACHI]</code></pre></div>
+<p>In this way each row of <code>i</code> in <code>x[i]</code> is matched with exactly one row of <code>x</code>.</p>
+<p>Rolling only affects the final column in <code>on=</code>.</p>
+<p>The value of <code>roll=</code> refers to how much higher or lower the value of <code>t</code> can be and still qualify as a match. We add (up to) <code>roll</code> to the target row if necessary to find a match. So <code>roll = -7</code> means we would accept a <code>T</code> as far away as <code>T - 7 = t</code>.</p>
+<p>It can also be set to <code>roll=&quot;nearest&quot;</code> to find the closest match in either direction (with infinite range).</p>
 </div>
-<div id="update-joins" class="section level3">
-<h3><span class="header-section-number">3.4.4</span> Update joins</h3>
-<p>update joins, motivated by relational data</p>
-<p>aggregate joins (by=.EACHI)</p>
-<p>extension of SQL UPDATE</p>
 </div>
-<div id="rolling-and-non-equi-joins" class="section level3">
-<h3><span class="header-section-number">3.4.5</span> Rolling and non-equi joins</h3>
-<p>leave the efficiency bit to the next chapter (on sequences &gt; rolling computations)</p>
+<div id="interval-joins" class="section level3">
+<h3><span class="header-section-number">3.5.5</span> Interval joins</h3>
+<p>It is sometimes useful to match on a range of values. To do this, we explicitly name all columns in <code>i</code> and define inequalities in <code>on=</code>. Suppose we want to see, for every time <code>t</code>, how many individuals were seen in the previous three days:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT =<span class="st"> </span><span class="kw">data.table</span>(
+    <span class="dt">ID =</span> <span class="kw">c</span>(<span class="st">&quot;D&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;A&quot;</span>), 
+    <span class="dt">t  =</span> <span class="kw">c</span>(1L, 1L, 9L, 11L, 13L, 13L, 16L),
+    <span class="dt">v  =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">0.2</span>, <span class="fl">1.2</span>, <span class="fl">0.4</span>, <span class="fl">1.4</span>, <span class="fl">0.8</span>, <span class="fl">0.6</span>)
+)</code></pre></div>
+<pre><code>#    ID  t   v
+# 1:  D  1 1.0
+# 2:  F  1 0.2
+# 3:  F  9 1.2
+# 4:  B 11 0.4
+# 5:  C 13 1.4
+# 6:  F 13 0.8
+# 7:  A 16 0.6</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tg =<span class="st"> </span>DT[, <span class="kw">seq.int</span>(<span class="kw">min</span>(t), <span class="kw">max</span>(t))] <span class="co"># range of dates of interest</span>
+DT[.(<span class="dt">t0 =</span> tg -<span class="st"> </span><span class="dv">3</span>, <span class="dt">t1 =</span> tg), on=.(t &gt;=<span class="st"> </span>t0, t &lt;<span class="st"> </span>t1),
+   <span class="kw">uniqueN</span>(ID, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
+, by=.EACHI]</code></pre></div>
+<pre><code>#      t  t V1
+#  1: -2  1  0
+#  2: -1  2  2
+#  3:  0  3  2
+#  4:  1  4  2
+#  5:  2  5  0
+#  6:  3  6  0
+#  7:  4  7  0
+#  8:  5  8  0
+#  9:  6  9  0
+# 10:  7 10  1
+# 11:  8 11  1
+# 12:  9 12  2
+# 13: 10 13  1
+# 14: 11 14  3
+# 15: 12 15  2
+# 16: 13 16  2</code></pre>
+<p>At first, these results may look unintuitive. The syntax here is again <code>x[i, on=, j, by=.EACHI]</code>. We are using <code>i</code> to subset <code>x</code>; then grouping by each row of <code>i</code> to compute <code>j</code>. The results make sense in this context. We are using <code>i</code> to find rows of <code>x</code>, so we have values from <code>i</code> and column names from <code>x</code>. Unfortunately, this means we have repeating column names. I often add a trailing <code>setnames</code> call to address this:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[.(<span class="dt">t0 =</span> tg -<span class="st"> </span><span class="dv">3</span>, <span class="dt">t1 =</span> tg), on=.(t &gt;<span class="st"> </span>t0, t &lt;<span class="st"> </span>t1),
+   <span class="kw">uniqueN</span>(ID, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
+, by=.EACHI][, <span class="kw">setnames</span>(.SD, <span class="kw">c</span>(<span class="st">&quot;t0&quot;</span>, <span class="st">&quot;t&quot;</span>, <span class="st">&quot;n&quot;</span>))]</code></pre></div>
+<pre><code>#     t0  t n
+#  1: -2  1 0
+#  2: -1  2 2
+#  3:  0  3 2
+#  4:  1  4 0
+#  5:  2  5 0
+#  6:  3  6 0
+#  7:  4  7 0
+#  8:  5  8 0
+#  9:  6  9 0
+# 10:  7 10 1
+# 11:  8 11 1
+# 12:  9 12 1
+# 13: 10 13 1
+# 14: 11 14 2
+# 15: 12 15 2
+# 16: 13 16 0</code></pre>
+<p>Interval joins are also called “non-equi joins.” For more complicated interval joins, have a look at <code>?inrange</code>, <code>?foverlaps</code> and the <a href="http://www.bioconductor.org/packages/IRanges/">IRanges package</a> that inspired these data.table tools.</p>
 </div>
 <div id="shortcuts-and-tricks" class="section level3">
-<h3><span class="header-section-number">3.4.6</span> Shortcuts and tricks</h3>
-<p>If a table is always joined on the same column(s), these can be set as its “key.” Setting the key of <code>x</code> sorts the table and allows for skipping <code>on=</code> during <code>x[i,on=]</code> joins. See <code>?setkey</code>. When joining on a single character column, the <code>.()</code> in <code>i</code> can be skipped.</p>
+<h3><span class="header-section-number">3.5.6</span> Shortcuts and tricks</h3>
+<p>When joining on a single character or factor column, the <code>.()</code> in <code>i</code> can be skipped:</p>
+<pre><code>DT[&quot;F&quot;, on=.(ID)]</code></pre>
+<div id="setting-keys" class="section level4">
+<h4><span class="header-section-number">3.5.6.1</span> Setting keys</h4>
+<p>If a table is always joined on the same column(s), these can be set as its “key.” Setting the key of <code>x</code> sorts the table and allows for skipping <code>on=</code> during <code>x[i,on=]</code> joins. It also can have some performance benefits. See <code>?setkey</code>.</p>
+<p>beware DT[DT2] when trying to join on part of the key</p>
+<pre><code>setkey(DT, ID, t)
+DT[.(&quot;F&quot;, 13)]</code></pre>
 <p>review Remarks here <a href="http://stackoverflow.com/documentation/data.table/4977" class="uri">http://stackoverflow.com/documentation/data.table/4977</a></p>
+</div>
+<div id="anti-joins" class="section level4">
+<h4><span class="header-section-number">3.5.6.2</span> Anti-joins</h4>
+<p>We also have the option of selecting <em>unmatched</em> rows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a[!b, on=.(id)]</code></pre></div>
+<pre><code>#    id  t  x
+# 1:  3  2 14
+# 2: NA NA 15</code></pre>
+<p>This “not-join” or “anti-join” returns all rows of <code>a</code> that are not matched by rows in <code>b</code>.</p>
+<p>using indices</p>
+<p>see the vignette</p>
+</div>
 </div>
 </div>
 <div id="input-output" class="section level2">
-<h2><span class="header-section-number">3.5</span> Input and output</h2>
+<h2><span class="header-section-number">3.6</span> Input and output</h2>
 <div id="file-paths" class="section level3">
-<h3><span class="header-section-number">3.5.1</span> File paths</h3>
+<h3><span class="header-section-number">3.6.1</span> File paths</h3>
 <p>Don’t provide paths with backslashes, like <code>&quot;C:\data\input.csv&quot;</code>, since <code>\</code> is special character in R. My workaround is to use forward slashes or construct the path using <code>file.path</code>.</p>
 <ul>
 <li>For a list of files and folders, use <code>dir</code> or <code>list.files</code>.</li>
@@ -661,12 +772,12 @@ a =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">
 <p>For functions to manipulate files, see <code>?files</code> and <code>?dir.create</code>; and for file attributes, <code>?file.info</code>.</p>
 </div>
 <div id="fread" class="section level3">
-<h3><span class="header-section-number">3.5.2</span> <code>fread</code> to read delimited files</h3>
+<h3><span class="header-section-number">3.6.2</span> <code>fread</code> to read delimited files</h3>
 <p>To read tables from CSVs or other delimited formats, <code>fread</code> is quite fast and reliable:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT =<span class="st"> </span><span class="kw">fread</span>(<span class="st">&quot;file.csv&quot;</span>)</code></pre></div>
 </div>
 <div id="rbindlist-read" class="section level3">
-<h3><span class="header-section-number">3.5.3</span> <code>rbindlist</code> to combine tables</h3>
+<h3><span class="header-section-number">3.6.3</span> <code>rbindlist</code> to combine tables</h3>
 <p>To read and combine several tables with the same columns, <code>rbindlist</code> is the right tool. The short approach is:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rbindlist</span>(<span class="kw">lapply</span>(<span class="kw">list.files</span>(<span class="dt">patt=</span><span class="st">&quot;csv$&quot;</span>), fread), <span class="dt">id=</span><span class="ot">TRUE</span>)
 <span class="co"># or...</span>
@@ -684,9 +795,12 @@ for (i in <span class="dv">1</span>:<span class="dv">3</span>)
 fileDT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">fn =</span> <span class="kw">list.files</span>(<span class="dt">pattern=</span><span class="st">&quot;csv$&quot;</span>))
 
 <span class="co"># Next, optionally parse the names for metadata using regex:</span>
-fileDT[, year :<span class="er">=</span><span class="st"> </span><span class="kw">type.convert</span>(<span class="kw">sub</span>(<span class="st">&quot;.*([0-9]{4}).*&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">1&quot;</span>, fn))]
-
-<span class="co"># Finally construct a string file-ID column:</span>
+fileDT[, year :<span class="er">=</span><span class="st"> </span><span class="kw">type.convert</span>(<span class="kw">sub</span>(<span class="st">&quot;.*([0-9]{4}).*&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">1&quot;</span>, fn))]</code></pre></div>
+<pre><code>#              fn year
+# 1: file2011.csv 2011
+# 2: file2012.csv 2012
+# 3: file2013.csv 2013</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Finally construct a string file-ID column:</span>
 fileDT[, id :<span class="er">=</span><span class="st"> </span><span class="kw">as.character</span>(.I)][]</code></pre></div>
 <pre><code>#              fn year id
 # 1: file2011.csv 2011  1
@@ -713,55 +827,49 @@ DT[fileDT, on=.(<span class="dt">file_id =</span> id), year :<span class="er">=<
 <p>Results can be debugged by investigating individual files like <code>fileDT[year == 2012, contents[[1]]]</code>.</p>
 </div>
 <div id="dates-times" class="section level3">
-<h3><span class="header-section-number">3.5.4</span> Date and time columns</h3>
+<h3><span class="header-section-number">3.6.4</span> Date and time columns</h3>
 <p>Currently, <code>fread</code> does not recognize or translate time or date columns to native R formats</p>
 <p>as.IDate, IDateTime</p>
 <p>wday, weekdays, etc.</p>
 <p>show that max, min, inequalities work for dates and times</p>
 </div>
 <div id="character-columns" class="section level3">
-<h3><span class="header-section-number">3.5.5</span> Character columns</h3>
+<h3><span class="header-section-number">3.6.5</span> Character columns</h3>
 <p>state.abb, state.names</p>
 <p>tstrsplit</p>
 <p>substring</p>
 </div>
 <div id="factor-columns" class="section level3">
-<h3><span class="header-section-number">3.5.6</span> Factor columns</h3>
-<p>use characters most of the time, don’t worry about memory. the real memory problems come from how data is organized, as discussed in <a href="tables.html#structuring-data">3.7</a>.</p>
+<h3><span class="header-section-number">3.6.6</span> Factor columns</h3>
+<p>use characters most of the time, don’t worry about memory. the real memory problems come from how data is organized, as discussed in <a href="tables.html#structuring-data">3.8</a>.</p>
 <p>show how ordered factors can be used to set up inequalities for strings</p>
 </div>
-<div id="sdcols-for-a-set-of-columns" class="section level3">
-<h3><span class="header-section-number">3.5.7</span> <code>.SDcols</code> for a set of columns</h3>
-<p>refer to <a href="http://stackoverflow.com/documentation/data.table/3787" class="uri">http://stackoverflow.com/documentation/data.table/3787</a></p>
-<p>lapply + .SDcols with date conversion</p>
-<p>shortcuts: .SDcols = V1:V10, .SDcols = grep(“^date_”, names(DT)), etc</p>
-</div>
 <div id="list-columns" class="section level3">
-<h3><span class="header-section-number">3.5.8</span> List columns</h3>
+<h3><span class="header-section-number">3.6.7</span> List columns</h3>
 <p>list columns – somewhat clumsy, but sometimes convenient (no by=, shift(); inefficient %in% and match()). can store regression results, for example</p>
 <p>consider unique %&gt;% sort %&gt;% toString/paste instead if it’s just for browsing; or going to long format (see data structure)</p>
 </div>
 <div id="fwrite" class="section level3">
-<h3><span class="header-section-number">3.5.9</span> <code>fwrite</code> to write delimited files</h3>
+<h3><span class="header-section-number">3.6.8</span> <code>fwrite</code> to write delimited files</h3>
 <p>zzz</p>
 </div>
 <div id="saving-and-loading-r-objects" class="section level3">
-<h3><span class="header-section-number">3.5.10</span> Saving and loading R objects</h3>
+<h3><span class="header-section-number">3.6.9</span> Saving and loading R objects</h3>
 <p>with Rdata, use load() or just drag it into the window</p>
 <p>RDS</p>
 </div>
 <div id="reading-and-writing-other-formats" class="section level3">
-<h3><span class="header-section-number">3.5.11</span> Reading and writing other formats</h3>
+<h3><span class="header-section-number">3.6.10</span> Reading and writing other formats</h3>
 <p>For “foreign” table formats (excel, stata, etc), use google. these I/O functions will always be in active development because the formats themselves are in flux. of course, it’s unsafe to use such formats for long-term data storage</p>
 <p>details: feather is eventually for storage and transfer but is still under heavy development at this point.</p>
 </div>
 <div id="formatting-the-display-of-columns" class="section level3">
-<h3><span class="header-section-number">3.5.12</span> Formatting the display of columns</h3>
+<h3><span class="header-section-number">3.6.11</span> Formatting the display of columns</h3>
 <p>remember: do rounding as late as possible – don’t start during the cleaning and exploration phase</p>
 </div>
 </div>
 <div id="exploring-data" class="section level2">
-<h2><span class="header-section-number">3.6</span> Exploring data</h2>
+<h2><span class="header-section-number">3.7</span> Exploring data</h2>
 <p>range, summary</p>
 <p>Henk Harmsen on “ergonomics” <a href="https://rpubs.com/carbonmetrics/datatable_ihub" class="uri">https://rpubs.com/carbonmetrics/datatable_ihub</a></p>
 <p><code>e_bad = DT[, var, by=e_id][var==TRUE, e_id]; DT[.(e_id)] (simpler with having)</code></p>
@@ -774,15 +882,15 @@ DT[fileDT, on=.(<span class="dt">file_id =</span> id), year :<span class="er">=<
 <p>eyeball-exploring models: curve</p>
 <p>qqplot etc for the statistically literate, and other tools for ML people</p>
 <div id="browse-env" class="section level3">
-<h3><span class="header-section-number">3.6.1</span> Browsing loaded objects</h3>
+<h3><span class="header-section-number">3.7.1</span> Browsing loaded objects</h3>
 <p>ls()</p>
 <p>rm()</p>
 <p>tables()</p>
 </div>
 <div id="dt-subset" class="section level3">
-<h3><span class="header-section-number">3.6.2</span> Subsetting</h3>
+<h3><span class="header-section-number">3.7.2</span> Subsetting</h3>
 <div id="selecting-by-value" class="section level4">
-<h4><span class="header-section-number">3.6.2.1</span> Selecting by value</h4>
+<h4><span class="header-section-number">3.7.2.1</span> Selecting by value</h4>
 <p>This is analogous to a SQL WHERE clause or a Stata <code>if</code> clause.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># example data</span>
 DT =<span class="st"> </span><span class="kw">data.table</span>(Titanic)</code></pre></div>
@@ -790,10 +898,10 @@ DT =<span class="st"> </span><span class="kw">data.table</span>(Titanic)</code><
 <pre><code>#    Class  Sex   Age Survived   N
 # 1:  Crew Male Adult       No 670
 # 2:  Crew Male Adult      Yes 192</code></pre>
-<p>This syntax, <code>DT[i]</code>, is the subsetting task needed in the vast majority of cases. The rest of <a href="tables.html#dt-subset">3.6.2</a> can safely be skipped the first time through; it is mostly useful for reference.</p>
+<p>This syntax, <code>DT[i]</code>, is the subsetting task needed in the vast majority of cases. The rest of <a href="tables.html#dt-subset">3.7.2</a> can safely be skipped the first time through; it is mostly useful for reference.</p>
 </div>
 <div id="selecting-by-group-statistic" class="section level4">
-<h4><span class="header-section-number">3.6.2.2</span> Selecting by group statistic</h4>
+<h4><span class="header-section-number">3.7.2.2</span> Selecting by group statistic</h4>
 <p>This is analogous to a SQL HAVING clause.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[ , if (<span class="kw">sum</span>(N) &lt;<span class="st"> </span><span class="dv">300</span>) .SD, by=Class ]</code></pre></div>
 <pre><code>#    Class    Sex   Age Survived   N
@@ -809,7 +917,7 @@ DT =<span class="st"> </span><span class="kw">data.table</span>(Titanic)</code><
 <p>This syntax isn’t as clean as a HAVING clause, but it is likely to improve.</p>
 </div>
 <div id="selecting-rows-within-each-group" class="section level4">
-<h4><span class="header-section-number">3.6.2.3</span> Selecting rows within each group</h4>
+<h4><span class="header-section-number">3.7.2.3</span> Selecting rows within each group</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># select first row</span>
 DT[ , .SD[1L], by=Class ]</code></pre></div>
 <pre><code>#    Class  Sex   Age Survived  N
@@ -831,7 +939,7 @@ DT[ , .SD[N ==<span class="st"> </span><span class="kw">max</span>(N)], by=Class
 <p></p>
 </div>
 <div id="finding-where-a-condition-holds" class="section level4">
-<h4><span class="header-section-number">3.6.2.4</span> Finding where a condition holds</h4>
+<h4><span class="header-section-number">3.7.2.4</span> Finding where a condition holds</h4>
 <p>To find where a condition holds:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cond =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;aleph&quot;</span>, <span class="st">&quot;baz&quot;</span>, <span class="st">&quot;boz&quot;</span>) &gt;<span class="st"> &quot;b&quot;</span>
 <span class="kw">which</span>(cond)</code></pre></div>
@@ -848,31 +956,31 @@ x[-w]</code></pre></div>
 </div>
 </div>
 <div id="sorting" class="section level3">
-<h3><span class="header-section-number">3.6.3</span> Sorting</h3>
+<h3><span class="header-section-number">3.7.3</span> Sorting</h3>
 <p>order(x, -y)</p>
 <p>setorder</p>
 <p>setkey</p>
 </div>
 <div id="dt-summary-stats" class="section level3">
-<h3><span class="header-section-number">3.6.4</span> Summaries</h3>
+<h3><span class="header-section-number">3.7.4</span> Summaries</h3>
 <p>draw from <a href="http://stackoverflow.com/documentation/data.table/3785" class="uri">http://stackoverflow.com/documentation/data.table/3785</a></p>
 <div id="the-summary-function" class="section level4">
-<h4><span class="header-section-number">3.6.4.1</span> The <code>summary</code> function</h4>
+<h4><span class="header-section-number">3.7.4.1</span> The <code>summary</code> function</h4>
 <p>similar to stata</p>
 <p>doesn’t really return a useful object, only for printing</p>
 </div>
 <div id="collapsing-a-table" class="section level4">
-<h4><span class="header-section-number">3.6.4.2</span> Collapsing a table</h4>
+<h4><span class="header-section-number">3.7.4.2</span> Collapsing a table</h4>
 <p>collapse</p>
 <p>various custom summary functions</p>
 <p>maybe mention GForce again</p>
 </div>
 <div id="counting-missing-values" class="section level4">
-<h4><span class="header-section-number">3.6.4.3</span> Counting missing values</h4>
+<h4><span class="header-section-number">3.7.4.3</span> Counting missing values</h4>
 <p>mdesc, count missing per column colSums(is.na(.SD))</p>
 </div>
 <div id="counting-rows" class="section level4">
-<h4><span class="header-section-number">3.6.4.4</span> Tabulating</h4>
+<h4><span class="header-section-number">3.7.4.4</span> Tabulating</h4>
 <p>Tabulating or tallying</p>
 <p>bwDT[, .N, by=ftv]</p>
 <p>refer to table() and plot.table()</p>
@@ -892,7 +1000,7 @@ xc =<span class="st"> </span><span class="kw">cut</span>(x, <span class="dt">bre
 </div>
 </div>
 <div id="reshaping-to-wide" class="section level3">
-<h3><span class="header-section-number">3.6.5</span> Reshaping to wide</h3>
+<h3><span class="header-section-number">3.7.5</span> Reshaping to wide</h3>
 <p>draw from <a href="http://stackoverflow.com/documentation/data.table/4117" class="uri">http://stackoverflow.com/documentation/data.table/4117</a></p>
 <p>wide format is rarely useful for storing data (see structuring data)</p>
 <p>but it is good for browsing</p>
@@ -901,30 +1009,30 @@ xc =<span class="st"> </span><span class="kw">cut</span>(x, <span class="dt">bre
 </div>
 </div>
 <div id="structuring-data" class="section level2">
-<h2><span class="header-section-number">3.7</span> Organizing relational tables</h2>
+<h2><span class="header-section-number">3.8</span> Organizing relational tables</h2>
 <p>background: tidy data / database design</p>
 <div id="reshaping-to-long-format" class="section level3">
-<h3><span class="header-section-number">3.7.1</span> Reshaping to long format</h3>
+<h3><span class="header-section-number">3.8.1</span> Reshaping to long format</h3>
 </div>
 <div id="choosing-tables-and-keys" class="section level3">
-<h3><span class="header-section-number">3.7.2</span> Choosing tables and keys</h3>
+<h3><span class="header-section-number">3.8.2</span> Choosing tables and keys</h3>
 </div>
 <div id="listing-levels" class="section level3">
-<h3><span class="header-section-number">3.7.3</span> Listing levels</h3>
+<h3><span class="header-section-number">3.8.3</span> Listing levels</h3>
 <p>make a “skeleton” for the data</p>
 <p>consider igraph if the order does not matter</p>
 <p>use CJ(col1, col2), maybe seq</p>
 <p>if it’s not cartesian, then DT[, col2, by=col1]</p>
 </div>
 <div id="exploring-levels" class="section level3">
-<h3><span class="header-section-number">3.7.4</span> Exploring levels</h3>
+<h3><span class="header-section-number">3.8.4</span> Exploring levels</h3>
 <p>setdiff, union, intersect (works with data.table from 1.9.8+)</p>
 <p>does the table have any dupes?</p>
 <p>does the table have all levels?</p>
 <p>stopifnot</p>
 </div>
 <div id="aggregate-join" class="section level3">
-<h3><span class="header-section-number">3.7.5</span> Collapsing</h3>
+<h3><span class="header-section-number">3.8.5</span> Collapsing</h3>
 <p>essentially an aggregate join – we join so that we can aggregate</p>
 <p>maybe collapsing because we want a table aggregated at a higher level</p>
 <p>maybe collapsing because we have “duplicates” hanging around for other reasons</p>
@@ -937,7 +1045,7 @@ xc =<span class="st"> </span><span class="kw">cut</span>(x, <span class="dt">bre
 <p>use CJ for missing levels</p>
 </div>
 <div id="expanding" class="section level3">
-<h3><span class="header-section-number">3.7.6</span> Expanding</h3>
+<h3><span class="header-section-number">3.8.6</span> Expanding</h3>
 <p>CJ + unique</p>
 <p>use CJ for missing levels</p>
 <p>Suppose we have a table measuring wealth by person and year.</p>
@@ -953,16 +1061,28 @@ xc =<span class="st"> </span><span class="kw">cut</span>(x, <span class="dt">bre
 # 2:      1 2000     23
 # 3:      2 2000     22</code></pre>
 </div>
-<div id="update-joins-1" class="section level3">
-<h3><span class="header-section-number">3.7.7</span> Update joins</h3>
+<div id="update-joins" class="section level3">
+<h3><span class="header-section-number">3.8.7</span> Update joins</h3>
 <p>we join so that we can update the table on the left</p>
-<p>As we saw in <a href="tables.html#dt-ifelse">3.3.4</a>, we can do a SQL-style UPDATE like <code>x[i, var := ...]</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a[b, on=.(id), y :<span class="er">=</span><span class="st"> </span>i.y ]    <span class="co"># create column, assign to each matched row of a </span>
-a[!b, on=.(id), y :<span class="er">=</span><span class="st"> </span>999L ]  <span class="co"># assign to unmatched rows of a</span></code></pre></div>
+<p>As we saw in <a href="tables.html#dt-ifelse">3.4.4</a>, we can do a SQL-style UPDATE like <code>x[i, var := ...]</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a[b, on=.(id), y :<span class="er">=</span><span class="st"> </span>i.y ]    <span class="co"># create column, assign to each matched row of a </span></code></pre></div>
+<pre><code>#    id  t  x  y
+# 1:  1  1 11 -1
+# 2:  1  2 12 -1
+# 3:  2  1 13 -2
+# 4:  3  2 14 NA
+# 5: NA NA 15 NA</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a[!b, on=.(id), y :<span class="er">=</span><span class="st"> </span>999L ]  <span class="co"># assign to unmatched rows of a</span></code></pre></div>
+<pre><code>#    id  t  x   y
+# 1:  1  1 11  -1
+# 2:  1  2 12  -1
+# 3:  2  1 13  -2
+# 4:  3  2 14 999
+# 5: NA NA 15 999</code></pre>
 <p>The <code>i.*</code> syntax allows for unambiguously referring to columns from <code>i</code> (in case the two tables have columns with the same names). Similarly, the <code>x.*</code> prefix can be used to refer to columns of <code>x</code>.</p>
 
 <div class="rmd-caution">
-<strong>Beware multiple matches in an update join.</strong> When there are multiple matches (<a href="tables.html#join-multimatch">3.4.1</a>), an update join will apparently only use the last one. <a href="https://github.com/Rdatatable/data.table/issues/2022">Unfortunately</a>, this is done silently. Try <code>b[a, on=.(id), x := i.x, verbose = TRUE ][]</code>. At least with <code>verbose</code> on it helpfully reports that it assigned “to 3 row subset of 2 rows.”
+<strong>Beware multiple matches in an update join.</strong> When there are multiple matches (<a href="tables.html#join-multimatch">3.5.4.1</a>), an update join will apparently only use the last one. <a href="https://github.com/Rdatatable/data.table/issues/2022">Unfortunately</a>, this is done silently. Try <code>b[a, on=.(id), x := i.x, verbose = TRUE ][]</code>. At least with <code>verbose</code> on it helpfully reports that it assigned “to 3 row subset of 2 rows.”
 </div>
 <p></p>
 

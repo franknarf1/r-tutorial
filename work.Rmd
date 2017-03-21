@@ -201,7 +201,7 @@ shift(x, 0:3)           # multiple lags
 
 `shift` always returns vectors of the same length as `x`, which works well with data.tables:
 
-```{r shift-dt, echo=-3}
+```{r shift-dt, echo=-7}
 # add to an existing table
 DT = data.table(id = seq_along(x), x)
 DT[, sprintf("V%02d", 0:3) := shift(x, 0:3)][]
@@ -222,7 +222,7 @@ embed(x, 3)
 
 A simple common use for `shift` is taking differences across rows by group:
 
-```
+```{r shift-diff}
 DT = data.table(id = c(1L, 1L, 2L, 2L), v = c(1, 3, 7, 10))
 DT[, dv := v - shift(v), by=id]
 # fill in the missing lag for the first row
@@ -232,6 +232,11 @@ DT[, dv_fill := v - shift(v, fill = 0), by=id][]
 There is also a `diff` function in base R, but it is less flexible than computing differences with `shift`; and it does not return a vector of the same length as its input.
 
 ### Rolling computations
+
+note combinatorial cost
+
+use example of cumulative sum
+
 
 general solution is a non-equi join
 
