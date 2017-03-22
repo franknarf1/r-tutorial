@@ -1,19 +1,19 @@
+-- todo prolly use fewer distinct example data sets. this can be done after everything's in and organized throughout the full tutorial --
+
 # Tables {#tables}
 
 This chapter covers navigating tabular data with R.
 
-The first two sections -- on magrittr and data.table -- cover packages that help me work more efficiently, to the point where I regard them as essential. They'll be used throughout the rest of this document. They don't have any dependencies on other packages, and I expect they'll be available as long as R is. It will be assumed in subsequent sections that these libraries have been loaded:
+## Essential packages
 
-```{r loadem, echo=FALSE, warning=FALSE}
+This section covers packages that help me work more efficiently, to the point where I regard them as essential. They'll be used throughout the rest of this document. They don't have any dependencies on other packages, and I expect they'll be available as long as R is. It will be assumed in subsequent sections that these libraries have been attached:
+
+```{r loadem, warning=FALSE}
 library(magrittr)
 library(data.table)
 ```
 
--- todo insert more links to official vignettes --
-
--- todo prolly use fewer distinct example data sets. this can be done after everything's in and organized throughout the full tutorial --
-
-## Magrittr {#magrittr}
+### The magrittr package {#magrittr}
 
 [Magrittr](https://cran.r-project.org/package=magrittr) introduces syntax with "pipes," improving readability by unnesting function calls:
 
@@ -39,13 +39,21 @@ To install, just use CRAN:
 install.packages('magrittr')
 ```
 
-The name is a pun on [René Magritte's pipe painting](https://en.wikipedia.org/wiki/The_Treachery_of_Images).
+The name is a pun on [René Magritte's pipe painting](https://en.wikipedia.org/wiki/The_Treachery_of_Images). To get a handle on the package, I would start with the package [vignette](https://CRAN.R-project.org/package=magrittr/vignettes/magrittr.html).
 
-## data.table {#data-table}
+### The data.table package {#data-table}
 
-[Data.table](http://r-datatable.com) offers a variant of the data frame class (from \@ref(data-frames)), optimized for fast sorted and grouped operations and enhanced with cleaner syntax. It also bundles in a variety of other improvements on base R functionality.
+[Data.table](http://r-datatable.com) offers a variant of the `data.frame` class for data frames (seen in \@ref(data-frames)), optimized for fast sorted and grouped operations and enhanced with cleaner syntax. Section \@ref(dt-class) introduces this `data.table` class. 
 
-### Installation
+The package also bundles in a variety of other functionality:
+
+- ITime and IDate date and time classes
+- `fread` and `fwrite` for fast reading and writing of delimited files
+- `dcast` and `melt` for reshaping tables
+
+Because these disparate features are bundled together in data.table, we don't have to load more packages and worry about their complicated dependencies or namespace conflicts (\@ref(namespaces)).
+
+#### Installation
 
 Again, CRAN can be used:
 
@@ -63,15 +71,128 @@ install.packages("data.table", type = "source",
 
 If using Windows, you'll need to first install [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (requiring administrator privileges), as explained in the last link.
 
-### Getting started
+#### Getting started
 
 The official vignettes for the package are a great way to start with the package. Run `browseVignettes(package="data.table")` or visit the [wiki](http://r-datatable.com/Getting-started) to browse them. (Beware that as of March 2017, the website vignettes are somewhat out-of-date.) 
 
 The website also includes links to other useful materials (an online course, presentation materials, blog posts). I started by reading some slides and the FAQ in full before using the package.
 
+
+
+## The data.table class {#dt-class}
+
+Data.tables extend the data frame class introduced in \@ref(data-frames). 
+
+This section reviews basic operations seen in the last chapter (inspecting, slicing, extracting), before discussing how `data.table` extends `data.frame`.
+
+### Inspecting {#dt-inspect}
+
+Consider the `quakes` data set (with more info in `?quakes`):
+
+```{r dt-view-pre, echo=1}
+quakeDT = data.table(quakes)
+quakeDT
+```
+
+By default, data.tables with over 100 rows will print in the compressed form seen above (showing just the first and last five rows). To globally change how many rows are needed, use `options(datatable.print.nrows = n)`. To override it a single time, use `print` with `nrows=`. I usually set `nrows=Inf` to print all rows:
+
+```{r dt-print, eval=FALSE}
+quakeDT %>% print(nrow = Inf)
+```
+
+To browse a table in a new window, `View` for data frames (\@ref(view)) again works:
+
+```{r dt-view, eval=FALSE}
+quakeDT %>% View
+# or if using RStudio
+quakeDT %>% utils::View()
+```
+
+To inspect the structure of a data.table, we can again use `str` (\@ref(str)):
+
+```{r dt-str}
+quakeDT %>% str
+```
+
+Here, we see the class of each column along with the first few values. In addition, there is an obscure `".internal.selfref"` attribute, which we can ignore except when saving or loading the table from disk (\@ref(dt-saveload)). Other attributes will sometimes also show up here, related to optimizing the performance of ordered or grouped queries on the table (\@ref(keys-indices)).
+
+In the code above, we could use syntax like `View(quakeDT)` instead of `quakeDT %>% View`, but I often find the latter handier, since it's easy to insert intermediate steps, like `quakeDT %>% head(10) %>% View`. Also, while `%>%` is slow, it's not going to matter for tasks like browsing data.
+
+### Slicing {#dt-slicing}
+
+A slice of a data.table is a smaller data.table formed by subsetting rows, columns, or both, analogous to vector and matrix slices seen in \@ref(slicing) and \@ref(slicing-matrix). The remaining columns will retain attributes from the full table (class, levels for factors, etc.).
+
+The syntax is familiar from vectors and matrices:
+
+```{r dt-slicing-pre}
+# example data
+DT = data.table(
+  x = letters[c(1, 2, 3, 4, 5)], 
+  y = c(1, 2, 3, 4, 5), 
+  z = c(1, 2, 3, 4, 5) > 3
+)
+```
+```{r dt-slicing}
+DT[1:2, ]
+DT[, "z"]
+DT[-3, c("y", "z")]
+```
+
+One difference with matrices is that when only slicing rows, we can skip the comma:
+
+```{r dt-slicing-rows}
+DT[1:2]
+```
+
+Other differences come into play when subsetting columns programmatically, where we need either a `..` prefix...
+
+```{r dt-slicing-cols-vec, error=TRUE}
+keep_cols = c("y", "z")
+DT[, keep_cols]                  # error
+DT[, ..keep_cols]                # use this instead
+```
+
+... or `with=FALSE` if programming inline:
+
+```{r dt-slicing-cols-program}
+DT[, letters[25:26]]             # no error, but doesn't print what we want
+DT[, letters[25:26], with=FALSE] # use this instead
+```
+
+These requirements are a quirk of the more flexible `DT[...]` syntax that supports far more than taking slices, as discussed in \@ref(dt-syntax).
+
+```{block2 dt-colnumbers, type='rmd-caution'}
+**Use column names, not numbers.** Subsetting by hard-coded column number, like `cols = 2:3; DT[, ..cols]` works but is discouraged. Column numbers can easily change in the course of writing or updating a script, invalidating column number references in a way that will be annoying to debug. See the first answer in `vignette("datatable-faq")` for a deeper discussion.
+```
+
+```{block2 dt-dfbrackafrak, type='rmd-details'}
+**How data frame slicing works.** This is really getting in the weeds, since I suggest not using data frames at all, but you'll see two major differences if you do. First, `DT[, "z"]` will extract the `z` column instead of taking a slice thanks to the `drop=TRUE` default (which also came up regarding matrices in the last chapter). Second, `DT[1:2]` will slice the first two *columns* instead of the first two rows, thanks to the fact that data frames (and data.tables) are lists and the no-comma usage of `[` triggers list indexing.
+```
+
+`head`, `tail` and the special empty and missing-data slices (all seen in the last chapter) work by row:
+
+```{r dt-slice-headtailspecial}
+head(DT, -3)    # top, removing last 3
+tail(DT, 2)     # bottom 2
+DT[0L]          # empty 
+DT[NA_integer_] # missing
+```
+
+The package also offers `first` and `last`, which are simply special cases of `head` and `tail`.
+
+Fancier slicing methods, like `DT[x > "b", .(y, z)]`, will be introduced with the rest of the `DT[...]` syntax in \@ref(dt-syntax).
+
+There are some syntactical shortcuts for slicing to a set of columns; see \@ref(program-cols).
+
+### Extracting columns
+
+Since data.tables (and data frames) are lists, we can extract columns like `DT$z` or `DT[["z"]]`. 
+
+With the full `DT[...]` syntax (\@ref(dt-syntax)), it is easy to extract a column for a limited set of rows, like `DT[x > "b", z]`.
+
 ### Extensions to the data.frame class
 
-todo -- note CEDTA or generally safety of using data.table where data frame is expected
+The first thing to note is that data.tables *are* data frames, so any function that works on a data frame will work fine with data.tables, too (even if the data.table package is not installed or attached).
 
 #### Modification by reference
 
@@ -90,9 +211,13 @@ str(DF)
 
 We did not use `=` or `<-` to assign the result of `setDT`; the function simply altered `DF` in-place. All of data.table's functions named like `set*` do this.
 
+```{block2 dt-byref, type='rmd-details'}
+**R's copy-on-modify.** Understanding the contrast between modification by reference and base R's modification rules (often called "copy-on-modify") probably requires some familiarity with C (see threads on [stackoverflow](http://stackoverflow.com/questions/15759117/what-exactly-is-copy-on-modify-semantics-in-r-and-where-is-the-canonical-source) or [the mailing list](http://r.789695.n4.nabble.com/Confused-about-NAMED-td4103326.html) if interested). I wouldn't worry about it except to note that many base R operations make copies, which is costly in terms of RAM and computing time; while those operations' data.table counterparts do not have this problem.
+```
+
 #### Factor vs character columns {#dt-factorvchar}
 
-Another difference is that `data.frame` takes string input as a `factor` categorical variable (\@ref(factors)), as seen above; while `data.table` interprets it as character:
+Another difference is that `data.frame(...)` reads string input as a `factor` categorical variable (\@ref(factors)), as seen above; while `data.table(...)` interprets it as character:
 
 ```{r DT}
 DT = data.table(
@@ -103,9 +228,11 @@ DT = data.table(
 str(DT)
 ```
 
-#### Powerful syntax {#dt-syntax-better}
+Data frames' preference for factors may still bite when reading files in with `read.table` from base R instead of `fread` from data.table (\@ref(fread)).
 
-The third major difference is a change in syntax from a data frame's `DF[i,j]`, with `i` and `j` as indices, to SQL-style syntax that is cleaner for by-group operations:
+#### Extended syntax for `DT[...]`\ {#dt-syntax}
+
+The third major difference is the extension of the `DT[...]` syntax to support more than simple slices (like `DF[i,j]`, where `i` and `j` as indices, covered in \@ref(dt-slicing)). It offers SQL-style syntax that is cleaner, particularly for by-group operations:
 
     # this is only pseudocode:
     DT[where, select|update|do, by] # SQL verbs
@@ -123,17 +250,30 @@ We can type column names as barewords here, and even form expressions in terms o
 DT[x > "b", sum(y), by=z]
 ```
 
-```{block2 dt-optimized, type='rmd-details'}
-**Optimized data.table calls.** The last call is optimized in a couple ways. First, the inequality in `i` triggers creation of an "index" in terms of `x` (or [will do](https://github.com/Rdatatable/data.table/issues/1068)), making subsequent indexing on `x` faster thanks to binary search, documented at `?indices`. Second, the `sum` in `j` is computed using an optimized "grouped sum" or `gsum` computation, documented at `?GForce`.
+Typically, the `i` and `j` arguments are called by position, as seen here, rather than by name (like `i = `). Whenever `j` evaluates to a list, the output will be a new data.table:
+
+```{r DT-exdot}
+DT[x > "b", .(n_bigy = sum(y > 2), n_smally = sum(y <= 2)), by=z]
 ```
 
-```{block2 dt-verbose, type='rmd-details'}
-**Verbose data.table messages.** To understand better how data.table works, I would recommend trying out the setting `options(datatable.verbose = TRUE)`. This option is similar to verbose output from an optimization call (reporting the value of the objective at each iteration, etc.). To only see verbose output for a single call, add `verbose = TRUE`. For example, to see see what I meant in the last paragraph, try `DT[x > "b", sum(y), by=z, verbose=TRUE]`.
+```{block2 dt-dot, type='rmd-caution'}
+**The `.()` convenience function.** Inside many arguments of `DT[...]`, we can use the shorthand `.()`, which stands for `list()`.
 ```
 
-The task for `j` can really be anything. Just as a demonstration of this power, here's how it can be used for saving per-group plots to a PDF:
+The use of `by=` is very similar to a `for` loop (\@ref(for-loops)), but it is better in a few important ways: 
 
-```{r}
+- We don't have to manually construct and keep track of some "split-up data" list to iterate over.
+- Optimized by-group functions are used when available (see `?GForce`)
+- We don't have to define the task in `j` as a function of prespecified variables -- we can just use any columns of the data.table.
+- We don't have to worry about intermediate variables (like `case` in the next example) contaminating the global environment.
+
+There are some syntactical shortcuts for writing `by=`; see \@ref(program-cols).
+
+#### An example
+
+The task for `j` can really be anything. Just as a demonstration of its power, here's how it can be used for saving per-group plots to a PDF:
+
+```{r dt-bydemo, cache=TRUE}
 # note: this code will save to your current working directory
 # type getwd() and read ?setwd for details
 
@@ -154,87 +294,57 @@ dev.off()
 
 Plotting graphs is beyond the scope of this document, but the example above should make intuitive sense after reading the docs for each object, `?MASS::birtwt`, `?pdf`, et al. For each group, we're now printing a line with `cat` and saving a plot. 
 
-This is better than a `for` loop (\@ref(for-loops)), since we don't have to manually construct some "split-up data" to iterate over; don't have to worry about intermediate variables like `case` contaminating the global environment; and don't have to define what we're doing as a function of prespecified variables -- we can just use any columns of the data.table.
+```{block2 dt-logicolsub, type='rmd-caution'}
+**Filtering on logical columns.** `DT[z]` and `DT[!z]` will give errors, for design reasons related to the syntax for joins (\@ref(dt-joins)). To get around this, always wrap the column in parentheses: `DT[(z)]` and `DT[!(z)]`.
+```
 
 ```{block2 dt-byfloats, type='rmd-caution'}
 **Grouping on floats.** Much of the computational and syntactical magic of the package comes from grouping rows together with the `by=` argument. To group on a floating-point variable, however, is just asking for trouble, [for the usual numerical computing reasons](http://floating-point-gui.de/). Instead, always use characters, integers or factors. To put a continuous variable into (factor) bins, use `cut`.
 ```
 
-
-### Other features
-
-Besides the data.table class, the package provides other useful features that will come up later:
-
-- ITime and IDate date and time classes
-- `fread` and `fwrite` for fast reading and writing of delimited files
-- `dcast` and `melt` for reshaping tables
-
-Because these disparate features are bundled together in data.table, we don't have to load more packages and worry about their complicated dependencies or namespace conflicts (\@ref(namespaces)).
-
-## Basics
-
-this section just reviews how to take actions familiar from the last chapter
-
-### Slicing
-
-DT[i, j, by] is the primary syntax, but for consistency with data frames, DT[i, j] is avaiable for taking slices.
-
-e.g., mtcars[1:2, c("mpg", "cyl")] drop=FALSE is *always* enforced
-
-when using a normal j statement... `mtcars[1:2, .(mpg, cyl)]`
-
-if you want to characterize a row slice for some reason (debugging?), use j=.N or which=TRUE
-
-todo -- move .() note here
-
-### Extracting
-
-again, it's a list
-
-DT[[colname]] for the full vector
-
-DT[i, colname] just a special case of evaluating `j`
-
-
-### Inspecting
-
-Consider the `mtcars` data set on cars:
-
-```{r agg-pre}
-carsDT = data.table(mtcars, keep.rownames = TRUE)
+```{block2 dt-verbose, type='rmd-details'}
+**Verbose data.table messages.** To learn how data.table queries work, I recommend toggling the setting `options(datatable.verbose = TRUE)`. This option is similar to verbose output from an optimization call (reporting the value of the objective at each iteration, etc.). To only see verbose output for a single call, add `verbose = TRUE`. For example,`DT[x > "b", sum(y), by=z, verbose=TRUE]`.
 ```
 
-As seen in (\@ref(View)),  that we can view the full data set in a new window with `View`. Alternately, we can print the whole table to the console with `print` and `nrow=Inf`:
-
-```{r dt-view, eval=FALSE}
-carsDT %>% print(nrow = Inf)
-
-carsDT %>% View
-# or if using RStudio
-carsDT %>% utils::View()
-```
-
-str -- extra attributes (indices, key), pointer (ref save/load)
 
 ## Aggregation
 
 review http://stackoverflow.com/documentation/data.table/3785
 
 
-This data set has two categorical variables: `am` for automatic (0) or manual (1) transmission; and `vs` for v (0) or straight (1) engine shape. Suppose we want to compare the mean horsepower, `hp`, across these categories:
+The mtcars data set (see `?mtcars`) has two categorical variables: 
+
+- `am` for automatic (0) or manual (1) transmission; and 
+- `vs` for v (0) or straight (1) engine shape. 
+
+```{r agg-pre}
+# example data
+carsDT = data.table(mtcars, keep.rownames = TRUE)
+# quick inspection
+first(carsDT)
+```
+
+Suppose we want to compare the mean horsepower, `hp`, across these categories:
 
 ```{r agg}
 carsDT[, .(mean_hp = mean(hp)), by=.(am, vs)]
 ```
 
+So, we just write `j` of `DT[i,j,by]` as an expression to compute the summary statistic.
 
+### Iterating over columns
 
-```{block2 dt-dot, type='rmd-caution'}
-**The `.()` convenience function.** Inside certain arguments of `DT[...]`, like `on=` above, we can use the shorthand `.()`, which stands for `list()`.
+Now suppose we want to compare mean horsepower, weight and displacement:
+
+```{r agg-sd}
+carsDT[, lapply(.SD, mean), by=.(am, vs), .SDcols = c("hp", "wt", "disp")]
 ```
 
-### `.SDcols` for a set of columns
+So, we just write the relevant columns in `.SDcols` (which does not yet support `.()` notation) and refer to `.SD`, the ***S**ubset of **D**ata*. Within each `by=` group, the query has access to `.SD` with rows for that group and columns as specified in `.SDcols`.
 
+We can use `lapply` to iterate over columns since `.SD` is a data.table, which is a list of column vectors under the hood (as seen before in \@ref(lapply-df)). The column names carry over to the result because `lapply` always carries over names. 
+
+While `.()` is not yet supported, there are a variety of convenience features for specifying `.SDcols`, covered in \@ref(program-cols).
 
 refer to http://stackoverflow.com/documentation/data.table/3787
 
@@ -365,6 +475,22 @@ DT[, b := "Aardvark"][y > 1, b := "Zebra", verbose = TRUE]
 
 todo warning similar to vignette about chaining. vignette says: "What is the difference between `flights[hour == 24L, hour := 0L]` and `flights[hour == 24L][, hour := 0L]`?"
 
+### Other by-reference modifications
+
+set
+
+setDT / setDF
+
+setorder
+
+setcolorder
+
+setnames
+
+setkey (explained later with link)
+
+setattr more generally (illustrate with factor levels)
+
 
 ### Avoiding in-place modification
 
@@ -385,7 +511,7 @@ also warn about names
 todo -- use carsDT = data.table(mtcars, rn = TRUE), overwrite am with factor "automatic" and "manual"
 
 
-## Joins {#dt-merging}
+## Joins {#dt-joins}
 
 todo explain on=.(xcol = icol)
 
@@ -524,7 +650,7 @@ When joining on a single character or factor column, the `.()` in `i` can be ski
 DT["F", on=.(ID)]
 ```
 
-#### Setting keys
+#### Setting keys and indices {#keys-indices}
 
 If a table is always joined on the same column(s), these can be set as its "key." Setting the key of `x` sorts the table and allows for skipping `on=` during `x[i,on=]` joins. It also can have some performance benefits. See `?setkey`. 
 
@@ -664,7 +790,7 @@ consider unique %>% sort %>% toString/paste instead if it's just for browsing; o
 
 zzz
 
-### Saving and loading R objects
+### Saving and loading R objects {#dt-saveload}
 
 with Rdata, use load() or just drag it into the window
 
@@ -969,10 +1095,17 @@ eval-quote for constructing efficient calls
 mget / get
 
 
+review related options
 
+options() %>% .[grep("datatable", names(.))]
 
+#### Specifying columns {#program-cols}
 
+shortcuts when entering j, by, .SDcols
 
+a:b, .(a,b), !(whatever), -(whatever)
+
+for .SDcols -- logical or integer instead of character (though I can't see any reason to use those)
 
 
 

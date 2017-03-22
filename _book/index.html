@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-03-21" />
+<meta name="date" content="2017-03-22" />
 
 
 <meta name="description" content="This book covers the essentials of using R.">
@@ -132,7 +132,7 @@ img {
 <li class="has-sub"><a href="basics.html#matrix-array"><span class="toc-section-number">2.2</span> Matrices and arrays</a><ul>
 <li><a href="basics.html#building-matrices"><span class="toc-section-number">2.2.1</span> Building matrices</a></li>
 <li><a href="basics.html#named-rows-and-columns"><span class="toc-section-number">2.2.2</span> Named rows and columns</a></li>
-<li><a href="basics.html#slicing-to-a-submatrix"><span class="toc-section-number">2.2.3</span> Slicing to a submatrix</a></li>
+<li><a href="basics.html#slicing-matrix"><span class="toc-section-number">2.2.3</span> Slicing to a submatrix</a></li>
 <li><a href="basics.html#matrix-extract"><span class="toc-section-number">2.2.4</span> Extracting from matrices</a></li>
 <li><a href="basics.html#subassigning-to-matrices"><span class="toc-section-number">2.2.5</span> Subassigning to matrices</a></li>
 <li><a href="basics.html#arrays"><span class="toc-section-number">2.2.6</span> Arrays</a></li>
@@ -163,72 +163,71 @@ img {
 </ul></li>
 <li class="has-sub"><a href="basics.html#data-frames"><span class="toc-section-number">2.6</span> Data frames</a><ul>
 <li><a href="basics.html#lapply-df"><span class="toc-section-number">2.6.1</span> Iterating over columns</a></li>
-<li><a href="basics.html#View"><span class="toc-section-number">2.6.2</span> Inspection</a></li>
+<li><a href="basics.html#view"><span class="toc-section-number">2.6.2</span> Inspection</a></li>
 </ul></li>
 <li><a href="basics.html#built-in-constants"><span class="toc-section-number">2.7</span> Built-in constants</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#tables"><span class="toc-section-number">3</span> Tables</a><ul>
-<li><a href="tables.html#magrittr"><span class="toc-section-number">3.1</span> Magrittr</a></li>
-<li class="has-sub"><a href="tables.html#data-table"><span class="toc-section-number">3.2</span> data.table</a><ul>
-<li><a href="tables.html#installation"><span class="toc-section-number">3.2.1</span> Installation</a></li>
-<li><a href="tables.html#getting-started"><span class="toc-section-number">3.2.2</span> Getting started</a></li>
-<li><a href="tables.html#extensions-to-the-data.frame-class"><span class="toc-section-number">3.2.3</span> Extensions to the data.frame class</a></li>
-<li><a href="tables.html#other-features"><span class="toc-section-number">3.2.4</span> Other features</a></li>
+<li class="has-sub"><a href="tables.html#essential-packages"><span class="toc-section-number">3.1</span> Essential packages</a><ul>
+<li><a href="tables.html#magrittr"><span class="toc-section-number">3.1.1</span> The magrittr package</a></li>
+<li><a href="tables.html#data-table"><span class="toc-section-number">3.1.2</span> The data.table package</a></li>
 </ul></li>
-<li class="has-sub"><a href="basics.html#basics"><span class="toc-section-number">3.3</span> Basics</a><ul>
-<li><a href="basics.html#slicing"><span class="toc-section-number">3.3.1</span> Slicing</a></li>
-<li><a href="tables.html#extracting"><span class="toc-section-number">3.3.2</span> Extracting</a></li>
-<li><a href="tables.html#inspecting"><span class="toc-section-number">3.3.3</span> Inspecting</a></li>
+<li class="has-sub"><a href="tables.html#dt-class"><span class="toc-section-number">3.2</span> The data.table class</a><ul>
+<li><a href="tables.html#dt-inspect"><span class="toc-section-number">3.2.1</span> Inspecting</a></li>
+<li><a href="tables.html#dt-slicing"><span class="toc-section-number">3.2.2</span> Slicing</a></li>
+<li><a href="tables.html#extracting-columns"><span class="toc-section-number">3.2.3</span> Extracting columns</a></li>
+<li><a href="tables.html#extensions-to-the-data.frame-class"><span class="toc-section-number">3.2.4</span> Extensions to the data.frame class</a></li>
 </ul></li>
-<li class="has-sub"><a href="tables.html#aggregation"><span class="toc-section-number">3.4</span> Aggregation</a><ul>
-<li><a href="tables.html#sdcols-for-a-set-of-columns"><span class="toc-section-number">3.4.1</span> <code>.SDcols</code> for a set of columns</a></li>
-<li><a href="tables.html#iterating-over-columns"><span class="toc-section-number">3.4.2</span> Iterating over columns</a></li>
+<li class="has-sub"><a href="tables.html#aggregation"><span class="toc-section-number">3.3</span> Aggregation</a><ul>
+<li><a href="tables.html#iterating-over-columns"><span class="toc-section-number">3.3.1</span> Iterating over columns</a></li>
+<li><a href="tables.html#iterating-over-columns-1"><span class="toc-section-number">3.3.2</span> Iterating over columns</a></li>
 </ul></li>
-<li class="has-sub"><a href="tables.html#dt-subassign"><span class="toc-section-number">3.5</span> Modifying data</a><ul>
-<li><a href="tables.html#dt-col-create"><span class="toc-section-number">3.5.1</span> Creating columns</a></li>
-<li><a href="tables.html#removing-columns"><span class="toc-section-number">3.5.2</span> Removing columns</a></li>
-<li><a href="tables.html#replacing-entire-columns"><span class="toc-section-number">3.5.3</span> Replacing entire columns</a></li>
-<li><a href="tables.html#dt-ifelse"><span class="toc-section-number">3.5.4</span> Replacing columns conditionally</a></li>
-<li><a href="tables.html#avoiding-in-place-modification"><span class="toc-section-number">3.5.5</span> Avoiding in-place modification</a></li>
-<li><a href="tables.html#exercises-1"><span class="toc-section-number">3.5.6</span> Exercises</a></li>
+<li class="has-sub"><a href="tables.html#dt-subassign"><span class="toc-section-number">3.4</span> Modifying data</a><ul>
+<li><a href="tables.html#dt-col-create"><span class="toc-section-number">3.4.1</span> Creating columns</a></li>
+<li><a href="tables.html#removing-columns"><span class="toc-section-number">3.4.2</span> Removing columns</a></li>
+<li><a href="tables.html#replacing-entire-columns"><span class="toc-section-number">3.4.3</span> Replacing entire columns</a></li>
+<li><a href="tables.html#dt-ifelse"><span class="toc-section-number">3.4.4</span> Replacing columns conditionally</a></li>
+<li><a href="tables.html#other-by-reference-modifications"><span class="toc-section-number">3.4.5</span> Other by-reference modifications</a></li>
+<li><a href="tables.html#avoiding-in-place-modification"><span class="toc-section-number">3.4.6</span> Avoiding in-place modification</a></li>
+<li><a href="tables.html#exercises-1"><span class="toc-section-number">3.4.7</span> Exercises</a></li>
 </ul></li>
-<li class="has-sub"><a href="tables.html#dt-merging"><span class="toc-section-number">3.6</span> Joins</a><ul>
-<li><a href="tables.html#aggregating-in-a-join"><span class="toc-section-number">3.6.1</span> Aggregating in a join</a></li>
-<li><a href="tables.html#updating-in-a-join"><span class="toc-section-number">3.6.2</span> Updating in a join</a></li>
-<li><a href="tables.html#self-join-to-fill-in-missing-levels"><span class="toc-section-number">3.6.3</span> Self join to fill in missing levels</a></li>
-<li><a href="tables.html#handling-matches"><span class="toc-section-number">3.6.4</span> Handling matches</a></li>
-<li><a href="tables.html#interval-joins"><span class="toc-section-number">3.6.5</span> Interval joins</a></li>
-<li><a href="tables.html#shortcuts-and-tricks"><span class="toc-section-number">3.6.6</span> Shortcuts and tricks</a></li>
+<li class="has-sub"><a href="tables.html#dt-joins"><span class="toc-section-number">3.5</span> Joins</a><ul>
+<li><a href="tables.html#aggregating-in-a-join"><span class="toc-section-number">3.5.1</span> Aggregating in a join</a></li>
+<li><a href="tables.html#updating-in-a-join"><span class="toc-section-number">3.5.2</span> Updating in a join</a></li>
+<li><a href="tables.html#self-join-to-fill-in-missing-levels"><span class="toc-section-number">3.5.3</span> Self join to fill in missing levels</a></li>
+<li><a href="tables.html#handling-matches"><span class="toc-section-number">3.5.4</span> Handling matches</a></li>
+<li><a href="tables.html#interval-joins"><span class="toc-section-number">3.5.5</span> Interval joins</a></li>
+<li><a href="tables.html#shortcuts-and-tricks"><span class="toc-section-number">3.5.6</span> Shortcuts and tricks</a></li>
 </ul></li>
-<li class="has-sub"><a href="tables.html#input-output"><span class="toc-section-number">3.7</span> Input and output</a><ul>
-<li><a href="tables.html#file-paths"><span class="toc-section-number">3.7.1</span> File paths</a></li>
-<li><a href="tables.html#fread"><span class="toc-section-number">3.7.2</span> <code>fread</code> to read delimited files</a></li>
-<li><a href="tables.html#rbindlist-read"><span class="toc-section-number">3.7.3</span> <code>rbindlist</code> to combine tables</a></li>
-<li><a href="tables.html#dates-times"><span class="toc-section-number">3.7.4</span> Date and time columns</a></li>
-<li><a href="tables.html#character-columns"><span class="toc-section-number">3.7.5</span> Character columns</a></li>
-<li><a href="tables.html#factor-columns"><span class="toc-section-number">3.7.6</span> Factor columns</a></li>
-<li><a href="tables.html#list-columns"><span class="toc-section-number">3.7.7</span> List columns</a></li>
-<li><a href="tables.html#fwrite"><span class="toc-section-number">3.7.8</span> <code>fwrite</code> to write delimited files</a></li>
-<li><a href="tables.html#saving-and-loading-r-objects"><span class="toc-section-number">3.7.9</span> Saving and loading R objects</a></li>
-<li><a href="tables.html#reading-and-writing-other-formats"><span class="toc-section-number">3.7.10</span> Reading and writing other formats</a></li>
-<li><a href="tables.html#formatting-the-display-of-columns"><span class="toc-section-number">3.7.11</span> Formatting the display of columns</a></li>
+<li class="has-sub"><a href="tables.html#input-output"><span class="toc-section-number">3.6</span> Input and output</a><ul>
+<li><a href="tables.html#file-paths"><span class="toc-section-number">3.6.1</span> File paths</a></li>
+<li><a href="tables.html#fread"><span class="toc-section-number">3.6.2</span> <code>fread</code> to read delimited files</a></li>
+<li><a href="tables.html#rbindlist-read"><span class="toc-section-number">3.6.3</span> <code>rbindlist</code> to combine tables</a></li>
+<li><a href="tables.html#dates-times"><span class="toc-section-number">3.6.4</span> Date and time columns</a></li>
+<li><a href="tables.html#character-columns"><span class="toc-section-number">3.6.5</span> Character columns</a></li>
+<li><a href="tables.html#factor-columns"><span class="toc-section-number">3.6.6</span> Factor columns</a></li>
+<li><a href="tables.html#list-columns"><span class="toc-section-number">3.6.7</span> List columns</a></li>
+<li><a href="tables.html#fwrite"><span class="toc-section-number">3.6.8</span> <code>fwrite</code> to write delimited files</a></li>
+<li><a href="tables.html#dt-saveload"><span class="toc-section-number">3.6.9</span> Saving and loading R objects</a></li>
+<li><a href="tables.html#reading-and-writing-other-formats"><span class="toc-section-number">3.6.10</span> Reading and writing other formats</a></li>
+<li><a href="tables.html#formatting-the-display-of-columns"><span class="toc-section-number">3.6.11</span> Formatting the display of columns</a></li>
 </ul></li>
-<li class="has-sub"><a href="tables.html#exploring-data"><span class="toc-section-number">3.8</span> Exploring data</a><ul>
-<li><a href="tables.html#browse-env"><span class="toc-section-number">3.8.1</span> Browsing loaded objects</a></li>
-<li><a href="tables.html#dt-subset"><span class="toc-section-number">3.8.2</span> Subsetting</a></li>
-<li><a href="tables.html#sorting"><span class="toc-section-number">3.8.3</span> Sorting</a></li>
-<li><a href="tables.html#dt-summary-stats"><span class="toc-section-number">3.8.4</span> Summaries</a></li>
-<li><a href="tables.html#reshaping-to-wide"><span class="toc-section-number">3.8.5</span> Reshaping to wide</a></li>
+<li class="has-sub"><a href="tables.html#exploring-data"><span class="toc-section-number">3.7</span> Exploring data</a><ul>
+<li><a href="tables.html#browse-env"><span class="toc-section-number">3.7.1</span> Browsing loaded objects</a></li>
+<li><a href="tables.html#dt-subset"><span class="toc-section-number">3.7.2</span> Subsetting</a></li>
+<li><a href="tables.html#sorting"><span class="toc-section-number">3.7.3</span> Sorting</a></li>
+<li><a href="tables.html#dt-summary-stats"><span class="toc-section-number">3.7.4</span> Summaries</a></li>
+<li><a href="tables.html#reshaping-to-wide"><span class="toc-section-number">3.7.5</span> Reshaping to wide</a></li>
 </ul></li>
-<li class="has-sub"><a href="tables.html#structuring-data"><span class="toc-section-number">3.9</span> Organizing relational tables</a><ul>
-<li><a href="tables.html#reshaping-to-long-format"><span class="toc-section-number">3.9.1</span> Reshaping to long format</a></li>
-<li><a href="tables.html#choosing-tables-and-keys"><span class="toc-section-number">3.9.2</span> Choosing tables and keys</a></li>
-<li><a href="tables.html#listing-levels"><span class="toc-section-number">3.9.3</span> Listing levels</a></li>
-<li><a href="tables.html#exploring-levels"><span class="toc-section-number">3.9.4</span> Exploring levels</a></li>
-<li><a href="tables.html#aggregate-join"><span class="toc-section-number">3.9.5</span> Collapsing</a></li>
-<li><a href="tables.html#expanding"><span class="toc-section-number">3.9.6</span> Expanding</a></li>
-<li><a href="tables.html#update-joins"><span class="toc-section-number">3.9.7</span> Update joins</a></li>
-<li><a href="tables.html#programming-data.table-calls"><span class="toc-section-number">3.9.8</span> Programming data.table calls</a></li>
+<li class="has-sub"><a href="tables.html#structuring-data"><span class="toc-section-number">3.8</span> Organizing relational tables</a><ul>
+<li><a href="tables.html#reshaping-to-long-format"><span class="toc-section-number">3.8.1</span> Reshaping to long format</a></li>
+<li><a href="tables.html#choosing-tables-and-keys"><span class="toc-section-number">3.8.2</span> Choosing tables and keys</a></li>
+<li><a href="tables.html#listing-levels"><span class="toc-section-number">3.8.3</span> Listing levels</a></li>
+<li><a href="tables.html#exploring-levels"><span class="toc-section-number">3.8.4</span> Exploring levels</a></li>
+<li><a href="tables.html#aggregate-join"><span class="toc-section-number">3.8.5</span> Collapsing</a></li>
+<li><a href="tables.html#expanding"><span class="toc-section-number">3.8.6</span> Expanding</a></li>
+<li><a href="tables.html#update-joins"><span class="toc-section-number">3.8.7</span> Update joins</a></li>
+<li><a href="tables.html#programming-data.table-calls"><span class="toc-section-number">3.8.8</span> Programming data.table calls</a></li>
 </ul></li>
 </ul></li>
 <li class="has-sub"><a href="work.html#work"><span class="toc-section-number">4</span> Getting work done</a><ul>
@@ -263,7 +262,7 @@ img {
 <div id="header">
 <h1 class="title"><br><br>Quick R Tutorial</h1>
 <h4 class="author"><em>Frank Erickson</em></h4>
-<h4 class="date"><em>2017-03-21</em></h4>
+<h4 class="date"><em>2017-03-22</em></h4>
 </div>
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction</h1>

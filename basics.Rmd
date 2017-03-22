@@ -395,7 +395,7 @@ Rows and columns can be named:
 matrix(c(1,2,3,4), nrow = 2, dimnames = list(c("a","b"), c("x","y")))
 ```
 
-### Slicing to a submatrix
+### Slicing to a submatrix {#slicing-matrix}
 
 To take a matrix slice, selecting a submatrix, use `m[i,j]` as in math:
 
@@ -638,7 +638,7 @@ Compare the documentation `?vector` against usage in \@ref(initializing):
 x = vector(length = 5, mode = "list")
 ```
 
-The arguments are being passed out-of-order, but this still works since the arguments are being passed by name. Passing arguments by the position, like `sort(x, TRUE)`, is a riskier proposition, since it is harder to get right initially and to interpret correctly later. Some data.table idioms for merging (\@ref(dt-merging)) involve passing arguments out-of-order.
+The arguments are being passed out-of-order, but this still works since the arguments are being passed by name. Passing arguments by the position, like `sort(x, TRUE)`, is a riskier proposition, since it is harder to get right initially and to interpret correctly later. Some data.table idioms for merging (\@ref(dt-joins)) involve passing arguments out-of-order.
 
 ### Iterating over a list {#lapply}
 
@@ -876,7 +876,7 @@ The base R tool for handling elementwise `if`/`else` rules is the function `ifel
 
 ## Data frames {#data-frames}
 
-*My recommendation is always to use a data.table (introduced in \@ref(data-table)) instead of a data frame, so I've kept this section short.*
+*My recommendation is always to use a data.table (introduced in \@ref(dt-class)) instead of a data frame, so I've kept this section short.*
 
 Vectors and matrices are fine once we're estimating a statistical model. However, we typically start with data consisting of many observations of multiple variables of varying types. To store data of different types, a vector of matrix won't work; we need a list. R offers a special list structure, the data frame, for this common situation:
 
@@ -904,7 +904,7 @@ The last item above, `DF[im]` is nonsensical in two ways:
 - First, all elements in the result are coerced to a single type.
 - Second, we are referring to variables by column number instead of name.
 
-Naturally, if the data already is entirely numeric and the remaining analytical tasks are all linear algebra, a matrix will be simpler and computationally faster to work with than a data frame.
+Naturally, if the data already is entirely numeric and the remaining analytical tasks are all linear algebra, a matrix will be simpler and almost always computationally faster than a data frame.
 
 ### Iterating over columns {#lapply-df}
 
@@ -918,7 +918,7 @@ lapply(DF, function(x) x[3])
 **Manual coercion.** We can also get the result of that `lapply` call by coercion to a list: `as.list(DF[3, ])`. The names of similar functions can be guessed: `as.matrix`, `as.data.frame`, `as.vector`, `as.logical`, `as.integer`, `as.numeric`, `as.character`, `as.factor`, and so on. There is `as(x, "class_name")`, but I have found the latter to be finicky.
 ```
 
-### Inspection {#View}
+### Inspection {#view}
 
 To browse a data frame in a separate window, use `View(DF)`.
 
