@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-03-22" />
+<meta name="date" content="2017-03-23" />
 
 
 <meta name="description" content="This book covers the essentials of using R.">
@@ -179,17 +179,16 @@ img {
 <li><a href="tables.html#extensions-to-the-data.frame-class"><span class="toc-section-number">3.2.4</span> Extensions to the data.frame class</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#aggregation"><span class="toc-section-number">3.3</span> Aggregation</a><ul>
-<li><a href="tables.html#iterating-over-columns"><span class="toc-section-number">3.3.1</span> Iterating over columns</a></li>
-<li><a href="tables.html#iterating-over-columns-1"><span class="toc-section-number">3.3.2</span> Iterating over columns</a></li>
+<li><a href="tables.html#dt-lapply"><span class="toc-section-number">3.3.1</span> Iterating over columns</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#dt-subassign"><span class="toc-section-number">3.4</span> Modifying data</a><ul>
 <li><a href="tables.html#dt-col-create"><span class="toc-section-number">3.4.1</span> Creating columns</a></li>
 <li><a href="tables.html#removing-columns"><span class="toc-section-number">3.4.2</span> Removing columns</a></li>
 <li><a href="tables.html#replacing-entire-columns"><span class="toc-section-number">3.4.3</span> Replacing entire columns</a></li>
 <li><a href="tables.html#dt-ifelse"><span class="toc-section-number">3.4.4</span> Replacing columns conditionally</a></li>
-<li><a href="tables.html#other-by-reference-modifications"><span class="toc-section-number">3.4.5</span> Other by-reference modifications</a></li>
+<li><a href="tables.html#other-in-place-modifications"><span class="toc-section-number">3.4.5</span> Other in-place modifications</a></li>
 <li><a href="tables.html#avoiding-in-place-modification"><span class="toc-section-number">3.4.6</span> Avoiding in-place modification</a></li>
-<li><a href="tables.html#exercises-1"><span class="toc-section-number">3.4.7</span> Exercises</a></li>
+<li><a href="tables.html#using-in-place-modification-in-functions"><span class="toc-section-number">3.4.7</span> Using in-place modification in functions</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#dt-joins"><span class="toc-section-number">3.5</span> Joins</a><ul>
 <li><a href="tables.html#aggregating-in-a-join"><span class="toc-section-number">3.5.1</span> Aggregating in a join</a></li>
@@ -217,7 +216,7 @@ img {
 <li><a href="tables.html#dt-subset"><span class="toc-section-number">3.7.2</span> Subsetting</a></li>
 <li><a href="tables.html#sorting"><span class="toc-section-number">3.7.3</span> Sorting</a></li>
 <li><a href="tables.html#dt-summary-stats"><span class="toc-section-number">3.7.4</span> Summaries</a></li>
-<li><a href="tables.html#reshaping-to-wide"><span class="toc-section-number">3.7.5</span> Reshaping to wide</a></li>
+<li><a href="tables.html#dcast"><span class="toc-section-number">3.7.5</span> Reshaping to wide</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#structuring-data"><span class="toc-section-number">3.8</span> Organizing relational tables</a><ul>
 <li><a href="tables.html#reshaping-to-long-format"><span class="toc-section-number">3.8.1</span> Reshaping to long format</a></li>
@@ -228,6 +227,7 @@ img {
 <li><a href="tables.html#expanding"><span class="toc-section-number">3.8.6</span> Expanding</a></li>
 <li><a href="tables.html#update-joins"><span class="toc-section-number">3.8.7</span> Update joins</a></li>
 <li><a href="tables.html#programming-data.table-calls"><span class="toc-section-number">3.8.8</span> Programming data.table calls</a></li>
+<li><a href="tables.html#bad-aggregations"><span class="toc-section-number">3.8.9</span> Bad aggregations</a></li>
 </ul></li>
 </ul></li>
 <li class="has-sub"><a href="work.html#work"><span class="toc-section-number">4</span> Getting work done</a><ul>
@@ -251,7 +251,7 @@ img {
 </ul></li>
 <li><a href="work.html#optimization"><span class="toc-section-number">4.6</span> Optimization</a></li>
 <li><a href="work.html#integration"><span class="toc-section-number">4.7</span> Integration</a></li>
-<li><a href="work.html#string-operations"><span class="toc-section-number">4.8</span> String operations</a></li>
+<li><a href="work.html#strings"><span class="toc-section-number">4.8</span> String operations</a></li>
 </ul></li>
 </ul>
 </div>
@@ -262,7 +262,7 @@ img {
 <div id="header">
 <h1 class="title"><br><br>Quick R Tutorial</h1>
 <h4 class="author"><em>Frank Erickson</em></h4>
-<h4 class="date"><em>2017-03-22</em></h4>
+<h4 class="date"><em>2017-03-23</em></h4>
 </div>
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction</h1>

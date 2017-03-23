@@ -331,7 +331,7 @@ of course, we end up with an approximation
 
 of course, we end up with an approximation
 
-## String operations
+## String operations {#strings}
 
 In my opinion, very few string operations are necessary after proper data cleaning (discussed in \@ref(structuring-data)).
 

@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-03-22" />
+<meta name="date" content="2017-03-23" />
 
 
 <meta name="description" content="This book covers the essentials of using R.">
@@ -179,17 +179,16 @@ img {
 <li><a href="tables.html#extensions-to-the-data.frame-class"><span class="toc-section-number">3.2.4</span> Extensions to the data.frame class</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#aggregation"><span class="toc-section-number">3.3</span> Aggregation</a><ul>
-<li><a href="tables.html#iterating-over-columns"><span class="toc-section-number">3.3.1</span> Iterating over columns</a></li>
-<li><a href="tables.html#iterating-over-columns-1"><span class="toc-section-number">3.3.2</span> Iterating over columns</a></li>
+<li><a href="tables.html#dt-lapply"><span class="toc-section-number">3.3.1</span> Iterating over columns</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#dt-subassign"><span class="toc-section-number">3.4</span> Modifying data</a><ul>
 <li><a href="tables.html#dt-col-create"><span class="toc-section-number">3.4.1</span> Creating columns</a></li>
 <li><a href="tables.html#removing-columns"><span class="toc-section-number">3.4.2</span> Removing columns</a></li>
 <li><a href="tables.html#replacing-entire-columns"><span class="toc-section-number">3.4.3</span> Replacing entire columns</a></li>
 <li><a href="tables.html#dt-ifelse"><span class="toc-section-number">3.4.4</span> Replacing columns conditionally</a></li>
-<li><a href="tables.html#other-by-reference-modifications"><span class="toc-section-number">3.4.5</span> Other by-reference modifications</a></li>
+<li><a href="tables.html#other-in-place-modifications"><span class="toc-section-number">3.4.5</span> Other in-place modifications</a></li>
 <li><a href="tables.html#avoiding-in-place-modification"><span class="toc-section-number">3.4.6</span> Avoiding in-place modification</a></li>
-<li><a href="tables.html#exercises-1"><span class="toc-section-number">3.4.7</span> Exercises</a></li>
+<li><a href="tables.html#using-in-place-modification-in-functions"><span class="toc-section-number">3.4.7</span> Using in-place modification in functions</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#dt-joins"><span class="toc-section-number">3.5</span> Joins</a><ul>
 <li><a href="tables.html#aggregating-in-a-join"><span class="toc-section-number">3.5.1</span> Aggregating in a join</a></li>
@@ -217,7 +216,7 @@ img {
 <li><a href="tables.html#dt-subset"><span class="toc-section-number">3.7.2</span> Subsetting</a></li>
 <li><a href="tables.html#sorting"><span class="toc-section-number">3.7.3</span> Sorting</a></li>
 <li><a href="tables.html#dt-summary-stats"><span class="toc-section-number">3.7.4</span> Summaries</a></li>
-<li><a href="tables.html#reshaping-to-wide"><span class="toc-section-number">3.7.5</span> Reshaping to wide</a></li>
+<li><a href="tables.html#dcast"><span class="toc-section-number">3.7.5</span> Reshaping to wide</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#structuring-data"><span class="toc-section-number">3.8</span> Organizing relational tables</a><ul>
 <li><a href="tables.html#reshaping-to-long-format"><span class="toc-section-number">3.8.1</span> Reshaping to long format</a></li>
@@ -228,6 +227,7 @@ img {
 <li><a href="tables.html#expanding"><span class="toc-section-number">3.8.6</span> Expanding</a></li>
 <li><a href="tables.html#update-joins"><span class="toc-section-number">3.8.7</span> Update joins</a></li>
 <li><a href="tables.html#programming-data.table-calls"><span class="toc-section-number">3.8.8</span> Programming data.table calls</a></li>
+<li><a href="tables.html#bad-aggregations"><span class="toc-section-number">3.8.9</span> Bad aggregations</a></li>
 </ul></li>
 </ul></li>
 <li class="has-sub"><a href="work.html#work"><span class="toc-section-number">4</span> Getting work done</a><ul>
@@ -251,7 +251,7 @@ img {
 </ul></li>
 <li><a href="work.html#optimization"><span class="toc-section-number">4.6</span> Optimization</a></li>
 <li><a href="work.html#integration"><span class="toc-section-number">4.7</span> Integration</a></li>
-<li><a href="work.html#string-operations"><span class="toc-section-number">4.8</span> String operations</a></li>
+<li><a href="work.html#strings"><span class="toc-section-number">4.8</span> String operations</a></li>
 </ul></li>
 </ul>
 </div>
@@ -264,7 +264,7 @@ img {
 <p>This chapter covers R’s core data structures and syntax.</p>
 <div id="vectors" class="section level2">
 <h2><span class="header-section-number">2.1</span> Vectors</h2>
-<p>In R, all data come in vectors. If you type <code>x = 54.7</code>, then <code>x</code> will be a numeric vector of length 1. Similarly, <code>y = c(&quot;Yah&quot;, &quot;Bada bing&quot;)</code> is a character vector of length 2. You can type a vector’s name to see it, and use <code>length</code> and <code>class</code> to see those attributes.</p>
+<p>In R, all data come in vectors. If we enter <code>x = 54.7</code>, then <code>x</code> will be a numeric vector of length 1. Similarly, <code>y = c(&quot;Yah&quot;, &quot;Bada bing&quot;)</code> is a character vector of length 2. Type a vector’s name to see it, and use <code>length</code> and <code>class</code> to see those attributes.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># example data</span>
 x =<span class="st"> </span><span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">TRUE</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x</code></pre></div>
@@ -274,14 +274,14 @@ x =<span class="st"> </span><span class="kw">c</span>(<span class="ot">TRUE</spa
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(x)</code></pre></div>
 <pre><code># [1] &quot;logical&quot;</code></pre>
 <p>The bracketed <code>[1]</code> indicates that we are seeing the first element of a vector. This printing pattern is handy with vectors too long for a single line, like <code>c(LETTERS, letters)</code>.</p>
-<p>You can assign with <code>=</code> or <code>&lt;-</code>. You can even assign like <code>c(2,3) -&gt; z</code>, but this is rare and hard to read in my opinion. If an existing vector is overwritten, no warning is given.</p>
+<p>Assign with <code>=</code> or <code>&lt;-</code>. Or even like <code>c(2,3) -&gt; z</code>, though this is rare and hard to read in my opinion. If an existing vector is overwritten, no warning is given.</p>
 <p>caution – indexing starting from 1, for those coming from 0-indexed langs, treatment of negative indices in slicing will also be a surprise (ref it)</p>
 <div id="documentation" class="section level3">
 <h3><span class="header-section-number">2.1.1</span> Documentation</h3>
 <p>Everything is documented in convenient wikified html pages, accessible with <code>?</code> or <code>help</code>. For example, <code>?TRUE</code>, <code>?LETTERS</code> or <code>?length</code>. Backticks are sometimes required, as for <code>?`for`</code> and <code>?`?`</code>. Keep a close eye on the Description and Value sections, which concisely explain what to expect from a function.</p>
-<p>The Examples section always usefully illustrates functionality; you can run it in your own console like <code>example(&quot;LETTERS&quot;)</code>. Additional illustrations are available using <code>demo</code>; type <code>demo()</code> for a listing.</p>
-<p>Try typing <code>help.start()</code>. You should see links to documents including “An Introduction to R” and “The R language definition”. These are the essential reference documents on R, also <a href="https://cran.r-project.org/manuals.html">available in pdf online</a>.</p>
-<p>R doesn’t do error codes, only error messages and warnings. If you don’t understand a message you’re seeing, a search online or a review of the relevant docs is usually sufficient.</p>
+<p>The Examples section always usefully illustrates functionality; it can be run in the console like <code>example(&quot;LETTERS&quot;)</code>. Additional illustrations are available using <code>demo</code>; type <code>demo()</code> for a listing.</p>
+<p>Try typing <code>help.start()</code>. This will show a page of links to documents including “An Introduction to R”, “The R language definition” and the “R FAQ” (under “Resources”). These are essential reference documents on R, also <a href="https://cran.r-project.org/manuals.html">available in pdf online</a>.</p>
+<p>R doesn’t do error codes, only error messages and warnings. If confused by a message, a search online or a review of the relevant docs is usually sufficient.</p>
 </div>
 <div id="classes" class="section level3">
 <h3><span class="header-section-number">2.1.2</span> Classes</h3>
@@ -374,7 +374,7 @@ L3 =<span class="st"> </span><span class="kw">c</span>(L, L2)</code></pre></div>
 <p>A missing value means “there is a value here, but we don’t know what it is.” So a comparison against a missing value, like <code>2 == NA</code> or <code>2 != NA</code>, will always return <code>NA</code>, since we cannot determine whether the condition is true or false. To test whether a value is missing, use the <code>is.na</code> function.</p>
 
 <div class="rmd-details">
-<strong>Implementation of missing values.</strong> The class of an <code>NA</code> is different depending on the vector it is in. Sometimes, it is important to ensure that a missing value belongs to a particular class. To ensure this, the safest approach is to “slice” an object of that class with <code>NA_integer_</code>. For example, to get a missing numeric value, you can use the number <code>10</code> like <code>10[NA_integer_]</code>; or for a date value, we can use the current date, <code>Sys.Date()</code>, like <code>Sys.Date()[NA_integer_]</code>.
+<strong>Implementation of missing values.</strong> The class of an <code>NA</code> is different depending on the vector it is in. Sometimes, it is important to ensure that a missing value belongs to a particular class. To ensure this, the safest approach is to “slice” an object of that class with <code>NA_integer_</code>. For example, to get a missing numeric value, we can use the number <code>10</code> like <code>10[NA_integer_]</code>; or for a date value, we can use the current date, <code>Sys.Date()</code>, like <code>Sys.Date()[NA_integer_]</code>.
 </div>
 <p></p>
 </div>
@@ -406,7 +406,7 @@ L =<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</s
 <p><code>i</code> can even contain repeated elements, like <code>x[c(1,1,2)]</code>, which is some more general “slice” of <code>x</code>, not really a subvector.</p>
 
 <div class="rmd-caution">
-<strong>Recycling.</strong> What would you expect <code>x[TRUE]</code> to do in the example above? Well, in R, it is treated like <code>x[c(TRUE, TRUE, TRUE, TRUE)]</code>, without giving any warning. This is called recycling – the argument <code>i</code> is repeated until it is long enough for the context is used in. Can you guess what <code>x[c(TRUE, FALSE)]</code> does? The full rules for recycling can be found in the <a href="https://cran.r-project.org/doc/manuals/r-release/R-intro.html#The-recycling-rule">R intro doc</a>.
+<strong>Recycling.</strong> What would be the natural behavior of <code>x[TRUE]</code> in the example above? Well, in R, it acts like <code>x[c(TRUE, TRUE, TRUE, TRUE)]</code>, without giving any warning. This is called recycling – the argument <code>i</code> is repeated until it is long enough for the context is used in. What about <code>x[c(TRUE, FALSE)]</code>? The full rules for recycling can be found in the <a href="https://cran.r-project.org/doc/manuals/r-release/R-intro.html#The-recycling-rule">R intro doc</a>.
 </div>
 <p></p>
 
@@ -441,7 +441,7 @@ L[<span class="kw">c</span>(<span class="st">&quot;Y&quot;</span>, <span class="
 <p>The allowed values of <code>i</code> are the same as we saw for slicing a vector in <a href="basics.html#slicing">2.1.7</a>. This is fairly unsafe on account of silent coercion, recycling and failure (when <code>i</code> is not a valid index of <code>x</code>). We will revisit how to modify vectors in data.tables in <a href="tables.html#dt-subassign">3.4</a>.</p>
 
 <div class="rmd-caution">
-<strong>Hard-to-find documentation.</strong> For documentation on slicing and extracting, you can type <code>?`[`</code>. Even though there is a <code>]</code> for every <code>[</code>, it is the opening bracket that is the function’s actual name, which will come back in <a href="basics.html#lapply">2.4.3</a>. For documentation on sub-assignment, type <code>?`[&lt;-`</code>.
+<strong>Hard-to-find documentation.</strong> For documentation on slicing and extracting, type <code>?`[`</code>. Even though there is a <code>]</code> for every <code>[</code>, it is the opening bracket that is the function’s actual name, which will come back in <a href="basics.html#lapply">2.4.3</a>. For documentation on sub-assignment, type <code>?`[&lt;-`</code>.
 </div>
 <p></p>
 <p>caution – silent extension of vector when assigning at a new index</p>
@@ -459,7 +459,7 @@ x =<span class="st"> </span><span class="kw">character</span>(<span class="dt">l
 x =<span class="st"> </span><span class="kw">logical</span>(<span class="dt">length =</span> <span class="dv">5</span>)
 x =<span class="st"> </span><span class="kw">numeric</span>(<span class="dt">length =</span> <span class="dv">5</span>)
 x =<span class="st"> </span><span class="kw">integer</span>(<span class="dt">length =</span> <span class="dv">5</span>)</code></pre></div>
-<p>From there, you can subassign iteratively if necessary: <code>x[1] &lt;- &quot;A&quot;</code>, <code>x[2] &lt;- &quot;B&quot;</code>, and so on.</p>
+<p>From there, we can subassign iteratively if necessary: <code>x[1] &lt;- &quot;A&quot;</code>, <code>x[2] &lt;- &quot;B&quot;</code>, and so on.</p>
 <div id="rep" class="section level4">
 <h4><span class="header-section-number">2.1.11.1</span> Repeating values</h4>
 <p>It’s also common to initialize a vector with a particular value using <code>rep</code>:</p>
@@ -550,8 +550,7 @@ See <a href="basics.html#order-ops">2.3.5</a> for more details.
 <pre><code># [1]  TRUE FALSE FALSE</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">&quot;A&quot;</span> %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)</code></pre></div>
 <pre><code># [1] TRUE</code></pre>
-<p>We get one true/false value for each element on the left-hand side. Duplicate values on the right-hand side are ignored. That is, the right-hand side is treated like a <em>set</em>. We will look at other set operations in <span class="citation">@ref</span>(set-ops).</p>
-<p>todo – setops has been removed; maybe migrate to work.rmd</p>
+<p>We get one true/false value for each element on the left-hand side. Duplicate values on the right-hand side are ignored. That is, the right-hand side is treated like a <em>set</em>.</p>
 <p>Unlike <code>==</code>, here we always get a true/false result, even when missing values are present.</p>
 </div>
 <div id="exercises" class="section level3">
@@ -579,7 +578,7 @@ v =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,
 # [2,]    3    4</code></pre>
 <p>By default, the matrix is built with column-major order; but <code>byrow = TRUE</code> will read as row-major.</p>
 <p>The dimensions of a matrix can be extracted with the <code>dim</code> function or <code>nrow</code> and <code>ncol</code>.</p>
-<p>All elements of a matrix must have the same class, just like a vector. So you can have a “character matrix”, a “numeric matrix”, etc.</p>
+<p>All elements of a matrix must have the same class, just like a vector. So we can have a “character matrix”, a “numeric matrix”, etc.</p>
 
 <div class="rmd-details">
 <strong>Vectors with attributes.</strong> In fact, a matrix <em>is</em> a vector, just augmented by the <code>dim</code> attribute. As mentioned at the top, all data in R is stored in vectors; and as mentioned in <a href="basics.html#classes">2.1.2</a>, most classes are built on top of vectors. One wrinkle is that <code>is.vector</code> is false for matrices. However, this makes sense in light of the doc, <code>?is.vector</code>.
@@ -622,7 +621,7 @@ m =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</s
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m[<span class="st">&quot;a&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;y&quot;</span>), drop =<span class="st"> </span><span class="ot">FALSE</span>]</code></pre></div>
 <pre><code>#   x y
 # a 1 3</code></pre>
-<p>You can get fancy with indices, in all the ways described in <a href="basics.html#slicing">2.1.7</a>. It is often covenient to leave one index blank, which means “select all”; try <code>m[, 2, drop = FALSE]</code>.</p>
+<p>We can get fancy with indices, in all the ways described in <a href="basics.html#slicing">2.1.7</a>. It is often covenient to leave one index blank, which means “select all”; try <code>m[, 2, drop = FALSE]</code>.</p>
 
 <div class="rmd-caution">
 <strong>Dropped dimensions.</strong> The <code>drop = FALSE</code> option is necessary to ensure that the result is a submatrix. R’s default behavior is to “drop” dimensions when it can, which makes for unpredictable output.
@@ -688,7 +687,7 @@ m[im]</code></pre></div>
 <p>As in <a href="http://floating-point-gui.de/">any other programming environment</a>, floating point arithmetic in R can trip up calculations. For example, try <code>.1 + .05 - .15 == 0</code>.</p>
 
 <div class="rmd-caution">
-<strong>Arithmetic with logical values.</strong> Particularly when exploring data, we often want to tally observations meeting some condition. To do this in R, we can treat true/false like 1/0: <code>is_gt = c(1,5,2) &gt; c(1,2,3); sum(is_gt)</code>. Tallying will be revisited in <span class="citation">@ref</span>(tallying). todo – #tallying was removed, maybe move elsewhere
+<strong>Arithmetic with logical values.</strong> Particularly when exploring data, we often want to tally observations meeting some condition. To do this in R, we can treat true/false like 1/0: <code>is_gt = c(1,5,2) &gt; c(1,2,3); sum(is_gt)</code>.
 </div>
 <p></p>
 </div>
@@ -715,7 +714,6 @@ m[im]</code></pre></div>
 </ul>
 <p>These functions treat a vanilla vector as a column vector.</p>
 <p>Remember that the undecorated <code>*</code> will always work elementwise (ref above) and silently recycle values.</p>
-<p>Additional convenience functions for matrix algebra are covered in <span class="citation">@ref</span>(matrix-more). todo – figure out where this <span class="citation">@matrix-more</span> should go</p>
 </div>
 <div id="order-ops" class="section level3">
 <h3><span class="header-section-number">2.3.5</span> Order of operations</h3>
@@ -784,7 +782,7 @@ x /<span class="st"> </span>y</code></pre></div>
 #    -- Roger Koenker (in response to a question about tweaking the quantreg
 #       package to handle probit and heckit models)
 #       R-help (May 2013)</code></pre>
-<p>This adds all of the package’s functions and other objects to the search path, so you can write <code>fortune(111)</code> instead of the more verbose <code>fortunes::fortune(111)</code>. The downside to attaching a package is the risk of “namespace conflicts”:</p>
+<p>This adds all of the package’s functions and other objects to the search path, so we can write <code>fortune(111)</code> instead of the more verbose <code>fortunes::fortune(111)</code>. The downside to attaching a package is the risk of “namespace conflicts”:</p>
 <ul>
 <li>If the attached package has an object with the same name as something defined by the user, that object won’t enter the global namespace.</li>
 <li>If two attached packages contain objects with the same name, the last-attached object gets precedence for entry into the global namespace.</li>
@@ -837,7 +835,6 @@ x /<span class="st"> </span>y</code></pre></div>
 </div>
 <div id="function-writing" class="section level3">
 <h3><span class="header-section-number">2.4.4</span> Writing functions</h3>
-<p>todo – explain the syntax, starting with function() ending with (possibly implicit) return()</p>
 <p>Like any other object, functions can be assigned with <code>&lt;-</code> or <code>=</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f =<span class="st"> </span>function(x) x^<span class="dv">2</span> +<span class="st"> </span><span class="dv">3</span>
 <span class="kw">f</span>(<span class="dv">4</span>)</code></pre></div>
@@ -917,8 +914,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 </div>
 <div id="finding-a-function-by-name" class="section level3">
 <h3><span class="header-section-number">2.4.9</span> Finding a function by name</h3>
-<p>If you run into a function and don’t know what package it is from, use <code>help.search</code> or its <code>??</code> shortcut, like <code>??fortunes</code>.</p>
-<p>todo – google, getAnywhere ?</p>
+<p>When I run into a function and don’t know what package it is from, besides searching online, I also sometimes use <code>help.search</code> or its <code>??</code> shortcut, like <code>??fortunes</code>. This will search all installed packages.</p>
 </div>
 <div id="inspect-fns" class="section level3">
 <h3><span class="header-section-number">2.4.10</span> Inspecting function source code</h3>
@@ -926,7 +922,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nrow</code></pre></div>
 <pre><code># function (x) 
 # dim(x)[1L]
-# &lt;bytecode: 0x000000000691ccf0&gt;
+# &lt;bytecode: 0x000000000691cab0&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">replace</code></pre></div>
 <pre><code># function (x, list, values) 
@@ -934,13 +930,13 @@ y =<span class="st"> </span><span class="dv">1</span>
 #     x[list] &lt;- values
 #     x
 # }
-# &lt;bytecode: 0x000000000a72b120&gt;
+# &lt;bytecode: 0x000000000a31d9d0&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <p>The last two rows of these functions show (i) that they are compiled and (ii) the environment they were defined in.</p>
 <p>Many functions are not “exported” for direct use. Nonetheless, their code may be found using <code>getAnywhere</code> or accessed directly using <code>:::</code> syntax:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getAnywhere</span>(head.default)
 utils:::head.default</code></pre></div>
-<p>Many such hidden functions are “methods,” discussed further in <span class="citation">@ref</span>(methods). todo – there is no #methods section to refer to – There are also several functions that <em>should</em> be hidden, documented at <code>?.subset</code>, <code>?.getNamespace</code> and elsewhere. These docs always have prominent notes like:</p>
+<p>Many such hidden functions are “methods”; see <code>?Methods</code>. There are also several functions that <em>should</em> be hidden, documented at <code>?.subset</code>, <code>?.getNamespace</code> and elsewhere. These docs always have prominent notes like:</p>
 <blockquote>
 <p>Not intended to be called directly, and only visible because of the special nature of the base namespace.</p>
 </blockquote>
@@ -1006,7 +1002,7 @@ x   =<span class="st"> </span><span class="dv">2</span>*i2 -<span class="st"> </
 <h3><span class="header-section-number">2.5.2</span> <code>if</code>/<code>else</code> elementwise</h3>
 
 <div class="rmd-caution">
-<strong>Dummy variables.</strong> First, if you find yourself wanting to do <code>x = if (cond) 1 else 0</code>, don’t. As mentioned in <a href="basics.html#arithmetic">2.3.2</a>, the logical variable <code>cond</code> itself is perfect for storing this dummy variable. It will be treated as numeric in any arithmetic calculations. Besides, there is certainly no reason to prefer the floating-point values <code>0</code> and <code>1</code> over integers <code>0L</code> and <code>1L</code>. Finally, use a factor…
+<strong>Dummy variables.</strong> First, if tempted to do <code>x = if (cond) 1 else 0</code>, don’t. As mentioned in <a href="basics.html#arithmetic">2.3.2</a>, the logical variable <code>cond</code> itself is perfect for storing this dummy variable.
 </div>
 <p></p>
 <p>The base R tool for handling elementwise <code>if</code>/<code>else</code> rules is the function <code>ifelse</code>. However, it has some serious shortcomings. A better way, similar to the <code>gen</code>/<code>replace</code> pattern in Stata, is covered in <a href="tables.html#dt-ifelse">3.4.4</a>.</p>
@@ -1075,8 +1071,12 @@ DF[im] <span class="co"># DON&#39;T DO THIS</span></code></pre></div>
 </div>
 <div id="built-in-constants" class="section level2">
 <h2><span class="header-section-number">2.7</span> Built-in constants</h2>
-<p>R includes several handy constants, like <code>pi</code>, the alphabet (<code>?letters</code>), months (<code>?month.name</code>), days of the week (<code>?weekdays</code>) and US state names and abbreviations (<code>?state</code>). You don’t need to worry about accidentally reusing any of these contants’ names for your own variables (though redefining <code>pi</code> might not be a great idea).</p>
-<p>details – masking and reserved words. it’s okay to “mask” a function or object that exists. it’s just not a good idea if it’s going to confuse you or others later. for example, don’t name a matrix “matrix”, since that’s the name of the constructor function</p>
+<p>R includes several handy constants, like <code>pi</code>, the alphabet (<code>?letters</code>), months (<code>?month.name</code>), days of the week (<code>?weekdays</code>) and US state names and abbreviations (<code>?state</code>). There is no need to worry about accidentally reusing any of these contants’ names for variables (though redefining <code>pi</code> might not be a great idea).</p>
+
+<div class="rmd-caution">
+<strong>Masking.</strong> Besides built-in constants, it is also possible to reuse names of variables and functions from base R. In general, this is harmless unless its going to make things confusing, like a <code>matrix</code> named “matrix.”
+</div>
+<p></p>
 <p>On a related note, <code>?Reserved</code> lists all of R’s important built-ins that cannot be overwritten.</p>
 
 <p>– todo prolly use fewer distinct example data sets. this can be done after everything’s in and organized throughout the full tutorial –</p>

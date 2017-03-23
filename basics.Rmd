@@ -4,7 +4,7 @@ This chapter covers R's core data structures and syntax.
 
 ## Vectors {#vectors}
 
-In R, all data come in vectors. If you type `x = 54.7`, then `x` will be a numeric vector of length 1. Similarly, `y = c("Yah", "Bada bing")` is a character vector of length 2. You can type a vector's name to see it, and use `length` and `class` to see those attributes.
+In R, all data come in vectors. If we enter `x = 54.7`, then `x` will be a numeric vector of length 1. Similarly, `y = c("Yah", "Bada bing")` is a character vector of length 2. Type a vector's name to see it, and use `length` and `class` to see those attributes.
 
 ```{r length-pre}
 # example data
@@ -18,7 +18,7 @@ class(x)
 
 The bracketed `[1]` indicates that we are seeing the first element of a vector. This printing pattern is handy with vectors too long for a single line, like `c(LETTERS, letters)`.
 
-You can assign with `=` or `<-`. You can even assign like `c(2,3) -> z`, but this is rare and hard to read in my opinion. If an existing vector is overwritten, no warning is given.
+Assign with `=` or `<-`. Or even like `c(2,3) -> z`, though this is rare and hard to read in my opinion. If an existing vector is overwritten, no warning is given.
 
 caution -- indexing starting from 1, for those coming from 0-indexed langs, treatment of negative indices in slicing will also be a surprise (ref it)
 
@@ -26,11 +26,11 @@ caution -- indexing starting from 1, for those coming from 0-indexed langs, trea
 
 Everything is documented in convenient wikified html pages, accessible with `?` or `help`. For example, `?TRUE`, `?LETTERS` or `?length`. Backticks are sometimes required, as for ``?`for` `` and ``?`?` ``. Keep a close eye on the Description and Value sections, which concisely explain what to expect from a function. 
 
-The Examples section always usefully illustrates functionality; you can run it in your own console like `example("LETTERS")`. Additional illustrations are available using `demo`; type `demo()` for a listing.
+The Examples section always usefully illustrates functionality; it can be run in the console like `example("LETTERS")`. Additional illustrations are available using `demo`; type `demo()` for a listing.
 
-Try typing `help.start()`. You should see links to documents including "An Introduction to R" and "The R language definition". These are the essential reference documents on R, also [available in pdf online](https://cran.r-project.org/manuals.html).
+Try typing `help.start()`. This will show a page of links to documents including "An Introduction to R", "The R language definition" and the "R FAQ" (under "Resources"). These are essential reference documents on R, also [available in pdf online](https://cran.r-project.org/manuals.html).
 
-R doesn't do error codes, only error messages and warnings. If you don't understand a message you're seeing, a search online or a review of the relevant docs is usually sufficient.
+R doesn't do error codes, only error messages and warnings. If confused by a message, a search online or a review of the relevant docs is usually sufficient.
 
 ### Classes {#classes}
 
@@ -128,7 +128,7 @@ R differs from other programming languages in its careful treatment of missing v
 A missing value means "there is a value here, but we don't know what it is." So a comparison against a missing value, like `2 == NA` or `2 != NA`, will always return `NA`, since we cannot determine whether the condition is true or false. To test whether a value is missing, use the `is.na` function.
 
 ```{block2 na-classes, type='rmd-details'}
-**Implementation of missing values.** The class of an `NA` is different depending on the vector it is in. Sometimes, it is important to ensure that a missing value belongs to a particular class. To ensure this, the safest approach is to "slice" an object of that class with `NA_integer_`. For example, to get a missing numeric value, you can use the number `10` like `10[NA_integer_]`; or for a date value, we can use the current date, `Sys.Date()`, like `Sys.Date()[NA_integer_]`. 
+**Implementation of missing values.** The class of an `NA` is different depending on the vector it is in. Sometimes, it is important to ensure that a missing value belongs to a particular class. To ensure this, the safest approach is to "slice" an object of that class with `NA_integer_`. For example, to get a missing numeric value, we can use the number `10` like `10[NA_integer_]`; or for a date value, we can use the current date, `Sys.Date()`, like `Sys.Date()[NA_integer_]`. 
 ```
 
 ### Slicing to a subvector {#slicing}
@@ -157,7 +157,7 @@ So, the index `i` can be...
 `i` can even contain repeated elements, like `x[c(1,1,2)]`, which is some more general "slice" of `x`, not really a subvector.
 
 ```{block2 recycling, type='rmd-caution'}
-**Recycling.** What would you expect `x[TRUE]` to do in the example above? Well, in R, it is treated like `x[c(TRUE, TRUE, TRUE, TRUE)]`, without giving any warning. This is called recycling -- the argument `i` is repeated until it is long enough for the context is used in. Can you guess what `x[c(TRUE, FALSE)]` does? The full rules for recycling can be found in the [R intro doc](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#The-recycling-rule).
+**Recycling.** What would be the natural behavior of `x[TRUE]` in the example above? Well, in R, it acts like `x[c(TRUE, TRUE, TRUE, TRUE)]`, without giving any warning. This is called recycling -- the argument `i` is repeated until it is long enough for the context is used in. What about `x[c(TRUE, FALSE)]`? The full rules for recycling can be found in the [R intro doc](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#The-recycling-rule).
 ```
 
 ```{block2 fancy-splicing, type='rmd-details'} 
@@ -203,7 +203,7 @@ L[c("Y", "Z")] = list(21, 31)
 The allowed values of `i` are the same as we saw for slicing a vector in \@ref(slicing). This is fairly unsafe on account of silent coercion, recycling and failure (when `i` is not a valid index of `x`). We will revisit how to modify vectors in data.tables in \@ref(dt-subassign).
 
 ```{block2 hidden-docs, type='rmd-caution'}
-**Hard-to-find documentation.** For documentation on slicing and extracting, you can type ``?`[` ``. Even though there is a `]` for every `[`, it is the opening bracket that is the function's actual name, which will come back in \@ref(lapply). For documentation on sub-assignment, type ``?`[<-` ``.
+**Hard-to-find documentation.** For documentation on slicing and extracting, type ``?`[` ``. Even though there is a `]` for every `[`, it is the opening bracket that is the function's actual name, which will come back in \@ref(lapply). For documentation on sub-assignment, type ``?`[<-` ``.
 ```
 
 caution -- silent extension of vector when assigning at a new index
@@ -226,7 +226,7 @@ x = numeric(length = 5)
 x = integer(length = 5)
 ```
 
-From there, you can subassign iteratively if necessary: `x[1] <- "A"`, `x[2] <- "B"`, and so on.
+From there, we can subassign iteratively if necessary: `x[1] <- "A"`, `x[2] <- "B"`, and so on.
 
 #### Repeating values {#rep}
 
@@ -335,9 +335,12 @@ c(1, 3, NA) %in% c(1, 2)
 "A" %in% c("A", "A", "B")
 ```
 
-We get one true/false value for each element on the left-hand side. Duplicate values on the right-hand side are ignored. That is, the right-hand side is treated like a *set*. We will look at other set operations in @ref(set-ops).
+We get one true/false value for each element on the left-hand side. Duplicate values on the right-hand side are ignored. That is, the right-hand side is treated like a *set*. 
 
-todo -- setops has been removed; maybe migrate to work.rmd
+```{r todo-ref-setops, echo=FALSE, eval=FALSE}
+We will look at other set operations in @ref(set-ops).
+# setops has been removed; maybe migrate to work.rmd
+```
 
 Unlike `==`, here we always get a true/false result, even when missing values are present.
 
@@ -366,7 +369,7 @@ By default, the matrix is built with column-major order; but `byrow = TRUE` will
 
 The dimensions of a matrix can be extracted with the `dim` function or `nrow` and `ncol`.
 
-All elements of a matrix must have the same class, just like a vector. So you can have a "character matrix", a "numeric matrix", etc. 
+All elements of a matrix must have the same class, just like a vector. So we can have a "character matrix", a "numeric matrix", etc. 
 
 ```{block2 det-matrices, type='rmd-details'}
 **Vectors with attributes.** In fact, a matrix *is* a vector, just augmented by the `dim` attribute. As mentioned at the top, all data in R is stored in vectors; and as mentioned in \@ref(classes), most classes are built on top of vectors. One wrinkle is that `is.vector` is false for matrices. However, this makes sense in light of the doc, `?is.vector`.
@@ -409,7 +412,7 @@ m[1, c(1,2), drop = FALSE]
 m["a", c("x","y"), drop = FALSE]
 ```
 
-You can get fancy with indices, in all the ways described in \@ref(slicing). It is often covenient to leave one index blank, which means "select all"; try `m[, 2, drop = FALSE]`. 
+We can get fancy with indices, in all the ways described in \@ref(slicing). It is often covenient to leave one index blank, which means "select all"; try `m[, 2, drop = FALSE]`. 
 
 ```{block2 drop, type='rmd-caution'}
 **Dropped dimensions.** The `drop = FALSE` option is necessary to ensure that the result is a submatrix. R's default behavior is to "drop" dimensions when it can, which makes for unpredictable output.
@@ -487,8 +490,14 @@ Essentially all computations involving missing values will return a missing valu
 As in [any other programming environment](http://floating-point-gui.de/), floating point arithmetic in R can trip up calculations. For example, try `.1 + .05 - .15 == 0`.
 
 ```{block2 arithmetic-bools, type='rmd-caution'}
-**Arithmetic with logical values.** Particularly when exploring data, we often want to tally observations meeting some condition. To do this in R, we can treat true/false like 1/0: `is_gt = c(1,5,2) > c(1,2,3); sum(is_gt)`. Tallying will be revisited in @ref(tallying). todo -- #tallying was removed, maybe move elsewhere
+**Arithmetic with logical values.** Particularly when exploring data, we often want to tally observations meeting some condition. To do this in R, we can treat true/false like 1/0: `is_gt = c(1,5,2) > c(1,2,3); sum(is_gt)`. 
 ```
+
+```{r todo-ref-tallying, echo=FALSE, eval=FALSE}
+Tallying will be revisited in @ref(tallying). 
+#tallying was removed, maybe move elsewhere
+```
+
 
 
 ### Logical operators
@@ -514,7 +523,13 @@ These functions treat a vanilla vector as a column vector.
 
 Remember that the undecorated `*` will always work elementwise (ref above) and silently recycle values.
 
-Additional convenience functions for matrix algebra are covered in @ref(matrix-more). todo -- figure out where this @matrix-more should go
+```{r todo-ref-matrix-more, echo=FALSE, eval=FALSE}
+Additional convenience functions for matrix algebra are covered in @ref(matrix-more). 
+# figure out where this @matrix-more should go
+```
+
+
+
 
 ### Order of operations {#order-ops}
 
@@ -596,7 +611,7 @@ library(fortunes)
 fortune(347)
 ```
 
-This adds all of the package's functions and other objects to the search path, so you can write `fortune(111)` instead of the more verbose `fortunes::fortune(111)`. The downside to attaching a package is the risk of "namespace conflicts": 
+This adds all of the package's functions and other objects to the search path, so we can write `fortune(111)` instead of the more verbose `fortunes::fortune(111)`. The downside to attaching a package is the risk of "namespace conflicts": 
 
 - If the attached package has an object with the same name as something defined by the user, that object won't enter the global namespace.
 - If two attached packages contain objects with the same name, the last-attached object gets precedence for entry into the global namespace.
@@ -652,7 +667,9 @@ lapply(list(c(3,1,4), c(2,7,9), 0), min)
 
 ### Writing functions {#function-writing}
 
-todo -- explain the syntax, starting with function() ending with (possibly implicit) return()
+```{r todo-explain-funs, echo=FALSE, eval=FALSE}
+explain the syntax, starting with function() ending with (possibly implicit) return()
+```
 
 Like any other object, functions can be assigned with `<-` or `=`:
 
@@ -770,9 +787,8 @@ g4(2)
 
 ### Finding a function by name
 
-If you run into a function and don't know what package it is from, use `help.search` or its `??` shortcut, like `??fortunes`. 
+When I run into a function and don't know what package it is from, besides searching online, I also sometimes use `help.search` or its `??` shortcut, like `??fortunes`. This will search all installed packages.
 
-todo -- google, getAnywhere ?
 
 ### Inspecting function source code {#inspect-fns}
 
@@ -792,7 +808,7 @@ getAnywhere(head.default)
 utils:::head.default
 ```
 
-Many such hidden functions are "methods," discussed further in @ref(methods). todo -- there is no #methods section to refer to -- There are also several functions that *should* be hidden, documented at `?.subset`, `?.getNamespace` and elsewhere. These docs always have prominent notes like:
+Many such hidden functions are "methods"; see `?Methods`. There are also several functions that *should* be hidden, documented at `?.subset`, `?.getNamespace` and elsewhere. These docs always have prominent notes like:
 
 > Not intended to be called directly, and only visible because of the special nature of the base namespace.
 
@@ -869,7 +885,7 @@ Vectorized code and matrix algebra are much faster than a loop. Loops should be 
 ### `if`/`else` elementwise {#ifelse}
 
 ```{block2, type='rmd-caution'}
-**Dummy variables.** First, if you find yourself wanting to do `x = if (cond) 1 else 0`, don't. As mentioned in \@ref(arithmetic), the logical variable `cond` itself is perfect for storing this dummy variable. It will be treated as numeric in any arithmetic calculations. Besides, there is certainly no reason to prefer the floating-point values `0` and `1` over integers `0L` and `1L`. Finally, use a factor...
+**Dummy variables.** First, if tempted to do `x = if (cond) 1 else 0`, don't. As mentioned in \@ref(arithmetic), the logical variable `cond` itself is perfect for storing this dummy variable.
 ```
 
 The base R tool for handling elementwise `if`/`else` rules is the function `ifelse`. However, it has some serious shortcomings. A better way, similar to the `gen`/`replace` pattern in Stata, is covered in \@ref(dt-ifelse).
@@ -924,8 +940,10 @@ To browse a data frame in a separate window, use `View(DF)`.
 
 ## Built-in constants
 
-R includes several handy constants, like `pi`, the alphabet (`?letters`), months (`?month.name`), days of the week (`?weekdays`) and US state names and abbreviations (`?state`). You don't need to worry about accidentally reusing any of these contants' names for your own variables (though redefining `pi` might not be a great idea).
+R includes several handy constants, like `pi`, the alphabet (`?letters`), months (`?month.name`), days of the week (`?weekdays`) and US state names and abbreviations (`?state`). There is no need to worry about accidentally reusing any of these contants' names for variables (though redefining `pi` might not be a great idea).
 
-details -- masking and reserved words. it's okay to "mask" a function or object that exists. it's just not a good idea if it's going to confuse you or others later. for example, don't name a matrix "matrix", since that's the name of the constructor function
+```{block2 masking, type='rmd-caution'}
+**Masking.** Besides built-in constants, it is also possible to reuse names of variables and functions from base R. In general, this is harmless unless its going to make things confusing, like a `matrix` named "matrix."
+```
 
 On a related note, `?Reserved` lists all of R's important built-ins that cannot be overwritten.

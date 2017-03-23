@@ -7,13 +7,8 @@ site: bookdown::bookdown_site
 description: "This book covers the essentials of using R."
 ---
 
-```{r edit-comments, echo=FALSE, eval=FALSE}
-# Editing notes:
-#   data.table prints on := as of Feb 2017: https://github.com/Rdatatable/data.table/issues/1930
-#   when this is fixed, go back and simplify relevant parts
-#
-#   i'd like each chapter to have a different html page title so that when i open multiple tabs i can tell them apart
-#   i think this can be done with bookdown::build_chapter per https://bookdown.org/yihui/bookdown/html.html#bootstrap-style
+```{r todo-general, echo=FALSE, eval=FALSE}
+# Exercises needed for most chapter.x level sections
 ```
 
 
