@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-03-23" />
+<meta name="date" content="2017-03-24" />
 
 
 <meta name="description" content="This book covers the essentials of using R.">
@@ -165,7 +165,7 @@ img {
 <li><a href="basics.html#lapply-df"><span class="toc-section-number">2.6.1</span> Iterating over columns</a></li>
 <li><a href="basics.html#view"><span class="toc-section-number">2.6.2</span> Inspection</a></li>
 </ul></li>
-<li><a href="basics.html#built-in-constants"><span class="toc-section-number">2.7</span> Built-in constants</a></li>
+<li><a href="basics.html#built-ins"><span class="toc-section-number">2.7</span> Built-in constants</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#tables"><span class="toc-section-number">3</span> Tables</a><ul>
 <li class="has-sub"><a href="tables.html#essential-packages"><span class="toc-section-number">3.1</span> Essential packages</a><ul>
@@ -191,12 +191,14 @@ img {
 <li><a href="tables.html#using-in-place-modification-in-functions"><span class="toc-section-number">3.4.7</span> Using in-place modification in functions</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#dt-joins"><span class="toc-section-number">3.5</span> Joins</a><ul>
-<li><a href="tables.html#aggregating-in-a-join"><span class="toc-section-number">3.5.1</span> Aggregating in a join</a></li>
-<li><a href="tables.html#updating-in-a-join"><span class="toc-section-number">3.5.2</span> Updating in a join</a></li>
-<li><a href="tables.html#self-join-to-fill-in-missing-levels"><span class="toc-section-number">3.5.3</span> Self join to fill in missing levels</a></li>
-<li><a href="tables.html#handling-matches"><span class="toc-section-number">3.5.4</span> Handling matches</a></li>
-<li><a href="tables.html#interval-joins"><span class="toc-section-number">3.5.5</span> Interval joins</a></li>
-<li><a href="tables.html#shortcuts-and-tricks"><span class="toc-section-number">3.5.6</span> Shortcuts and tricks</a></li>
+<li><a href="tables.html#equi-joins"><span class="toc-section-number">3.5.1</span> Equi joins</a></li>
+<li><a href="tables.html#subset-lookup"><span class="toc-section-number">3.5.2</span> Subset lookup</a></li>
+<li><a href="tables.html#aggregating-in-a-join"><span class="toc-section-number">3.5.3</span> Aggregating in a join</a></li>
+<li><a href="tables.html#joins-update"><span class="toc-section-number">3.5.4</span> Updating in a join</a></li>
+<li><a href="tables.html#self-join-to-fill-in-missing-levels"><span class="toc-section-number">3.5.5</span> Self join to fill in missing levels</a></li>
+<li><a href="tables.html#join-matches"><span class="toc-section-number">3.5.6</span> Handling matches</a></li>
+<li><a href="tables.html#joins-nonequi"><span class="toc-section-number">3.5.7</span> Non-equi joins</a></li>
+<li><a href="tables.html#shortcuts-and-tricks"><span class="toc-section-number">3.5.8</span> Shortcuts and tricks</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#input-output"><span class="toc-section-number">3.6</span> Input and output</a><ul>
 <li><a href="tables.html#file-paths"><span class="toc-section-number">3.6.1</span> File paths</a></li>
@@ -362,6 +364,14 @@ L3 =<span class="st"> </span><span class="kw">c</span>(L, L2)</code></pre></div>
 <strong>Passing arguments.</strong> Inside <code>c(A = 1)</code>, the equals sign is not interchangeable with the <code>&lt;-</code>, so don’t write <code>c(A &lt;- 1)</code>. Think of <code>c</code> as a function with syntax like <code>c(argname = argvalue, argname2 = argvalue2, ...)</code>. The equals sign has the special role of giving names to the function’s arguments. See <a href="basics.html#passing-arguments">2.4.2</a> for details.
 </div>
 <p></p>
+<p>To assign names programmatically…</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nms =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>)
+<span class="kw">c</span>(nms[<span class="dv">1</span>] =<span class="st"> </span><span class="dv">1</span>, nms[<span class="dv">2</span>] =<span class="st"> </span><span class="dv">2</span>) <span class="co"># error</span>
+<span class="kw">setNames</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), nms)    <span class="co"># the correct syntax</span></code></pre></div>
+<pre><code># Error: &lt;text&gt;:2:10: unexpected &#39;=&#39;
+# 1: nms = c(&quot;a&quot;, &quot;b&quot;)
+# 2: c(nms[1] =
+#             ^</code></pre>
 </div>
 <div id="na" class="section level3">
 <h3><span class="header-section-number">2.1.6</span> Missing values</h3>
@@ -922,7 +932,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nrow</code></pre></div>
 <pre><code># function (x) 
 # dim(x)[1L]
-# &lt;bytecode: 0x000000000691cab0&gt;
+# &lt;bytecode: 0x000000001435c388&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">replace</code></pre></div>
 <pre><code># function (x, list, values) 
@@ -930,7 +940,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 #     x[list] &lt;- values
 #     x
 # }
-# &lt;bytecode: 0x000000000a31d9d0&gt;
+# &lt;bytecode: 0x00000000161dd518&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <p>The last two rows of these functions show (i) that they are compiled and (ii) the environment they were defined in.</p>
 <p>Many functions are not “exported” for direct use. Nonetheless, their code may be found using <code>getAnywhere</code> or accessed directly using <code>:::</code> syntax:</p>
@@ -1069,7 +1079,7 @@ DF[im] <span class="co"># DON&#39;T DO THIS</span></code></pre></div>
 <p>To browse a data frame in a separate window, use <code>View(DF)</code>.</p>
 </div>
 </div>
-<div id="built-in-constants" class="section level2">
+<div id="built-ins" class="section level2">
 <h2><span class="header-section-number">2.7</span> Built-in constants</h2>
 <p>R includes several handy constants, like <code>pi</code>, the alphabet (<code>?letters</code>), months (<code>?month.name</code>), days of the week (<code>?weekdays</code>) and US state names and abbreviations (<code>?state</code>). There is no need to worry about accidentally reusing any of these contants’ names for variables (though redefining <code>pi</code> might not be a great idea).</p>
 
@@ -1079,7 +1089,6 @@ DF[im] <span class="co"># DON&#39;T DO THIS</span></code></pre></div>
 <p></p>
 <p>On a related note, <code>?Reserved</code> lists all of R’s important built-ins that cannot be overwritten.</p>
 
-<p>– todo prolly use fewer distinct example data sets. this can be done after everything’s in and organized throughout the full tutorial –</p>
 </div>
 </div>
 <p style="text-align: center;">

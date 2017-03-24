@@ -1,4 +1,6 @@
--- todo prolly use fewer distinct example data sets. this can be done after everything's in and organized throughout the full tutorial --
+```{r todo-tables-general, echo=FALSE, eval=FALSE}
+prolly use fewer distinct example data sets, especially in joins. this can be done after everything's in and organized throughout the full tutorial
+```
 
 # Tables {#tables}
 
@@ -558,69 +560,151 @@ use carsDT = data.table(mtcars, rn = TRUE), overwrite am with factor levels "aut
 
 They are called "joins" or "merges."
 
+### Equi joins
+
 ```{r dt-join-prea, echo=c(1:2,4L)}
 # example data
 a = data.table(id = c(1L, 1L, 2L, 3L, NA_integer_), t = c(1L, 2L, 1L, 2L, NA_integer_), x = 11:15)
 a
-b = data.table(id = 1:2, y = -(1:2))
+b = data.table(id = 1:2, y = c(11L, 15L))
 b
 ```
 
-The idiom for a simple join is `x[i]` or `x[i, on=.(...)]`: 
+The idiom for a simple equi join is `x[i, on=.(...)]` or `x[i]` for short: 
 
 ```{r dt-join}
 a[b, on=.(id)]
 ```
 
-Think of `x[i]` as using index `i` to look up rows of `x`, in the same way an "index matrix" can look up elements of a matrix (\@ref(matrix-extract)). 
+It is called an equi join since we are only getting matches where equality holds between the `on=` columns in the two tables.
 
-todo explain on=.(xcol = icol)
+Think of `x[i]` as using index table `i` to look up rows of `x`, in the same way an "index matrix" can look up elements of a matrix (\@ref(matrix-extract)). By default, we see results for every row of `i`, even those that are unmatched. 
 
+Here are some more complicated examples:
 
+```{r dt-join-more}
+a[b, on=.(x = y)]
+a[b, on=.(id, x = y)]
+```
 
-todo -- details re efficiency, citing "binary search vs vector scans" section of `vignette("datatable-keys-fast-subset")` and perhaps a benchmark
+When merging on columns with different names, they must be written in `on=` like `x = y` where `x` is from the "left" table, and `y` from the "right" one. Because we are using `i` to lookup rows in `x`, the displayed column will have its name from `x` and its values from `i`.
+
+A character vector also works in, e.g., `on=c("id", x = "y")`, making it easier to merge programmatically.
+
+```{r todo-join-eff, eval=FALSE, echo=FALSE}
+details re efficiency, citing "binary search vs vector scans" section of `vignette("datatable-keys-fast-subset")` and perhaps a benchmark
+```
+
+### Subset lookup
+
+For browsing dynamic data (that grows over time), it is convenient and quick to use joins:
+
+```{r dt-lookup}
+a[.(1L), on=.(id)]
+# or, as a function
+ra <- function(my_id) a[.(my_id), on=.(id)] 
+ra(2L)
+```
+
+Note that the index `i` is a list here, not a data.table. The link between the two is close, since data.tables are just lists of columns (\@ref(dt-lapply)). Any list passed in `i` will be treated the same as the analogous data.table with appropriate column names.
+
+Subset browsing becomes even easier when keys are set so that `on=` can be skipped (\@ref(keys-indices)).
 
 ### Aggregating in a join
 
-aggregate joins (by=.EACHI)
+Looking again at the first join above, suppose we want to use `b` to find rows in `a` and then add up `a$x`. We'll do this by using `by=.EACHI`:
 
+```{r join-byeachi}
+a[b, on=.(id)]
+a[b, on=.(id), sum(x), by=.EACHI]
+```
 
-### Updating in a join
+It is called "each `i`" since the syntax is `x[i, ...]` and we are computing per row of the index `i`. I prefer to write the `on=` before the `j` (unlike the core syntax of `DT[i,j,by]`) since the `on=` merging columns are closely related to the `i` index.
 
-If the data is well organized, this will be the join needed most of the time. It modifies one table, `x`, by
+If we tried summing `b$y` here, we would not get `11+11` for `id` 1:
 
-update joins, motivated by relational data
+```{r join-byeachi-confusing}
+a[b, on=.(id)] # y shows up twice
+a[b, on=.(id), .(sum(x), sum(y)), by=.EACHI] # we only get one y
+```
 
+This is because we are working by each row of `b`. For `id` 1 in `b`, `y` is a single value, `11`. So really there is no point in summing `y` or otherwise aggregating columns from `i` when using `by=.EACHI`.
 
-extension of SQL UPDATE
+### Updating in a join {#joins-update}
+
+Continuing from the last example, we are computing `sum(x)` per row of `b`, so maybe we want to save the result as a column in `b`:
+
+```{r join-byeachi-assign, echo=-4}
+b[, sumx := 
+    a[b, on=.(id), sum(x), by=.EACHI]$V1
+]
+# or
+b[, sumx := 
+    a[.SD, on=.(id), sum(x), by=.EACHI]$V1
+]
+b
+```
+
+```{block2 v1v2v3, type='rmd-caution'}
+**Default names for `j` computations.** When the task in `j` evaluates to an unnamed list, default names `V1, V2, ...` are assigned. We can use these to extract a single computed column with `$V1`, `$V2`, etc. Since we can only extract one column at a time, we usually only create and extract a single column, auto-named `V1`.
+```
+
+On the other hand, we may want to take values from `b` and assign them to the larger table `a`:
+
+```{r join-assign, echo=-2}
+a[b, on=.(id), y := i.y ]
+a
+```
+
+This sort of operation is very common when doing analysis with well-organized relational data, and will come up again in \@ref(structuring-data). It is essentially the same as a SQL UPDATE JOIN. It might also be called a "merge assign" (though I seem to be the only one using that term).
+
+The `i.*` prefix in `i.y` indicates that we are taking the column from the `i` table in `x[i]`. We can similarly use an `x.*` prefix for columns from `x`. This helps to disambiguate if the same column names appear in both tables, and is particularly helpful with non-equi joins (\@ref(joins-nonequi)). I recommend always using `i.*` prefixes when copying columns in an update join.
+
+```{block2 dt-updatejoin-beware, type='rmd-caution'}
+**Beware multiple matches in an update join.** When there are multiple matches (\@ref(join-multimatch)), an update join will apparently only use the last one. [Unfortunately](https://github.com/Rdatatable/data.table/issues/2022), this is done silently. Try `b[a, on=.(id), x := i.x, verbose = TRUE ][]`. With `verbose` on, we see a helpful message about assignment "to 3 row subset of 2 rows."
+```
 
 ### Self join to fill in missing levels
 
-Suppose we have data per year for each ID:
+Consider the `a` data set from above:
 
-```{r dt-join-CJ-pre}
-DT = data.table(id = c(1L, 1L, 2L), year = c(1999L, 2000L, 1999L), v = c(5, 7, 9))
+```{r dt-join-CJ-pre, echo=1}
+# example data
+a = data.table(id = c(1L, 1L, 2L, 3L, NA_integer_), t = c(1L, 2L, 1L, 2L, NA_integer_), x = 11:15)
+a
 ```
 
-Now we want to complete the data set so that every ID has a row for every year:
+Now we want to "complete" the data set so that every `id` has a row for every time `t`:
 
 ```{r dt-join-CJ}
-DT[CJ(id = id, year = year, unique=TRUE), on=.(id, year)]
+a[CJ(id = id, t = t, unique=TRUE), on=.(id, t)]
 ```
 
-This is called a self join because we are using the table's own columns in `i` of `DT[i, on=]`. The CJ function is a helper that takes all combinations of vectors, alternately called the Cartesian product or a "cross join."
+This is called a self join because we are using the table's own columns in `i` of `x[i, on=]`. The `CJ` function is a helper that takes all combinations of vectors, alternately called the Cartesian product or a "cross join." By applying `unique=TRUE`, we treat each vector *as a set* in the mathematical sense, only considering distinct values.
 
-### Handling matches
+Notice that missing values (`NA`) in `i` are treated in the same way as other values.
+
+### Handling matches {#join-matches}
+
+For this section, we'll reset the tables:
+
+```{r dt-mult-pre, echo=-c(3,5)}
+# example data
+a = data.table(id = c(1L, 1L, 2L, 3L, NA_integer_), t = c(1L, 2L, 1L, 2L, NA_integer_), x = 11:15)
+a
+b = data.table(id = 1:2, y = c(11L, 15L))
+b
+```
 
 #### Handling multiply-matched rows {#join-multimatch}
 
-In this example, we are indexing by rows of `b` and so get matches for every row of `b`. By default, we get *all* matches in `a`, but this can be tweaked:
+In `a[b, on=.(id)]`, we are indexing by rows of `b` and so get matches for every row of `b`. By default, we get *all* matches in `a`, but this can be tweaked:
 
 ```{r dt-join-mult}
 a[b, on=.(id), mult="first"]
 ```
 
-Now each row of `b` only returns the first matching row (from the top) in `a`.
+Now each row of `b` only returns the first matching row (from the top) in `a`. Similarly, we could select `mult="last"`.
 
 #### Handling unmatched rows
 
@@ -636,84 +720,100 @@ These unmatched rows still show up in the result, which is usually nice. However
 b[a, on=.(id), nomatch=0]
 ```
 
-
+Dropping unmatched elements of `i` is similar to filtering `_m == 3` in Stata.
 
 ```{block2 dt-merge-res, type='rmd-details'}
 **Diagnostics for merges.** In Stata, joins report on how well they went -- did everything match? how many didn't match? The analogous question for an `x[i]` join is -- for each row of `i`, how many matches did we find in `x`? To see the answer, use `b[a, on=.(id), .N, by=.EACHI]`.
+```
+```{block2 dt-merge-stata, type='rmd-details'}
+**Comparison with Stata.** Because `x[i]` uses `i` to look up rows in `x`, we are never looking ar rows that correspond to Stata's `_m == 1` -- that belong to `x` but are not matched by `i`.
+
+There is another way of merging, `merge(b, a)`, that allows for `all.x` and `all.y`, resembling Stata's options, but I have never found any reason to use it.
 ```
 
 #### Handling imperfect matches with rolling joins
 
 Sometimes we want unmatched rows paired with the closest match occurring earlier or later in the table:
 
-todo -- eval this after standardizing DT in the section
+```{r im-rolling-im-rolling}
+# target x
+myxDT = list(myx = c(5L, 10L, 15L, 20L))
 
-```{r im-rolling-im-rolling, eval=FALSE}
-DT[.("F", 1:3), on=.(ID, t), roll = -Inf, .(v, .I), by=.EACHI]
+# exact match (equi-join)
+a[myxDT, on=.(x = myx), .(i.myx, x.x)]
+# nearest match
+a[myxDT, on=.(x = myx), roll="nearest", .(i.myx, x.x)]
+# upward match within 3
+a[myxDT, on=.(x = myx), roll=-3, .(i.myx, x.x)]
 ```
 
-In this way each row of `i` in `x[i]` is matched with exactly one row of `x`. 
+Recall from \@ref(joins-update) that the `i.*` and `x.*` prefixes refer to where columns come from in `x[i]`.
 
-Rolling only affects the final column in `on=`. 
+When joining on multiple columns, the roll is taken on the last listed in `on=`.
 
-The value of `roll=` refers to how much higher or lower the value of `t` can be and still qualify as a match. We add (up to) `roll` to the target row if necessary to find a match. So `roll = -7` means we would accept a `T` as far away as `T - 7 = t`. 
+The value of `roll=` refers to how much higher or lower the value of `x` can be and still qualify as a match. We add (up to) `roll` to the target row if necessary to find a match. So `roll = -3` means we would accept a `x` as far away as `x - 3 = myx`. 
 
-It can also be set to `roll="nearest"` to find the closest match in either direction (with infinite range).
-
-### Interval joins
+### Non-equi joins {#joins-nonequi}
 
 It is sometimes useful to match on a range of values. To do this, we explicitly name all columns in `i` and define inequalities in `on=`. Suppose we want to see, for every time `t` in 1..5, how many individuals were seen in the preceding three days:
 
 ```{r join-interval, echo=-2}
-DT = data.table(
-    ID = c("D", "F", "F", "B", "C", "F", "A"), 
-    t  = c(1L, 1L, 9L, 11L, 13L, 13L, 16L),
-    v  = c(1, 0.2, 1.2, 0.4, 1.4, 0.8, 0.6)
-)
-DT
-tg = 1:5 # times of interest
-DT[.(t0 = tg - 3, t1 = tg), on=.(t >= t0, t < t1),
-   uniqueN(ID, na.rm = TRUE)
-, by=.EACHI]
+mDT = data.table(id = 1:3, x_dn = 10L, x_up = 13L)
+a[mDT, on=.(id, x >= x_dn, x <= x_up), .(id, i.x_dn, i.x_up, x.x)]
 ```
 
-At first, these results may look unintuitive. The syntax here is again `x[i, on=, j, by=.EACHI]`. We are using `i` to subset `x`; then grouping by each row of `i` to compute `j`. The results make sense in this context. We are using `i` to find rows of `x`, so we have values from `i` and column names from `x`. Unfortunately, this means we have repeating column names. I often add a trailing `setnames` call to address this:
+So we are defining a range `x_dn` to `x_up` for each `id` and finding all matches of `x` within the range.
 
-```{r join-interval-names}
-DT[.(t0 = tg - 3, t1 = tg), on=.(t > t0, t < t1),
-   uniqueN(ID, na.rm = TRUE)
-, by=.EACHI][, setnames(.SD, c("t0", "t", "n"))]
-```
-
-Interval joins are also called "non-equi joins." For more complicated interval joins, have a look at `?inrange`, `?foverlaps` and the [IRanges package](http://www.bioconductor.org/packages/IRanges/) that inspired these data.table tools.
+These could alternately be called "interval joins." For more on interval joins and subsets, see `?inrange`, `?foverlaps` and the [IRanges package](http://www.bioconductor.org/packages/IRanges/) that inspired these data.table tools.
 
 ### Shortcuts and tricks
 
 When joining on a single character or factor column, the `.()` in `i` can be skipped:
 
-```
-DT["F", on=.(ID)]
+```{r join-char, eval=1:2}
+DT = data.table(id = c("A", "A", "B"), u = c(0, 1, 2), v = c(1, 4, 7))
+DT["A", on=.(id)]
+# instead of 
+DT[.("A"), on=.(id)]
 ```
 
 #### Setting keys and indices {#keys-indices}
 
-If a table is always joined on the same column(s), these can be set as its "key." Setting the key of `x` sorts the table and allows for skipping `on=` during `x[i,on=]` joins. It also can have some performance benefits. See `?setkey`. 
+If a table is always joined on the same column(s), these can be set as its "key." Setting the key of `x` sorts the table and allows for skipping `on=` during `x[i,on=]` joins. It also can have some performance benefits. See `?setkey`.
 
-beware DT[DT2] when trying to join on part of the key
-
-```
-setkey(DT, ID, t)
-DT[.("F", 13)]
+```{r join-setkey}
+setkey(DT, id)
+DT["A"]
 ```
 
-review Remarks here http://stackoverflow.com/documentation/data.table/4977
+This can be dangerous, however, since even if `i` has names, they are ignored:
 
-details -- Note that keys are costly, as explained in `vignette("datatable-secondary-indices-and-auto-indexing")`. Tutorials written before `on=` was available might leave the impression that keys are of central importance. Also https://github.com/Rdatatable/data.table/issues/1232#issuecomment-131190268 
+```{r join-setkey-warn}
+setkey(DT, u, v)
+DT[.(v = 7, u = 2)]
+```
 
+No match is found here since `i=.(v = 7, u = 2)` is mapped to the key `.(u,v)` by position and not by name.
 
+Most of the performance benefits of a key can also be achieved with an "index." Unlike a key, which sorts the table, an index simply notes the order of the table with respect to some columns. A table can have many indices, but only one key:
 
+```{r join-indices, eval=1:2}
+setindex(DT, id, u)
+setindex(DT, id, v)
+key(DT)
+indices(DT, vectors=TRUE)
+str(DT)
+```
 
-#### Anti-joins
+The performance benefits show up in most joins and some subsetting operations, too. Turn on `verbose` data.table messages to see when it is and is not kicking in. Also see `vignette("datatable-secondary-indices-and-auto-indexing")`; and regarding whether setting a key is important (as some old tutorials might say), see the package developer's [post](https://github.com/Rdatatable/data.table/issues/1232#issuecomment-131190268).
+
+Keys and indices are destroyed whenever any of their columns are edited in a way that won't obviously preserve order.
+
+```{block2 dt-wrongkeys, type='rmd-details'}
+**Attribute verification.** Keys and indices are simply stored as attributes and may be invalid. For example, with `DT = data.table(id = 2:1, v = 2:1); setattr(DT, "sorted", "id")`, we've told the table that it is sorted by `id` even though it isn't. Some functions may check the validity of the key, but others won't, like `DT[.(1L)]`.
+```
+
+#### Anti joins
 
 We also have the option of selecting *unmatched* rows:
 
@@ -721,13 +821,23 @@ We also have the option of selecting *unmatched* rows:
 a[!b, on=.(id)]
 ```
 
-This "not-join" or "anti-join" returns all rows of `a` that are not matched by rows in `b`.
+This "not join" or "anti join" returns all rows of `a` that are not matched by rows in `b`.
 
-using indices
+```{r todo-join-ex, eval=FALSE, echo=FALSE}
+### Exercises
 
-see the vignette
+- use an anti join to assign to rows not matched in b
+
+- initialize v := 0L. Then in an update self join, use mult= to tag the first row of each group with 1L.
+
+- use a self non-equi join to count the number of observations within the last 90 days per id
+
+```
+
 
 ## Input and output {#input-output}
+
+This section covers reading tables from disk; basic cleaning of column formats; and writing to disk.
 
 ### File paths
 
@@ -748,7 +858,7 @@ To read tables from CSVs or other delimited formats, `fread` is quite fast and r
 DT = fread("file.csv")
 ```
 
-todo cite https://github.com/Rdatatable/data.table/wiki/Convenience-features-of-fread and ?fread for a fuller list of features in lieu of a vignette
+See `?fread` and [the wiki](https://github.com/Rdatatable/data.table/wiki/Convenience-features-of-fread) for a discussion of features. I usually find that `fread` just works without any need for tweaks. However, it currently doesn't recognize date or time formats, which need to be handled after reading (\@ref(dates-times)).
 
 ### `rbindlist` to combine tables {#rbindlist-read}
 
@@ -762,7 +872,7 @@ list.files(patt="csv$") %>% lapply(fread) %>% rbindlist(id=TRUE)
 
 The rest of this section covers the longer approach I recommend, using a table with one row per file:
 
-```{r fread-list-long}
+```{r fread-list-long-pre}
 # note: this code will save to your current working directory
 # type getwd() and read ?setwd for details
 
@@ -770,7 +880,8 @@ The rest of this section covers the longer approach I recommend, using a table w
 set.seed(1)
 for (i in 1:3) 
   fwrite(data.table(id = 1:2, v = sample(letters, 2)), file = sprintf("file201%s.csv", i))
-
+```
+```{r fread-list-long}
 # First, identify the files wanted:
 fileDT = data.table(fn = list.files(pattern="csv$"))
 
@@ -796,74 +907,192 @@ DT = fileDT[, rbindlist(setNames(contents, id), idcol="file_id")]
 DT[fileDT, on=.(file_id = id), year := i.year ][]
 ```
 
-Results can be debugged by investigating individual files like `fileDT[year == 2012, contents[[1]]]`. 
+Results can be debugged by investigating individual files like `fileDT[year == 2012, contents[[1]]]`. The `setNames` function (\@ref(names)) is needed here since `rbindlist` uses names to populate the id column.
 
 ### Date and time columns {#dates-times}
 
-Currently, `fread` does not recognize or translate time or date columns to native R formats
+Currently, `fread` does not recognize or translate time or date columns to native R formats. 
 
-as.IDate, IDateTime
+I recommend a couple packages, anytime and nanotime, for use when needed (more on which below). They have minimal dependencies and are maintained with an eye towards continued compatibility with the data.table package.
 
-wday, weekdays, etc.
+#### Date and time of day, separately
 
-show that max, min, inequalities work for dates and times
+I usually handle this using the formats provided with data.table, `IDate` and `ITime`, for date and time of day:
 
-lapply + .SDcols with date conversion
+```{r datetime-pre, echo=-3}
+# example data
+DT = data.table(id = 1:2, d = c("2017/01/21", "2017/01/22"), t = c("5:50", "13:50"))
+DT
+str(DT)
+```
+```{r datetime}
+DT[, `:=`(
+  d = as.IDate(d),
+  t = as.ITime(t)
+)][]
+str(DT)
+```
+
+In the `str` output, we can see that ITime is stored as an integer, and the same is true of IDate. This is more efficient than a floating-point class in terms of storage and many table operations.
+
+In this example, the `as.*` functions immediately recognize how to interpret the strings given. In many cases, however, we need to pass a format parameter, like `as.IDate("01/13/2013", "%m/%d/%Y")`. See `?strptime` and `?as.Date` for documentation on how to do this. Because it's hard to get the format right the first time, I usually test a format out like...
+
+```{r datetime-fmttry, eval=FALSE}
+DT[1L, as.IDate(d, "%Y%M%D")] 
+```
+
+This is similar to the `dryrun` option in Nick Cox's numdate package for Stata. 
+
+Parsing dates and times by tweaking format strings can be mind-numbing, so it's worth considering loading [the anytime package](http://dirk.eddelbuettel.com/code/anytime.html), which will automatically recognize many more formats than `as.IDate` and `as.ITime` normally will.
+
+#### Datetimes
+
+Data.table also can parse a datetime string (well, a factor) into separate IDate and ITime columns:
+
+```{r datetime-combo}
+DT = data.table(dt = "2017-01-01 01:11")
+DT[, c("d", "t") := IDateTime(as.factor(dt))][]
+```
+
+However, it does not include a combined datetime class, which would be useful if we want to measure time differences across days. 
+
+For a combined datetime class, we have to use POSIXct. This brings with it a couple of annoyances. First, it uses floating-point measurement, so grouping on it with `by=` is not a good idea and some table operations will be slower. Second, in keeping with POSIX rules, it has an irritating time zone attribute that always demands careful watching. Nonetheless, it is the standard option for a datetime format currently. (There is also a POSIXlt format, but data.table discourages it, since it does not build on atomic vectors.) 
+
+#### Sub-second measures
+
+The ITime class is an integer measure of seconds since midnight. POSIXct will be necessary if finer-measured seconds are needed (e.g., from online activity data). If even finer measurement is needed (e.g., for network latency measurement), [the `nanotime` package](http://dirk.eddelbuettel.com/code/nanotime.html) is available.
+
+#### Computations
+
+There are many convenient extractor functions, `month`, `wday` and so on, listed in `?IDateTime` and `?weekdays`.
+
+The `max` or `min` of a vector of dates can be taken (just as it can be for numbers, characters and ordered factors); and inequalities also work.
+
+Arithmetic on IDates with `+` and `-` reads `1L` as one day; and on ITimes, as one second. 
+
+Time differences between dates or times can be taken using `difftime`, which allows for the specification of units of measure for the output.
 
 
 ### Character columns
 
-state.abb, state.names
+With character columns that combine multiple variables, there are a few options. 
 
-tstrsplit
+- If the "split" of the variable is fixed-width, `substr` or `substring` works.
 
-substring
+    ```{r read-substring}
+    DT = data.table(x = c("A001ABC", "B001DEF"))
+    DT[, `:=`(x_id = substring(x, 1, 1), x_num = substring(x, 2, 4), x_val = substring(x, 5, 7))][]
+    str(DT)
+    ```
+
+- If the split follows a pattern that can be characterized using regular expressions (\@ref(strings)), `tstrsplit` can make the split and automatically convert to appropriate column types just as `fread` does:
+
+    ```{r read-tstrsplit}
+    DT = data.table(x = c("A_1_22.2", "B_33_44.4"))
+    DT[, c("x_id", "x_int", "x_float") := tstrsplit(x, "_", type.convert = TRUE)][]
+    str(DT)
+    ```
+
+With US states, built-ins (\@ref(built-ins)) and an update join (\@ref(joins-update)) can be used to convert between abbreviated and long forms:
+
+```{r read-usstates, echo=-3}
+DT = data.table(state_code = c("MN", "KS"))
+DT[.(state_code = state.abb, state_name = state.name), on=.(state_code), 
+   state_name := i.state_name 
+]
+DT
+```
+
+In the case of messier strings, the convenience functions in the stringi package may be helpful, along with a read of `?regex` and the string section in the next chapter (\@ref(strings)).
 
 ### Factor columns
 
-use characters most of the time, don't worry about memory. the real memory problems come from how data is organized, as discussed in \@ref(structuring-data).
+`fread` will read string columns in as character by default, and this is usually the way to go.
 
-show how ordered factors can be used to set up inequalities for strings
+When "recoding" values in a character column, I suggest being explicit by storing the mapping in its own table and doing an update join (\@ref(joins-update)):
 
+```{r read-remap, echo=-7}
+# example data
+DT = data.table(v = c("Yes", "argle", "bargle", "No", "Yep", "garble", "Nope", "blargh"))
+# desired mapping
+v_translateDT = rbind(
+  data.table(v_old = c("Yes", "Yep"), v_new = TRUE),
+  data.table(v_old = c("No", "Nope"), v_new = FALSE)
+)
+# update join
+DT[v_translateDT, on=.(v = v_old), vt := i.v_new ]
+# ^ okay, so apparently that is printing when it shouldn't...
+```
+
+Here, we are mapping to a logical column. Of course, the same thing could be done with a factor, an ordered factor or a string.
 
 ### List columns
 
-list columns -- somewhat clumsy, but sometimes convenient (no by=, shift(); inefficient %in% and match()). can store regression results, for example
+Data.table supports columns of class `list`. A "list column" is a list with a length equal to the number of rows of the table. Each element of the list (that is, each row) can hold anything, just like a normal list. We saw an example of this in \@ref(rbindlist-read).
 
-consider unique %>% sort %>% toString/paste instead if it's just for browsing; or going to long format (see data structure)
+List columns are rarely a good fit with tabular data for a few reasons. First, they make the data structure significantly harder to understand. Second, grouping, sorting or merging on them is not supported and probably never will be. Third, they do not play nice with time series operators like `shift` (\@ref(lag)).
 
+They are good for many things, but should be avoided if possible while cleaning the primary data. Nonetheless, `fread` does support reading list columns in.
 
 ### `fwrite` to write delimited files {#fwrite}
 
-zzz
+To write a CSV or other delimited-table format, `fwrite` is usually the best option.
+
+It is fast and includes nice features for printing dates and times, like the `squash` option that will print dates like `20171020`.
 
 ### Saving and loading R objects {#dt-saveload}
 
-with Rdata, use load() or just drag it into the window
+To save a table for later use in R, there are native formats, RData and RDS. In contrast with delimited files like CSVs, these files are small; are quick to save and load; and will allow the later user to skip tedious and error-prone data processing tasks.
 
-RDS
+Another consideration is whether the data storage is long-term or short term. If the objects are important and need to be accessible in 10-20 years, it would naturally be safer to store them in flat delimited file (assuming a tabular format makes sense for them). On the other hand, R's storage formats will always be accessible by opening a suitable old version of R; and [R's formats are open and (implicitly) documented](http://r.789695.n4.nabble.com/RData-File-Specification-td917010.html) and so should presumably be readable with a little work.
+
+One thing to watch out for when loading data.tables from disk is broken "self" pointers, leading to an error about "Invalid .internal.selfref". This can be fixed by using `setDT` or `alloc.col` on all loaded tables, as explained in `vignette("datatable-faq")` under "Reading `data.table` from RDS or RData file". Generally, I don't bother with this safety precaution and haven't run into problems yet, so I'm not sure how critical it is.
+
+#### Collections of objects
+
+The `.RData` format allows saving and loading multiple objects. When loading, the objects are dropped into the main workspace by default. To avoid the namespace conflicts this invites, I usually load to a new environment:
+
+```{r read-saveload}
+# note: this code will save to your current working directory
+# type getwd() and read ?setwd for details
+n   = 10
+L   = list(a = 1, b = 2)
+dat = data.table(v = 3)
+save(n, L, dat, file = "stuff.rdata")
+
+# and later, in another script
+rm(list = ls()) # clear workspace
+n   = 20          # create a different n
+load("stuff.rdata", env = e_stuff <- new.env())
+```
+
+Now, `n` is still 20, while the loaded value of `n = 10` can be accessed like `e_stuff$n`. The `$` and `[[` extractors for lists (\@ref(extract-list)) also work on environments, as does `names(e_stuff)`.
+
+One nice feature of the R console is that you can drag an `.rdata` file into it to load. Also, opening an `.rdata` file with the R console will start a new session and load it. (At least this is true in Windows.)
+
+#### Single objects
+
+Another option is the RDS format. This stores a single R object, so there is no need to fiddle with environments:
+
+```{r read-saveloadrds}
+# note: this code will save to your current working directory
+# type getwd() and read ?setwd for details
+dat = data.table(v = 3)
+saveRDS(dat, file = "dat.rds")
+
+# and later, in another script
+old_dat <- readRDS("dat.rds")
+```
 
 ### Reading and writing other formats
 
-For "foreign" table formats (excel, stata, etc), use google. these I/O functions will always be in active development because the formats themselves are in flux. of course, it's unsafe to use such formats for long-term data storage
-
-details: feather is eventually for storage and transfer but is still under heavy development at this point.
+For "foreign" table formats (Excel, Stata, etc), use an internet search. These input and output tools will always be in active development because the formats themselves are in flux. of course, it is unwise to use any such formats for long-term data storage.
 
 ### Formatting the display of columns
 
-remember: do rounding as late as possible -- don't start during the cleaning and exploration phase
+While the way R displays dates (like `2017-11-22`) might not align with what is seen elsewhere, I suggest getting used to it rather than seeking a workaround, though I'm sure there are some (like making a new class). It will be easier for everyone looking at the data if it is in a standard format.
 
-#### Writing data out
-
-use fwrite squash for dates, etc
-
-#### Saving and reloading data
-
-RDS, dput and needing to fix pointers -- FAQ 5.3
-
-saving sets of tables (ref organizing data) and loading it into an environment
-
-review Gavin's post and comments below http://www.fromthebottomoftheheap.net/2012/04/01/saving-and-loading-r-objects/ 
+For the display of numbers, again, I suggest leaving it alone instead of, e.g., rounding or truncating everything. If it's really an issue that must be addressed, read about `scipen` in `?options`.
 
 
 ## Exploring data {#exploring-data}
@@ -1118,18 +1347,6 @@ DT
 
 we join so that we can update the table on the left
 
-As we saw in \@ref(dt-ifelse), we can do a SQL-style UPDATE like `x[i, var := ...]`:
-
-```{r dt-join-updatejoin}
-a[b, on=.(id), y := i.y ]    # create column, assign to each matched row of a 
-a[!b, on=.(id), y := 999L ]  # assign to unmatched rows of a
-```
-
-The `i.*` syntax allows for unambiguously referring to columns from `i` (in case the two tables have columns with the same names). Similarly, the `x.*` prefix can be used to refer to columns of `x`.
-
-```{block2 dt-updatejoin-beware, type='rmd-caution'}
-**Beware multiple matches in an update join.** When there are multiple matches (\@ref(join-multimatch)), an update join will apparently only use the last one. [Unfortunately](https://github.com/Rdatatable/data.table/issues/2022), this is done silently. Try `b[a, on=.(id), x := i.x, verbose = TRUE ][]`. At least with `verbose` on it helpfully reports that it assigned "to 3 row subset of 2 rows."
-```
 
 ### Programming data.table calls
 
@@ -1158,7 +1375,7 @@ for .SDcols -- logical or integer instead of character (though I can't see any r
 shortcuts: .SDcols = V1:V10, .SDcols = grep("^date_", names(DT)), etc
 
 
-```{r lapply-dt}
+```{r lapply-dt, eval=FALSE}
 DT[, 
    lapply(.SD, max)
 , by=z, .SDcols = { sapply(DT, is.numeric) }]
