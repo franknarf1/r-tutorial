@@ -7,11 +7,18 @@ site: bookdown::bookdown_site
 description: "This book covers the essentials of using R."
 ---
 
+```{r notes, echo=FALSE, eval=FALSE}
+# packages required for document compilation:
+data.table, magrittr
+hexbin, corrplot (tables chapter)
+
+```
+
 ```{r todo-general, echo=FALSE, eval=FALSE}
 # Exercises needed for most chapter.x level sections
 ```
 
-```{r echo=FALSE, results=FALSE}
+```{r startup, echo=FALSE, results=FALSE}
 # for some reason knitr seems to be using 64
 options(width = 90)
 ```

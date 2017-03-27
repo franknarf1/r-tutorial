@@ -219,18 +219,13 @@ img {
 <li><a href="tables.html#sorting"><span class="toc-section-number">3.7.3</span> Sorting</a></li>
 <li><a href="tables.html#explore-onevar"><span class="toc-section-number">3.7.4</span> Examining each variable</a></li>
 <li><a href="tables.html#explore-vars"><span class="toc-section-number">3.7.5</span> Examining variables jointly</a></li>
-<li><a href="tables.html#dcast"><span class="toc-section-number">3.7.6</span> Reshaping to wide</a></li>
+<li><a href="tables.html#dcast-browse"><span class="toc-section-number">3.7.6</span> Reshaping to wide</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#structuring-data"><span class="toc-section-number">3.8</span> Organizing relational tables</a><ul>
-<li><a href="tables.html#melt"><span class="toc-section-number">3.8.1</span> Reshaping to long format</a></li>
-<li><a href="tables.html#choosing-tables-and-keys"><span class="toc-section-number">3.8.2</span> Choosing tables and keys</a></li>
-<li><a href="tables.html#listing-levels"><span class="toc-section-number">3.8.3</span> Listing levels</a></li>
-<li><a href="tables.html#exploring-levels"><span class="toc-section-number">3.8.4</span> Exploring levels</a></li>
-<li><a href="tables.html#aggregate-join"><span class="toc-section-number">3.8.5</span> Collapsing</a></li>
-<li><a href="tables.html#expanding"><span class="toc-section-number">3.8.6</span> Expanding</a></li>
-<li><a href="tables.html#update-joins"><span class="toc-section-number">3.8.7</span> Update joins</a></li>
-<li><a href="tables.html#programming-data.table-calls"><span class="toc-section-number">3.8.8</span> Programming data.table calls</a></li>
-<li><a href="tables.html#bad-aggregations"><span class="toc-section-number">3.8.9</span> Bad aggregations</a></li>
+<li><a href="tables.html#redundant"><span class="toc-section-number">3.8.1</span> Removing redundant data</a></li>
+<li><a href="tables.html#melt"><span class="toc-section-number">3.8.2</span> Reshaping to long</a></li>
+<li><a href="tables.html#relational-updatejoin"><span class="toc-section-number">3.8.3</span> Preparing data with update joins</a></li>
+<li><a href="tables.html#program-tables"><span class="toc-section-number">3.8.4</span> Programming with tables</a></li>
 </ul></li>
 </ul></li>
 <li class="has-sub"><a href="work.html#work"><span class="toc-section-number">4</span> Getting work done</a><ul>
@@ -440,7 +435,7 @@ DT[, keep_cols]                  <span class="co"># error</span></code></pre></d
 # 1: NA NA NA</code></pre>
 <p>The package also offers <code>first</code> and <code>last</code>, which are simply special cases of <code>head</code> and <code>tail</code>.</p>
 <p>Fancier slicing methods, like <code>DT[x &gt; &quot;b&quot;, .(y, z)]</code>, will be introduced with the rest of the <code>DT[...]</code> syntax in <a href="tables.html#dt-syntax">3.2.4.3</a>.</p>
-<p>There are some syntactical shortcuts for slicing to a set of columns in <code>j</code>; see <a href="tables.html#program-cols">3.8.8.1</a>.</p>
+<p>There are some syntactical shortcuts for slicing to a set of columns in <code>j</code>; see <a href="tables.html#program-cols">3.8.4.3</a>.</p>
 </div>
 <div id="extracting-columns" class="section level3">
 <h3><span class="header-section-number">3.2.3</span> Extracting columns</h3>
@@ -529,7 +524,7 @@ DT[i, j, by]                    # R function arguments</code></pre>
 <li>We don’t have to define the task in <code>j</code> as a function of prespecified variables – we can just use any columns of the data.table.</li>
 <li>We don’t have to worry about intermediate variables (like <code>case</code> in the next example) contaminating the global environment.</li>
 </ul>
-<p>There are some syntactical shortcuts for writing a list of columns in <code>by=</code>; see <a href="tables.html#program-cols">3.8.8.1</a>.</p>
+<p>There are some syntactical shortcuts for writing a list of columns in <code>by=</code>; see <a href="tables.html#program-cols">3.8.4.3</a>.</p>
 </div>
 <div id="an-example" class="section level4">
 <h4><span class="header-section-number">3.2.4.4</span> An example</h4>
@@ -597,7 +592,7 @@ carsDT =<span class="st"> </span><span class="kw">data.table</span>(mtcars, <spa
 # 3:  0  1 102.14286
 # 4:  0  0 194.16667</code></pre>
 <p>So, we just write <code>j</code> of <code>DT[i,j,by]</code> as an expression to compute the summary statistic, optionally giving it a name by wrapping in <code>.(name = expression)</code>.</p>
-<p>Sections <a href="tables.html#explore-onevar">3.7.4</a> and <a href="tables.html#explore-vars">3.7.5</a> cover more options for exploring data with summary statistics; and <a href="tables.html#dcast">3.7.6</a> shows how to put this result in wide format (with, e.g., <code>am</code> on rows and <code>vs</code> on columns).</p>
+<p>Sections <a href="tables.html#explore-onevar">3.7.4</a> and <a href="tables.html#explore-vars">3.7.5</a> cover more options for exploring data with summary statistics; and <a href="tables.html#dcast-browse">3.7.6</a> shows how to put this result in wide format (with, e.g., <code>am</code> on rows and <code>vs</code> on columns).</p>
 <div id="dt-lapply" class="section level3">
 <h3><span class="header-section-number">3.3.1</span> Iterating over columns</h3>
 <p>Now suppose we want to compare mean horsepower, weight and displacement:</p>
@@ -611,7 +606,7 @@ carsDT[, <span class="kw">lapply</span>(.SD, mean), by=.(am, vs), .SDcols =<span
 # 4:  0  0 194.16667 4.104083 357.6167</code></pre>
 <p>So, we just write the relevant columns in <code>.SDcols</code> and refer to <code>.SD</code>, the <em><strong>S</strong>ubset of <strong>D</strong>ata</em>. Within each <code>by=</code> group, the query has access to <code>.SD</code> with rows for that group and columns as specified in <code>.SDcols</code>. <code>.SD</code>, like <code>.BY</code> seen earlier, is a special symbol available in some arguments of <code>DT[...]</code>, documented at <code>?.SD</code>.</p>
 <p>We can use <code>lapply</code> (a function designed for iterating over lists) here since <code>.SD</code> is a data.table, which is a list of column vectors (see <a href="basics.html#lapply-df">2.6.1</a>). The column names carry over to the result because <code>lapply</code> always carries over names.</p>
-<p>While dot notation <code>.SDcols=.(hp, wt, disp)</code> is not yet supported, there are a variety of convenience features for specifying <code>.SDcols</code>, covered in <a href="tables.html#program-cols">3.8.8.1</a>.</p>
+<p>While dot notation <code>.SDcols=.(hp, wt, disp)</code> is not yet supported, there are a variety of convenience features for specifying <code>.SDcols</code>, covered in <a href="tables.html#program-cols">3.8.4.3</a>.</p>
 
 <div class="rmd-caution">
 <strong>“Aggregating” across columns.</strong> One major red flag to look out for is the desire to “aggregate” columns by row, setting <code>by=1:nrow(DT)</code> and possibly using <code>unlist(.SD)</code> somewhere. Not only will this be incredibly slow, but it also suggests that the data is poorly organized, costing a lot of extra mental energy at every step. Section <a href="tables.html#structuring-data">3.8</a> explains some ways to format data better to avoid the need for this problematic approach.
@@ -896,6 +891,11 @@ ra &lt;-<span class="st"> </span>function(my_id) a[.(my_id), on=.(id)]
 # 1:  1 23 11
 # 2:  2 13 15</code></pre>
 <p>This is because we are working by each row of <code>b</code>. For <code>id</code> 1 in <code>b</code>, <code>y</code> is a single value, <code>11</code>. So really there is no point in summing <code>y</code> or otherwise aggregating columns from <code>i</code> when using <code>by=.EACHI</code>.</p>
+
+<div class="rmd-caution">
+<strong>Beware <code>DT[i,on=,j,by=bycols]</code>.</strong> Just to repeat: only <code>by=.EACHI</code> works in a join. Typing other <code>by=</code> values there will cause <code>i</code>’s columns to become unavailable. This <a href="https://github.com/Rdatatable/data.table/issues/733">may eventually change</a>.
+</div>
+<p></p>
 </div>
 <div id="joins-update" class="section level3">
 <h3><span class="header-section-number">3.5.4</span> Updating in a join</h3>
@@ -983,7 +983,7 @@ a =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">
 # 2:  2 1 13 15</code></pre>
 <p>Now each row of <code>b</code> only returns the first matching row (from the top) in <code>a</code>. Similarly, we could select <code>mult=&quot;last&quot;</code>.</p>
 </div>
-<div id="handling-unmatched-rows" class="section level4">
+<div id="join-unmatched" class="section level4">
 <h4><span class="header-section-number">3.5.6.2</span> Handling unmatched rows</h4>
 <p>Flipping it around, if we use <code>a</code> to index <code>b</code>, we have some index rows from <code>a</code> that don’t have any matches in <code>b</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">b[a, on=.(id)]</code></pre></div>
@@ -1001,7 +1001,7 @@ a =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">
 # 3:  2 15 1 13</code></pre>
 <p>Dropping unmatched elements of <code>i</code> is similar to filtering <code>_m == 3</code> in Stata.</p>
 
-<div class="rmd-details">
+<div class="rmd-caution">
 <strong>Diagnostics for merges.</strong> In Stata, joins report on how well they went – did everything match? how many didn’t match? The analogous question for an <code>x[i]</code> join is – for each row of <code>i</code>, how many matches did we find in <code>x</code>? To see the answer, use <code>b[a, on=.(id), .N, by=.EACHI]</code>.
 </div>
  
@@ -1079,6 +1079,23 @@ DT[.(<span class="dt">v =</span> <span class="dv">7</span>, <span class="dt">u =
 <pre><code>#    id u v
 # 1: NA 7 2</code></pre>
 <p>No match is found here since <code>i=.(v = 7, u = 2)</code> is mapped to the key <code>.(u,v)</code> by position and not by name.</p>
+<p>It can also be dangerous in another way. If the key consists of all columns, we might not notice when joining and finding no match:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setkey</span>(DT, id, u, v)
+DT[.(<span class="st">&quot;B&quot;</span>, <span class="dv">1</span>, <span class="dv">1</span>)]</code></pre></div>
+<pre><code>#    id u v
+# 1:  B 1 1</code></pre>
+<p>It looks like we found one match, but in fact we found zero. To avoid this, a custom manual browsing function can be written:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">r0 &lt;-<span class="st"> </span>function(..., <span class="dt">d =</span> DT) {
+  x =<span class="st"> </span>d[.(...), nomatch=<span class="dv">0</span>]
+  <span class="kw">print</span>(<span class="dt">x =</span> x, <span class="dt">nrows=</span><span class="ot">Inf</span>, <span class="dt">row.names=</span><span class="ot">FALSE</span>)
+  <span class="kw">invisible</span>(x)
+}
+
+<span class="kw">r0</span>(<span class="st">&quot;B&quot;</span>, <span class="dv">1</span>, <span class="dv">1</span>)</code></pre></div>
+<pre><code># Empty data.table (0 rows) of 3 cols: id,u,v</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">r0</span>(<span class="st">&quot;B&quot;</span>, <span class="dv">2</span>, <span class="dv">7</span>)</code></pre></div>
+<pre><code>#  id u v
+#   B 2 7</code></pre>
 <p>Most of the performance benefits of a key can also be achieved with an “index.” Unlike a key, which sorts the table, an index simply notes the order of the table with respect to some columns. A table can have many indices, but only one key:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setindex</span>(DT, id, u)
 <span class="kw">setindex</span>(DT, id, v)
@@ -1174,7 +1191,7 @@ DT[fileDT, on=.(<span class="dt">file_id =</span> id), year :<span class="er">=<
 <h3><span class="header-section-number">3.6.4</span> Date and time columns</h3>
 <p>Currently, <code>fread</code> does not recognize or translate time or date columns to native R formats.</p>
 <p>I recommend a couple packages, anytime and nanotime, for use when needed (more on which below). They have minimal dependencies and are maintained with an eye towards continued compatibility with the data.table package.</p>
-<div id="date-and-time-of-day-separately" class="section level4">
+<div id="idatetime" class="section level4">
 <h4><span class="header-section-number">3.6.4.1</span> Date and time of day, separately</h4>
 <p>I usually handle this using the formats provided with data.table, <code>IDate</code> and <code>ITime</code>, for date and time of day:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># example data</span>
@@ -1677,7 +1694,7 @@ carsDT[, <span class="kw">cor</span>(.SD) %&gt;%<span class="st"> </span>corrplo
 <pre><code># NULL</code></pre>
 <p>The trailing <code>()</code> on <code>corrplot::corrplot()</code> is necessary thanks to <a href="https://github.com/tidyverse/magrittr/issues/12">a magrittr bug</a> not yet fixed on CRAN.</p>
 </div>
-<div id="tabulating-1" class="section level4">
+<div id="table-mult" class="section level4">
 <h4><span class="header-section-number">3.7.5.2</span> Tabulating</h4>
 <p>Cross tabulation of discrete, or discretized, variables uses <code>table</code> or <code>.N</code> again:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">carsDT[, .N, by=.(am, <span class="dt">drat_bin =</span> <span class="kw">cut</span>(drat, <span class="dv">4</span>))]</code></pre></div>
@@ -1721,7 +1738,7 @@ In R Studio, a history of plots is saved in the “Plots” area and can be brow
 <p>An internet search will reveal many tools for estimating a model and plotting its fitted curve and confidence bands on top of the cloud of points, so I won’t cover those here. Usually, after finding such a tool, a read of its documentation and running its examples will be sufficient to figure it out. And for more than two variables, the same is true – a search online will serve very well, assuming the desired task is clear.</p>
 </div>
 </div>
-<div id="dcast" class="section level3">
+<div id="dcast-browse" class="section level3">
 <h3><span class="header-section-number">3.7.6</span> Reshaping to wide</h3>
 <p>The <code>dcast</code> function is a flexible way of making a table of summary stats. Extending some examples above…</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">carsDT[, .(.N, <span class="dt">mean_hp =</span> <span class="kw">mean</span>(hp)), by=.(am, <span class="dt">drat_bin =</span> <span class="kw">cut</span>(drat, <span class="dv">4</span>))][,
@@ -1733,121 +1750,403 @@ In R Studio, a history of plots is saved in the “Plots” area and can be brow
 # 3: (3.84,4.39]      3        8     113.6667       110.3750
 # 4: (4.39,4.93]     NA        2           NA        71.5000</code></pre>
 <p>So we get row counts and mean horsepower computed by auto/manual and bins of drat (rear-axle ration). Unfortunately, we get NA counts instead of zeros here, but if the goal is simply to explore data, that shouldn’t be a big deal.</p>
+<p>The <code>dcast</code> function and its counterpart, <code>melt</code>, are covered in <code>vignette(&quot;datatable-reshape&quot;)</code>. Also, <code>melt</code> comes up again in <a href="tables.html#structuring-data">3.8</a> below.</p>
 
 <div class="rmd-details">
-<strong>Melting and casting.</strong> The terms melting and casting (for conversion of a table to and from long format) are taken from the reshape2 package. My guess regarding the lingo is that it comes from mettalurgy and the thinking is: there is only one long-form arrangement of data, its liquid or molten form. There are many possible wide-form arrangements, each of which is casting the raw molten data into a rigid form using a different mold.
+<p><strong>Melting and casting.</strong> The functions started in <a href="https://CRAN.R-project.org/package=reshape2">the reshape2 package</a>, which contains extensions like melting and casting to and from arrays and matrices.</p>
+My guess is that the terms melting and casting (for conversion of a table to and from long format) are taken from mettalurgy. There is only one long-form arrangement of data – its liquid or molten form – and this form is the most flexible. In contrast, there are many rigid wide-form arrangements, each with its own mold to cast the molten data into.
 </div>
 <p></p>
-<p>The <code>dcast</code> function and its counterpart, <code>melt</code>, are covered in <code>vignette(&quot;datatable-reshape&quot;)</code>. Also, <code>melt</code> comes up again in <a href="tables.html#structuring-data">3.8</a>.</p>
 </div>
 </div>
 <div id="structuring-data" class="section level2">
 <h2><span class="header-section-number">3.8</span> Organizing relational tables</h2>
-<p>background: tidy data / database design</p>
-<p>data.table(CO2) might be a good example, with its redundant cols</p>
+<p>The best way to organize data in R takes advantage of the power to have multiple data sets in the workspace. With tabular data, that means using “relational” tables that can be linked together by various index columns.</p>
+<p>Some good references are the Wikipedia pages on <a href="https://en.wikipedia.org/wiki/Database_normalization">normalisation</a> and the <a href="https://en.wikipedia.org/wiki/Relational_model">relational model</a>; and <a href="https://www.jstatsoft.org/article/view/v059i10">Hadley Wickham’s exposition aimed at R users</a>.</p>
+<div id="redundant" class="section level3">
+<h3><span class="header-section-number">3.8.1</span> Removing redundant data</h3>
+<p>Consider this table of experimental results (see <code>?datasets::CO2</code>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">carbDT =<span class="st"> </span><span class="kw">data.table</span>(CO2)
+carbDT %&gt;%<span class="st"> </span><span class="kw">print</span>(<span class="dt">nrow =</span> <span class="dv">10</span>)</code></pre></div>
+<pre><code>#     Plant        Type  Treatment conc uptake
+#  1:   Qn1      Quebec nonchilled   95   16.0
+#  2:   Qn1      Quebec nonchilled  175   30.4
+#  3:   Qn1      Quebec nonchilled  250   34.8
+#  4:   Qn1      Quebec nonchilled  350   37.2
+#  5:   Qn1      Quebec nonchilled  500   35.3
+# ---                                         
+# 80:   Mc3 Mississippi    chilled  250   17.9
+# 81:   Mc3 Mississippi    chilled  350   17.9
+# 82:   Mc3 Mississippi    chilled  500   17.9
+# 83:   Mc3 Mississippi    chilled  675   18.9
+# 84:   Mc3 Mississippi    chilled 1000   19.9</code></pre>
+<p>Using the tools for inspecting and browsing tables (<a href="tables.html#dt-inspect">3.2.1</a>), we can see that each <code>Plant</code> always has the same type and treatment. Reading the docs for the data set, we see that these are in fact attributes of the plant codes.</p>
+<p>We can spin these plant code attributes off:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plantDT =<span class="st"> </span><span class="kw">unique</span>(carbDT[, .(Plant, Type, Treatment)])
+<span class="kw">setkey</span>(plantDT, Plant)
+carbDT[, <span class="kw">c</span>(<span class="st">&quot;Type&quot;</span>, <span class="st">&quot;Treatment&quot;</span>) :<span class="er">=</span><span class="st"> </span><span class="ot">NULL</span> ]
+<span class="kw">setkey</span>(carbDT, Plant, conc)</code></pre></div>
+<p>There are a few advantages to having data in this format:</p>
+<ol style="list-style-type: decimal">
+<li>The data takes up less space.</li>
+<li><p>The data will be easier to browse, since we won’t have columns spilling off the right side of the screen whenever inspecting the data; and, with the keys (<a href="tables.html#keys-indices">3.5.8.1</a>), we can subset like…</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">carbDT[.(<span class="st">&quot;Mc1&quot;</span>)]</code></pre></div>
+<pre><code>#    Plant conc uptake
+# 1:   Mc1   95   10.5
+# 2:   Mc1  175   14.9
+# 3:   Mc1  250   18.1
+# 4:   Mc1  350   18.9
+# 5:   Mc1  500   19.5
+# 6:   Mc1  675   22.2
+# 7:   Mc1 1000   21.9</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">carbDT[.(<span class="st">&quot;Mc1&quot;</span>, <span class="dv">95</span>)]</code></pre></div>
+<pre><code>#    Plant conc uptake
+# 1:   Mc1   95   10.5</code></pre></li>
+<li>While we are editing <code>carbDT</code> in the course of data cleaning or analysis, we no longer have to worry about accidentally introducing inconsistencies in <code>Type</code> and <code>Treatment</code> (causing them to vary within a <code>Plant</code> even though they shouldn’t).</li>
+<li>Any further <code>Plant</code>-level attributes we need to define (like date the sample was taken) can go into the dedicated table, <code>plantDT</code>, without cluttering up the experimental results in <code>carbDT</code>.</li>
+<li><p>Each table has keys that we can characterize and test. To verify that there are no duplicates, for example, we can do</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stopifnot</span>(
+  plantDT %&gt;%<span class="st"> </span>{ .[, .N, by=<span class="kw">key</span>(.)][N &gt;<span class="st"> </span>1L, .N ==<span class="st"> </span>0L] }
+)
+<span class="kw">stopifnot</span>(
+  carbDT %&gt;%<span class="st"> </span>{ .[, .N, by=<span class="kw">key</span>(.)][N &gt;<span class="st"> </span>1L, .N ==<span class="st"> </span>0L] }
+)</code></pre></div>
+<p>We are counting rows per value of the key, using the tabulation methods mentioned in <a href="tables.html#table-mult">3.7.5.2</a>, <code>DT[, .N, by=key(DT)]</code>; then filtering to key values having more than one row with <code>N &gt; 1</code>; and then asserting that there are no such rows <code>.N == 0L</code>. The <code>stopifnot</code> wrapper is R’s basic tool for assertions.</p>
+<p>Similarly, we can verify that every combination of type and treatment appears in <code>plantDT</code>; and that every combination of <code>Plant</code> and <code>conc</code> appears in <code>carbDT</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stopifnot</span>(
+  plantDT[<span class="kw">CJ</span>(<span class="dt">Type =</span> Type, <span class="dt">Treatment =</span> Treatment, <span class="dt">unique =</span> <span class="ot">TRUE</span>), <span class="dt">on=</span>.(Type, Treatment), .N, <span class="dt">by=</span>.EACHI][, <span class="kw">all</span>(N &gt;=<span class="st"> </span>1L)]
+)</code></pre></div>
+<p>We are using <code>CJ</code> to enumerate combinations; then counting matches using merge diagnostics (<a href="tables.html#join-unmatched">3.5.6.2</a>); and then asserting that every combo was matched by at least 1 row. The repetition of column names required here is annoying and will hopefully be addressed by nicer syntax soon. For the time being, there’s…</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test_cols =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Type&quot;</span>, <span class="st">&quot;Treatment&quot;</span>)
+test_lvls =<span class="st"> </span><span class="kw">do.call</span>(CJ, <span class="kw">c</span>(plantDT[, ..test_cols], <span class="dt">unique=</span><span class="ot">TRUE</span>))
+<span class="kw">stopifnot</span>(
+  plantDT[test_lvls, <span class="dt">on=</span>test_cols, .N, <span class="dt">by=</span>.EACHI][, <span class="kw">all</span>(N &gt;=<span class="st"> </span><span class="dv">1</span>)]
+)</code></pre></div>
+<p><code>do.call</code> and other helpful programming tricks are covered in @ref().</p></li>
+</ol>
+<p>Continuing the example, if we had many more types of plants, besides Quebec and Mississippi, we might end up assigning attributes to these as well (like country or latitude). In that case, we would want a further table:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">typeDT =<span class="st"> </span><span class="kw">data.table</span>(
+  <span class="dt">Type =</span> <span class="kw">c</span>(<span class="st">&quot;Quebec&quot;</span>, <span class="st">&quot;Mississippi&quot;</span>, <span class="st">&quot;Queens&quot;</span>, <span class="st">&quot;Montreal&quot;</span>), 
+  <span class="dt">Country =</span> <span class="kw">c</span>(<span class="st">&quot;CA&quot;</span>, <span class="st">&quot;US&quot;</span>, <span class="st">&quot;US&quot;</span>, <span class="st">&quot;CA&quot;</span>)
+)</code></pre></div>
+<pre><code>#           Type Country
+# 1:      Quebec      CA
+# 2: Mississippi      US
+# 3:      Queens      US
+# 4:    Montreal      CA</code></pre>
+</div>
 <div id="melt" class="section level3">
-<h3><span class="header-section-number">3.8.1</span> Reshaping to long format</h3>
-<p>todo cite <code>vignette(&quot;datatable-reshape&quot;)</code> again</p>
+<h3><span class="header-section-number">3.8.2</span> Reshaping to long</h3>
+<p>Continuing the last example, imagine we started out with the <code>CO2</code> data set in wide format, with concentrations on columns:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT =<span class="st"> </span><span class="kw">dcast</span>(<span class="kw">data.table</span>(CO2), Plant ~<span class="st"> </span>conc, <span class="dt">value.var=</span><span class="st">&quot;uptake&quot;</span>)</code></pre></div>
+<pre><code>#     Plant   95  175  250  350  500  675 1000
+#  1:   Qn1 16.0 30.4 34.8 37.2 35.3 39.2 39.7
+#  2:   Qn2 13.6 27.3 37.1 41.8 40.6 41.4 44.3
+#  3:   Qn3 16.2 32.4 40.3 42.1 42.9 43.9 45.5
+#  4:   Qc1 14.2 24.1 30.3 34.6 32.5 35.4 38.7
+#  5:   Qc3 15.1 21.0 38.1 34.0 38.9 39.6 41.4
+#  6:   Qc2  9.3 27.3 35.0 38.8 38.6 37.5 42.4
+#  7:   Mn3 11.3 19.4 25.8 27.9 28.5 28.1 27.8
+#  8:   Mn2 12.0 22.0 30.6 31.8 32.4 31.1 31.5
+#  9:   Mn1 10.6 19.2 26.2 30.0 30.9 32.4 35.5
+# 10:   Mc2  7.7 11.4 12.3 13.0 12.5 13.7 14.4
+# 11:   Mc3 10.6 18.0 17.9 17.9 17.9 18.9 19.9
+# 12:   Mc1 10.5 14.9 18.1 18.9 19.5 22.2 21.9</code></pre>
+<p>This format is arguably better for browsing (<a href="tables.html#dcast-browse">3.7.6</a>), but it will become a hassle if we want to find a quantitative relationship between values of concentration (on the columns) and uptake (in the cells). Stubbornly sticking to this data format often (or maybe always) leads to bad code that “aggregates” over columns or runs separately for each and every row (<a href="tables.html#dt-lapply">3.3.1</a>).</p>
+<p>To convert to a format amenable to analysis (you know, where numbers are numbers), we use <code>melt</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mDT =<span class="st"> </span><span class="kw">melt</span>(DT, <span class="dt">id =</span> <span class="st">&quot;Plant&quot;</span>, <span class="dt">variable.name =</span> <span class="st">&quot;conc&quot;</span>, <span class="dt">value.var =</span> <span class="st">&quot;uptake&quot;</span>, <span class="dt">variable.factor =</span> <span class="ot">FALSE</span>)
+<span class="kw">setkey</span>(mDT, Plant, conc)
+
+<span class="co"># convert to numeric</span>
+mDT[, conc :<span class="er">=</span><span class="st"> </span><span class="kw">as.numeric</span>(conc)]</code></pre></div>
+<p>It is not essential to set keys (<a href="tables.html#keys-indices">3.5.8.1</a>), but it’s fairly low-cost and makes thinking through the structure of the data clearer.</p>
+<p>Even when it’s not as egregious as storing numbers as column names, it is very often the case that multiple columns store similar information that really would be more naturally stored in a single column.</p>
+<p>Stubbornly sticking to wide form can create problems particularly with dynamic data (that is updated over time). For example, if you have a column for “daily sales online” and another column for “daily sales in-store”, what happense when you must also store data on “sales through our affiliate”? Adding more and more columns on-the-fly creates an unnecessary headache – what class should this new column have? what are the rules for where it can have missing values? is its name consistent with those of related columns (“sales_online”, “sales_offline”, “sales_partner”, “sales_newpartner”)? This is what is meant by <a href="https://en.wikipedia.org/wiki/Database_normalization#Minimize_redesign_when_extending_the_database_structure">“minimise redesign when extending” (on Wikipedia)</a>.</p>
+<p>See <code>vignette(&quot;datatable-reshape&quot;)</code> for more on reshaping tables.</p>
 </div>
-<div id="choosing-tables-and-keys" class="section level3">
-<h3><span class="header-section-number">3.8.2</span> Choosing tables and keys</h3>
-</div>
-<div id="listing-levels" class="section level3">
-<h3><span class="header-section-number">3.8.3</span> Listing levels</h3>
-<p>make a “skeleton” for the data</p>
-<p>consider igraph if the order does not matter</p>
-<p>use CJ(col1, col2), maybe seq</p>
-<p>if it’s not cartesian, then DT[, col2, by=col1]</p>
-</div>
-<div id="exploring-levels" class="section level3">
-<h3><span class="header-section-number">3.8.4</span> Exploring levels</h3>
-<p>setdiff, union, intersect (works with data.table from 1.9.8+)</p>
-<p>does the table have any dupes?</p>
-<p>does the table have all levels?</p>
-<p>stopifnot</p>
-</div>
-<div id="aggregate-join" class="section level3">
-<h3><span class="header-section-number">3.8.5</span> Collapsing</h3>
-<p>essentially an aggregate join – we join so that we can aggregate</p>
-<p>maybe collapsing because we want a table aggregated at a higher level</p>
-<p>maybe collapsing because we have “duplicates” hanging around for other reasons</p>
-<p>unique, duplicated + fromLast</p>
+<div id="relational-updatejoin" class="section level3">
+<h3><span class="header-section-number">3.8.3</span> Preparing data with update joins</h3>
+<p>The set of relational tables is just to structure the data. During analysis, of course we often need to combine variables from the disparate tables; and for this, an update join will always suffice (<a href="tables.html#joins-update">3.5.4</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat =<span class="st"> </span><span class="kw">copy</span>(carbDT)
+dat[plantDT, on=.(Plant), <span class="st">`</span><span class="dt">:=</span><span class="st">`</span>(<span class="dt">Type =</span> i.Type, <span class="dt">Treatment =</span> i.Treatment)]
+<span class="co"># then do some analysis with dat</span></code></pre></div>
 
 <div class="rmd-caution">
-<strong>Beware <code>DT[i,on=,j,by=bycols]</code>.</strong> Only <code>by=.EACHI</code> works in a join. Typing other <code>by=</code> values there will cause <code>i</code>’s columns to become unavailable. This <a href="https://github.com/Rdatatable/data.table/issues/733">may eventually change</a>.
+<strong>Dummies for categorical variables.</strong> As a side note: when preparing data for analysis, it is almost never necessary to convert categorical variables (<a href="basics.html#factors">2.1.12</a>) into a set 1/0 dummies (one for each category). Most R functions for analysis recognize and play nice with factors (or character columns).
 </div>
 <p></p>
-<p>use CJ for missing levels</p>
 </div>
-<div id="expanding" class="section level3">
-<h3><span class="header-section-number">3.8.6</span> Expanding</h3>
-<p>CJ + unique</p>
-<p>use CJ for missing levels</p>
-<p>Suppose we have a table measuring wealth by person and year.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">psn_id =</span> <span class="kw">c</span>(1L, 1L, 2L), <span class="dt">year =</span> <span class="kw">c</span>(1998L, 2000L, 2000L), <span class="dt">wealth =</span> <span class="dv">24</span>:<span class="dv">22</span>)</code></pre></div>
-<pre><code>#    psn_id year wealth
-# 1:      1 1998     24
-# 2:      1 2000     23
-# 3:      2 2000     22</code></pre>
-<p>Now we want a person-year row for every every person and for every year from the lowest to the highest. We can do this with <code>CJ</code> and a standard join:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">psn_id =</span> <span class="kw">c</span>(1L, 1L, 2L), <span class="dt">year =</span> <span class="kw">c</span>(1998L, 2000L, 2000L), <span class="dt">wealth =</span> <span class="dv">24</span>:<span class="dv">22</span>)</code></pre></div>
-<pre><code>#    psn_id year wealth
-# 1:      1 1998     24
-# 2:      1 2000     23
-# 3:      2 2000     22</code></pre>
+<div id="program-tables" class="section level3">
+<h3><span class="header-section-number">3.8.4</span> Programming with tables</h3>
+<div id="passing-a-list-of-arguments" class="section level4">
+<h4><span class="header-section-number">3.8.4.1</span> Passing a list of arguments</h4>
+<p>To pass multiple arguments to a function programmatically, use <code>do.call</code>. Here’s an example for construction of a Cartesian product table (from <a href="tables.html#redundant">3.8.1</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_args =<span class="st"> </span><span class="kw">c</span>(plantDT[, <span class="kw">c</span>(<span class="st">&quot;Type&quot;</span>, <span class="st">&quot;Treatment&quot;</span>)], <span class="dt">unique=</span><span class="ot">TRUE</span>)</code></pre></div>
+<pre><code># $Type
+#  [1] Quebec      Quebec      Quebec      Quebec      Quebec      Quebec      Mississippi
+#  [8] Mississippi Mississippi Mississippi Mississippi Mississippi
+# Levels: Quebec Mississippi
+# 
+# $Treatment
+#  [1] nonchilled nonchilled nonchilled chilled    chilled    chilled    nonchilled
+#  [8] nonchilled nonchilled chilled    chilled    chilled   
+# Levels: nonchilled chilled
+# 
+# $unique
+# [1] TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">do.call</span>(CJ, my_args)</code></pre></div>
+<pre><code>#           Type  Treatment
+# 1:      Quebec nonchilled
+# 2:      Quebec    chilled
+# 3: Mississippi nonchilled
+# 4: Mississippi    chilled</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ... does the same as entering each argument manually ...</span>
+<span class="kw">CJ</span>(<span class="dt">Type =</span> plantDT$Type, <span class="dt">Treatment =</span> plantDT$Treatment, <span class="dt">unique=</span><span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>#           Type  Treatment
+# 1:      Quebec nonchilled
+# 2:      Quebec    chilled
+# 3: Mississippi nonchilled
+# 4: Mississippi    chilled</code></pre>
+<p>This is the closest R gets to Python’s <code>**kwargs</code> syntax.</p>
 </div>
-<div id="update-joins" class="section level3">
-<h3><span class="header-section-number">3.8.7</span> Update joins</h3>
-<p>we join so that we can update the table on the left</p>
-</div>
-<div id="programming-data.table-calls" class="section level3">
-<h3><span class="header-section-number">3.8.8</span> Programming data.table calls</h3>
-<p>getting into the weeds</p>
-<p>DT[, if (.GRP == 1) {}, by=.(x,y,z)] for testing, or alternately browser()</p>
-<p>eval-quote for constructing efficient calls</p>
-<p>mget / get</p>
-<p>review related options</p>
-<p>options() %&gt;% .[grep(“datatable”, names(.))]</p>
-<div id="program-cols" class="section level4">
-<h4><span class="header-section-number">3.8.8.1</span> Specifying columns</h4>
-<p>shortcuts when entering j, by, .SDcols</p>
-<p>a:b, .(a,b), !(whatever), -(whatever)</p>
-<p>for .SDcols – logical or integer instead of character (though I can’t see any reason to use those)</p>
-<p>shortcuts: .SDcols = V1:V10, .SDcols = grep(“^date_”, names(DT)), etc</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[, 
-   <span class="kw">lapply</span>(.SD, max)
-, by=z, .SDcols =<span class="st"> </span>{ <span class="kw">sapply</span>(DT, is.numeric) }]</code></pre></div>
-<p><code>.SDcols</code> is used to filter the columns that appear in <code>.SD</code>, the subset of data available in <code>j</code>.</p>
-</div>
-</div>
-<div id="bad-aggregations" class="section level3">
-<h3><span class="header-section-number">3.8.9</span> Bad aggregations</h3>
-<p>todo – i prolly don’t need a section; there are countless ways to format data badly. but i do want to warn about by=1:nrow(DT) et al… for now, i’ll put a warning block in the agg section higher up</p>
-<p>Suppose we have data like …</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">badDT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>), <span class="dt">A =</span> <span class="dv">1</span>:<span class="dv">3</span>, <span class="dt">B =</span> -<span class="dv">1</span>:<span class="dv">1</span>)</code></pre></div>
-<pre><code>#    col A  B
-# 1:   A 1 -1
-# 2:   A 2  0
-# 3:   B 3  1</code></pre>
-<p>Values in the <code>col</code> column refers to the other columns. We might want to do things like …</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># select the column using col</span>
-badDT[, .SD[[col]], by=<span class="dv">1</span>:<span class="kw">nrow</span>(badDT)]
-<span class="co"># take the larger column</span>
-badDT[, <span class="kw">max</span>(<span class="kw">unlist</span>(.SD)), by=<span class="dv">1</span>:<span class="kw">nrow</span>(badDT), .SDcols=<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>)]</code></pre></div>
-<p>Or we might have data like …</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">badparDT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">parent =</span> <span class="kw">c</span>(<span class="st">&quot;A1&quot;</span>,<span class="st">&quot;A2&quot;</span>,<span class="st">&quot;B1&quot;</span>), <span class="dt">kid1 =</span> <span class="kw">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>), <span class="dt">kid2 =</span> <span class="kw">c</span>(<span class="st">&quot;d&quot;</span>, <span class="st">&quot;d&quot;</span>, <span class="ot">NA</span>), <span class="dt">kid3 =</span> <span class="kw">c</span>(<span class="st">&quot;f&quot;</span>, <span class="st">&quot;f&quot;</span>, <span class="ot">NA</span>))</code></pre></div>
-<pre><code>#    parent kid1 kid2 kid3
-# 1:     A1    a    d    f
-# 2:     A2    a    d    f
-# 3:     B1    b   NA   NA</code></pre>
-<p>Parent names consist of the family code plus a number; and kids are arrayed on columns, with as many such columns as are needed for the largest family. We might want to do things like …</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># count kids per parent</span>
-badDT[, .SD[[col]], by=<span class="dv">1</span>:<span class="kw">nrow</span>(badDT)]
-<span class="co"># count parents per family</span>
-badDT[, <span class="kw">max</span>(<span class="kw">unlist</span>(.SD)), by=<span class="dv">1</span>:<span class="kw">nrow</span>(badDT), .SDcols=<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>)]</code></pre></div>
-<p>While such code might technically run,</p>
-<p>… split this section into iterating over columns and iterating over groups. explain that by= will take any appropriate-length vector, warn about by=1:nrow(DT)</p>
+<div id="writing-wrapper-functions" class="section level4">
+<h4><span class="header-section-number">3.8.4.2</span> Writing wrapper functions</h4>
+<p>When writing functions, the <code>...</code> pseudo-argument can be used to capture multiple arguments not known ahead of time, usually to pass them on to other functions. Here’s an example for browsing keyed tables (from <a href="tables.html#keys-indices">3.5.8.1</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">r &lt;-<span class="st"> </span>function(d, ...) {
+    <span class="co"># verify that the table has a key</span>
+    <span class="kw">stopifnot</span>(<span class="kw">length</span>(<span class="kw">key</span>(d)) &gt;<span class="st"> </span>0L)
 
+    <span class="co"># grab the tuple</span>
+    tuple =<span class="st"> </span><span class="kw">list</span>(...)
+
+    <span class="co"># join</span>
+    x =<span class="st"> </span>d[tuple, nomatch=<span class="dv">0</span>]
+
+    <span class="co"># print</span>
+    <span class="kw">print</span>(<span class="dt">x =</span> x, <span class="dt">nrows=</span><span class="ot">Inf</span>, <span class="dt">row.names=</span><span class="ot">FALSE</span>)
+
+    <span class="co"># return</span>
+    <span class="kw">invisible</span>(x)
+}
+
+<span class="kw">r</span>(carbDT, <span class="st">&quot;Mc1&quot;</span>, <span class="dv">1000</span>)</code></pre></div>
+<pre><code>#  Plant conc uptake
+#    Mc1 1000   21.9</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_tuple =<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;Mc1&quot;</span>, <span class="dv">1000</span>)
+<span class="kw">do.call</span>(r, <span class="kw">c</span>(<span class="kw">list</span>(<span class="dt">d =</span> carbDT), my_tuple))</code></pre></div>
+<pre><code>#  Plant conc uptake
+#    Mc1 1000   21.9</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_tuples =<span class="st"> </span><span class="kw">list</span>(
+  <span class="dt">tup_a =</span> <span class="kw">list</span>(<span class="st">&quot;Mc1&quot;</span>, <span class="dv">1000</span>),
+  <span class="dt">tup_b =</span> <span class="kw">list</span>(<span class="st">&quot;Mc3&quot;</span>, <span class="dv">250</span>)
+)
+
+my_tuples %&gt;%<span class="st"> </span><span class="kw">lapply</span>(do.call, <span class="dt">what =</span> CJ)</code></pre></div>
+<pre><code># $tup_a
+#     V1   V2
+# 1: Mc1 1000
+# 
+# $tup_b
+#     V1  V2
+# 1: Mc3 250</code></pre>
+<p>This function is just for illustration; and I don’t mean to suggest that it’s terribly useful.</p>
+</div>
+<div id="program-cols" class="section level4">
+<h4><span class="header-section-number">3.8.4.3</span> Specifying columns</h4>
+<p>Several arguments in <code>DT[...]</code> support extended syntax for specifying columns, similar to Stata:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># example data</span>
+exDT =<span class="st"> </span><span class="kw">data.table</span>(CO2)[<span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">2</span>,<span class="dv">60</span>,<span class="dv">65</span>)]</code></pre></div>
+<ul>
+<li><p><code>j</code> slices</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># basic usage</span>
+exDT[, <span class="kw">c</span>(<span class="st">&quot;conc&quot;</span>, <span class="st">&quot;uptake&quot;</span>)]</code></pre></div>
+<pre><code>#    conc uptake
+# 1:   95   16.0
+# 2:  175   30.4
+# 3:  350   27.9
+# 4:  175   14.9</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># range</span>
+exDT[, conc:uptake]</code></pre></div>
+<pre><code>#    conc uptake
+# 1:   95   16.0
+# 2:  175   30.4
+# 3:  350   27.9
+# 4:  175   14.9</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># excluding with -</span>
+exDT[, -<span class="kw">c</span>(<span class="st">&quot;conc&quot;</span>, <span class="st">&quot;uptake&quot;</span>)]</code></pre></div>
+<pre><code>#    Plant        Type  Treatment
+# 1:   Qn1      Quebec nonchilled
+# 2:   Qn1      Quebec nonchilled
+# 3:   Mn3 Mississippi nonchilled
+# 4:   Mc1 Mississippi    chilled</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># excluding with !</span>
+exDT[, !<span class="kw">c</span>(<span class="st">&quot;conc&quot;</span>, <span class="st">&quot;uptake&quot;</span>)]</code></pre></div>
+<pre><code>#    Plant        Type  Treatment
+# 1:   Qn1      Quebec nonchilled
+# 2:   Qn1      Quebec nonchilled
+# 3:   Mn3 Mississippi nonchilled
+# 4:   Mc1 Mississippi    chilled</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># programming</span>
+cols =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;conc&quot;</span>, <span class="st">&quot;uptake&quot;</span>)
+exDT[, ..cols]</code></pre></div>
+<pre><code>#    conc uptake
+# 1:   95   16.0
+# 2:  175   30.4
+# 3:  350   27.9
+# 4:  175   14.9</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># programming in-line</span>
+exDT[, <span class="kw">sapply</span>(exDT, is.numeric), with=<span class="ot">FALSE</span>]</code></pre></div>
+<pre><code>#    conc uptake
+# 1:   95   16.0
+# 2:  175   30.4
+# 3:  350   27.9
+# 4:  175   14.9</code></pre></li>
+<li><p><code>.SDcols</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># basic usage</span>
+exDT[, <span class="kw">lapply</span>(.SD, max), .SDcols =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;conc&quot;</span>, <span class="st">&quot;uptake&quot;</span>)]</code></pre></div>
+<pre><code>#    conc uptake
+# 1:  350   30.4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># range</span>
+exDT[, <span class="kw">lapply</span>(.SD, max), .SDcols =<span class="st"> </span>conc:uptake]</code></pre></div>
+<pre><code>#    conc uptake
+# 1:  350   30.4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># conditional</span>
+exDT[, <span class="kw">lapply</span>(.SD, max), .SDcols =<span class="st"> </span><span class="kw">sapply</span>(exDT, is.numeric)]</code></pre></div>
+<pre><code>#    conc uptake
+# 1:  350   30.4</code></pre></li>
+<li><p><code>by</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># basic</span>
+exDT[, .N, by=<span class="st">&quot;Plant&quot;</span>]</code></pre></div>
+<pre><code>#    Plant N
+# 1:   Qn1 2
+# 2:   Mn3 1
+# 3:   Mc1 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># no quotes</span>
+exDT[, .N, by=.(Plant)]</code></pre></div>
+<pre><code>#    Plant N
+# 1:   Qn1 2
+# 2:   Mn3 1
+# 3:   Mc1 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># defined and labeled on-the-fly</span>
+exDT[, .N, by=.(Plant, <span class="dt">v =</span> conc +<span class="st"> </span>uptake)]</code></pre></div>
+<pre><code>#    Plant     v N
+# 1:   Qn1 111.0 1
+# 2:   Qn1 205.4 1
+# 3:   Mn3 377.9 1
+# 4:   Mc1 189.9 1</code></pre></li>
+</ul>
+<p>Column numbers also work in <code>.SDcols</code> and <code>j</code>, but don’t do that.</p>
+</div>
+<div id="dt-eval" class="section level4">
+<h4><span class="header-section-number">3.8.4.4</span> Defining data.table calls</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># example data</span>
+exDT =<span class="st"> </span><span class="kw">data.table</span>(CO2)[<span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">2</span>,<span class="dv">60</span>,<span class="dv">65</span>)]</code></pre></div>
+<p>When an <code>i</code> or <code>j</code> call in <code>DT[i, j, by]</code> must be constructed programmatically, it is best to store it as an expression and then to evaluate that expression inside <code>DT[...]</code>, for efficiency. Alternately, the entire <code>DT[...]</code> expression could be constructed and evaluated.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_bycol =<span class="st"> &quot;Type&quot;</span>
+my_sumcol =<span class="st"> &quot;uptake&quot;</span>
+myj =<span class="st"> </span><span class="kw">substitute</span>(<span class="kw">sum</span>(my_sumcol), <span class="kw">list</span>(<span class="dt">my_sumcol =</span> <span class="kw">as.name</span>(my_sumcol)))
+
+<span class="co"># eval j expression</span>
+exDT[ , <span class="kw">eval</span>(myj), by=my_bycol]</code></pre></div>
+<pre><code>#           Type   V1
+# 1:      Quebec 46.4
+# 2: Mississippi 42.8</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># eval entire expression</span>
+mycall =<span class="st"> </span><span class="kw">as.call</span>(<span class="kw">list</span>(<span class="kw">as.symbol</span>(<span class="st">&quot;[&quot;</span>), <span class="kw">as.symbol</span>(<span class="st">&quot;exDT&quot;</span>), <span class="dt">j =</span> myj, <span class="dt">by =</span> my_bycol))</code></pre></div>
+<pre><code># exDT[j = sum(uptake), by = &quot;Type&quot;]</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">eval</span>(mycall)</code></pre></div>
+<pre><code>#           Type   V1
+# 1:      Quebec 46.4
+# 2: Mississippi 42.8</code></pre>
+<p>Uglier but quicker (in terms of programming time) is to use <code>get</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">exDT[, <span class="kw">sum</span>(<span class="kw">get</span>(my_sumcol)), by=my_bycol]</code></pre></div>
+<pre><code>#           Type   V1
+# 1:      Quebec 46.4
+# 2: Mississippi 42.8</code></pre>
+<p>Along with <code>get</code> for a single column, there’s <code>mget</code> for a list of them. This can be useful for update joins. Revisiting <a href="tables.html#relational-updatejoin">3.8.3</a>, we can do…</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat =<span class="st"> </span><span class="kw">copy</span>(carbDT)
+up_cols =<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">names</span>(plantDT), <span class="st">&quot;Plant&quot;</span>)
+dat[plantDT, on=.(Plant), (up_cols) :<span class="er">=</span><span class="st"> </span><span class="kw">mget</span>(<span class="kw">sprintf</span>(<span class="st">&quot;i.%s&quot;</span>, up_cols))]</code></pre></div>
+</div>
+<div id="data.table-options" class="section level4">
+<h4><span class="header-section-number">3.8.4.5</span> Data.table options</h4>
+<p>The data.table package has many global options related to optimisation and console output. To review them…</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>() %&gt;%<span class="st"> </span>.[<span class="kw">grep</span>(<span class="st">&quot;datatable&quot;</span>, <span class="kw">names</span>(.))]</code></pre></div>
+<pre><code># $datatable.alloccol
+# [1] 1024
+# 
+# $datatable.allow.cartesian
+# [1] FALSE
+# 
+# $datatable.auto.index
+# [1] TRUE
+# 
+# $datatable.dfdispatchwarn
+# [1] TRUE
+# 
+# $datatable.fread.datatable
+# [1] TRUE
+# 
+# $datatable.fread.dec.experiment
+# [1] TRUE
+# 
+# $datatable.fread.dec.locale
+# [1] &quot;French_France.1252&quot;
+# 
+# $datatable.integer64
+# [1] &quot;integer64&quot;
+# 
+# $datatable.nomatch
+# [1] NA
+# 
+# $datatable.old.unique.by.key
+# [1] FALSE
+# 
+# $datatable.optimize
+# [1] Inf
+# 
+# $datatable.print.class
+# [1] FALSE
+# 
+# $datatable.print.nrows
+# [1] 100
+# 
+# $datatable.print.rownames
+# [1] TRUE
+# 
+# $datatable.print.topn
+# [1] 5
+# 
+# $datatable.showProgress
+# [1] TRUE
+# 
+# $datatable.use.index
+# [1] TRUE
+# 
+# $datatable.verbose
+# [1] FALSE
+# 
+# $datatable.warnredundantby
+# [1] TRUE</code></pre>
+<p>Options can be set like <code>options(name = value)</code>.</p>
+</div>
+<div id="debugging" class="section level4">
+<h4><span class="header-section-number">3.8.4.6</span> Debugging</h4>
+<p>When writing complicated by-group code of the form…</p>
+<pre><code>DT[, {
+  ...
+  do stuff
+  ...
+}, by=.(x, y, z)]</code></pre>
+<p>I find that a convenient way to debug is to run it for the first group only:</p>
+<pre><code>DT[, if (.GRP == 1L) {
+  ...
+  do stuff
+  ...
+}, by=.(x, y, z)]</code></pre>
+<p>This is similar to the “dry run” approach to parsing dates (looking at only the first row or two, see <a href="tables.html#idatetime">3.6.4.1</a>). R has debugging tools like <code>debugonce</code> and <code>browser</code> as well, though they may take some getting used to for those who, like me, are not used to debugging properly.</p>
+
+</div>
 </div>
 </div>
 </div>

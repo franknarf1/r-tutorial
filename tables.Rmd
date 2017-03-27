@@ -350,7 +350,7 @@ carsDT[, .(mean_hp = mean(hp)), by=.(am, vs)]
 
 So, we just write `j` of `DT[i,j,by]` as an expression to compute the summary statistic, optionally giving it a name by wrapping in `.(name = expression)`.
 
-Sections \@ref(explore-onevar) and \@ref(explore-vars) cover more options for exploring data with summary statistics; and \@ref(dcast) shows how to put this result in wide format (with, e.g., `am` on rows and `vs` on columns).
+Sections \@ref(explore-onevar) and \@ref(explore-vars) cover more options for exploring data with summary statistics; and \@ref(dcast-browse) shows how to put this result in wide format (with, e.g., `am` on rows and `vs` on columns).
 
 ### Iterating over columns {#dt-lapply}
 
@@ -630,6 +630,10 @@ a[b, on=.(id), .(sum(x), sum(y)), by=.EACHI] # we only get one y
 
 This is because we are working by each row of `b`. For `id` 1 in `b`, `y` is a single value, `11`. So really there is no point in summing `y` or otherwise aggregating columns from `i` when using `by=.EACHI`.
 
+```{block2 dt-join-beware, type='rmd-caution'}
+**Beware `DT[i,on=,j,by=bycols]`.** Just to repeat: only `by=.EACHI` works in a join. Typing other `by=` values there will cause `i`'s columns to become unavailable. This [may eventually change](https://github.com/Rdatatable/data.table/issues/733).
+```
+
 ### Updating in a join {#joins-update}
 
 Continuing from the last example, we are computing `sum(x)` per row of `b`, so maybe we want to save the result as a column in `b`:
@@ -706,7 +710,7 @@ a[b, on=.(id), mult="first"]
 
 Now each row of `b` only returns the first matching row (from the top) in `a`. Similarly, we could select `mult="last"`.
 
-#### Handling unmatched rows
+#### Handling unmatched rows {#join-unmatched}
 
 Flipping it around, if we use `a` to index `b`, we have some index rows from `a` that don't have any matches in `b`:
 
@@ -722,7 +726,7 @@ b[a, on=.(id), nomatch=0]
 
 Dropping unmatched elements of `i` is similar to filtering `_m == 3` in Stata.
 
-```{block2 dt-merge-res, type='rmd-details'}
+```{block2 dt-merge-res, type='rmd-caution'}
 **Diagnostics for merges.** In Stata, joins report on how well they went -- did everything match? how many didn't match? The analogous question for an `x[i]` join is -- for each row of `i`, how many matches did we find in `x`? To see the answer, use `b[a, on=.(id), .N, by=.EACHI]`.
 ```
 ```{block2 dt-merge-stata, type='rmd-details'}
@@ -794,6 +798,26 @@ DT[.(v = 7, u = 2)]
 ```
 
 No match is found here since `i=.(v = 7, u = 2)` is mapped to the key `.(u,v)` by position and not by name.
+
+It can also be dangerous in another way. If the key consists of all columns, we might not notice when joining and finding no match:
+
+```{r join-nomatchandyetmatch}
+setkey(DT, id, u, v)
+DT[.("B", 1, 1)]
+```
+
+It looks like we found one match, but in fact we found zero. To avoid this, a custom manual browsing function can be written:
+
+```{r browsetab}
+r0 <- function(..., d = DT) {
+  x = d[.(...), nomatch=0]
+  print(x = x, nrows=Inf, row.names=FALSE)
+  invisible(x)
+}
+
+r0("B", 1, 1)
+r0("B", 2, 7)
+```
 
 Most of the performance benefits of a key can also be achieved with an "index." Unlike a key, which sorts the table, an index simply notes the order of the table with respect to some columns. A table can have many indices, but only one key:
 
@@ -915,7 +939,7 @@ Currently, `fread` does not recognize or translate time or date columns to nativ
 
 I recommend a couple packages, anytime and nanotime, for use when needed (more on which below). They have minimal dependencies and are maintained with an eye towards continued compatibility with the data.table package.
 
-#### Date and time of day, separately
+#### Date and time of day, separately {#idatetime}
 
 I usually handle this using the formats provided with data.table, `IDate` and `ITime`, for date and time of day:
 
@@ -1332,7 +1356,7 @@ carsDT[, cor(.SD) %>% corrplot::corrplot() %>% {NULL}, .SDcols = sapply(carsDT, 
 
 The trailing `()` on `corrplot::corrplot()` is necessary thanks to [a magrittr bug](https://github.com/tidyverse/magrittr/issues/12) not yet fixed on CRAN.
 
-#### Tabulating
+#### Tabulating {#table-mult}
 
 Cross tabulation of discrete, or discretized, variables uses `table` or `.N` again:
 
@@ -1370,7 +1394,7 @@ In R Studio, a history of plots is saved in the "Plots" area and can be browsed 
 
 An internet search will reveal many tools for estimating a model and plotting its fitted curve and confidence bands on top of the cloud of points, so I won't cover those here. Usually, after finding such a tool, a read of its documentation and running its examples will be sufficient to figure it out. And for more than two variables, the same is true -- a search online will serve very well, assuming the desired task is clear.
 
-### Reshaping to wide {#dcast}
+### Reshaping to wide {#dcast-browse}
 
 The `dcast` function is a flexible way of making a table of summary stats. Extending some examples above...
 
@@ -1382,166 +1406,336 @@ carsDT[, .(.N, mean_hp = mean(hp)), by=.(am, drat_bin = cut(drat, 4))][,
 
 So we get row counts and mean horsepower computed by auto/manual and bins of drat (rear-axle ration). Unfortunately, we get NA counts instead of zeros here, but if the goal is simply to explore data, that shouldn't be a big deal.
 
+The `dcast` function and its counterpart, `melt`, are covered in `vignette("datatable-reshape")`. Also, `melt` comes up again in \@ref(structuring-data) below. 
+
 ```{block2 meltcast-names, type='rmd-details'}
-**Melting and casting.** The terms melting and casting (for conversion of a table to and from long format) are taken from the reshape2 package. My guess regarding the lingo is that it comes from mettalurgy and the thinking is: there is only one long-form arrangement of data -- its liquid or molten form. On the other hand, there are many possible wide-form arrangements, each of which can be though of as a different mold that can be cast to.
+**Melting and casting.** The functions started in [the reshape2 package](https://CRAN.R-project.org/package=reshape2), which contains extensions like melting and casting to and from arrays and matrices.
+
+My guess is that the terms melting and casting (for conversion of a table to and from long format) are taken from mettalurgy. There is only one long-form arrangement of data -- its liquid or molten form -- and this form is the most flexible. In contrast, there are many rigid wide-form arrangements, each with its own mold to cast the molten data into.
 ```
 
-The `dcast` function and its counterpart, `melt`, are covered in `vignette("datatable-reshape")`. Also, `melt` comes up again in \@ref(structuring-data).
 
 
 ## Organizing relational tables {#structuring-data}
 
-background: tidy data / database design
+The best way to organize data in R takes advantage of the power to have multiple data sets in the workspace. With tabular data, that means using "relational" tables that can be linked together by various index columns.
 
-data.table(CO2) might be a good example, with its redundant cols
-
-### Reshaping to long format {#melt}
-
-todo cite `vignette("datatable-reshape")` again
+Some good references are the Wikipedia pages on [normalisation](https://en.wikipedia.org/wiki/Database_normalization) and the [relational model](https://en.wikipedia.org/wiki/Relational_model); and [Hadley Wickham's exposition aimed at R users](https://www.jstatsoft.org/article/view/v059i10).
 
 
-### Choosing tables and keys
+### Removing redundant data {#redundant}
 
+Consider this table of experimental results (see `?datasets::CO2`):
 
-### Listing levels
-
-make a "skeleton" for the data
-
-consider igraph if the order does not matter
-
-use CJ(col1, col2), maybe seq
-
-if it's not cartesian, then DT[, col2, by=col1]
-
-
-### Exploring levels
-
-setdiff, union, intersect (works with data.table from 1.9.8+)
-
-does the table have any dupes?
-
-does the table have all levels?
-
-stopifnot
-
-### Collapsing {#aggregate-join}
-
-essentially an aggregate join -- we join so that we can aggregate
-
-maybe collapsing because we want a table aggregated at a higher level
-
-maybe collapsing because we have "duplicates" hanging around for other reasons
-
-unique, duplicated + fromLast
-
-```{block2 dt-join-beware, type='rmd-caution'}
-**Beware `DT[i,on=,j,by=bycols]`.** Only `by=.EACHI` works in a join. Typing other `by=` values there will cause `i`'s columns to become unavailable. This [may eventually change](https://github.com/Rdatatable/data.table/issues/733).
+```{r redundant-pre}
+carbDT = data.table(CO2)
+carbDT %>% print(nrow = 10)
 ```
 
-use CJ for missing levels
+Using the tools for inspecting and browsing tables (\@ref(dt-inspect)), we can see that each `Plant` always has the same type and treatment. Reading the docs for the data set, we see that these are in fact attributes of the plant codes.
 
-### Expanding
+We can spin these plant code attributes off:
 
-CJ + unique
+```{r redundant}
+plantDT = unique(carbDT[, .(Plant, Type, Treatment)])
+setkey(plantDT, Plant)
+carbDT[, c("Type", "Treatment") := NULL ]
+setkey(carbDT, Plant, conc)
+```
 
+There are a few advantages to having data in this format:
 
-use CJ for missing levels
+1. The data takes up less space.
+1. The data will be easier to browse, since we won't have columns spilling off the right side of the screen whenever inspecting the data; and, with the keys (\@ref(keys-indices)), we can subset like...
+ 
+    ```{r relational-brows}
+    carbDT[.("Mc1")]
+    carbDT[.("Mc1", 95)]
+    ```
 
-Suppose we have a table measuring wealth by person and year.
+1. While we are editing `carbDT` in the course of data cleaning or analysis, we no longer have to worry about accidentally introducing inconsistencies in `Type` and `Treatment` (causing them to vary within a `Plant` even though they shouldn't).
+1. Any further `Plant`-level attributes we need to define (like date the sample was taken) can go into the dedicated table, `plantDT`, without cluttering up the experimental results in `carbDT`.
+1. Each table has keys that we can characterize and test. To verify that there are no duplicates, for example, we can do
 
-```{r expandrows-pre, echo=1}
-DT = data.table(psn_id = c(1L, 1L, 2L), year = c(1998L, 2000L, 2000L), wealth = 24:22)
+    ```{r assert-unique}
+    stopifnot(
+      plantDT %>% { .[, .N, by=key(.)][N > 1L, .N == 0L] }
+    )
+    stopifnot(
+      carbDT %>% { .[, .N, by=key(.)][N > 1L, .N == 0L] }
+    )
+    ```
+      
+    We are counting rows per value of the key, using the tabulation methods mentioned in \@ref(table-mult), `DT[, .N, by=key(DT)]`; then filtering to key values having more than one row with `N > 1`; and then asserting that there are no such rows `.N == 0L`. The `stopifnot` wrapper is R's basic tool for assertions.
+      
+    Similarly, we can verify that every combination of type and treatment appears in `plantDT`; and that every combination of `Plant` and `conc` appears in `carbDT`:
+      
+    ```{r assert-alllevels}
+    stopifnot(
+      plantDT[CJ(Type = Type, Treatment = Treatment, unique = TRUE), on=.(Type, Treatment), .N, by=.EACHI][, all(N >= 1L)]
+    )
+    ```
+      
+    We are using `CJ` to enumerate combinations; then counting matches using merge diagnostics (\@ref(join-unmatched)); and then asserting that every combo was matched by at least 1 row. The repetition of column names required here is annoying and will hopefully be addressed by nicer syntax soon. For the time being, there's...
+    
+    ```{r assert-alllevels-clean}    
+    test_cols = c("Type", "Treatment")
+    test_lvls = do.call(CJ, c(plantDT[, ..test_cols], unique=TRUE))
+    stopifnot(
+      plantDT[test_lvls, on=test_cols, .N, by=.EACHI][, all(N >= 1)]
+    )
+    ```
+    
+    `do.call` and other helpful programming tricks are covered in \@ref().
+
+Continuing the example, if we had many more types of plants, besides Quebec and Mississippi, we might end up assigning attributes to these as well (like country or latitude). In that case, we would want a further table:
+
+```{r yetanothertable, echo=1}
+typeDT = data.table(
+  Type = c("Quebec", "Mississippi", "Queens", "Montreal"), 
+  Country = c("CA", "US", "US", "CA")
+)
+typeDT
+```
+
+### Reshaping to long {#melt}
+
+Continuing the last example, imagine we started out with the `CO2` data set in wide format, with concentrations on columns:
+
+```{r toowide, echo=1}
+DT = dcast(data.table(CO2), Plant ~ conc, value.var="uptake")
 DT
 ```
 
-Now we want a person-year row for every every person and for every year from the lowest to the highest. We can do this with `CJ` and a standard join:
+This format is arguably better for browsing (\@ref(dcast-browse)), but it will become a hassle if we want to find a quantitative relationship between values of concentration (on the columns) and uptake (in the cells). Stubbornly sticking to this data format often (or maybe always) leads to bad code that "aggregates" over columns or runs separately for each and every row (\@ref(dt-lapply)).
 
-```{r expandrows, echo=1}
-DT = data.table(psn_id = c(1L, 1L, 2L), year = c(1998L, 2000L, 2000L), wealth = 24:22)
-DT
+To convert to a format amenable to analysis (you know, where numbers are numbers), we use `melt`:
+
+```{r toowide-fix}
+mDT = melt(DT, id = "Plant", variable.name = "conc", value.var = "uptake", variable.factor = FALSE)
+setkey(mDT, Plant, conc)
+
+# convert to numeric
+mDT[, conc := as.numeric(conc)]
 ```
 
+It is not essential to set keys (\@ref(keys-indices)), but it's fairly low-cost and makes thinking through the structure of the data clearer.
 
-### Update joins
+Even when it's not as egregious as storing numbers as column names, it is very often the case that multiple columns store similar information that really would be more naturally stored in a single column. 
 
-we join so that we can update the table on the left
+Stubbornly sticking to wide form can create problems particularly with dynamic data (that is updated over time). For example, if you have a column for "daily sales online" and another column for "daily sales in-store", what happens when you must also store data on "sales through our affiliate"? Adding more and more columns on-the-fly is asking for trouble: what class should this new column have? what are the rules for where it can have missing values? is its name consistent with those of related columns ("sales_online", "sales_offline", "sales_partner", "sales_newpartner")? This problem is what is meant by ["minimise redesign when extending" (on Wikipedia's normalisation page)](https://en.wikipedia.org/wiki/Database_normalization#Minimize_redesign_when_extending_the_database_structure).
 
+See `vignette("datatable-reshape")` for more on reshaping tables.
 
-### Programming data.table calls
+### Preparing data with update joins {#relational-updatejoin}
 
-getting into the weeds
+The set of relational tables is just to structure the data. During analysis, of course we often need to combine variables from the disparate tables; and for this, an update join will always suffice (\@ref(joins-update)):
 
-DT[, if (.GRP == 1) {}, by=.(x,y,z)] for testing, or alternately browser()
+```{r updatejoin-analysis}
+dat = copy(carbDT)
+dat[plantDT, on=.(Plant), `:=`(Type = i.Type, Treatment = i.Treatment)]
+# then do some analysis with dat
+```
 
-eval-quote for constructing efficient calls
+```{block2 dontdummy, type='rmd-caution'}
+**Dummies for categorical variables.** As a side note: when preparing data for analysis, it is almost never necessary to convert categorical variables (\@ref(factors)) into a set 1/0 dummies (one for each category). Most R functions for analysis recognize and play nice with factors (or character columns).
+```
 
-mget / get
+### Programming with tables {#program-tables}
 
+#### Passing a list of arguments
 
-review related options
+To pass multiple arguments to a function programmatically, use `do.call`. Here's an example for construction of a Cartesian product table (from \@ref(redundant)):
 
-options() %>% .[grep("datatable", names(.))]
+```{r do.call, echo = -2}
+my_args = c(plantDT[, c("Type", "Treatment")], unique=TRUE)
+my_args
+
+do.call(CJ, my_args)
+# ... does the same as entering each argument manually ...
+CJ(Type = plantDT$Type, Treatment = plantDT$Treatment, unique=TRUE)
+```
+
+This is the closest R gets to Python's `**kwargs` syntax.
+
+#### Writing wrapper functions
+
+When writing functions, the `...` pseudo-argument can be used to capture multiple arguments not known ahead of time, usually to pass them on to other functions. Here's an example for browsing keyed tables (from \@ref(keys-indices)):
+
+```{r wrapdots}
+r <- function(d, ...) {
+    # verify that the table has a key
+    stopifnot(length(key(d)) > 0L)
+
+    # grab the tuple
+    tuple = list(...)
+
+    # join
+    x = d[tuple, nomatch=0]
+
+    # print
+    print(x = x, nrows=Inf, row.names=FALSE)
+
+    # return
+    invisible(x)
+}
+
+r(carbDT, "Mc1", 1000)
+
+my_tuple = list("Mc1", 1000)
+do.call(r, c(list(d = carbDT), my_tuple))
+
+my_tuples = list(
+  tup_a = list("Mc1", 1000),
+  tup_b = list("Mc3", 250)
+)
+
+my_tuples %>% lapply(do.call, what = CJ)
+```
+
+This function is just for illustration; and I don't mean to suggest that it's terribly useful.
 
 #### Specifying columns {#program-cols}
 
-shortcuts when entering j, by, .SDcols
+Several arguments in `DT[...]` support extended syntax for specifying columns, similar to Stata:
 
-a:b, .(a,b), !(whatever), -(whatever)
-
-for .SDcols -- logical or integer instead of character (though I can't see any reason to use those)
-
-
-shortcuts: .SDcols = V1:V10, .SDcols = grep("^date_", names(DT)), etc
-
-
-```{r lapply-dt, eval=FALSE}
-DT[, 
-   lapply(.SD, max)
-, by=z, .SDcols = { sapply(DT, is.numeric) }]
+```{r shortcols}
+# example data
+exDT = data.table(CO2)[c(1:2,60,65)]
 ```
 
-`.SDcols` is used to filter the columns that appear in `.SD`, the subset of data available in `j`. 
+- `j` slices
 
-### Bad aggregations
+    ```{r shortcols-jslice}
+    # basic usage
+    exDT[, c("conc", "uptake")]
 
-todo -- i prolly don't need a section; there are countless ways to format data badly. but i do want to warn about by=1:nrow(DT) et al... for now, i'll put a warning block in the agg section higher up
+    # range
+    exDT[, conc:uptake]
 
-Suppose we have data like ...
+    # excluding with -
+    exDT[, -c("conc", "uptake")]
+    # excluding with !
+    exDT[, !c("conc", "uptake")]
+    
+    # programming
+    cols = c("conc", "uptake")
+    exDT[, ..cols]
+        
+    # programming in-line
+    exDT[, sapply(exDT, is.numeric), with=FALSE]
+    ```
 
-```{r dt-badagg-pre, echo=1}
-badDT = data.table(col = c("A","A","B"), A = 1:3, B = -1:1)
-badDT
+- `.SDcols`
+
+    ```{r shortcols-sdcols}
+    # basic usage
+    exDT[, lapply(.SD, max), .SDcols = c("conc", "uptake")]
+
+    # range
+    exDT[, lapply(.SD, max), .SDcols = conc:uptake]
+    
+    # conditional
+    exDT[, lapply(.SD, max), .SDcols = sapply(exDT, is.numeric)]
+    ```
+
+- `by`
+
+    ```{r shortcols-by}
+    # basic
+    exDT[, .N, by="Plant"]
+
+    # no quotes
+    exDT[, .N, by=.(Plant)]
+
+    # defined and labeled on-the-fly
+    exDT[, .N, by=.(Plant, v = conc + uptake)]
+    ```
+
+Column numbers also work in `.SDcols` and `j`, but don't do that.
+
+#### Defining data.table calls {#dt-eval}
+
+```{r evalparse-pre}
+# example data
+exDT = data.table(CO2)[c(1:2,60,65)]
 ```
 
-Values in the `col` column refers to the other columns. We might want to do things like ...
+When an `i` or `j` call in `DT[i, j, by]` must be constructed programmatically, it is best to store it as an expression and then to evaluate that expression inside `DT[...]`, for efficiency. Alternately, the entire `DT[...]` expression could be constructed and evaluated.
 
-```{r dt-badagg, eval=FALSE}
-# select the column using col
-badDT[, .SD[[col]], by=1:nrow(badDT)]
-# take the larger column
-badDT[, max(unlist(.SD)), by=1:nrow(badDT), .SDcols=c("A","B")]
+```{r evalparse, echo=-10}
+my_bycol = "Type"
+my_sumcol = "uptake"
+myj = substitute(sum(my_sumcol), list(my_sumcol = as.name(my_sumcol)))
+
+# eval j expression
+exDT[ , eval(myj), by=my_bycol]
+
+# eval entire expression
+mycall = as.call(list(as.symbol("["), as.symbol("exDT"), j = myj, by = my_bycol))
+mycall
+eval(mycall)
 ```
 
-Or we might have data like ...
+Uglier but quicker (in terms of programming time) is to use `get`:
 
-```{r dt-badagg2-pre, echo=1}
-badparDT = data.table(parent = c("A1","A2","B1"), kid1 = c("a","a","b"), kid2 = c("d", "d", NA), kid3 = c("f", "f", NA))
-badparDT
+```{r getem}
+exDT[, sum(get(my_sumcol)), by=my_bycol]
 ```
 
-Parent names consist of the family code plus a number; and kids are arrayed on columns, with as many such columns as are needed for the largest family. We might want to do things like ...
+Along with `get` for a single column, there's `mget` for a list of them. This can be useful for update joins. Revisiting \@ref(relational-updatejoin), we can do...
 
-```{r dt-badagg2, eval=FALSE}
-# count kids per parent
-badDT[, .SD[[col]], by=1:nrow(badDT)]
-# count parents per family
-badDT[, max(unlist(.SD)), by=1:nrow(badDT), .SDcols=c("A","B")]
+```{r mget-updatejoin}
+dat = copy(carbDT)
+up_cols = setdiff(names(plantDT), "Plant")
+dat[plantDT, on=.(Plant), (up_cols) := mget(sprintf("i.%s", up_cols))]
 ```
 
+```{r todo-dtq, eval=FALSE, echo=FALSE}
+note .() issue per 
+http://stackoverflow.com/questions/41228076/using-data-tables-shortcut-in-quoted-expressions
 
-While such code might technically run, 
+```
 
-... split this section into iterating over columns and iterating over groups. explain that by= will take any appropriate-length vector, warn about by=1:nrow(DT)
+#### Data.table options
+
+The data.table package has many global options related to optimisation and console output. To review them...
+
+```{r dt-opts}
+options() %>% .[grep("datatable", names(.))]
+```
+
+Options can be set like `options(name = value)`.
+
+#### Debugging
+
+When writing complicated by-group code of the form...
+
+```
+DT[, {
+  ...
+  do stuff
+  ...
+}, by=.(x, y, z)]
+```
+
+I find that a convenient way to debug is to run it for the first group only:
+
+
+```
+DT[, if (.GRP == 1L) {
+  ...
+  do stuff
+  ...
+}, by=.(x, y, z)]
+```
+
+This is similar to the "dry run" approach to parsing dates (looking at only the first row or two, see \@ref(idatetime)). R has debugging tools like `debugonce` and `browser` as well, though they may take some getting used to for those who, like me, are not used to debugging properly.
+
+
+
+
+
 
 
 
