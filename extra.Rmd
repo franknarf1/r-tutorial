@@ -242,6 +242,8 @@ don't refer to columns by number
 
 ## Program structure {#programming}
 
+never ever do DT <- DT[...], makes the code impossible to maintain, and it's not like you need to economise on RAM or something
+
 source is for scripts, load is for data, etc.
 
 decide what should be a parameter and use it as such, obvs.

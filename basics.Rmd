@@ -119,10 +119,13 @@ The names of an objects' elements can be accessed with the `names` function.
 
 To assign names programmatically...
 
-```{r setnames-base, error = TRUE}
+```{r setnames-base-bad, error = TRUE}
 nms = c("a", "b")
 c(nms[1] = 1, nms[2] = 2) # error
-setNames(c(1, 2), nms)    # the correct syntax
+```
+```{r setnames-base, echo=-1}
+nms = c("a", "b")
+setNames(c(1, 2), nms)    # use this instead
 ```
 
 ### Missing values {#na}
@@ -320,7 +323,7 @@ factor(c("Worst", "Best", "Not Bad", "Worst"), levels = c("Worst", "Not Bad", "B
 
 To see whether a factor has an order, use `is.ordered`. Details on manipulating factors can be found at `?factor` and linked pages.
 
-### Sorting, rank, order
+### Sorting, rank, order {#sort-rank-order}
 
 There are three key functions here:
 
@@ -494,7 +497,7 @@ oh, that section already exists, well, move it up here or carefully avoid elemen
 
 The full set of arithmetic operators is documented at `?Arithmetic`. The integer division and modulo operators look like `%/%` and `%%`, but otherwise, everything is standard. Other basic functions include `round`, `floor`, `ceiling`, `min`, `max`, `log`, `exp`, `sqrt`.
 
-Essentially all computations involving missing values will return a missing value. One exception is `NA^0` since no matter what number the true value is, this expression will evaluate to `1`. (Recall that a missing value means "there is some true value, but we don't know what it is.") The `min` and `max` functions can ignore missing values, as noted in their docs. \@ref(dt-summary-stats) covers other summarizing functions, all of which similarly offer to ignore `NA`s.
+Essentially all computations involving missing values will return a missing value. One exception is `NA^0` since no matter what number the true value is, this expression will evaluate to `1`. (Recall that a missing value means "there is some true value, but we don't know what it is.") The `min` and `max` functions can ignore missing values, as noted in their docs. \@ref(explore-onevar) and \@ref(explore-vars) cover other summarizing functions, most of which similarly offer to ignore `NA`s.
 
 As in [any other programming environment](http://floating-point-gui.de/), floating point arithmetic in R can trip up calculations. For example, try `.1 + .05 - .15 == 0`.
 

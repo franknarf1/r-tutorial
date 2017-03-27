@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-03-24" />
+<meta name="date" content="2017-03-27" />
 
 
 <meta name="description" content="This book covers the essentials of using R.">
@@ -125,7 +125,7 @@ img {
 <li><a href="basics.html#assigning-to-a-list-element"><span class="toc-section-number">2.1.10</span> Assigning to a list element</a></li>
 <li><a href="basics.html#initializing"><span class="toc-section-number">2.1.11</span> Initializing</a></li>
 <li><a href="basics.html#factors"><span class="toc-section-number">2.1.12</span> Factors</a></li>
-<li><a href="basics.html#sorting-rank-order"><span class="toc-section-number">2.1.13</span> Sorting, rank, order</a></li>
+<li><a href="basics.html#sort-rank-order"><span class="toc-section-number">2.1.13</span> Sorting, rank, order</a></li>
 <li><a href="basics.html#testing-membership"><span class="toc-section-number">2.1.14</span> Testing membership</a></li>
 <li><a href="basics.html#exercises"><span class="toc-section-number">2.1.15</span> Exercises</a></li>
 </ul></li>
@@ -178,13 +178,13 @@ img {
 <li><a href="tables.html#extracting-columns"><span class="toc-section-number">3.2.3</span> Extracting columns</a></li>
 <li><a href="tables.html#extensions-to-the-data.frame-class"><span class="toc-section-number">3.2.4</span> Extensions to the data.frame class</a></li>
 </ul></li>
-<li class="has-sub"><a href="tables.html#aggregation"><span class="toc-section-number">3.3</span> Aggregation</a><ul>
+<li class="has-sub"><a href="tables.html#dt-agg"><span class="toc-section-number">3.3</span> Aggregation</a><ul>
 <li><a href="tables.html#dt-lapply"><span class="toc-section-number">3.3.1</span> Iterating over columns</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#dt-subassign"><span class="toc-section-number">3.4</span> Modifying data</a><ul>
 <li><a href="tables.html#dt-col-create"><span class="toc-section-number">3.4.1</span> Creating columns</a></li>
 <li><a href="tables.html#removing-columns"><span class="toc-section-number">3.4.2</span> Removing columns</a></li>
-<li><a href="tables.html#replacing-entire-columns"><span class="toc-section-number">3.4.3</span> Replacing entire columns</a></li>
+<li><a href="tables.html#dt-replace-all"><span class="toc-section-number">3.4.3</span> Replacing entire columns</a></li>
 <li><a href="tables.html#dt-ifelse"><span class="toc-section-number">3.4.4</span> Replacing columns conditionally</a></li>
 <li><a href="tables.html#other-in-place-modifications"><span class="toc-section-number">3.4.5</span> Other in-place modifications</a></li>
 <li><a href="tables.html#avoiding-in-place-modification"><span class="toc-section-number">3.4.6</span> Avoiding in-place modification</a></li>
@@ -206,7 +206,7 @@ img {
 <li><a href="tables.html#rbindlist-read"><span class="toc-section-number">3.6.3</span> <code>rbindlist</code> to combine tables</a></li>
 <li><a href="tables.html#dates-times"><span class="toc-section-number">3.6.4</span> Date and time columns</a></li>
 <li><a href="tables.html#character-columns"><span class="toc-section-number">3.6.5</span> Character columns</a></li>
-<li><a href="tables.html#factor-columns"><span class="toc-section-number">3.6.6</span> Factor columns</a></li>
+<li><a href="tables.html#dt-recode"><span class="toc-section-number">3.6.6</span> Categorical columns</a></li>
 <li><a href="tables.html#list-columns"><span class="toc-section-number">3.6.7</span> List columns</a></li>
 <li><a href="tables.html#fwrite"><span class="toc-section-number">3.6.8</span> <code>fwrite</code> to write delimited files</a></li>
 <li><a href="tables.html#dt-saveload"><span class="toc-section-number">3.6.9</span> Saving and loading R objects</a></li>
@@ -217,11 +217,12 @@ img {
 <li><a href="tables.html#browse-env"><span class="toc-section-number">3.7.1</span> Browsing loaded objects</a></li>
 <li><a href="tables.html#dt-subset"><span class="toc-section-number">3.7.2</span> Subsetting</a></li>
 <li><a href="tables.html#sorting"><span class="toc-section-number">3.7.3</span> Sorting</a></li>
-<li><a href="tables.html#dt-summary-stats"><span class="toc-section-number">3.7.4</span> Summaries</a></li>
-<li><a href="tables.html#dcast"><span class="toc-section-number">3.7.5</span> Reshaping to wide</a></li>
+<li><a href="tables.html#explore-onevar"><span class="toc-section-number">3.7.4</span> Examining each variable</a></li>
+<li><a href="tables.html#explore-vars"><span class="toc-section-number">3.7.5</span> Examining variables jointly</a></li>
+<li><a href="tables.html#dcast"><span class="toc-section-number">3.7.6</span> Reshaping to wide</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#structuring-data"><span class="toc-section-number">3.8</span> Organizing relational tables</a><ul>
-<li><a href="tables.html#reshaping-to-long-format"><span class="toc-section-number">3.8.1</span> Reshaping to long format</a></li>
+<li><a href="tables.html#melt"><span class="toc-section-number">3.8.1</span> Reshaping to long format</a></li>
 <li><a href="tables.html#choosing-tables-and-keys"><span class="toc-section-number">3.8.2</span> Choosing tables and keys</a></li>
 <li><a href="tables.html#listing-levels"><span class="toc-section-number">3.8.3</span> Listing levels</a></li>
 <li><a href="tables.html#exploring-levels"><span class="toc-section-number">3.8.4</span> Exploring levels</a></li>
@@ -366,12 +367,14 @@ L3 =<span class="st"> </span><span class="kw">c</span>(L, L2)</code></pre></div>
 <p></p>
 <p>To assign names programmatically…</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nms =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>)
-<span class="kw">c</span>(nms[<span class="dv">1</span>] =<span class="st"> </span><span class="dv">1</span>, nms[<span class="dv">2</span>] =<span class="st"> </span><span class="dv">2</span>) <span class="co"># error</span>
-<span class="kw">setNames</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), nms)    <span class="co"># the correct syntax</span></code></pre></div>
+<span class="kw">c</span>(nms[<span class="dv">1</span>] =<span class="st"> </span><span class="dv">1</span>, nms[<span class="dv">2</span>] =<span class="st"> </span><span class="dv">2</span>) <span class="co"># error</span></code></pre></div>
 <pre><code># Error: &lt;text&gt;:2:10: unexpected &#39;=&#39;
 # 1: nms = c(&quot;a&quot;, &quot;b&quot;)
 # 2: c(nms[1] =
 #             ^</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setNames</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), nms)    <span class="co"># use this instead</span></code></pre></div>
+<pre><code># a b 
+# 1 2</code></pre>
 </div>
 <div id="na" class="section level3">
 <h3><span class="header-section-number">2.1.6</span> Missing values</h3>
@@ -541,7 +544,7 @@ See <a href="basics.html#order-ops">2.3.5</a> for more details.
 # Levels: Worst &lt; Not Bad &lt; Best</code></pre>
 <p>To see whether a factor has an order, use <code>is.ordered</code>. Details on manipulating factors can be found at <code>?factor</code> and linked pages.</p>
 </div>
-<div id="sorting-rank-order" class="section level3">
+<div id="sort-rank-order" class="section level3">
 <h3><span class="header-section-number">2.1.13</span> Sorting, rank, order</h3>
 <p>There are three key functions here:</p>
 <ul>
@@ -693,7 +696,7 @@ m[im]</code></pre></div>
 <div id="arithmetic" class="section level3">
 <h3><span class="header-section-number">2.3.2</span> Arithmetic</h3>
 <p>The full set of arithmetic operators is documented at <code>?Arithmetic</code>. The integer division and modulo operators look like <code>%/%</code> and <code>%%</code>, but otherwise, everything is standard. Other basic functions include <code>round</code>, <code>floor</code>, <code>ceiling</code>, <code>min</code>, <code>max</code>, <code>log</code>, <code>exp</code>, <code>sqrt</code>.</p>
-<p>Essentially all computations involving missing values will return a missing value. One exception is <code>NA^0</code> since no matter what number the true value is, this expression will evaluate to <code>1</code>. (Recall that a missing value means “there is some true value, but we don’t know what it is.”) The <code>min</code> and <code>max</code> functions can ignore missing values, as noted in their docs. <a href="tables.html#dt-summary-stats">3.7.4</a> covers other summarizing functions, all of which similarly offer to ignore <code>NA</code>s.</p>
+<p>Essentially all computations involving missing values will return a missing value. One exception is <code>NA^0</code> since no matter what number the true value is, this expression will evaluate to <code>1</code>. (Recall that a missing value means “there is some true value, but we don’t know what it is.”) The <code>min</code> and <code>max</code> functions can ignore missing values, as noted in their docs. <a href="tables.html#explore-onevar">3.7.4</a> and <a href="tables.html#explore-vars">3.7.5</a> cover other summarizing functions, most of which similarly offer to ignore <code>NA</code>s.</p>
 <p>As in <a href="http://floating-point-gui.de/">any other programming environment</a>, floating point arithmetic in R can trip up calculations. For example, try <code>.1 + .05 - .15 == 0</code>.</p>
 
 <div class="rmd-caution">
@@ -787,10 +790,9 @@ x /<span class="st"> </span>y</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(fortunes)
 <span class="kw">fortune</span>(<span class="dv">347</span>)</code></pre></div>
 <pre><code># 
-# This is a bit like asking how should I tweak my sailboat so I can explore
-# the ocean floor.
-#    -- Roger Koenker (in response to a question about tweaking the quantreg
-#       package to handle probit and heckit models)
+# This is a bit like asking how should I tweak my sailboat so I can explore the ocean floor.
+#    -- Roger Koenker (in response to a question about tweaking the quantreg package to
+#       handle probit and heckit models)
 #       R-help (May 2013)</code></pre>
 <p>This adds all of the package’s functions and other objects to the search path, so we can write <code>fortune(111)</code> instead of the more verbose <code>fortunes::fortune(111)</code>. The downside to attaching a package is the risk of “namespace conflicts”:</p>
 <ul>
@@ -878,8 +880,8 @@ f =<span class="st"> </span>function(x){
 <p>We see that the modification does not carry over to the input itself. Usually, nothing created or altered inside a function does, meaning there are no <a href="http://programmers.stackexchange.com/q/40297/104607">side effects</a>. There are ways to write functions with side effects in base R (<code>&lt;&lt;-</code> and <code>assign</code>), but these are discouraged:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fortunes::<span class="kw">fortune</span>(<span class="st">&quot;the assign function&quot;</span>)</code></pre></div>
 <pre><code># 
-# The only people who should use the assign function are those who fully
-# understand why you should never use the assign function.
+# The only people who should use the assign function are those who fully understand why you
+# should never use the assign function.
 #    -- Greg Snow
 #       R-help (July 2009)</code></pre>
 <p>The data.table package, introduced in <a href="tables.html#data-table">3.1.2</a>, has a different design philosophy regarding the mutability of objects by functions. <em>Its core functions almost all hinge on side effects</em>.</p>
@@ -932,7 +934,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nrow</code></pre></div>
 <pre><code># function (x) 
 # dim(x)[1L]
-# &lt;bytecode: 0x000000001435c388&gt;
+# &lt;bytecode: 0x00000000145e8868&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">replace</code></pre></div>
 <pre><code># function (x, list, values) 
@@ -940,7 +942,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 #     x[list] &lt;- values
 #     x
 # }
-# &lt;bytecode: 0x00000000161dd518&gt;
+# &lt;bytecode: 0x0000000017f8f6b0&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <p>The last two rows of these functions show (i) that they are compiled and (ii) the environment they were defined in.</p>
 <p>Many functions are not “exported” for direct use. Nonetheless, their code may be found using <code>getAnywhere</code> or accessed directly using <code>:::</code> syntax:</p>

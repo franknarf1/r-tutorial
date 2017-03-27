@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-03-24" />
+<meta name="date" content="2017-03-27" />
 
 
 <meta name="description" content="This book covers the essentials of using R.">
@@ -125,7 +125,7 @@ img {
 <li><a href="basics.html#assigning-to-a-list-element"><span class="toc-section-number">2.1.10</span> Assigning to a list element</a></li>
 <li><a href="basics.html#initializing"><span class="toc-section-number">2.1.11</span> Initializing</a></li>
 <li><a href="basics.html#factors"><span class="toc-section-number">2.1.12</span> Factors</a></li>
-<li><a href="basics.html#sorting-rank-order"><span class="toc-section-number">2.1.13</span> Sorting, rank, order</a></li>
+<li><a href="basics.html#sort-rank-order"><span class="toc-section-number">2.1.13</span> Sorting, rank, order</a></li>
 <li><a href="basics.html#testing-membership"><span class="toc-section-number">2.1.14</span> Testing membership</a></li>
 <li><a href="basics.html#exercises"><span class="toc-section-number">2.1.15</span> Exercises</a></li>
 </ul></li>
@@ -178,13 +178,13 @@ img {
 <li><a href="tables.html#extracting-columns"><span class="toc-section-number">3.2.3</span> Extracting columns</a></li>
 <li><a href="tables.html#extensions-to-the-data.frame-class"><span class="toc-section-number">3.2.4</span> Extensions to the data.frame class</a></li>
 </ul></li>
-<li class="has-sub"><a href="tables.html#aggregation"><span class="toc-section-number">3.3</span> Aggregation</a><ul>
+<li class="has-sub"><a href="tables.html#dt-agg"><span class="toc-section-number">3.3</span> Aggregation</a><ul>
 <li><a href="tables.html#dt-lapply"><span class="toc-section-number">3.3.1</span> Iterating over columns</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#dt-subassign"><span class="toc-section-number">3.4</span> Modifying data</a><ul>
 <li><a href="tables.html#dt-col-create"><span class="toc-section-number">3.4.1</span> Creating columns</a></li>
 <li><a href="tables.html#removing-columns"><span class="toc-section-number">3.4.2</span> Removing columns</a></li>
-<li><a href="tables.html#replacing-entire-columns"><span class="toc-section-number">3.4.3</span> Replacing entire columns</a></li>
+<li><a href="tables.html#dt-replace-all"><span class="toc-section-number">3.4.3</span> Replacing entire columns</a></li>
 <li><a href="tables.html#dt-ifelse"><span class="toc-section-number">3.4.4</span> Replacing columns conditionally</a></li>
 <li><a href="tables.html#other-in-place-modifications"><span class="toc-section-number">3.4.5</span> Other in-place modifications</a></li>
 <li><a href="tables.html#avoiding-in-place-modification"><span class="toc-section-number">3.4.6</span> Avoiding in-place modification</a></li>
@@ -206,7 +206,7 @@ img {
 <li><a href="tables.html#rbindlist-read"><span class="toc-section-number">3.6.3</span> <code>rbindlist</code> to combine tables</a></li>
 <li><a href="tables.html#dates-times"><span class="toc-section-number">3.6.4</span> Date and time columns</a></li>
 <li><a href="tables.html#character-columns"><span class="toc-section-number">3.6.5</span> Character columns</a></li>
-<li><a href="tables.html#factor-columns"><span class="toc-section-number">3.6.6</span> Factor columns</a></li>
+<li><a href="tables.html#dt-recode"><span class="toc-section-number">3.6.6</span> Categorical columns</a></li>
 <li><a href="tables.html#list-columns"><span class="toc-section-number">3.6.7</span> List columns</a></li>
 <li><a href="tables.html#fwrite"><span class="toc-section-number">3.6.8</span> <code>fwrite</code> to write delimited files</a></li>
 <li><a href="tables.html#dt-saveload"><span class="toc-section-number">3.6.9</span> Saving and loading R objects</a></li>
@@ -217,11 +217,12 @@ img {
 <li><a href="tables.html#browse-env"><span class="toc-section-number">3.7.1</span> Browsing loaded objects</a></li>
 <li><a href="tables.html#dt-subset"><span class="toc-section-number">3.7.2</span> Subsetting</a></li>
 <li><a href="tables.html#sorting"><span class="toc-section-number">3.7.3</span> Sorting</a></li>
-<li><a href="tables.html#dt-summary-stats"><span class="toc-section-number">3.7.4</span> Summaries</a></li>
-<li><a href="tables.html#dcast"><span class="toc-section-number">3.7.5</span> Reshaping to wide</a></li>
+<li><a href="tables.html#explore-onevar"><span class="toc-section-number">3.7.4</span> Examining each variable</a></li>
+<li><a href="tables.html#explore-vars"><span class="toc-section-number">3.7.5</span> Examining variables jointly</a></li>
+<li><a href="tables.html#dcast"><span class="toc-section-number">3.7.6</span> Reshaping to wide</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#structuring-data"><span class="toc-section-number">3.8</span> Organizing relational tables</a><ul>
-<li><a href="tables.html#reshaping-to-long-format"><span class="toc-section-number">3.8.1</span> Reshaping to long format</a></li>
+<li><a href="tables.html#melt"><span class="toc-section-number">3.8.1</span> Reshaping to long format</a></li>
 <li><a href="tables.html#choosing-tables-and-keys"><span class="toc-section-number">3.8.2</span> Choosing tables and keys</a></li>
 <li><a href="tables.html#listing-levels"><span class="toc-section-number">3.8.3</span> Listing levels</a></li>
 <li><a href="tables.html#exploring-levels"><span class="toc-section-number">3.8.4</span> Exploring levels</a></li>
@@ -575,7 +576,7 @@ bwDT[, {
 </div>
 </div>
 </div>
-<div id="aggregation" class="section level2">
+<div id="dt-agg" class="section level2">
 <h2><span class="header-section-number">3.3</span> Aggregation</h2>
 <p>The mtcars data set (see <code>?mtcars</code>) has two categorical variables:</p>
 <ul>
@@ -596,7 +597,7 @@ carsDT =<span class="st"> </span><span class="kw">data.table</span>(mtcars, <spa
 # 3:  0  1 102.14286
 # 4:  0  0 194.16667</code></pre>
 <p>So, we just write <code>j</code> of <code>DT[i,j,by]</code> as an expression to compute the summary statistic, optionally giving it a name by wrapping in <code>.(name = expression)</code>.</p>
-<p>Section <a href="tables.html#dt-summary-stats">3.7.4</a> covers more options for exploring data with summary statistics; and <a href="tables.html#dcast">3.7.5</a> shows how to put this result in wide format (with, e.g., <code>am</code> on rows and <code>vs</code> on columns).</p>
+<p>Sections <a href="tables.html#explore-onevar">3.7.4</a> and <a href="tables.html#explore-vars">3.7.5</a> cover more options for exploring data with summary statistics; and <a href="tables.html#dcast">3.7.6</a> shows how to put this result in wide format (with, e.g., <code>am</code> on rows and <code>vs</code> on columns).</p>
 <div id="dt-lapply" class="section level3">
 <h3><span class="header-section-number">3.3.1</span> Iterating over columns</h3>
 <p>Now suppose we want to compare mean horsepower, weight and displacement:</p>
@@ -689,7 +690,7 @@ DT[, (nms) :<span class="er">=</span><span class="st"> </span><span class="ot">N
 # 5: e 5  TRUE</code></pre>
 <p>A warning will print if we remove some columns that don’t currently exist.</p>
 </div>
-<div id="replacing-entire-columns" class="section level3">
+<div id="dt-replace-all" class="section level3">
 <h3><span class="header-section-number">3.4.3</span> Replacing entire columns</h3>
 <p>Data.table is careful about column types:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[, a :<span class="er">=</span><span class="st"> </span>10L ][]  <span class="co"># Create a new column of integers</span></code></pre></div>
@@ -707,12 +708,11 @@ DT[, (nms) :<span class="er">=</span><span class="st"> </span><span class="ot">N
 # 4: d 4  TRUE 21
 # 5: e 5  TRUE 21</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[, a :<span class="er">=</span><span class="st"> </span><span class="fl">32.5</span> ][] <span class="co"># Replace it with a float</span></code></pre></div>
-<pre><code># Warning in `[.data.table`(DT, , `:=`(a, 32.5)): Coerced &#39;double&#39; RHS to
-# &#39;integer&#39; to match the column&#39;s type; may have truncated precision. Either
-# change the target column to &#39;double&#39; first (by creating a new &#39;double&#39;
-# vector length 5 (nrows of entire table) and assign that; i.e. &#39;replace&#39;
-# column), or coerce RHS to &#39;integer&#39; (e.g. 1L, NA_[real|integer]_, as.*,
-# etc) to make your intent clear and for speed. Or, set the column type
+<pre><code># Warning in `[.data.table`(DT, , `:=`(a, 32.5)): Coerced &#39;double&#39; RHS to &#39;integer&#39; to
+# match the column&#39;s type; may have truncated precision. Either change the target column
+# to &#39;double&#39; first (by creating a new &#39;double&#39; vector length 5 (nrows of entire table)
+# and assign that; i.e. &#39;replace&#39; column), or coerce RHS to &#39;integer&#39; (e.g. 1L, NA_[real|
+# integer]_, as.*, etc) to make your intent clear and for speed. Or, set the column type
 # correctly up front when you create the table and stick to it, please.</code></pre>
 <pre><code>#    x y     z  a
 # 1: a 1 FALSE 32
@@ -735,7 +735,7 @@ Elsewhere in R, <code>a</code> would be coerced to match the float <code>32.5</c
 # 3: c 3 FALSE 32.5
 # 4: d 4  TRUE 32.5
 # 5: e 5  TRUE 32.5</code></pre>
-<p>The coercion is done silently, but it can be made more visible by turning on <code>verbose</code>, which notes the “plonk” of a full vector replacement.</p>
+<p>The coercion is done silently, but it can be made more visible by turning on <code>verbose</code>, which notes the “plonk” of a full vector replacement. <code>.N</code> is a special symbol for the number of rows (or the number of rows in a subset when <code>i</code> or <code>by=</code> is present).</p>
 </div>
 <div id="dt-ifelse" class="section level3">
 <h3><span class="header-section-number">3.4.4</span> Replacing columns conditionally</h3>
@@ -758,24 +758,17 @@ Elsewhere in R, <code>a</code> would be coerced to match the float <code>32.5</c
 <p></p>
 <p>As we saw in the last section, partial replacement of a column will trigger a warning if the classes don’t match:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[, b :<span class="er">=</span><span class="st"> &quot;Aardvark&quot;</span>][y &gt;<span class="st"> </span><span class="dv">1</span>, b :<span class="er">=</span><span class="st"> </span><span class="dv">111</span>]</code></pre></div>
-<pre><code># Warning in `[.data.table`(DT[, `:=`(b, &quot;Aardvark&quot;)], y &gt; 1, `:=`(b, 111)):
-# Coerced &#39;double&#39; RHS to &#39;character&#39; to match the column&#39;s type; may have
-# truncated precision. Either change the target column to &#39;double&#39; first
-# (by creating a new &#39;double&#39; vector length 5 (nrows of entire table) and
-# assign that; i.e. &#39;replace&#39; column), or coerce RHS to &#39;character&#39; (e.g. 1L,
-# NA_[real|integer]_, as.*, etc) to make your intent clear and for speed. Or,
-# set the column type correctly up front when you create the table and stick
-# to it, please.</code></pre>
+<pre><code># Warning in `[.data.table`(DT[, `:=`(b, &quot;Aardvark&quot;)], y &gt; 1, `:=`(b, 111)): Coerced
+# &#39;double&#39; RHS to &#39;character&#39; to match the column&#39;s type; may have truncated precision.
+# Either change the target column to &#39;double&#39; first (by creating a new &#39;double&#39; vector
+# length 5 (nrows of entire table) and assign that; i.e. &#39;replace&#39; column), or coerce RHS
+# to &#39;character&#39; (e.g. 1L, NA_[real|integer]_, as.*, etc) to make your intent clear and for
+# speed. Or, set the column type correctly up front when you create the table and stick to
+# it, please.</code></pre>
 <p>Another nice feature, similar to Stata, is reporting of the number of rows modified. This can be seen by turning <code>verbose</code> on:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[, b :<span class="er">=</span><span class="st"> &quot;Aardvark&quot;</span>][y &gt;<span class="st"> </span><span class="dv">1</span>, b :<span class="er">=</span><span class="st"> &quot;Zebra&quot;</span>, verbose =<span class="st"> </span><span class="ot">TRUE</span>]</code></pre></div>
 <pre><code># Detected that j uses these columns: b 
 # Assigning to 4 row subset of 5 rows</code></pre>
-<pre><code>#    x y     z    a        b
-# 1: a 1 FALSE 32.5 Aardvark
-# 2: b 2 FALSE 32.5    Zebra
-# 3: c 3 FALSE 32.5    Zebra
-# 4: d 4  TRUE 32.5    Zebra
-# 5: e 5  TRUE 32.5    Zebra</code></pre>
 </div>
 <div id="other-in-place-modifications" class="section level3">
 <h3><span class="header-section-number">3.4.5</span> Other in-place modifications</h3>
@@ -909,17 +902,11 @@ ra &lt;-<span class="st"> </span>function(my_id) a[.(my_id), on=.(id)]
 <p>Continuing from the last example, we are computing <code>sum(x)</code> per row of <code>b</code>, so maybe we want to save the result as a column in <code>b</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">b[, sumx :<span class="er">=</span><span class="st"> </span>
 <span class="st">    </span>a[b, on=.(id), <span class="kw">sum</span>(x), by=.EACHI]$V1
-]</code></pre></div>
-<pre><code>#    id  y sumx
-# 1:  1 11   23
-# 2:  2 15   13</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or</span>
+]
+<span class="co"># or</span>
 b[, sumx :<span class="er">=</span><span class="st"> </span>
 <span class="st">    </span>a[.SD, on=.(id), <span class="kw">sum</span>(x), by=.EACHI]$V1
 ]</code></pre></div>
-<pre><code>#    id  y sumx
-# 1:  1 11   23
-# 2:  2 15   13</code></pre>
 <pre><code>#    id  y sumx
 # 1:  1 11   23
 # 2:  2 15   13</code></pre>
@@ -930,12 +917,6 @@ b[, sumx :<span class="er">=</span><span class="st"> </span>
 <p></p>
 <p>On the other hand, we may want to take values from <code>b</code> and assign them to the larger table <code>a</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a[b, on=.(id), y :<span class="er">=</span><span class="st"> </span>i.y ]</code></pre></div>
-<pre><code>#    id  t  x  y
-# 1:  1  1 11 11
-# 2:  1  2 12 11
-# 3:  2  1 13 15
-# 4:  3  2 14 NA
-# 5: NA NA 15 NA</code></pre>
 <pre><code>#    id  t  x  y
 # 1:  1  1 11 11
 # 2:  1  2 12 11
@@ -1161,12 +1142,9 @@ for (i in <span class="dv">1</span>:<span class="dv">3</span>)
 fileDT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">fn =</span> <span class="kw">list.files</span>(<span class="dt">pattern=</span><span class="st">&quot;csv$&quot;</span>))
 
 <span class="co"># Next, optionally parse the names for metadata using regex:</span>
-fileDT[, year :<span class="er">=</span><span class="st"> </span><span class="kw">type.convert</span>(<span class="kw">sub</span>(<span class="st">&quot;.*([0-9]{4}).*&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">1&quot;</span>, fn))]</code></pre></div>
-<pre><code>#              fn year
-# 1: file2011.csv 2011
-# 2: file2012.csv 2012
-# 3: file2013.csv 2013</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Finally construct a string file-ID column:</span>
+fileDT[, year :<span class="er">=</span><span class="st"> </span><span class="kw">type.convert</span>(<span class="kw">sub</span>(<span class="st">&quot;.*([0-9]{4}).*&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">1&quot;</span>, fn))]
+
+<span class="co"># Finally construct a string file-ID column:</span>
 fileDT[, id :<span class="er">=</span><span class="st"> </span><span class="kw">as.character</span>(.I)][]</code></pre></div>
 <pre><code>#              fn year id
 # 1: file2011.csv 2011  1
@@ -1290,13 +1268,10 @@ DT[.(<span class="dt">state_code =</span> state.abb, <span class="dt">state_name
 <pre><code>#    state_code state_name
 # 1:         MN  Minnesota
 # 2:         KS     Kansas</code></pre>
-<pre><code>#    state_code state_name
-# 1:         MN  Minnesota
-# 2:         KS     Kansas</code></pre>
 <p>In the case of messier strings, the convenience functions in the stringi package may be helpful, along with a read of <code>?regex</code> and the string section in the next chapter (<a href="work.html#strings">4.8</a>).</p>
 </div>
-<div id="factor-columns" class="section level3">
-<h3><span class="header-section-number">3.6.6</span> Factor columns</h3>
+<div id="dt-recode" class="section level3">
+<h3><span class="header-section-number">3.6.6</span> Categorical columns</h3>
 <p><code>fread</code> will read string columns in as character by default, and this is usually the way to go.</p>
 <p>When “recoding” values in a character column, I suggest being explicit by storing the mapping in its own table and doing an update join (<a href="tables.html#joins-update">3.5.4</a>):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># example data</span>
@@ -1308,15 +1283,6 @@ v_translateDT =<span class="st"> </span><span class="kw">rbind</span>(
 )
 <span class="co"># update join</span>
 DT[v_translateDT, on=.(<span class="dt">v =</span> v_old), vt :<span class="er">=</span><span class="st"> </span>i.v_new ]</code></pre></div>
-<pre><code>#         v    vt
-# 1:    Yes  TRUE
-# 2:  argle    NA
-# 3: bargle    NA
-# 4:     No FALSE
-# 5:    Yep  TRUE
-# 6: garble    NA
-# 7:   Nope FALSE
-# 8: blargh    NA</code></pre>
 <p>Here, we are mapping to a logical column. Of course, the same thing could be done with a factor, an ordered factor or a string.</p>
 </div>
 <div id="list-columns" class="section level3">
@@ -1350,7 +1316,7 @@ dat =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt
 n   =<span class="st"> </span><span class="dv">20</span>          <span class="co"># create a different n</span>
 <span class="kw">load</span>(<span class="st">&quot;stuff.rdata&quot;</span>, <span class="dt">env =</span> e_stuff &lt;-<span class="st"> </span><span class="kw">new.env</span>())</code></pre></div>
 <p>Now, <code>n</code> is still 20, while the loaded value of <code>n = 10</code> can be accessed like <code>e_stuff$n</code>. The <code>$</code> and <code>[[</code> extractors for lists (<a href="basics.html#extract-list">2.1.8</a>) also work on environments, as does <code>names(e_stuff)</code>.</p>
-<p>One nice feature of the R console is that you can drag an <code>.rdata</code> file into it to load. Also, opening an <code>.rdata</code> file with the R console will start a new session and load it. (At least this is true in Windows.)</p>
+<p>One nice feature of the R console is that <code>.rdata</code> files can be dragged and dropped into it to load. Also, opening an <code>.rdata</code> file with the R console will start a new session and load it. (At least this is true in Windows.)</p>
 </div>
 <div id="single-objects" class="section level4">
 <h4><span class="header-section-number">3.6.9.2</span> Single objects</h4>
@@ -1376,71 +1342,119 @@ old_dat &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span clas
 </div>
 <div id="exploring-data" class="section level2">
 <h2><span class="header-section-number">3.7</span> Exploring data</h2>
-<p>range, summary</p>
-<p>Henk Harmsen on “ergonomics” <a href="https://rpubs.com/carbonmetrics/datatable_ihub" class="uri">https://rpubs.com/carbonmetrics/datatable_ihub</a></p>
-<p><code>e_bad = DT[, var, by=e_id][var==TRUE, e_id]; DT[.(e_id)] (simpler with having)</code></p>
-<p><code>DT[, .N, by=e_id][order(-N)]</code></p>
-<p>creating temp vars, printing with []</p>
-<p>DT[, do_stuff, j] %&gt;% print(nrow=Inf) with magrittr (warning about performance hit in real nonexploratory code)</p>
-<p>hist, hexbin</p>
-<p>cor, cormat</p>
-<p>x11() for multiple windows</p>
-<p>eyeball-exploring models: curve</p>
-<p>qqplot etc for the statistically literate, and other tools for ML people</p>
+<p>We’ll look at two example data sets <code>mtcars</code> and <code>airquality</code>:</p>
+<p>As a first step, we’ll clean up <code>carsDT</code>’s categorical variables (noted in <a href="tables.html#dt-agg">3.3</a>), using the approach suggested in <a href="tables.html#dt-recode">3.6.6</a>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rm</span>(<span class="dt">list =</span> <span class="kw">ls</span>())                  <span class="co"># clear tables and other objects</span>
+
+airDT  =<span class="st"> </span><span class="kw">data.table</span>(airquality)
+carsDT =<span class="st"> </span><span class="kw">data.table</span>(mtcars, <span class="dt">keep.rownames =</span> <span class="ot">TRUE</span>)
+carsDT[.(<span class="dt">old_am =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">new_am =</span> <span class="kw">c</span>(<span class="st">&quot;auto&quot;</span>, <span class="st">&quot;manual&quot;</span>)), on=.(<span class="dt">am =</span> old_am), 
+  new_am :<span class="er">=</span><span class="st"> </span>i.new_am ]           <span class="co"># grab new column</span>
+carsDT[, am :<span class="er">=</span><span class="st"> </span><span class="ot">NULL</span> ]            <span class="co"># drop old column</span>
+<span class="kw">setnames</span>(carsDT, <span class="st">&quot;new_am&quot;</span>, <span class="st">&quot;am&quot;</span>) <span class="co"># rename new column</span>
+
+carsDT[.(<span class="dt">old_vs =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">new_vs =</span> <span class="kw">c</span>(<span class="st">&quot;v&quot;</span>, <span class="st">&quot;straight&quot;</span>)), on=.(<span class="dt">vs =</span> old_vs), 
+  new_vs :<span class="er">=</span><span class="st"> </span>i.new_vs ]           <span class="co"># grab new column</span>
+carsDT[, vs :<span class="er">=</span><span class="st"> </span><span class="ot">NULL</span> ]            <span class="co"># drop old column</span>
+<span class="kw">setnames</span>(carsDT, <span class="st">&quot;new_vs&quot;</span>, <span class="st">&quot;vs&quot;</span>) <span class="co"># rename new column</span></code></pre></div>
+<p>The rigmarole with dropping and renaming is necessary because data.table’s type safety protections (<a href="tables.html#dt-replace-all">3.4.3</a>) prevent overwriting columns with a new class (from numeric 1/0 to character “auto”/“manual”) in an update join.</p>
 <div id="browse-env" class="section level3">
 <h3><span class="header-section-number">3.7.1</span> Browsing loaded objects</h3>
-<p>ls()</p>
-<p>rm()</p>
-<p>tables()</p>
+<p>For a list of all loaded tables, run…</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tables</span>()</code></pre></div>
+<pre><code>#      NAME   NROW NCOL MB COLS                                            KEY
+# [1,] airDT   153    6  1 Ozone,Solar.R,Wind,Temp,Month,Day                  
+# [2,] carsDT   32   12  1 rn,mpg,cyl,disp,hp,drat,wt,qsec,gear,carb,am,vs    
+# Total: 2MB</code></pre>
+<p>We saw in <a href="tables.html#dt-saveload">3.6.9</a> that a collection of tables (and other objects) saved on disk can be loaded into an environment. We can look at tables in such an environment, too:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;stuff.rdata&quot;</span>, <span class="dt">env =</span> e_stuff &lt;-<span class="st"> </span><span class="kw">new.env</span>())
+<span class="kw">tables</span>(<span class="dt">env =</span> e_stuff)</code></pre></div>
+<pre><code>#      NAME NROW NCOL MB COLS KEY
+# [1,] dat     1    1  1 v       
+# Total: 1MB</code></pre>
+<p>The <code>tables</code> output shows keys and other attributes, which is handy. If we look at objects of all types (tables, vectors, matrices, functions and more), we usually only view names:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ls</span>()</code></pre></div>
+<pre><code># [1] &quot;airDT&quot;   &quot;carsDT&quot;  &quot;e_stuff&quot;</code></pre>
+<p>Output can be filtered according to a regex (<a href="work.html#strings">4.8</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ls</span>(<span class="dt">patt =</span> <span class="st">&quot;DT$&quot;</span>)</code></pre></div>
+<pre><code># [1] &quot;airDT&quot;  &quot;carsDT&quot;</code></pre>
+<p>And it can be done within an environment:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ls</span>(<span class="dt">env =</span> e_stuff)</code></pre></div>
+<pre><code># [1] &quot;dat&quot; &quot;L&quot;   &quot;n&quot;</code></pre>
+<p>To remove tables or other objects, use <code>rm</code>. A common step is to remove all objects listed by <code>ls()</code>, like <code>rm(list = ls())</code>.</p>
 </div>
 <div id="dt-subset" class="section level3">
 <h3><span class="header-section-number">3.7.2</span> Subsetting</h3>
 <div id="selecting-by-value" class="section level4">
 <h4><span class="header-section-number">3.7.2.1</span> Selecting by value</h4>
 <p>This is analogous to a SQL WHERE clause or a Stata <code>if</code> clause.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># example data</span>
-DT =<span class="st"> </span><span class="kw">data.table</span>(Titanic)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[ Class ==<span class="st"> &quot;Crew&quot;</span> &amp;<span class="st"> </span>N &gt;<span class="st"> </span><span class="dv">100</span> ]</code></pre></div>
-<pre><code>#    Class  Sex   Age Survived   N
-# 1:  Crew Male Adult       No 670
-# 2:  Crew Male Adult      Yes 192</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">carsDT[ am ==<span class="st"> &quot;auto&quot;</span> &amp;<span class="st"> </span>disp &lt;<span class="st"> </span><span class="dv">300</span> ]</code></pre></div>
+<pre><code>#                 rn  mpg cyl  disp  hp drat    wt  qsec gear carb   am       vs
+#  1: Hornet 4 Drive 21.4   6 258.0 110 3.08 3.215 19.44    3    1 auto straight
+#  2:        Valiant 18.1   6 225.0 105 2.76 3.460 20.22    3    1 auto straight
+#  3:      Merc 240D 24.4   4 146.7  62 3.69 3.190 20.00    4    2 auto straight
+#  4:       Merc 230 22.8   4 140.8  95 3.92 3.150 22.90    4    2 auto straight
+#  5:       Merc 280 19.2   6 167.6 123 3.92 3.440 18.30    4    4 auto straight
+#  6:      Merc 280C 17.8   6 167.6 123 3.92 3.440 18.90    4    4 auto straight
+#  7:     Merc 450SE 16.4   8 275.8 180 3.07 4.070 17.40    3    3 auto        v
+#  8:     Merc 450SL 17.3   8 275.8 180 3.07 3.730 17.60    3    3 auto        v
+#  9:    Merc 450SLC 15.2   8 275.8 180 3.07 3.780 18.00    3    3 auto        v
+# 10:  Toyota Corona 21.5   4 120.1  97 3.70 2.465 20.01    3    1 auto straight</code></pre>
 <p>This syntax, <code>DT[i]</code>, is the subsetting task needed in the vast majority of cases. The rest of <a href="tables.html#dt-subset">3.7.2</a> can safely be skipped the first time through; it is mostly useful for reference.</p>
 </div>
 <div id="selecting-by-group-statistic" class="section level4">
 <h4><span class="header-section-number">3.7.2.2</span> Selecting by group statistic</h4>
 <p>This is analogous to a SQL HAVING clause.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[ , if (<span class="kw">sum</span>(N) &lt;<span class="st"> </span><span class="dv">300</span>) .SD, by=Class ]</code></pre></div>
-<pre><code>#    Class    Sex   Age Survived   N
-# 1:   2nd   Male Child       No   0
-# 2:   2nd Female Child       No   0
-# 3:   2nd   Male Adult       No 154
-# 4:   2nd Female Adult       No  13
-# 5:   2nd   Male Child      Yes  11
-# 6:   2nd Female Child      Yes  13
-# 7:   2nd   Male Adult      Yes  14
-# 8:   2nd Female Adult      Yes  80</code></pre>
-<p>We are including the group only if it meets our condition. The structure <code>if (cond) x</code> returns <code>x</code> if the condition is true and nothing (<code>NULL</code>) otherwise, omitting those rows. <code>.SD</code> refers to the Subset of the Data associated with each <code>by=</code> group.</p>
-<p>This syntax isn’t as clean as a HAVING clause, but it is likely to improve.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">carsDT[ , if (<span class="kw">mean</span>(wt) &gt;<span class="st"> </span><span class="dv">3</span>) .SD, by=.(am, vs) ]</code></pre></div>
+<pre><code>#       am       vs                  rn  mpg cyl  disp  hp drat    wt  qsec gear carb
+#  1: auto straight      Hornet 4 Drive 21.4   6 258.0 110 3.08 3.215 19.44    3    1
+#  2: auto straight             Valiant 18.1   6 225.0 105 2.76 3.460 20.22    3    1
+#  3: auto straight           Merc 240D 24.4   4 146.7  62 3.69 3.190 20.00    4    2
+#  4: auto straight            Merc 230 22.8   4 140.8  95 3.92 3.150 22.90    4    2
+#  5: auto straight            Merc 280 19.2   6 167.6 123 3.92 3.440 18.30    4    4
+#  6: auto straight           Merc 280C 17.8   6 167.6 123 3.92 3.440 18.90    4    4
+#  7: auto straight       Toyota Corona 21.5   4 120.1  97 3.70 2.465 20.01    3    1
+#  8: auto        v   Hornet Sportabout 18.7   8 360.0 175 3.15 3.440 17.02    3    2
+#  9: auto        v          Duster 360 14.3   8 360.0 245 3.21 3.570 15.84    3    4
+# 10: auto        v          Merc 450SE 16.4   8 275.8 180 3.07 4.070 17.40    3    3
+# 11: auto        v          Merc 450SL 17.3   8 275.8 180 3.07 3.730 17.60    3    3
+# 12: auto        v         Merc 450SLC 15.2   8 275.8 180 3.07 3.780 18.00    3    3
+# 13: auto        v  Cadillac Fleetwood 10.4   8 472.0 205 2.93 5.250 17.98    3    4
+# 14: auto        v Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82    3    4
+# 15: auto        v   Chrysler Imperial 14.7   8 440.0 230 3.23 5.345 17.42    3    4
+# 16: auto        v    Dodge Challenger 15.5   8 318.0 150 2.76 3.520 16.87    3    2
+# 17: auto        v         AMC Javelin 15.2   8 304.0 150 3.15 3.435 17.30    3    2
+# 18: auto        v          Camaro Z28 13.3   8 350.0 245 3.73 3.840 15.41    3    4
+# 19: auto        v    Pontiac Firebird 19.2   8 400.0 175 3.08 3.845 17.05    3    2</code></pre>
+<p>We are including the group only if it meets our condition. The structure <code>if (cond) x</code> returns <code>x</code> if the condition is true and nothing (<code>NULL</code>) otherwise, omitting those rows.</p>
 </div>
 <div id="selecting-rows-within-each-group" class="section level4">
 <h4><span class="header-section-number">3.7.2.3</span> Selecting rows within each group</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># select first row</span>
-DT[ , .SD[1L], by=Class ]</code></pre></div>
-<pre><code>#    Class  Sex   Age Survived  N
-# 1:   1st Male Child       No  0
-# 2:   2nd Male Child       No  0
-# 3:   3rd Male Child       No 35
-# 4:  Crew Male Child       No  0</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># select row(s) with highest count</span>
-DT[ , .SD[N ==<span class="st"> </span><span class="kw">max</span>(N)], by=Class ]</code></pre></div>
-<pre><code>#    Class    Sex   Age Survived   N
-# 1:   1st Female Adult      Yes 140
-# 2:   2nd   Male Adult       No 154
-# 3:   3rd   Male Adult       No 387
-# 4:  Crew   Male Adult       No 670</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># sorting by carb decreasing, selecting first row per group</span>
+<span class="co"># thus a row with maximum carb within the group</span>
+carsDT[ <span class="kw">order</span>(-carb), .SD[1L], by=.(am, vs) ]</code></pre></div>
+<pre><code>#        am       vs            rn  mpg cyl  disp  hp drat    wt  qsec gear carb
+# 1: manual        v Maserati Bora 15.0   8 301.0 335 3.54 3.570 14.60    5    8
+# 2:   auto        v    Duster 360 14.3   8 360.0 245 3.21 3.570 15.84    3    4
+# 3:   auto straight      Merc 280 19.2   6 167.6 123 3.92 3.440 18.30    4    4
+# 4: manual straight   Honda Civic 30.4   4  75.7  52 4.93 1.615 18.52    4    2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># instead select all row(s) with maximum carb</span>
+carsDT[ , .SD[carb ==<span class="st"> </span><span class="kw">max</span>(carb)], by=.(am, vs) ]</code></pre></div>
+<pre><code>#         am       vs                  rn  mpg cyl  disp  hp drat    wt  qsec gear carb
+#  1: manual        v       Maserati Bora 15.0   8 301.0 335 3.54 3.570 14.60    5    8
+#  2: manual straight         Honda Civic 30.4   4  75.7  52 4.93 1.615 18.52    4    2
+#  3: manual straight        Lotus Europa 30.4   4  95.1 113 3.77 1.513 16.90    5    2
+#  4: manual straight          Volvo 142E 21.4   4 121.0 109 4.11 2.780 18.60    4    2
+#  5:   auto straight            Merc 280 19.2   6 167.6 123 3.92 3.440 18.30    4    4
+#  6:   auto straight           Merc 280C 17.8   6 167.6 123 3.92 3.440 18.90    4    4
+#  7:   auto        v          Duster 360 14.3   8 360.0 245 3.21 3.570 15.84    3    4
+#  8:   auto        v  Cadillac Fleetwood 10.4   8 472.0 205 2.93 5.250 17.98    3    4
+#  9:   auto        v Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82    3    4
+# 10:   auto        v   Chrysler Imperial 14.7   8 440.0 230 3.23 5.345 17.42    3    4
+# 11:   auto        v          Camaro Z28 13.3   8 350.0 245 3.73 3.840 15.41    3    4</code></pre>
 
 <div class="rmd-details">
-<strong>Efficient selection of rows within each group.</strong> The second task here is <a href="https://github.com/Rdatatable/data.table/issues/735">somewhat inefficient</a> currently, with a faster workaround <a href="http://stackoverflow.com/a/16574176">provided by eddi</a>: <code>DT[DT[ , .I[N == max(N)], by=Class ]$V1]</code>. And <a href="http://stackoverflow.com/a/31854111">Arun provided a further improvement</a>, taking advantage of <code>gmax</code>, an efficient by-group <code>max</code> (see <code>?GForce</code>): <code>DT[DT[, max(N), by=Class], on=.(Class, N = V1)]</code>. The variable <code>.I</code> represents the row number in the full table, or at least it <em>should</em> do that. Currently, <code>.I</code> does <a href="https://github.com/Rdatatable/data.table/issues/1494">not always behave like this</a>. “V1” is the default name given to the result in <code>j</code>.
+<strong>Efficient selection of rows within each group.</strong> The second task here is <a href="https://github.com/Rdatatable/data.table/issues/735">somewhat inefficient</a> currently, with a faster workaround <a href="http://stackoverflow.com/a/16574176">provided by eddi</a>: <code>carsDT[carsDT[ , .I[carb == max(carb)], by=.(am, vs) ]$V1]</code>. And <a href="http://stackoverflow.com/a/31854111">Arun provided a further improvement</a>: <code>carsDT[carsDT[, max(carb), by=.(am, vs)], on=.(am, vs, carb = V1)]</code>.
 </div>
 <p></p>
 </div>
@@ -1450,76 +1464,288 @@ DT[ , .SD[N ==<span class="st"> </span><span class="kw">max</span>(N)], by=Class
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cond =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;aleph&quot;</span>, <span class="st">&quot;baz&quot;</span>, <span class="st">&quot;boz&quot;</span>) &gt;<span class="st"> &quot;b&quot;</span>
 <span class="kw">which</span>(cond)</code></pre></div>
 <pre><code># [1] 2 3</code></pre>
-<p>So, it takes us from a logical index to one of positions. This can sometimes speed up computations; and is necessary when facing functions that don’t take logical indices.</p>
-<p>When using <code>which</code> on a matrix or array (see <a href="basics.html#matrix-array">2.2</a>), we can find out “where” in terms of row and column using the <code>arr.ind</code> option.</p>
+<p>So, it takes us from a logical index to one of positions. When using <code>which</code> on a matrix or array (see <a href="basics.html#matrix-array">2.2</a>), we can find out “where” in terms of row and column using the <code>arr.ind</code> option.</p>
 <p>Beware of using <code>which</code> output as an index:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x  =<span class="st"> </span><span class="dv">1</span>:<span class="dv">5</span>
 w  =<span class="st"> </span><span class="kw">which</span>(x^<span class="dv">2</span> &gt;<span class="st"> </span><span class="dv">50</span>)
-x[-w]</code></pre></div>
+w</code></pre></div>
 <pre><code># integer(0)</code></pre>
-<p>We wanted to filter to where <code>x</code> meeting our condition, but instead we lost the whole vector. Straight-up logical filtering is the safer route here.</p>
-<p>Data.table has <code>DT[i, which = TRUE]</code> syntax as well.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[-w]</code></pre></div>
+<pre><code># integer(0)</code></pre>
+<p>We wanted to filter to where <code>x</code> fails our condition, but instead we lost the whole vector. Straight-up logical filtering is the safer route here: <code>x[!(x^2 &gt; 50)]</code>.</p>
+<p>To find which table rows a subset pertains to, use <code>DT[i, which = TRUE]</code>. The <code>i</code> index could be a logical condition or a table being joined. It might seem like the special symbol <code>.I</code> would work here instead, like <code>DT[i, .I]</code>, but currently it does not.</p>
 </div>
 </div>
 <div id="sorting" class="section level3">
 <h3><span class="header-section-number">3.7.3</span> Sorting</h3>
-<p>order(x, -y)</p>
-<p>setorder</p>
-<p>setkey</p>
+<p>To sort the table in-place, use <code>setorder</code>. And to set a key (which sorts as a side effect), use <code>setkey</code>. When passing columns to sort by programmatically, use <code>setorderv</code> or <code>setkeyv</code>.</p>
+<p>For a one-time sort (not altering the order of the object itself), write an <code>order(...)</code> expression in the first argument, like <code>carsDT[order(hp, -carb), j, by=]</code> where <code>j</code> and <code>by=</code> characterize some task to be done with the sorted data.</p>
 </div>
-<div id="dt-summary-stats" class="section level3">
-<h3><span class="header-section-number">3.7.4</span> Summaries</h3>
-<p>draw from <a href="http://stackoverflow.com/documentation/data.table/3785" class="uri">http://stackoverflow.com/documentation/data.table/3785</a></p>
-<div id="the-summary-function" class="section level4">
-<h4><span class="header-section-number">3.7.4.1</span> The <code>summary</code> function</h4>
-<p>similar to stata</p>
-<p>doesn’t really return a useful object, only for printing</p>
+<div id="explore-onevar" class="section level3">
+<h3><span class="header-section-number">3.7.4</span> Examining each variable</h3>
+<div id="summary-functions" class="section level4">
+<h4><span class="header-section-number">3.7.4.1</span> Summary functions</h4>
+<p>For a snapshot of per-variable stats, there’s <code>summary</code>, but it is very crude and reports nothing about character columns (not even missing values):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(airDT)</code></pre></div>
+<pre><code>#      Ozone           Solar.R           Wind             Temp           Month      
+#  Min.   :  1.00   Min.   :  7.0   Min.   : 1.700   Min.   :56.00   Min.   :5.000  
+#  1st Qu.: 18.00   1st Qu.:115.8   1st Qu.: 7.400   1st Qu.:72.00   1st Qu.:6.000  
+#  Median : 31.50   Median :205.0   Median : 9.700   Median :79.00   Median :7.000  
+#  Mean   : 42.13   Mean   :185.9   Mean   : 9.958   Mean   :77.88   Mean   :6.993  
+#  3rd Qu.: 63.25   3rd Qu.:258.8   3rd Qu.:11.500   3rd Qu.:85.00   3rd Qu.:8.000  
+#  Max.   :168.00   Max.   :334.0   Max.   :20.700   Max.   :97.00   Max.   :9.000  
+#  NA&#39;s   :37       NA&#39;s   :7                                                       
+#       Day      
+#  Min.   : 1.0  
+#  1st Qu.: 8.0  
+#  Median :16.0  
+#  Mean   :15.8  
+#  3rd Qu.:23.0  
+#  Max.   :31.0  
+# </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(carsDT)</code></pre></div>
+<pre><code>#       rn                 mpg             cyl             disp             hp       
+#  Length:32          Min.   :10.40   Min.   :4.000   Min.   : 71.1   Min.   : 52.0  
+#  Class :character   1st Qu.:15.43   1st Qu.:4.000   1st Qu.:120.8   1st Qu.: 96.5  
+#  Mode  :character   Median :19.20   Median :6.000   Median :196.3   Median :123.0  
+#                     Mean   :20.09   Mean   :6.188   Mean   :230.7   Mean   :146.7  
+#                     3rd Qu.:22.80   3rd Qu.:8.000   3rd Qu.:326.0   3rd Qu.:180.0  
+#                     Max.   :33.90   Max.   :8.000   Max.   :472.0   Max.   :335.0  
+#       drat             wt             qsec            gear            carb      
+#  Min.   :2.760   Min.   :1.513   Min.   :14.50   Min.   :3.000   Min.   :1.000  
+#  1st Qu.:3.080   1st Qu.:2.581   1st Qu.:16.89   1st Qu.:3.000   1st Qu.:2.000  
+#  Median :3.695   Median :3.325   Median :17.71   Median :4.000   Median :2.000  
+#  Mean   :3.597   Mean   :3.217   Mean   :17.85   Mean   :3.688   Mean   :2.812  
+#  3rd Qu.:3.920   3rd Qu.:3.610   3rd Qu.:18.90   3rd Qu.:4.000   3rd Qu.:4.000  
+#  Max.   :4.930   Max.   :5.424   Max.   :22.90   Max.   :5.000   Max.   :8.000  
+#       am                 vs           
+#  Length:32          Length:32         
+#  Class :character   Class :character  
+#  Mode  :character   Mode  :character  
+#                                       
+#                                       
+# </code></pre>
+<p>To count missing values per column (analogous to Stata’s mdesc)…</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">airDT[, .(
+  <span class="dt">col =</span> <span class="kw">names</span>(.SD),
+  <span class="dt">nna =</span> nna &lt;-<span class="st"> </span><span class="kw">colSums</span>(<span class="kw">is.na</span>(.SD)),
+  <span class="dt">nok =</span> .N -<span class="st"> </span>nna,
+  <span class="dt">tot =</span> .N
+)]</code></pre></div>
+<pre><code>#        col nna nok tot
+# 1:   Ozone  37 116 153
+# 2: Solar.R   7 146 153
+# 3:    Wind   0 153 153
+# 4:    Temp   0 153 153
+# 5:   Month   0 153 153
+# 6:     Day   0 153 153</code></pre>
+<p>This can also be done by group, like</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">airDT[, .(
+  <span class="dt">col =</span> <span class="kw">names</span>(.SD),
+  <span class="dt">nna =</span> nna &lt;-<span class="st"> </span><span class="kw">colSums</span>(<span class="kw">is.na</span>(.SD)),
+  <span class="dt">nok =</span> .N -<span class="st"> </span>nna,
+  <span class="dt">tot =</span> .N
+), by=Month]</code></pre></div>
+<p>Various function can be applied and have the usual names: <code>mean</code>, <code>median</code>, <code>range</code> (combining <code>min</code> and <code>max</code>), <code>var</code>, <code>skew</code>, <code>quantile</code>, etc. Most of these functions can be applied by group as well, with syntax like …</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># single-valued functions</span>
+carsDT[, <span class="kw">mean</span>(drat), by=am]</code></pre></div>
+<pre><code>#        am       V1
+# 1: manual 4.050000
+# 2:   auto 3.286316</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># multi-valued functions</span>
+carsDT[, <span class="kw">quantile</span>(drat, <span class="kw">c</span>(.<span class="dv">1</span>, .<span class="dv">25</span>, .<span class="dv">75</span>, .<span class="dv">9</span>)) %&gt;%<span class="st"> </span>as.list, by=am]</code></pre></div>
+<pre><code>#        am   10%  25%   75%   90%
+# 1: manual 3.650 3.85 4.220 4.388
+# 2:   auto 2.896 3.07 3.695 3.920</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># multiple functions</span>
+carsDT[, <span class="kw">c</span>(
+  .(<span class="dt">mean =</span> <span class="kw">mean</span>(drat)), 
+  <span class="kw">quantile</span>(drat, <span class="kw">c</span>(.<span class="dv">1</span>, .<span class="dv">25</span>, .<span class="dv">75</span>, .<span class="dv">9</span>)) %&gt;%<span class="st"> </span>as.list
+), by=am]</code></pre></div>
+<pre><code>#        am     mean   10%  25%   75%   90%
+# 1: manual 4.050000 3.650 3.85 4.220 4.388
+# 2:   auto 3.286316 2.896 3.07 3.695 3.920</code></pre>
+<p>The <code>as.list</code> is necessary to split the results over multiple columns. It is inefficient, but that won’t matter much when exploring data, I imagine.</p>
 </div>
-<div id="collapsing-a-table" class="section level4">
-<h4><span class="header-section-number">3.7.4.2</span> Collapsing a table</h4>
-<p>collapse</p>
-<p>various custom summary functions</p>
-<p>maybe mention GForce again</p>
+<div id="tabulating" class="section level4">
+<h4><span class="header-section-number">3.7.4.2</span> Tabulating</h4>
+<p>For a better look at a character or factor column, we’d want to tabulate values:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">carsDT[, <span class="kw">table</span>(am, <span class="dt">useNA =</span> <span class="st">&quot;always&quot;</span>)]</code></pre></div>
+<pre><code># am
+#   auto manual   &lt;NA&gt; 
+#     19     13      0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or</span>
+carsDT[, .N, by=am]</code></pre></div>
+<pre><code>#        am  N
+# 1: manual 13
+# 2:   auto 19</code></pre>
+<p>Each of the two options above has advantages in certain cases. We’ll see that <code>table()</code> is useful when browsing tabulations in more dimensions. And the <code>DT[...]</code> syntax is useful for chaining. For example, <code>carsDT[, .N, by=av][order(-N)][1:3]</code> will show counts for the three largest groups, sorted.</p>
+<p>For a better look at continuous variables, we can use the same tools after using <code>cut</code> to put values into bins:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">carsDT[, .N, by=.(<span class="dt">drat_bin =</span> <span class="kw">cut</span>(drat, <span class="dv">4</span>))]</code></pre></div>
+<pre><code>#       drat_bin  N
+# 1: (3.84,4.39] 11
+# 2:  (2.76,3.3] 13
+# 3:  (3.3,3.84]  6
+# 4: (4.39,4.93]  2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or</span>
+carsDT[, drat %&gt;%<span class="st"> </span><span class="kw">cut</span>(<span class="dv">4</span>) %&gt;%<span class="st"> </span>table ]</code></pre></div>
+<pre><code># .
+#  (2.76,3.3]  (3.3,3.84] (3.84,4.39] (4.39,4.93] 
+#          13           6          11           2</code></pre>
 </div>
-<div id="counting-missing-values" class="section level4">
-<h4><span class="header-section-number">3.7.4.3</span> Counting missing values</h4>
-<p>mdesc, count missing per column colSums(is.na(.SD))</p>
-</div>
-<div id="counting-rows" class="section level4">
-<h4><span class="header-section-number">3.7.4.4</span> Tabulating</h4>
-<p>Tabulating or tallying</p>
-<p>bwDT[, .N, by=ftv]</p>
-<p>refer to table() and plot.table()</p>
-<p>With a continuous variable <code>x</code>, it often doesn’t make sense to tally values as in the last section. However, we can specify bins and find where the values fall:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)
-n  =<span class="st"> </span><span class="dv">1000</span>
-x  =<span class="st"> </span><span class="kw">rchisq</span>(n, <span class="dt">df =</span> <span class="dv">10</span>)
-xc =<span class="st"> </span><span class="kw">cut</span>(x, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">20</span>, <span class="ot">Inf</span>)) <span class="co"># or max(x) in place of Inf</span>
-<span class="kw">table</span>(xc)</code></pre></div>
-<pre><code># xc
-#    (0,5]   (5,10]  (10,15]  (15,20] (20,Inf] 
-#      120      473      274      106       27</code></pre>
-<p>See the note in <code>?cut</code> for details on more efficient alternatives:</p>
+<div id="plotting" class="section level4">
+<h4><span class="header-section-number">3.7.4.3</span> Plotting</h4>
+<p>We can plot a binned version of the variable; or instead a histogram; or a kernel approximation to the density; or a box plot:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">carsDT[, drat %&gt;%<span class="st"> </span><span class="kw">cut</span>(<span class="dv">4</span>) %&gt;%<span class="st"> </span>table %&gt;%<span class="st"> </span>plot ]</code></pre></div>
+<p><img src="tutorial_files/figure-html/cut-table-plot-1.png" width="672" /></p>
+<pre><code># [1] 1 2 3 4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or</span>
+carsDT[, drat %&gt;%<span class="st"> </span><span class="kw">hist</span>(<span class="dv">4</span>) %&gt;%<span class="st"> </span>{<span class="ot">NULL</span>} ]</code></pre></div>
+<p><img src="tutorial_files/figure-html/cut-table-plot-2.png" width="672" /></p>
+<pre><code># NULL</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or</span>
+carsDT[, drat %&gt;%<span class="st"> </span>density %&gt;%<span class="st"> </span>plot ]</code></pre></div>
+<p><img src="tutorial_files/figure-html/cut-table-plot-3.png" width="672" /></p>
+<pre><code># NULL</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or</span>
+carsDT[, drat %&gt;%<span class="st"> </span>boxplot  %&gt;%<span class="st"> </span>{<span class="ot">NULL</span>} ]</code></pre></div>
+<p><img src="tutorial_files/figure-html/cut-table-plot-4.png" width="672" /></p>
+<pre><code># NULL</code></pre>
+<p>The first option is discouraged by a note in <code>?cut</code>:</p>
 <blockquote>
-<p>Instead of <code>table(cut(x, br))</code>, <code>hist(x, br, plot = FALSE)</code> is more efficient and less memory hungry. Instead of <code>cut(*, labels = FALSE)</code>, <code>findInterval()</code> is more efficient.</p>
+<p>Instead of <code>table(cut(x, br))</code>, <code>hist(x, br, plot = FALSE)</code> is more efficient and less memory hungry.</p>
 </blockquote>
+<p>The <code>{NULL}</code> at the end is useful for fairly esoteric reasons. With <code>hist</code>, it is to avoid printing the histogram’s internal structure to the console. With <code>boxplot</code> the same reason applies, but in addition, it is to avoid an error caused by how data.table processes the <code>j</code> argument of <code>DT[i,j,by]</code>. Anyway, a trailing <code>NULL</code> can safely be tacked onto the end of any <code>j</code> operation where you don’t actually want to see the return value.</p>
+<p>As seen here, using <code>%&gt;%</code> pipes with plotting functions has the unfortunate side effect of yielding blanks in titles and axes. Compare with <code>carsDT[, hist(drat, 4) ]</code>, for example. Nonetheless, piping is often convenient for this. The <code>cut</code>, <code>hist</code>, <code>density</code>, <code>boxplot</code> and <code>plot</code> functions all have many options that can be tweaked, documented in their help files, but with the default options they are a quick way to glance at a variable.</p>
+</div>
+<div id="other-analyses" class="section level4">
+<h4><span class="header-section-number">3.7.4.4</span> Other analyses</h4>
+<p>Of course, various statistical tests can be applied to a vector; but that is best left up to an internet search and careful reading of the documentation.</p>
+</div>
+</div>
+<div id="explore-vars" class="section level3">
+<h3><span class="header-section-number">3.7.5</span> Examining variables jointly</h3>
+<div id="summary-functions-1" class="section level4">
+<h4><span class="header-section-number">3.7.5.1</span> Summary functions</h4>
+<p>The <code>var</code> function applied to a table will give its variance-covariance matrix. There’s also the correlation matrix with <code>corr</code>; and a plotter for the correlation matrix in <a href="https://CRAN.R-project.org/package=corrplot">the corrplot package</a>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">carsDT[, <span class="kw">var</span>(.SD), .SDcols =<span class="st"> </span><span class="kw">sapply</span>(carsDT, is.numeric)]</code></pre></div>
+<pre><code>#              mpg         cyl        disp          hp         drat          wt
+# mpg    36.324103  -9.1723790  -633.09721 -320.732056   2.19506351  -5.1166847
+# cyl    -9.172379   3.1895161   199.66028  101.931452  -0.66836694   1.3673710
+# disp -633.097208 199.6602823 15360.79983 6721.158669 -47.06401915 107.6842040
+# hp   -320.732056 101.9314516  6721.15867 4700.866935 -16.45110887  44.1926613
+# drat    2.195064  -0.6683669   -47.06402  -16.451109   0.28588135  -0.3727207
+# wt     -5.116685   1.3673710   107.68420   44.192661  -0.37272073   0.9573790
+# qsec    4.509149  -1.8868548   -96.05168  -86.770081   0.08714073  -0.3054816
+# gear    2.135685  -0.6491935   -50.80262   -6.358871   0.27598790  -0.4210806
+# carb   -5.363105   1.5201613    79.06875   83.036290  -0.07840726   0.6757903
+#              qsec        gear        carb
+# mpg    4.50914919   2.1356855 -5.36310484
+# cyl   -1.88685484  -0.6491935  1.52016129
+# disp -96.05168145 -50.8026210 79.06875000
+# hp   -86.77008065  -6.3588710 83.03629032
+# drat   0.08714073   0.2759879 -0.07840726
+# wt    -0.30548161  -0.4210806  0.67579032
+# qsec   3.19316613  -0.2804032 -1.89411290
+# gear  -0.28040323   0.5443548  0.32661290
+# carb  -1.89411290   0.3266129  2.60887097</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or</span>
+carsDT[, <span class="kw">cor</span>(.SD), .SDcols =<span class="st"> </span><span class="kw">sapply</span>(carsDT, is.numeric)]</code></pre></div>
+<pre><code>#             mpg        cyl       disp         hp        drat         wt        qsec
+# mpg   1.0000000 -0.8521620 -0.8475514 -0.7761684  0.68117191 -0.8676594  0.41868403
+# cyl  -0.8521620  1.0000000  0.9020329  0.8324475 -0.69993811  0.7824958 -0.59124207
+# disp -0.8475514  0.9020329  1.0000000  0.7909486 -0.71021393  0.8879799 -0.43369788
+# hp   -0.7761684  0.8324475  0.7909486  1.0000000 -0.44875912  0.6587479 -0.70822339
+# drat  0.6811719 -0.6999381 -0.7102139 -0.4487591  1.00000000 -0.7124406  0.09120476
+# wt   -0.8676594  0.7824958  0.8879799  0.6587479 -0.71244065  1.0000000 -0.17471588
+# qsec  0.4186840 -0.5912421 -0.4336979 -0.7082234  0.09120476 -0.1747159  1.00000000
+# gear  0.4802848 -0.4926866 -0.5555692 -0.1257043  0.69961013 -0.5832870 -0.21268223
+# carb -0.5509251  0.5269883  0.3949769  0.7498125 -0.09078980  0.4276059 -0.65624923
+#            gear       carb
+# mpg   0.4802848 -0.5509251
+# cyl  -0.4926866  0.5269883
+# disp -0.5555692  0.3949769
+# hp   -0.1257043  0.7498125
+# drat  0.6996101 -0.0907898
+# wt   -0.5832870  0.4276059
+# qsec -0.2126822 -0.6562492
+# gear  1.0000000  0.2740728
+# carb  0.2740728  1.0000000</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or</span>
+carsDT[, <span class="kw">cor</span>(.SD) %&gt;%<span class="st"> </span>corrplot::<span class="kw">corrplot</span>() %&gt;%<span class="st"> </span>{<span class="ot">NULL</span>}, .SDcols =<span class="st"> </span><span class="kw">sapply</span>(carsDT, is.numeric)]</code></pre></div>
+<p><img src="tutorial_files/figure-html/vcv-1.png" width="672" /></p>
+<pre><code># NULL</code></pre>
+<p>The trailing <code>()</code> on <code>corrplot::corrplot()</code> is necessary thanks to <a href="https://github.com/tidyverse/magrittr/issues/12">a magrittr bug</a> not yet fixed on CRAN.</p>
+</div>
+<div id="tabulating-1" class="section level4">
+<h4><span class="header-section-number">3.7.5.2</span> Tabulating</h4>
+<p>Cross tabulation of discrete, or discretized, variables uses <code>table</code> or <code>.N</code> again:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">carsDT[, .N, by=.(am, <span class="dt">drat_bin =</span> <span class="kw">cut</span>(drat, <span class="dv">4</span>))]</code></pre></div>
+<pre><code>#        am    drat_bin  N
+# 1: manual (3.84,4.39]  8
+# 2:   auto  (2.76,3.3] 13
+# 3:   auto  (3.3,3.84]  3
+# 4:   auto (3.84,4.39]  3
+# 5: manual (4.39,4.93]  2
+# 6: manual  (3.3,3.84]  3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or</span>
+carsDT[, <span class="kw">table</span>(am, <span class="dt">drat_bin =</span> <span class="kw">cut</span>(drat, <span class="dv">4</span>))]</code></pre></div>
+<pre><code>#         drat_bin
+# am       (2.76,3.3] (3.3,3.84] (3.84,4.39] (4.39,4.93]
+#   auto           13          3           3           0
+#   manual          0          3           8           2</code></pre>
+<p>Note that the <code>table</code> approach includes zeros, while they don’t show up in the aggregation using <code>.N</code>.</p>
+</div>
+<div id="plotting-1" class="section level4">
+<h4><span class="header-section-number">3.7.5.3</span> Plotting</h4>
+<p>For a pair of continuous variables, <code>qqplot</code> will give a QQ plot; and <code>plot</code>, a scatterplot. To deal with the fact that varying density isn’t always clear in a scatterplot (since dots end up on top of each other), one common recommendation is the <a href="https://cran.r-project.org/package=hexbin">hexbin package</a>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">airDT[, { 
+  hexbin::<span class="kw">hexbin</span>(Wind, Temp) %&gt;%<span class="st"> </span>plot
+  <span class="ot">NULL</span> 
+}]</code></pre></div>
+<p><img src="tutorial_files/figure-html/hexbin-1.png" width="672" /></p>
+<pre><code># NULL</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">airDT[,  <span class="kw">plot</span>(Wind, Temp)]</code></pre></div>
+<p><img src="tutorial_files/figure-html/hexbin-2.png" width="672" /></p>
+<pre><code># NULL</code></pre>
+<p>To see how a particular curve relates to the data, it can be overlaid on compatible plots like <code>curve(100 - 3*x, add = TRUE)</code>. Without the <code>add=TRUE</code> option, the curve would be placed in a new plot.</p>
+
+<div class="rmd-caution">
+<p><strong>Plot windows.</strong> Working interactively in the R console, each plot takes the place of the last one, using the same window. To open new windows use <code>x11()</code> whatever command the plotting function says is necessary. Multiple plots can be fit in the same window using <code>par</code>.</p>
+In R Studio, a history of plots is saved in the “Plots” area and can be browsed using the left and right arrow buttons there. The x and broom buttons can be used to remove plots from the history. If you want plots in separate windows (like seen in the R console), <code>x11()</code> or a similar call can be used.
+</div>
+<p></p>
+</div>
+<div id="other-analyses-1" class="section level4">
+<h4><span class="header-section-number">3.7.5.4</span> Other analyses</h4>
+<p>An internet search will reveal many tools for estimating a model and plotting its fitted curve and confidence bands on top of the cloud of points, so I won’t cover those here. Usually, after finding such a tool, a read of its documentation and running its examples will be sufficient to figure it out. And for more than two variables, the same is true – a search online will serve very well, assuming the desired task is clear.</p>
 </div>
 </div>
 <div id="dcast" class="section level3">
-<h3><span class="header-section-number">3.7.5</span> Reshaping to wide</h3>
-<p>draw from <a href="http://stackoverflow.com/documentation/data.table/4117" class="uri">http://stackoverflow.com/documentation/data.table/4117</a></p>
-<p>wide format is rarely useful for storing data (see structuring data)</p>
-<p>but it is good for browsing</p>
-<p>dcast</p>
-<p>analogy with blacksmithing or something (re cast and melt), molten into its most flexible form, cast into a rigid shape for a particular purpose</p>
-<p>todo cite <code>vignette(&quot;datatable-reshape&quot;)</code></p>
+<h3><span class="header-section-number">3.7.6</span> Reshaping to wide</h3>
+<p>The <code>dcast</code> function is a flexible way of making a table of summary stats. Extending some examples above…</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">carsDT[, .(.N, <span class="dt">mean_hp =</span> <span class="kw">mean</span>(hp)), by=.(am, <span class="dt">drat_bin =</span> <span class="kw">cut</span>(drat, <span class="dv">4</span>))][,
+  <span class="kw">dcast</span>(.SD, drat_bin ~<span class="st"> </span>am, <span class="dt">value.var =</span> <span class="kw">c</span>(<span class="st">&quot;N&quot;</span>, <span class="st">&quot;mean_hp&quot;</span>))
+]</code></pre></div>
+<pre><code>#       drat_bin N_auto N_manual mean_hp_auto mean_hp_manual
+# 1:  (2.76,3.3]     13       NA     176.9231             NA
+# 2:  (3.3,3.84]      3        3     134.6667       207.6667
+# 3: (3.84,4.39]      3        8     113.6667       110.3750
+# 4: (4.39,4.93]     NA        2           NA        71.5000</code></pre>
+<p>So we get row counts and mean horsepower computed by auto/manual and bins of drat (rear-axle ration). Unfortunately, we get NA counts instead of zeros here, but if the goal is simply to explore data, that shouldn’t be a big deal.</p>
+
+<div class="rmd-details">
+<strong>Melting and casting.</strong> The terms melting and casting (for conversion of a table to and from long format) are taken from the reshape2 package. My guess regarding the lingo is that it comes from mettalurgy and the thinking is: there is only one long-form arrangement of data, its liquid or molten form. There are many possible wide-form arrangements, each of which is casting the raw molten data into a rigid form using a different mold.
+</div>
+<p></p>
+<p>The <code>dcast</code> function and its counterpart, <code>melt</code>, are covered in <code>vignette(&quot;datatable-reshape&quot;)</code>. Also, <code>melt</code> comes up again in <a href="tables.html#structuring-data">3.8</a>.</p>
 </div>
 </div>
 <div id="structuring-data" class="section level2">
 <h2><span class="header-section-number">3.8</span> Organizing relational tables</h2>
 <p>background: tidy data / database design</p>
-<p>data.table(C02) might be a good example, with its redundant cols</p>
-<div id="reshaping-to-long-format" class="section level3">
+<p>data.table(CO2) might be a good example, with its redundant cols</p>
+<div id="melt" class="section level3">
 <h3><span class="header-section-number">3.8.1</span> Reshaping to long format</h3>
 <p>todo cite <code>vignette(&quot;datatable-reshape&quot;)</code> again</p>
 </div>

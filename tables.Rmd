@@ -328,7 +328,7 @@ Plotting graphs is beyond the scope of this document, but the example above shou
 ```
 
 
-## Aggregation
+## Aggregation {#dt-agg}
 
 The mtcars data set (see `?mtcars`) has two categorical variables: 
 
@@ -350,7 +350,7 @@ carsDT[, .(mean_hp = mean(hp)), by=.(am, vs)]
 
 So, we just write `j` of `DT[i,j,by]` as an expression to compute the summary statistic, optionally giving it a name by wrapping in `.(name = expression)`.
 
-Section \@ref(dt-summary-stats) covers more options for exploring data with summary statistics; and \@ref(dcast) shows how to put this result in wide format (with, e.g., `am` on rows and `vs` on columns).
+Sections \@ref(explore-onevar) and \@ref(explore-vars) cover more options for exploring data with summary statistics; and \@ref(dcast) shows how to put this result in wide format (with, e.g., `am` on rows and `vs` on columns).
 
 ### Iterating over columns {#dt-lapply}
 
@@ -421,7 +421,7 @@ DT[, (nms) := NULL][]
 
 A warning will print if we remove some columns that don't currently exist.
 
-### Replacing entire columns
+### Replacing entire columns {#dt-replace-all}
 
 Data.table is careful about column types:
 
@@ -445,7 +445,7 @@ If we want this assignment to work, we need to change `a`'s type by passing a fu
 DT[, a := rep(32.5, .N) ][]
 ```
 
-The coercion is done silently, but it can be made more visible by turning on `verbose`, which notes the "plonk" of a full vector replacement.
+The coercion is done silently, but it can be made more visible by turning on `verbose`, which notes the "plonk" of a full vector replacement. `.N` is a special symbol for the number of rows (or the number of rows in a subset when `i` or `by=` is present).
 
 ### Replacing columns conditionally {#dt-ifelse}
 
@@ -1005,7 +1005,7 @@ DT
 
 In the case of messier strings, the convenience functions in the stringi package may be helpful, along with a read of `?regex` and the string section in the next chapter (\@ref(strings)).
 
-### Factor columns
+### Categorical columns {#dt-recode}
 
 `fread` will read string columns in as character by default, and this is usually the way to go.
 
@@ -1068,7 +1068,7 @@ load("stuff.rdata", env = e_stuff <- new.env())
 
 Now, `n` is still 20, while the loaded value of `n = 10` can be accessed like `e_stuff$n`. The `$` and `[[` extractors for lists (\@ref(extract-list)) also work on environments, as does `names(e_stuff)`.
 
-One nice feature of the R console is that you can drag an `.rdata` file into it to load. Also, opening an `.rdata` file with the R console will start a new session and load it. (At least this is true in Windows.)
+One nice feature of the R console is that `.rdata` files can be dragged and dropped into it to load. Also, opening an `.rdata` file with the R console will start a new session and load it. (At least this is true in Windows.)
 
 #### Single objects
 
@@ -1097,36 +1097,62 @@ For the display of numbers, again, I suggest leaving it alone instead of, e.g., 
 
 ## Exploring data {#exploring-data}
 
-range, summary
+We'll look at two example data sets `mtcars` and `airquality`:
 
-Henk Harmsen on "ergonomics" https://rpubs.com/carbonmetrics/datatable_ihub
+As a first step, we'll clean up `carsDT`'s categorical variables (noted in \@ref(dt-agg)), using the approach suggested in \@ref(dt-recode):
 
-`e_bad = DT[, var, by=e_id][var==TRUE, e_id]; DT[.(e_id)] (simpler with having)`
+```{r mtcars-pre}
+rm(list = ls())                  # clear tables and other objects
 
-`DT[, .N, by=e_id][order(-N)]`
+airDT  = data.table(airquality)
+carsDT = data.table(mtcars, keep.rownames = TRUE)
+carsDT[.(old_am = c(0, 1), new_am = c("auto", "manual")), on=.(am = old_am), 
+  new_am := i.new_am ]           # grab new column
+carsDT[, am := NULL ]            # drop old column
+setnames(carsDT, "new_am", "am") # rename new column
 
-creating temp vars, printing with []
+carsDT[.(old_vs = c(0, 1), new_vs = c("v", "straight")), on=.(vs = old_vs), 
+  new_vs := i.new_vs ]           # grab new column
+carsDT[, vs := NULL ]            # drop old column
+setnames(carsDT, "new_vs", "vs") # rename new column
+```
 
-DT[, do_stuff, j] %>% print(nrow=Inf) with magrittr (warning about performance hit in real nonexploratory code)
-
-hist, hexbin
-
-cor, cormat
-
-x11() for multiple windows
-
-eyeball-exploring models: curve
-
-qqplot etc for the statistically literate, and other tools for ML people
+The rigmarole with dropping and renaming is necessary because data.table's type safety protections (\@ref(dt-replace-all)) prevent overwriting columns with a new class (from numeric 1/0 to character "auto"/"manual") in an update join.
 
 ### Browsing loaded objects {#browse-env}
 
-ls()
+For a list of all loaded tables, run...
 
-rm()
-
+```{r tables}
 tables()
+```
 
+We saw in \@ref(dt-saveload) that a collection of tables (and other objects) saved on disk can be loaded into an environment. We can look at tables in such an environment, too:
+
+```{r tables-env}
+load("stuff.rdata", env = e_stuff <- new.env())
+tables(env = e_stuff)
+```
+
+The `tables` output shows keys and other attributes, which is handy. If we look at objects of all types (tables, vectors, matrices, functions and more), we usually only view names:
+
+```{r ls}
+ls()
+```
+
+Output can be filtered according to a regex (\@ref(strings)):
+
+```{r ls-patt}
+ls(patt = "DT$")
+```
+
+And it can be done within an environment:
+
+```{r ls-env}
+ls(env = e_stuff)
+```
+
+To remove tables or other objects, use `rm`. A common step is to remove all objects listed by `ls()`, like `rm(list = ls())`.
 
 ### Subsetting {#dt-subset}
 
@@ -1134,13 +1160,8 @@ tables()
 
 This is analogous to a SQL WHERE clause or a Stata `if` clause.
 
-```{r dt-sub-pre}
-# example data
-DT = data.table(Titanic)
-```
-
 ```{r dt-sub}
-DT[ Class == "Crew" & N > 100 ]
+carsDT[ am == "auto" & disp < 300 ]
 ```
 
 This syntax, `DT[i]`, is the subsetting task needed in the vast majority of cases. The rest of \@ref(dt-subset) can safely be skipped the first time through; it is mostly useful for reference.
@@ -1150,24 +1171,24 @@ This syntax, `DT[i]`, is the subsetting task needed in the vast majority of case
 This is analogous to a SQL HAVING clause.
 
 ```{r dt-sub-gstat}
-DT[ , if (sum(N) < 300) .SD, by=Class ]
+carsDT[ , if (mean(wt) > 3) .SD, by=.(am, vs) ]
 ```
 
-We are including the group only if it meets our condition. The structure `if (cond) x` returns `x` if the condition is true and nothing (`NULL`) otherwise, omitting those rows. `.SD` refers to the Subset of the Data associated with each `by=` group.
-
-This syntax isn't as clean as a HAVING clause, but it is likely to improve.
+We are including the group only if it meets our condition. The structure `if (cond) x` returns `x` if the condition is true and nothing (`NULL`) otherwise, omitting those rows.
 
 #### Selecting rows within each group
 
 ```{r dt-sub-grow}
-# select first row
-DT[ , .SD[1L], by=Class ]
-# select row(s) with highest count
-DT[ , .SD[N == max(N)], by=Class ]
+# sorting by carb decreasing, selecting first row per group
+# thus a row with maximum carb within the group
+carsDT[ order(-carb), .SD[1L], by=.(am, vs) ]
+
+# instead select all row(s) with maximum carb
+carsDT[ , .SD[carb == max(carb)], by=.(am, vs) ]
 ```
 
 ```{block2, type='rmd-details'}
-**Efficient selection of rows within each group.**  The second task here is [somewhat inefficient](https://github.com/Rdatatable/data.table/issues/735) currently, with a faster workaround [provided by eddi](http://stackoverflow.com/a/16574176): `DT[DT[ , .I[N == max(N)], by=Class ]$V1]`. And [Arun provided a further improvement](http://stackoverflow.com/a/31854111), taking advantage of `gmax`, an efficient by-group `max` (see `?GForce`): `DT[DT[, max(N), by=Class], on=.(Class, N = V1)]`. The variable `.I` represents the row number in the full table, or at least it *should* do that. Currently, `.I` does [not always behave like this](https://github.com/Rdatatable/data.table/issues/1494). "V1" is the default name given to the result in `j`. 
+**Efficient selection of rows within each group.**  The second task here is [somewhat inefficient](https://github.com/Rdatatable/data.table/issues/735) currently, with a faster workaround [provided by eddi](http://stackoverflow.com/a/16574176): `carsDT[carsDT[ , .I[carb == max(carb)], by=.(am, vs) ]$V1]`. And [Arun provided a further improvement](http://stackoverflow.com/a/31854111): `carsDT[carsDT[, max(carb), by=.(am, vs)], on=.(am, vs, carb = V1)]`. 
 ```
 
 #### Finding where a condition holds
@@ -1179,104 +1200,202 @@ cond = c("aleph", "baz", "boz") > "b"
 which(cond)
 ```
 
-So, it takes us from a logical index to one of positions. This can sometimes speed up computations; and is necessary when facing functions that don't take logical indices.
-
-When using `which` on a matrix or array (see \@ref(matrix-array)), we can find out "where" in terms of row and column using the `arr.ind` option.
+So, it takes us from a logical index to one of positions. When using `which` on a matrix or array (see \@ref(matrix-array)), we can find out "where" in terms of row and column using the `arr.ind` option.
 
 Beware of using `which` output as an index:
 
 ```{r bad-which}
 x  = 1:5
 w  = which(x^2 > 50)
+w
 x[-w]
 ```
 
-We wanted to filter to where `x` meeting our condition, but instead we lost the whole vector. Straight-up logical filtering is the safer route here.
+We wanted to filter to where `x` fails our condition, but instead we lost the whole vector. Straight-up logical filtering is the safer route here: `x[!(x^2 > 50)]`.
 
-Data.table has `DT[i, which = TRUE]` syntax as well.
-
+To find which table rows a subset pertains to, use `DT[i, which = TRUE]`. The `i` index could be a logical condition or a table being joined. It might seem like the special symbol `.I` would work here instead, like `DT[i, .I]`, but currently it does not.
 
 ### Sorting
 
-order(x, -y)
+To sort the table in-place, use `setorder`. And to set a key (which sorts as a side effect), use `setkey`. When passing columns to sort by programmatically, use `setorderv` or `setkeyv`.
 
-setorder
+For a one-time sort (not altering the order of the object itself), write an `order(...)` expression in the first argument, like `carsDT[order(hp, -carb), j, by=]` where `j` and `by=` characterize some task to be done with the sorted data.
 
-setkey
+### Examining each variable {#explore-onevar}
 
-### Summaries {#dt-summary-stats}
+#### Summary functions
 
-draw from http://stackoverflow.com/documentation/data.table/3785 
+For a snapshot of per-variable stats, there's `summary`, but it is very crude and reports nothing about character columns (not even missing values):
 
-
-#### The `summary` function
-
-similar to stata
-
-doesn't really return a useful object, only for printing
-
-#### Collapsing a table
-
-collapse
-
-various custom summary functions
-
-maybe mention GForce again
-
-
-#### Counting missing values
-
-mdesc, count missing per column colSums(is.na(.SD))
-
-
-#### Tabulating {#counting-rows}
-
-Tabulating or tallying 
-
-bwDT[, .N, by=ftv]
-
-refer to table() and plot.table()
-
-With a continuous variable `x`, it often doesn't make sense to tally values as in the last section. However, we can specify bins and find where the values fall:
-
-```{r cut}
-set.seed(1)
-n  = 1000
-x  = rchisq(n, df = 10)
-xc = cut(x, breaks = c(0, 5, 10, 15, 20, Inf)) # or max(x) in place of Inf
-table(xc)
+```{r summary}
+summary(airDT)
+summary(carsDT)
 ```
 
-See the note in `?cut` for details on more efficient alternatives:
+To count missing values per column (analogous to Stata's mdesc)...
 
-> Instead of `table(cut(x, br))`, `hist(x, br, plot = FALSE)` is more efficient and less memory hungry. Instead of `cut(*, labels = FALSE)`, `findInterval()` is more efficient.
+```{r mdesc}
+airDT[, .(
+  col = names(.SD),
+  nna = nna <- colSums(is.na(.SD)),
+  nok = .N - nna,
+  tot = .N
+)]
+```
 
+This can also be done by group, like
 
+```{r mdesc-group, eval=FALSE}
+airDT[, .(
+  col = names(.SD),
+  nna = nna <- colSums(is.na(.SD)),
+  nok = .N - nna,
+  tot = .N
+), by=Month]
+```
+
+Various function can be applied and have the usual names: `mean`, `median`, `range` (combining `min` and `max`), `var`, `skew`, `quantile`, etc. Most of these functions can be applied by group as well, with syntax like ...
+
+```{r single-var-stats}
+# single-valued functions
+carsDT[, mean(drat), by=am]
+# multi-valued functions
+carsDT[, quantile(drat, c(.1, .25, .75, .9)) %>% as.list, by=am]
+# multiple functions
+carsDT[, c(
+  .(mean = mean(drat)), 
+  quantile(drat, c(.1, .25, .75, .9)) %>% as.list
+), by=am]
+```
+
+The `as.list` is necessary to split the results over multiple columns. It is inefficient, but that won't matter much when exploring data, I imagine.
+
+#### Tabulating
+
+For a better look at a character or factor column, we'd want to tabulate values:
+
+```{r table}
+carsDT[, table(am, useNA = "always")]
+# or
+carsDT[, .N, by=am]
+```
+
+Each of the two options above has advantages in certain cases. We'll see that `table()` is useful when browsing tabulations in more dimensions. And the `DT[...]` syntax is useful for chaining. For example, `carsDT[, .N, by=av][order(-N)][1:3]` will show counts for the three largest groups, sorted.
+
+For a better look at continuous variables, we can use the same tools after using `cut` to put values into bins:
+
+```{r cut-table}
+carsDT[, .N, by=.(drat_bin = cut(drat, 4))]
+# or
+carsDT[, drat %>% cut(4) %>% table ]
+```
+
+#### Plotting
+
+We can plot a binned version of the variable; or instead a histogram; or a kernel approximation to the density; or a box plot:
+
+```{r cut-table-plot}
+carsDT[, drat %>% cut(4) %>% table %>% plot ]
+# or
+carsDT[, drat %>% hist(4) %>% {NULL} ]
+# or
+carsDT[, drat %>% density %>% plot ]
+# or
+carsDT[, drat %>% boxplot  %>% {NULL} ]
+```
+
+The first option is discouraged by a note in `?cut`:
+
+> Instead of `table(cut(x, br))`, `hist(x, br, plot = FALSE)` is more efficient and less memory hungry.
+
+The `{NULL}` at the end is useful for fairly esoteric reasons. With `hist`, it is to avoid printing the histogram's internal structure to the console. With `boxplot` the same reason applies, but in addition, it is to avoid an error caused by how data.table processes the `j` argument of `DT[i,j,by]`. Anyway, a trailing `NULL` can safely be tacked onto the end of any `j` operation where you don't actually want to see the return value.
+
+As seen here, using `%>%` pipes with plotting functions has the unfortunate side effect of yielding blanks in titles and axes. Compare with `carsDT[, hist(drat, 4) ]`, for example. Nonetheless, piping is often convenient for this. The `cut`, `hist`, `density`, `boxplot` and `plot` functions all have many options that can be tweaked, documented in their help files, but with the default options they are a quick way to glance at a variable. 
+
+#### Other analyses
+
+Of course, various statistical tests can be applied to a vector; but that is best left up to an internet search and careful reading of the documentation.
+
+### Examining variables jointly {#explore-vars}
+
+#### Summary functions
+
+The `var` function applied to a table will give its variance-covariance matrix. There's also the correlation matrix with `corr`; and a plotter for the correlation matrix in [the corrplot package](https://CRAN.R-project.org/package=corrplot):
+
+```{r vcv}
+carsDT[, var(.SD), .SDcols = sapply(carsDT, is.numeric)]
+# or
+carsDT[, cor(.SD), .SDcols = sapply(carsDT, is.numeric)]
+# or
+carsDT[, cor(.SD) %>% corrplot::corrplot() %>% {NULL}, .SDcols = sapply(carsDT, is.numeric)]
+```
+
+The trailing `()` on `corrplot::corrplot()` is necessary thanks to [a magrittr bug](https://github.com/tidyverse/magrittr/issues/12) not yet fixed on CRAN.
+
+#### Tabulating
+
+Cross tabulation of discrete, or discretized, variables uses `table` or `.N` again:
+
+```{r crosstab}
+carsDT[, .N, by=.(am, drat_bin = cut(drat, 4))]
+# or
+carsDT[, table(am, drat_bin = cut(drat, 4))]
+```
+
+Note that the `table` approach includes zeros, while they don't show up in the aggregation using `.N`.
+
+#### Plotting
+
+For a pair of continuous variables, `qqplot` will give a QQ plot; and `plot`, a scatterplot. To deal with the fact that varying density isn't always clear in a scatterplot (since dots end up on top of each other), one common recommendation is the [hexbin package](https://cran.r-project.org/package=hexbin):
+
+```{r hexbin, echo=-(1:2), warning=FALSE}
+# knitr demands library() apparently
+library(hexbin)
+airDT[, { 
+  hexbin::hexbin(Wind, Temp) %>% plot
+  NULL 
+}]
+airDT[,  plot(Wind, Temp)]
+```
+
+To see how a particular curve relates to the data, it can be overlaid on compatible plots like `curve(100 - 3*x, add = TRUE)`. Without the `add=TRUE` option, the curve would be placed in a new plot.
+
+```{block2 plot-windows, type='rmd-caution'}
+**Plot windows.** Working interactively in the R console, each plot takes the place of the last one, using the same window. To open new windows use `x11()` whatever command the plotting function says is necessary. Multiple plots can be fit in the same window using `par`.
+
+In R Studio, a history of plots is saved in the "Plots" area and can be browsed using the left and right arrow buttons there. The x and broom buttons can be used to remove plots from the history. If you want plots in separate windows (like seen in the R console), `x11()` or a similar call can be used.
+```
+
+#### Other analyses
+
+An internet search will reveal many tools for estimating a model and plotting its fitted curve and confidence bands on top of the cloud of points, so I won't cover those here. Usually, after finding such a tool, a read of its documentation and running its examples will be sufficient to figure it out. And for more than two variables, the same is true -- a search online will serve very well, assuming the desired task is clear.
 
 ### Reshaping to wide {#dcast}
 
-draw from http://stackoverflow.com/documentation/data.table/4117
+The `dcast` function is a flexible way of making a table of summary stats. Extending some examples above...
 
-wide format is rarely useful for storing data (see structuring data)
+````{r dcast}
+carsDT[, .(.N, mean_hp = mean(hp)), by=.(am, drat_bin = cut(drat, 4))][,
+  dcast(.SD, drat_bin ~ am, value.var = c("N", "mean_hp"))
+]
+````
 
-but it is good for browsing
+So we get row counts and mean horsepower computed by auto/manual and bins of drat (rear-axle ration). Unfortunately, we get NA counts instead of zeros here, but if the goal is simply to explore data, that shouldn't be a big deal.
 
-dcast
+```{block2 meltcast-names, type='rmd-details'}
+**Melting and casting.** The terms melting and casting (for conversion of a table to and from long format) are taken from the reshape2 package. My guess regarding the lingo is that it comes from mettalurgy and the thinking is: there is only one long-form arrangement of data -- its liquid or molten form. On the other hand, there are many possible wide-form arrangements, each of which can be though of as a different mold that can be cast to.
+```
 
-analogy with blacksmithing or something (re cast and melt), molten into its most flexible form, cast into a rigid shape for a particular purpose
-
-
-todo cite `vignette("datatable-reshape")`
-
+The `dcast` function and its counterpart, `melt`, are covered in `vignette("datatable-reshape")`. Also, `melt` comes up again in \@ref(structuring-data).
 
 
 ## Organizing relational tables {#structuring-data}
 
 background: tidy data / database design
 
-data.table(C02) might be a good example, with its redundant cols
+data.table(CO2) might be a good example, with its redundant cols
 
-### Reshaping to long format
+### Reshaping to long format {#melt}
 
 todo cite `vignette("datatable-reshape")` again
 

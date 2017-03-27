@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-03-24" />
+<meta name="date" content="2017-03-27" />
 
 
 <meta name="description" content="This book covers the essentials of using R.">
@@ -125,7 +125,7 @@ img {
 <li><a href="basics.html#assigning-to-a-list-element"><span class="toc-section-number">2.1.10</span> Assigning to a list element</a></li>
 <li><a href="basics.html#initializing"><span class="toc-section-number">2.1.11</span> Initializing</a></li>
 <li><a href="basics.html#factors"><span class="toc-section-number">2.1.12</span> Factors</a></li>
-<li><a href="basics.html#sorting-rank-order"><span class="toc-section-number">2.1.13</span> Sorting, rank, order</a></li>
+<li><a href="basics.html#sort-rank-order"><span class="toc-section-number">2.1.13</span> Sorting, rank, order</a></li>
 <li><a href="basics.html#testing-membership"><span class="toc-section-number">2.1.14</span> Testing membership</a></li>
 <li><a href="basics.html#exercises"><span class="toc-section-number">2.1.15</span> Exercises</a></li>
 </ul></li>
@@ -178,13 +178,13 @@ img {
 <li><a href="tables.html#extracting-columns"><span class="toc-section-number">3.2.3</span> Extracting columns</a></li>
 <li><a href="tables.html#extensions-to-the-data.frame-class"><span class="toc-section-number">3.2.4</span> Extensions to the data.frame class</a></li>
 </ul></li>
-<li class="has-sub"><a href="tables.html#aggregation"><span class="toc-section-number">3.3</span> Aggregation</a><ul>
+<li class="has-sub"><a href="tables.html#dt-agg"><span class="toc-section-number">3.3</span> Aggregation</a><ul>
 <li><a href="tables.html#dt-lapply"><span class="toc-section-number">3.3.1</span> Iterating over columns</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#dt-subassign"><span class="toc-section-number">3.4</span> Modifying data</a><ul>
 <li><a href="tables.html#dt-col-create"><span class="toc-section-number">3.4.1</span> Creating columns</a></li>
 <li><a href="tables.html#removing-columns"><span class="toc-section-number">3.4.2</span> Removing columns</a></li>
-<li><a href="tables.html#replacing-entire-columns"><span class="toc-section-number">3.4.3</span> Replacing entire columns</a></li>
+<li><a href="tables.html#dt-replace-all"><span class="toc-section-number">3.4.3</span> Replacing entire columns</a></li>
 <li><a href="tables.html#dt-ifelse"><span class="toc-section-number">3.4.4</span> Replacing columns conditionally</a></li>
 <li><a href="tables.html#other-in-place-modifications"><span class="toc-section-number">3.4.5</span> Other in-place modifications</a></li>
 <li><a href="tables.html#avoiding-in-place-modification"><span class="toc-section-number">3.4.6</span> Avoiding in-place modification</a></li>
@@ -206,7 +206,7 @@ img {
 <li><a href="tables.html#rbindlist-read"><span class="toc-section-number">3.6.3</span> <code>rbindlist</code> to combine tables</a></li>
 <li><a href="tables.html#dates-times"><span class="toc-section-number">3.6.4</span> Date and time columns</a></li>
 <li><a href="tables.html#character-columns"><span class="toc-section-number">3.6.5</span> Character columns</a></li>
-<li><a href="tables.html#factor-columns"><span class="toc-section-number">3.6.6</span> Factor columns</a></li>
+<li><a href="tables.html#dt-recode"><span class="toc-section-number">3.6.6</span> Categorical columns</a></li>
 <li><a href="tables.html#list-columns"><span class="toc-section-number">3.6.7</span> List columns</a></li>
 <li><a href="tables.html#fwrite"><span class="toc-section-number">3.6.8</span> <code>fwrite</code> to write delimited files</a></li>
 <li><a href="tables.html#dt-saveload"><span class="toc-section-number">3.6.9</span> Saving and loading R objects</a></li>
@@ -217,11 +217,12 @@ img {
 <li><a href="tables.html#browse-env"><span class="toc-section-number">3.7.1</span> Browsing loaded objects</a></li>
 <li><a href="tables.html#dt-subset"><span class="toc-section-number">3.7.2</span> Subsetting</a></li>
 <li><a href="tables.html#sorting"><span class="toc-section-number">3.7.3</span> Sorting</a></li>
-<li><a href="tables.html#dt-summary-stats"><span class="toc-section-number">3.7.4</span> Summaries</a></li>
-<li><a href="tables.html#dcast"><span class="toc-section-number">3.7.5</span> Reshaping to wide</a></li>
+<li><a href="tables.html#explore-onevar"><span class="toc-section-number">3.7.4</span> Examining each variable</a></li>
+<li><a href="tables.html#explore-vars"><span class="toc-section-number">3.7.5</span> Examining variables jointly</a></li>
+<li><a href="tables.html#dcast"><span class="toc-section-number">3.7.6</span> Reshaping to wide</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#structuring-data"><span class="toc-section-number">3.8</span> Organizing relational tables</a><ul>
-<li><a href="tables.html#reshaping-to-long-format"><span class="toc-section-number">3.8.1</span> Reshaping to long format</a></li>
+<li><a href="tables.html#melt"><span class="toc-section-number">3.8.1</span> Reshaping to long format</a></li>
 <li><a href="tables.html#choosing-tables-and-keys"><span class="toc-section-number">3.8.2</span> Choosing tables and keys</a></li>
 <li><a href="tables.html#listing-levels"><span class="toc-section-number">3.8.3</span> Listing levels</a></li>
 <li><a href="tables.html#exploring-levels"><span class="toc-section-number">3.8.4</span> Exploring levels</a></li>
@@ -357,13 +358,13 @@ n    =<span class="st"> </span><span class="fl">1e2</span>
     <span class="kw">rnorm</span>(n) %&gt;%<span class="st"> </span>{ <span class="kw">list</span>(<span class="dt">mu =</span> <span class="kw">mean</span>(.), <span class="dt">top3 =</span> <span class="kw">sort</span>(.) %&gt;%<span class="st"> </span><span class="kw">tail</span>(<span class="dv">3</span>))}
 ))</code></pre></div>
 <pre><code>#    user  system elapsed 
-#    3.21    0.01    3.26</code></pre>
+#    1.55    0.02    1.56</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(<span class="kw">replicate</span>(nsim, <span class="dt">simplify =</span> <span class="ot">FALSE</span>, {
     x =<span class="st"> </span><span class="kw">rnorm</span>(n)
     <span class="kw">list</span>(<span class="dt">mu =</span> <span class="kw">mean</span>(x), <span class="dt">top3 =</span> <span class="kw">tail</span>(<span class="kw">sort</span>(x),<span class="dv">3</span>))
 }))</code></pre></div>
 <pre><code>#    user  system elapsed 
-#    1.06    0.00    1.06</code></pre>
+#    0.36    0.00    0.35</code></pre>
 <p>So while it may be convenient to write a quick simulation using pipes, it’s better to switch to vanilla R when speed is important.</p>
 
 <div class="rmd-details">
@@ -475,13 +476,8 @@ shiftDT =<span class="st"> </span><span class="kw">setDT</span>(<span class="kw"
 <h3><span class="header-section-number">4.3.2</span> Taking differences</h3>
 <p>A simple common use for <code>shift</code> is taking differences across rows by group:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">id =</span> <span class="kw">c</span>(1L, 1L, 2L, 2L), <span class="dt">v =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">10</span>))
-DT[, dv :<span class="er">=</span><span class="st"> </span>v -<span class="st"> </span><span class="kw">shift</span>(v), by=id]</code></pre></div>
-<pre><code>#    id  v dv
-# 1:  1  1 NA
-# 2:  1  3  2
-# 3:  2  7 NA
-# 4:  2 10  3</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># fill in the missing lag for the first row</span>
+DT[, dv :<span class="er">=</span><span class="st"> </span>v -<span class="st"> </span><span class="kw">shift</span>(v), by=id]
+<span class="co"># fill in the missing lag for the first row</span>
 DT[, dv_fill :<span class="er">=</span><span class="st"> </span>v -<span class="st"> </span><span class="kw">shift</span>(v, <span class="dt">fill =</span> <span class="dv">0</span>), by=id][]</code></pre></div>
 <pre><code>#    id  v dv dv_fill
 # 1:  1  1 NA       1
