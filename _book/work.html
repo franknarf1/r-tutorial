@@ -141,6 +141,7 @@ img {
 <li><a href="basics.html#matrix-extract"><span class="toc-section-number">2.2.4</span> Extracting from matrices</a></li>
 <li><a href="basics.html#subassigning-to-matrices"><span class="toc-section-number">2.2.5</span> Subassigning to matrices</a></li>
 <li><a href="basics.html#arrays"><span class="toc-section-number">2.2.6</span> Arrays</a></li>
+<li><a href="basics.html#matrix-misc"><span class="toc-section-number">2.2.7</span> Computing with matrices</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#syntax"><span class="toc-section-number">2.3</span> Syntax</a><ul>
 <li><a href="basics.html#assigning-to-attributes"><span class="toc-section-number">2.3.1</span> Assigning to attributes</a></li>
@@ -216,7 +217,7 @@ img {
 <li><a href="tables.html#fwrite"><span class="toc-section-number">3.6.8</span> <code>fwrite</code> to write delimited files</a></li>
 <li><a href="tables.html#dt-saveload"><span class="toc-section-number">3.6.9</span> Saving and loading R objects</a></li>
 <li><a href="tables.html#reading-and-writing-other-formats"><span class="toc-section-number">3.6.10</span> Reading and writing other formats</a></li>
-<li><a href="tables.html#formatting-the-display-of-columns"><span class="toc-section-number">3.6.11</span> Formatting the display of columns</a></li>
+<li><a href="tables.html#format-cols"><span class="toc-section-number">3.6.11</span> Formatting the display of columns</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#exploring-data"><span class="toc-section-number">3.7</span> Exploring data</a><ul>
 <li><a href="tables.html#browse-env"><span class="toc-section-number">3.7.1</span> Browsing loaded objects</a></li>
@@ -257,10 +258,14 @@ img {
 <li><a href="work.html#combining-table-columns"><span class="toc-section-number">4.5</span> Combining table columns</a></li>
 <li class="has-sub"><a href="work.html#reg"><span class="toc-section-number">4.6</span> Regression</a><ul>
 <li><a href="work.html#extracting-results"><span class="toc-section-number">4.6.1</span> Extracting results</a></li>
+<li><a href="work.html#formulas"><span class="toc-section-number">4.6.2</span> Formulas</a></li>
+<li><a href="work.html#custom-regression"><span class="toc-section-number">4.6.3</span> Custom regression</a></li>
 </ul></li>
-<li><a href="work.html#optimization"><span class="toc-section-number">4.7</span> Optimization</a></li>
-<li><a href="work.html#integration"><span class="toc-section-number">4.8</span> Integration</a></li>
-<li><a href="work.html#strings"><span class="toc-section-number">4.9</span> String operations</a></li>
+<li class="has-sub"><a href="work.html#numerical-tasks"><span class="toc-section-number">4.7</span> Numerical tasks</a><ul>
+<li><a href="work.html#optimization"><span class="toc-section-number">4.7.1</span> Optimization</a></li>
+<li><a href="work.html#integration"><span class="toc-section-number">4.7.2</span> Integration</a></li>
+</ul></li>
+<li><a href="work.html#strings"><span class="toc-section-number">4.8</span> String operations</a></li>
 </ul></li>
 </ul>
 </div>
@@ -301,6 +306,7 @@ img {
 </ul>
 <p>As mentioned in <a href="basics.html#classes">2.1.2</a>, R does not actually support an unordered set data type. However, these functions treat <code>x</code> and <code>y</code> as sets in the sense that they ignore duplicated values in them. So <code>union(c(1,1,2), c(3,4))</code> is <code>c(1,2,3,4)</code>, with the repeating 1 ignored because it has no meaning in this context.</p>
 <p>Corresponding functions exist for data.tables, prefixed like <code>f*</code>: <code>funion</code>, <code>fintersect</code>, <code>fsetdiff</code> and <code>fsetequal</code>. Two tables can be combined in this way only if their columns line up (in terms of class, etc.).</p>
+<p>Looking at the source code for these functions, we’ll see a lot of the <code>match</code> function.</p>
 </div>
 <div id="operators-on-lists-of-sets" class="section level3">
 <h3><span class="header-section-number">4.1.4</span> Operators on lists of sets</h3>
@@ -314,6 +320,8 @@ img {
 <pre><code># [1]  1  2  3 11  4  5  6</code></pre>
 <p>Another alternative for the union of a set of vectors is <code>unique(unlist(xList))</code>. The <code>unlist</code> function just combines the four vectors into a single vector. <code>Reduce(intersect, xList)</code> makes sense for taking the intersection of a bunch of sets.</p>
 <p>For a list of data.tables, the same can be done (with <code>funion</code> and <code>fintersect</code>). However, again, the alternative for finite unions <code>unique(rbindlist(dList))</code> may be better in terms of performance in some cases.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">define <span class="kw">subseteq</span>(x, y), which returns true if x is <span class="kw">a</span> (nonstrict) subset of y
+define <span class="kw">symdiff</span>(x, y), which returns items in x or y but not both</code></pre></div>
 </div>
 </div>
 <div id="combos" class="section level2">
@@ -362,8 +370,10 @@ xpairs[, pair_code :<span class="er">=</span><span class="st"> </span><span clas
 # 4:  B  C       B_C
 # 5:  B  D       B_D
 # 6:  C  D       C_D</code></pre>
+<p><code>CJ</code> is essentially a Cartesian product, or a “Cross Join.”</p>
 <p>In base, <code>combn(x, n, f)</code> finds all <code>x</code>’s subvectors of length <code>n</code> and optionally applies a function to them. And <code>outer(x, y, f)</code> applies a function to all pairs of elements of <code>x</code> and <code>y</code>, returning a matrix.</p>
 <p>All of these options can get out of hand, in terms of memory consumption, but that’s normal for combinatorial operations.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">define <span class="kw">triples</span>(x) which returns all subsets of size x, in a data.table with one triple per row</code></pre></div>
 </div>
 <div id="randomization" class="section level2">
 <h2><span class="header-section-number">4.3</span> Randomization</h2>
@@ -395,7 +405,7 @@ x =<span class="st"> </span><span class="kw">c</span>(<span class="fl">6.17</spa
 <p>Where did <code>4</code> and <code>6</code> come from? Those aren’t elements of <code>y</code>!</p>
 
 <div class="rmd-caution">
-<strong>Sampling from a numeric vector.</strong> Vanilla <code>sample</code> cannot be trusted on numeric or integer vectors unless we are sure the vector has a length greater than 1.
+<strong>Sampling from a numeric vector.</strong> Vanilla <code>sample</code> cannot be trusted on numeric or integer vectors unless we are sure the vector has a length greater than 1. Read <code>?sample</code> for details.
 </div>
 <p></p>
 <p>I should have instead sampled from <code>y</code>s indices like</p>
@@ -476,9 +486,11 @@ n    =<span class="st"> </span><span class="fl">1e2</span>
 <div id="multiple-parameters" class="section level4">
 <h4><span class="header-section-number">4.3.4.3</span> Multiple parameters</h4>
 <p>If running multiple simulations with different parameters, I recommend starting with results in a data.table with one row per run:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">simparmDT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">set_id =</span> LETTERS[<span class="dv">1</span>:<span class="dv">2</span>], <span class="dt">nsim =</span> <span class="dv">3</span>, <span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">mu =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="dt">sd =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
-
-<span class="kw">set.seed</span>(<span class="dv">1</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">simparmDT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">set_id =</span> LETTERS[<span class="dv">1</span>:<span class="dv">2</span>], <span class="dt">nsim =</span> <span class="dv">3</span>, <span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">mu =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="dt">sd =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</code></pre></div>
+<pre><code>#    set_id nsim  n mu sd
+# 1:      A    3 10  0  1
+# 2:      B    3 10 10  2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)
 simDT =<span class="st"> </span>simparmDT[, .(
     
     <span class="co"># assign a unique ID to each run</span>
@@ -610,8 +622,8 @@ DT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt"
 # 8:  C   2 1
 # 9:  C   3 1</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[, vsum :<span class="er">=</span><span class="st"> </span>
-<span class="st">  </span>DT[.(<span class="dt">id =</span> id, <span class="dt">sid =</span> sid), on=.(id, sid &lt;=<span class="st"> </span>sid), <span class="kw">sum</span>(v), by=.EACHI]$V1
-]</code></pre></div>
+<span class="st">  </span>DT[.SD, on=.(id, sid &lt;=<span class="st"> </span>sid), <span class="kw">sum</span>(v), by=.EACHI]$V1
+, .SDcols =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;sid&quot;</span>)]</code></pre></div>
 <p>(As a side-note, <code>rowid</code> conveniently builds a within-group counter, as seen here. For more counters, see <a href="work.html#gids">4.4.5</a>.)</p>
 <p>The number of calculations performed with this non-equi join approach scales at around <code>N^2</code> as the number of rows <code>N</code> increases, which is pretty poor. Nonetheless, for any rolling computation, this will always be an option.</p>
 <p>In this case (and many others), there’s a better way, though:</p>
@@ -627,6 +639,7 @@ DT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt"
 # 8:  C   2 1    3     3
 # 9:  C   3 1    4     4</code></pre>
 <p>Besides <code>cumsum</code> for the cumulative sum, there’s also <code>cumprod</code> for the cumulative product; and <code>cummin</code> and <code>cummax</code>, for the cumulative min and max. For more rollers and to roll new ones, see the <a href="https://CRAN.R-project.org/package=zoo">zoo</a> and <a href="https://CRAN.R-project.org/package=RcppRoll">RcppRoll</a> packages.</p>
+<p>To “roll” missing values forward, it is common to use <code>na.locf</code> (“last observation carried forward”) from <a href="https://cran.r-project.org/web/packages/zoo/index.html">the widely-used zoo package</a>. Alternately, <code>DT[, v := v[1L], by=cumsum(!is.na(v))]</code> can do the trick.</p>
 </div>
 <div id="run-length-encoding" class="section level3">
 <h3><span class="header-section-number">4.4.4</span> Run-length encoding</h3>
@@ -697,36 +710,145 @@ DT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt"
 # 198:  T  7      -8
 # 199:  T -4      -8
 # 200:  T  6      -4</code></pre>
+<p>This is an instance of combining columns, since <code>shift(v, 0:2)</code> essentially are three columns. Try <code>DT[, shift(0:2), by=id]</code> and review <a href="work.html#lag">4.4.1</a> to see.</p>
 <p>While all of these examples are doing rowwise computations, none of them actually condition on each row, with <code>by=1:nrow(DT)</code> or similar. As a result, they are much more efficient.</p>
 <p>All of these functions (<code>pmin</code>, <code>pmax</code>, <code>paste</code>) take a variable number of arguments. Looking at the functions’ arguments with <code>args(function_name)</code>, we can see that they do this via dots <code>...</code> (<a href="tables.html#fundots">3.8.4.2</a>).</p>
 </div>
 <div id="reg" class="section level2">
 <h2><span class="header-section-number">4.6</span> Regression</h2>
-<p>Most basic regression models have helper functions to run them, as a search online will reveal.</p>
-<p>(so far, we’ve just talked about data manipulation, now onto math/stats)</p>
-<p>obvs, if your problem has a closed form solution, do the matrix algebra and don’t get bogged down in syntax oddities of a particular language</p>
-<p>seriously consider using a matrix or array if it fits the problem</p>
-<p>show an example of reg by group</p>
+<p>Most basic regression models have functions to “run” them, as a search online will reveal.</p>
 <div id="extracting-results" class="section level3">
 <h3><span class="header-section-number">4.6.1</span> Extracting results</h3>
-<p>zzz</p>
+<p>The return value from a regression function is a special object designed to hold the results of the run. In the case of a linear regression, the <code>lm</code> function returns a <code>lm</code> object.</p>
+<p>To see how this object can be used, look for the object’s attributes and for methods associated with its class:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)
+n   =<span class="st"> </span><span class="dv">20</span>
+DT  =<span class="st"> </span><span class="kw">data.table</span>(
+  <span class="dt">y =</span> <span class="kw">rnorm</span>(n), <span class="dt">x =</span> <span class="kw">rnorm</span>(n), 
+  <span class="dt">z =</span> <span class="kw">sample</span>(LETTERS[<span class="dv">1</span>:<span class="dv">3</span>], n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
+)
+res =<span class="st"> </span>DT[, <span class="kw">lm</span>(y ~<span class="st"> </span>x)]
+<span class="kw">attributes</span>(res)</code></pre></div>
+<pre><code># $names
+#  [1] &quot;coefficients&quot;  &quot;residuals&quot;     &quot;effects&quot;       &quot;rank&quot;          &quot;fitted.values&quot;
+#  [6] &quot;assign&quot;        &quot;qr&quot;            &quot;df.residual&quot;   &quot;xlevels&quot;       &quot;call&quot;         
+# [11] &quot;terms&quot;         &quot;model&quot;        
+# 
+# $class
+# [1] &quot;lm&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(res)</code></pre></div>
+<pre><code># [1] &quot;lm&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">methods</span>(<span class="dt">class =</span> <span class="st">&quot;lm&quot;</span>)</code></pre></div>
+<pre><code>#  [1] add1           alias          anova          case.names     coerce        
+#  [6] confint        cooks.distance deviance       dfbeta         dfbetas       
+# [11] drop1          dummy.coef     effects        extractAIC     family        
+# [16] formula        hatvalues      influence      initialize     kappa         
+# [21] labels         logLik         model.frame    model.matrix   nobs          
+# [26] plot           predict        print          proj           qr            
+# [31] residuals      rstandard      rstudent       show           simulate      
+# [36] slotsFromS3    summary        variable.names vcov          
+# see &#39;?methods&#39; for accessing help and source code</code></pre>
+<p>Attributes can always be accessed like <code>attr(obj, attr_name)</code>; while some have their own accessors, like <code>coefficients(res)</code>. Methods are functions that can be applied directly to the object, like <code>plot(res, 1)</code>. For documentation on methods, add a dot and the class, like <code>?plot.lm</code> and <code>?predict.lm</code>.</p>
+<p>Besides usage like <code>DT[, lm(y ~ x)]</code>, most regression functions also offer a <code>data</code> argument, like <code>lm(y ~ x, data = DT)</code>.</p>
+</div>
+<div id="formulas" class="section level3">
+<h3><span class="header-section-number">4.6.2</span> Formulas</h3>
+<p>The <code>y ~ x</code> expression above is called a formula. These can greatly simplify the specification of a regression equation.</p>
+<p>For example, if we want the categorical variable <code>z</code> on the right-hand side, there is no need to construct and list a set of dummies (as noted in <a href="tables.html#relational-updatejoin">3.8.3</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(y ~<span class="st"> </span>z, <span class="dt">data =</span> DT)</code></pre></div>
+<pre><code># 
+# Call:
+# lm(formula = y ~ z, data = DT)
+# 
+# Coefficients:
+# (Intercept)           zB           zC  
+#      0.5265      -0.6201      -0.4283</code></pre>
+<p>And there are many other simple extensions:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># including all levels of z by dropping the intercept</span>
+<span class="kw">lm</span>(y ~<span class="st"> </span>z -<span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> DT)</code></pre></div>
+<pre><code># 
+# Call:
+# lm(formula = y ~ z - 1, data = DT)
+# 
+# Coefficients:
+#       zA        zB        zC  
+#  0.52645  -0.09363   0.09816</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># including an interaction term</span>
+<span class="kw">lm</span>(y ~<span class="st"> </span>z:x, <span class="dt">data =</span> DT)</code></pre></div>
+<pre><code># 
+# Call:
+# lm(formula = y ~ z:x, data = DT)
+# 
+# Coefficients:
+# (Intercept)         zA:x         zB:x         zC:x  
+#     0.20267     -0.25431     -0.46956     -0.07843</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># including all of z&#39;s levels by dropping x and the intercept</span>
+<span class="kw">lm</span>(y ~<span class="st"> </span>z*x -<span class="st"> </span><span class="dv">1</span> -<span class="st"> </span>x, <span class="dt">data =</span> DT)</code></pre></div>
+<pre><code># 
+# Call:
+# lm(formula = y ~ z * x - 1 - x, data = DT)
+# 
+# Coefficients:
+#       zA        zB        zC      zA:x      zB:x      zC:x  
+#  0.46634  -0.02306   0.10293  -0.18133  -0.25044  -0.06683</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># including a polynomial</span>
+<span class="kw">lm</span>(y ~<span class="st"> </span><span class="kw">poly</span>(x, <span class="dv">2</span>), <span class="dt">data =</span> DT)</code></pre></div>
+<pre><code># 
+# Call:
+# lm(formula = y ~ poly(x, 2), data = DT)
+# 
+# Coefficients:
+# (Intercept)  poly(x, 2)1  poly(x, 2)2  
+#      0.1905      -0.8659       2.3428</code></pre>
+<p>The doc at <code>?formula</code> explains all the ways to write formulas concisely. Many functions besides <code>lm</code> allow the same sorts of formulas.</p>
+</div>
+<div id="custom-regression" class="section level3">
+<h3><span class="header-section-number">4.6.3</span> Custom regression</h3>
+<p>If no one has implemented the regression procedure we want, it is possible to program up a basic version of it (assuming we understand it). Writing up a version that works nicely with formulas and has all the attributes and methods seen with <code>lm</code> would be a tall order, of course.</p>
+<p>It’s best for speed and simplicity to lean on matrix algebra as much as possible. If speed becomes a real issue, translating to C++ with <a href="https://CRAN.R-project.org/package=Rcpp">the Rcpp package</a> may help.</p>
 </div>
 </div>
-<div id="optimization" class="section level2">
-<h2><span class="header-section-number">4.7</span> Optimization</h2>
-<p>of course, we end up with an approximation</p>
+<div id="numerical-tasks" class="section level2">
+<h2><span class="header-section-number">4.7</span> Numerical tasks</h2>
+<div id="optimization" class="section level3">
+<h3><span class="header-section-number">4.7.1</span> Optimization</h3>
+<p>To find an extremum of a function of a length-one number (a real scalar), use <code>optimize</code>. For functions of multiple arguments, there’s <code>optim</code>. (R is agnostic on Brit vs American English, so <code>optimise</code> does the same thing as <code>optimize</code>.)</p>
+<p>The documentation covers everything (optimization methods available, numerical issues to be aware of, stopping rules, “trace” options).</p>
 </div>
-<div id="integration" class="section level2">
-<h2><span class="header-section-number">4.8</span> Integration</h2>
-<p>of course, we end up with an approximation</p>
+<div id="integration" class="section level3">
+<h3><span class="header-section-number">4.7.2</span> Integration</h3>
+<p>Given a vectorized function (<a href="basics.html#vectorization">2.3.6</a>) mapping to and from the real line and an interval, <code>integrate</code> will approximate the associated definite integral. The documentation explains the method used and the numerical issues.</p>
+</div>
 </div>
 <div id="strings" class="section level2">
-<h2><span class="header-section-number">4.9</span> String operations</h2>
-<p>In my opinion, very few string operations are necessary after proper data cleaning (discussed in <a href="tables.html#structuring-data">3.8</a>).</p>
-<p><code>nchar(x)</code> tells you how long a string is, and <code>substr(x, start, end)</code> extracts a contiguous substring. <code>paste</code>, <code>paste0</code> and <code>sprintf</code> are used to build strings, while <code>sub</code> and <code>gsub</code> rewrite strings.</p>
-<p>nzchar</p>
-<p><code>grep</code> and its family will match a string pattern, while <code>regmatches</code> can extract what matches. <code>strsplit(x, sep=&quot;,&quot;)</code> can split <code>&quot;Butte, Montana&quot;</code> into its constituent parts. Handier tools for these tasks are discussed in <a href="tables.html#structuring-data">3.8</a>.</p>
-<p>escaping in regex <code>\\</code></p>
+<h2><span class="header-section-number">4.8</span> String operations</h2>
+<p>Here are various string-related functions:</p>
+<ul>
+<li><p><code>nchar(x)</code> tells how long a string is, and <code>nzchar(x)</code> checks if it is non-empty.</p></li>
+<li><p><code>substr(x, start, end)</code> extracts a contiguous substring, as does <code>substring</code>.</p></li>
+<li><p><code>sprintf</code> creates a string according to a specified format (with, e.g., leading zeros).</p></li>
+<li><p><code>format</code> prints a string representation of an object (see, e.g., <code>?format.Date</code>).</p></li>
+<li><p><code>paste</code> combines strings according to some simple rules, with <code>paste0</code> and <code>toString</code> as special cases.</p></li>
+<li><p><code>grep</code>, <code>grepl</code>, <code>regexpr</code> and <code>gregexpr</code> search strings, with <code>regmatches</code> for extracting matches.</p></li>
+<li><p><code>sub</code> and <code>gsub</code> rewrite strings.</p></li>
+<li><p><code>strsplit</code> and <code>tstrsplit</code> can split strings based on a pattern.</p></li>
+</ul>
+<p>Most of these are vectorized (<a href="basics.html#vectorization">2.3.6</a>) whenever it makes sense. Examples for a couple of them can be found in <a href="tables.html#char-input">3.6.5</a>.</p>
+<p>For searching, rewriting or splitting strings, some familiarity with regular expressions will often be helpful. See <code>?regex</code>. Because the syntax of the functions can also get cumbersome, it may be worth it to use a helper like <a href="https://CRAN.R-project.org/package=stringi">the stringi package</a>.</p>
+<p>As mentioned in <a href="tables.html#format-cols">3.6.11</a>, the number of digits printed on numbers can be tweaked via the scipen option (see <code>?options</code>), though I think this is only likely to be useful when printing out results.</p>
+<p><code>print</code> and <code>cat</code> can both be used to print output to the screen, with various options. Of the two, <code>cat</code> will actually parse the string, so <code>cat('Egad!\nI dare say, &quot;It\'s you!&quot;\n')</code> will print the newlines and quotes.</p>
+
+<div class="rmd-details">
+<strong>Writing to console.</strong> While I have simply used <code>cat</code>, <code>print</code> and <code>stopifnot</code> throughout this document, the proper way to handle messages is more complicated, as <span class="citation">[explained by @coatless on Stack Overflow]</span>(<a href="http://stackoverflow.com/a/36700294/" class="uri">http://stackoverflow.com/a/36700294/</a>). I still haven’t learned it myself, but it is likely to be important when writing a package.
+</div>
+<p></p>
+<p>In my opinion, very few string operations (and no regex operations) are necessary outside of input-output processing (<a href="tables.html#input-output">3.6</a>) and printing messages.</p>
+<p>The input and output functions have their own string processing tools, so plenty of manual string tweaking can often be avoided. For example, <code>na.strings</code> in <code>fread</code> can recognize missing values as such when a file is read in; and <code>dateTimeAs</code> in <code>fwrite</code> can format date and time columns when printing a table out.</p>
+
+<div class="rmd-details">
+<strong>Saving keystrokes.</strong> Finally, for the sake of my sanity, I borrow <a href="https://www.google.com/#q=perl%20qw">a Perl function</a> for creating character vectors, e.g., of column names: <code>qw &lt;- function(s=&quot;&quot;) unlist(strsplit(s,'[[:space:]]+'))</code> used like <code>my_cols &lt;- qw(&quot;id city_name state_code country_code&quot;); setkeyv(DT, my_cols)</code>. Those coming from Stata, where columns are always barewords, may appreciate this style, and I guess such quality-of-life functions are fairly harmless so long as no function using them is shared as if it’s standalone.
+</div>
+<p></p>
 
 </div>
 </div>

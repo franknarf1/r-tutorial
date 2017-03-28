@@ -40,6 +40,8 @@ As mentioned in \@ref(classes), R does not actually support an unordered set dat
 
 Corresponding functions exist for data.tables, prefixed like `f*`: `funion`, `fintersect`, `fsetdiff` and `fsetequal`. Two tables can be combined in this way only if their columns line up (in terms of class, etc.).
 
+Looking at the source code for these functions, we'll see a lot of the `match` function.
+
 ### Operators on lists of sets
 
 R only includes binary versions of these operators. However, the `Reduce` function can help for finite unions or intersections. It collapses a list of arguments using a binary operator successively, so the union of four sets 
@@ -59,6 +61,11 @@ Another alternative for the union of a set of vectors is `unique(unlist(xList))`
 
 For a list of data.tables, the same can be done (with `funion` and `fintersect`). However, again, the alternative for finite unions `unique(rbindlist(dList))` may be better in terms of performance in some cases.
 
+```{r todo-sets-ex, eval=FALSE, results=FALSE}
+define subseteq(x, y), which returns true if x is a (nonstrict) subset of y
+define symdiff(x, y), which returns items in x or y but not both
+```
+
 ## Combinations {#combos}
 
 ```{r cj, eval=FALSE}
@@ -71,7 +78,7 @@ $$
 \{(x_i,y_j,z_k): x_i \in x, y_j \in y, z_k \in z\}
 $$
 
-The `unique = TRUE` clause means we are treating the vectors like sets (\@ref(sets)), ignoring their duplicated values.
+The `unique = TRUE` clause means we are treating the vectors like sets (\@ref(sets)), ignoring their duplicated values. 
 
 So to take all pairs of values for a vector...
 
@@ -88,9 +95,15 @@ xpairs
 xpairs[, pair_code := sprintf("%s_%s", V1, V2)][]
 ```
 
+`CJ` is essentially a Cartesian product, or a "Cross Join."
+
 In base, `combn(x, n, f)` finds all `x`'s subvectors of length `n` and optionally applies a function to them. And `outer(x, y, f)` applies a function to all pairs of elements of `x` and `y`, returning a matrix.
 
 All of these options can get out of hand, in terms of memory consumption, but that's normal for combinatorial operations.
+
+```{r todo-combos-ex, eval=FALSE, results=FALSE}
+define triples(x) which returns all subsets of size x, in a data.table with one triple per row
+```
 
 ## Randomization
 
@@ -137,7 +150,7 @@ sample(y, size = 2, replace = TRUE)
 Where did `4` and `6` come from? Those aren't elements of `y`!
 
 ```{block2 sampling, type='rmd-caution'}
-**Sampling from a numeric vector.** Vanilla `sample` cannot be trusted on numeric or integer vectors unless we are sure the vector has a length greater than 1. 
+**Sampling from a numeric vector.** Vanilla `sample` cannot be trusted on numeric or integer vectors unless we are sure the vector has a length greater than 1. Read `?sample` for details.
 ```
 
 I should have instead sampled from `y`s indices like 
@@ -222,9 +235,11 @@ So while it may be convenient to write a quick simulation using pipes, it's bett
 
 If running multiple simulations with different parameters, I recommend starting with results in a data.table with one row per run:
 
-```{r sim-fancy, echo=-5}
+```{r sim-fancy-pre, echo=-2}
 simparmDT = data.table(set_id = LETTERS[1:2], nsim = 3, n = 10, mu = c(0, 10), sd = c(1, 2))
-
+simparmDT
+```
+```{r sim-fancy, echo=-3}
 set.seed(1)
 simDT = simparmDT[, .(
     
@@ -341,8 +356,8 @@ DT
 ```
 ```{r badroll}
 DT[, vsum := 
-  DT[.(id = id, sid = sid), on=.(id, sid <= sid), sum(v), by=.EACHI]$V1
-]
+  DT[.SD, on=.(id, sid <= sid), sum(v), by=.EACHI]$V1
+, .SDcols = c("id", "sid")]
 ```
 
 (As a side-note, `rowid` conveniently builds a within-group counter, as seen here. For more counters, see \@ref(gids).)
@@ -355,7 +370,9 @@ In this case (and many others), there's a better way, though:
 DT[, vsum2 := cumsum(v), by=id][]
 ```
 
-Besides `cumsum` for the cumulative sum, there's also `cumprod` for the cumulative product; and `cummin` and `cummax`, for the cumulative min and max. For more rollers and to roll new ones, see the [zoo](https://CRAN.R-project.org/package=zoo) and [RcppRoll](https://CRAN.R-project.org/package=RcppRoll) packages. 
+Besides `cumsum` for the cumulative sum, there's also `cumprod` for the cumulative product; and `cummin` and `cummax`, for the cumulative min and max. For more rollers and to roll new ones, see the [zoo](https://CRAN.R-project.org/package=zoo) and [RcppRoll](https://CRAN.R-project.org/package=RcppRoll) packages.
+
+To "roll" missing values forward, it is common to use `na.locf` ("last observation carried forward") from [the widely-used zoo package](https://cran.r-project.org/web/packages/zoo/index.html). Alternately, `DT[, v := v[1L], by=cumsum(!is.na(v))]` can do the trick.
 
 ### Run-length encoding
 
@@ -431,6 +448,8 @@ DT = data.table(id = rep(LETTERS[1:20], each=10))[,
 DT[, lag_min := do.call(pmin, shift(v, 0:2)), by=id][]
 ```
 
+This is an instance of combining columns, since `shift(v, 0:2)` essentially are three columns. Try `DT[, shift(0:2), by=id]` and review \@ref(lag) to see.
+
 While all of these examples are doing rowwise computations, none of them actually condition on each row, with `by=1:nrow(DT)` or similar. As a result, they are much more efficient.
 
 All of these functions (`pmin`, `pmax`, `paste`) take a variable number of arguments. Looking at the functions' arguments with `args(function_name)`, we can see that they do this via dots `...` (\@ref(fundots)).
@@ -438,41 +457,113 @@ All of these functions (`pmin`, `pmax`, `paste`) take a variable number of argum
 
 ## Regression {#reg}
 
-Most basic regression models have helper functions to run them, as a search online will reveal.
-
-(so far, we've just talked about data manipulation, now onto math/stats)
-
-obvs, if your problem has a closed form solution, do the matrix algebra and don't get bogged down in syntax oddities of a particular language
-
-seriously consider using a matrix or array if it fits the problem
-
-show an example of reg by group
+Most basic regression models have functions to "run" them, as a search online will reveal. 
 
 ### Extracting results
 
-zzz
+The return value from a regression function is a special object designed to hold the results of the run. In the case of a linear regression, the `lm` function returns a `lm` object.
 
+To see how this object can be used, look for the object's attributes and for methods associated with its class:
 
-## Optimization
+```{r lm}
+set.seed(1)
+n   = 20
+DT  = data.table(
+  y = rnorm(n), x = rnorm(n), 
+  z = sample(LETTERS[1:3], n, replace = TRUE)
+)
+res = DT[, lm(y ~ x)]
+attributes(res)
+class(res)
+methods(class = "lm")
+```
 
-of course, we end up with an approximation
+Attributes can always be accessed like `attr(obj, attr_name)`; while some have their own accessors, like `coefficients(res)`. Methods are functions that can be applied directly to the object, like `plot(res, 1)`. For documentation on methods, add a dot and the class, like `?plot.lm` and `?predict.lm`.
 
-## Integration
+Besides usage like `DT[, lm(y ~ x)]`, most regression functions also offer a `data` argument, like `lm(y ~ x, data = DT)`.
 
-of course, we end up with an approximation
+### Formulas
+
+The `y ~ x` expression above is called a formula. These can greatly simplify the specification of a regression equation. 
+
+For example, if we want the categorical variable `z` on the right-hand side, there is no need to construct and list a set of dummies (as noted in \@ref(relational-updatejoin)):
+
+```{r reg-factor}
+lm(y ~ z, data = DT)
+```
+
+And there are many other simple extensions:
+
+```{r reg-formulas}
+# including all levels of z by dropping the intercept
+lm(y ~ z - 1, data = DT)
+# including an interaction term
+lm(y ~ z:x, data = DT)
+# including all of z's levels by dropping x and the intercept
+lm(y ~ z*x - 1 - x, data = DT)
+# including a polynomial
+lm(y ~ poly(x, 2), data = DT)
+```
+
+The doc at `?formula` explains all the ways to write formulas concisely. Many functions besides `lm` allow the same sorts of formulas.
+
+### Custom regression
+
+If no one has implemented the regression procedure we want, it is possible to program up a basic version of it (assuming we understand it). Writing up a version that works nicely with formulas and has all the attributes and methods seen with `lm` would be a tall order, of course.
+
+It's best for speed and simplicity to lean on matrix algebra as much as possible. If speed becomes a real issue, translating to C++ with [the Rcpp package](https://CRAN.R-project.org/package=Rcpp) may help.
+
+## Numerical tasks
+
+### Optimization
+
+To find an extremum of a function of a length-one number (a real scalar), use `optimize`. For functions of multiple arguments, there's `optim`. (R is agnostic on Brit vs American English, so `optimise` does the same thing as `optimize`.)
+
+The documentation covers everything (optimization methods available, numerical issues to be aware of, stopping rules, "trace" options).
+
+### Integration
+
+Given a vectorized function (\@ref(vectorization)) mapping to and from the real line and an interval, `integrate` will approximate the associated definite integral. The documentation explains the method used and the numerical issues.
 
 ## String operations {#strings}
 
-In my opinion, very few string operations are necessary after proper data cleaning (discussed in \@ref(structuring-data)).
+Here are various string-related functions:
 
-`nchar(x)` tells you how long a string is, and `substr(x, start, end)` extracts a contiguous substring. `paste`, `paste0` and `sprintf` are used to build strings, while `sub` and `gsub` rewrite strings.
+- `nchar(x)` tells how long a string is, and `nzchar(x)` checks if it is non-empty.
 
-nzchar
+- `substr(x, start, end)` extracts a contiguous substring, as does `substring`.
 
-`grep` and its family will match a string pattern, while `regmatches` can extract what matches. `strsplit(x, sep=",")` can split `"Butte, Montana"` into its constituent parts. Handier tools for these tasks are discussed in \@ref(structuring-data).
+- `sprintf` creates a string according to a specified format (with, e.g., leading zeros).
 
-escaping in regex `\\`
+- `format` prints a string representation of an object (see, e.g., `?format.Date`).
 
+- `paste` combines strings according to some simple rules, with `paste0` and `toString` as special cases.
+
+- `grep`, `grepl`, `regexpr` and `gregexpr` search strings, with `regmatches` for extracting matches.
+
+- `sub` and `gsub` rewrite strings.
+
+- `strsplit` and `tstrsplit` can split strings based on a pattern.
+
+Most of these are vectorized (\@ref(vectorization)) whenever it makes sense. Examples for a couple of them can be found in \@ref(char-input).
+
+For searching, rewriting or splitting strings, some familiarity with regular expressions will often be helpful. See `?regex`. Because the syntax of the functions can also get cumbersome, it may be worth it to use a helper like [the stringi package](https://CRAN.R-project.org/package=stringi).
+
+As mentioned in \@ref(format-cols), the number of digits printed on numbers can be tweaked via the scipen option (see `?options`), though I think this is only likely to be useful when printing out results.
+
+`print` and `cat` can both be used to print output to the screen, with various options. Of the two, `cat` will actually parse the string, so `cat('Egad!\nI dare say, "It\'s you!"\n')` will print the newlines and quotes.
+
+```{block2 message-programming, type='rmd-details'}
+**Writing to console.** While I have simply used `cat`, `print` and `stopifnot` throughout this document, the proper way to handle messages is more complicated, as [explained by @coatless on Stack Overflow](http://stackoverflow.com/a/36700294/). I still haven't learned it myself, but it is likely to be important when writing a package.
+```
+
+In my opinion, very few string operations (and no regex operations) are necessary outside of input-output processing (\@ref(input-output)) and printing messages.
+
+The input and output functions have their own string processing tools, so plenty of manual string tweaking can often be avoided. For example, `na.strings` in `fread` can recognize missing values as such when a file is read in; and `dateTimeAs` in `fwrite` can format date and time columns when printing a table out.
+
+```{block2 qw, type='rmd-details'}
+**Saving keystrokes.** Finally, for the sake of my sanity, I borrow [a Perl function](https://www.google.com/#q=perl%20qw) for creating character vectors, e.g., of column names: `qw <- function(s="") unlist(strsplit(s,'[[:space:]]+'))` used like `my_cols <- qw("id city_name state_code country_code"); setkeyv(DT, my_cols)`. Those coming from Stata, where columns are always barewords, may appreciate this style, and I guess such quality-of-life functions are fairly harmless so long as no function using them is shared as if it's standalone.
+```
 
 
 

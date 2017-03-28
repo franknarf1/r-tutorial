@@ -141,6 +141,7 @@ img {
 <li><a href="basics.html#matrix-extract"><span class="toc-section-number">2.2.4</span> Extracting from matrices</a></li>
 <li><a href="basics.html#subassigning-to-matrices"><span class="toc-section-number">2.2.5</span> Subassigning to matrices</a></li>
 <li><a href="basics.html#arrays"><span class="toc-section-number">2.2.6</span> Arrays</a></li>
+<li><a href="basics.html#matrix-misc"><span class="toc-section-number">2.2.7</span> Computing with matrices</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#syntax"><span class="toc-section-number">2.3</span> Syntax</a><ul>
 <li><a href="basics.html#assigning-to-attributes"><span class="toc-section-number">2.3.1</span> Assigning to attributes</a></li>
@@ -216,7 +217,7 @@ img {
 <li><a href="tables.html#fwrite"><span class="toc-section-number">3.6.8</span> <code>fwrite</code> to write delimited files</a></li>
 <li><a href="tables.html#dt-saveload"><span class="toc-section-number">3.6.9</span> Saving and loading R objects</a></li>
 <li><a href="tables.html#reading-and-writing-other-formats"><span class="toc-section-number">3.6.10</span> Reading and writing other formats</a></li>
-<li><a href="tables.html#formatting-the-display-of-columns"><span class="toc-section-number">3.6.11</span> Formatting the display of columns</a></li>
+<li><a href="tables.html#format-cols"><span class="toc-section-number">3.6.11</span> Formatting the display of columns</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#exploring-data"><span class="toc-section-number">3.7</span> Exploring data</a><ul>
 <li><a href="tables.html#browse-env"><span class="toc-section-number">3.7.1</span> Browsing loaded objects</a></li>
@@ -257,10 +258,14 @@ img {
 <li><a href="work.html#combining-table-columns"><span class="toc-section-number">4.5</span> Combining table columns</a></li>
 <li class="has-sub"><a href="work.html#reg"><span class="toc-section-number">4.6</span> Regression</a><ul>
 <li><a href="work.html#extracting-results"><span class="toc-section-number">4.6.1</span> Extracting results</a></li>
+<li><a href="work.html#formulas"><span class="toc-section-number">4.6.2</span> Formulas</a></li>
+<li><a href="work.html#custom-regression"><span class="toc-section-number">4.6.3</span> Custom regression</a></li>
 </ul></li>
-<li><a href="work.html#optimization"><span class="toc-section-number">4.7</span> Optimization</a></li>
-<li><a href="work.html#integration"><span class="toc-section-number">4.8</span> Integration</a></li>
-<li><a href="work.html#strings"><span class="toc-section-number">4.9</span> String operations</a></li>
+<li class="has-sub"><a href="work.html#numerical-tasks"><span class="toc-section-number">4.7</span> Numerical tasks</a><ul>
+<li><a href="work.html#optimization"><span class="toc-section-number">4.7.1</span> Optimization</a></li>
+<li><a href="work.html#integration"><span class="toc-section-number">4.7.2</span> Integration</a></li>
+</ul></li>
+<li><a href="work.html#strings"><span class="toc-section-number">4.8</span> String operations</a></li>
 </ul></li>
 </ul>
 </div>
@@ -547,23 +552,23 @@ bwDT =<span class="st"> </span><span class="kw">data.table</span>(MASS::birthwt)
 
 <span class="kw">pdf</span>(<span class="dt">file=</span><span class="st">&quot;birthweight_graphs.pdf&quot;</span>)
 bwDT[, {
-  case =<span class="st"> </span><span class="kw">sprintf</span>(<span class="st">&quot;high #visits? = %s, smoking? = %s&quot;</span>, .BY$high_vis, .BY$smoke)
+  case =<span class="st"> </span><span class="kw">sprintf</span>(<span class="st">&quot;high #visits? = % 5s, smoking? = % 5s&quot;</span>, .BY$high_vis, .BY$smoke)
   
-  <span class="kw">cat</span>(<span class="st">&quot;Handling&quot;</span>, case, <span class="st">&quot;...</span><span class="ch">\n</span><span class="st">&quot;</span>)
+  <span class="kw">cat</span>(<span class="st">&quot;Handling case:&quot;</span>, case, <span class="st">&quot;...</span><span class="ch">\n</span><span class="st">&quot;</span>)
   <span class="kw">plot</span>(
     age ~<span class="st"> </span>lwt, 
     <span class="dt">main =</span> case
   )  
-}, by=.(<span class="dt">high_vis =</span> ftv &gt;=<span class="st"> </span><span class="dv">1</span>, smoke)]</code></pre></div>
-<pre><code># Handling high #visits? = FALSE, smoking? = 0 ...</code></pre>
-<pre><code># Handling high #visits? = TRUE, smoking? = 0 ...</code></pre>
-<pre><code># Handling high #visits? = TRUE, smoking? = 1 ...</code></pre>
-<pre><code># Handling high #visits? = FALSE, smoking? = 1 ...</code></pre>
+}, by=.(<span class="dt">high_vis =</span> ftv &gt;=<span class="st"> </span><span class="dv">1</span>, <span class="dt">smoke =</span> <span class="kw">as.logical</span>(smoke))]</code></pre></div>
+<pre><code># Handling case: high #visits? = FALSE, smoking? = FALSE ...</code></pre>
+<pre><code># Handling case: high #visits? =  TRUE, smoking? = FALSE ...</code></pre>
+<pre><code># Handling case: high #visits? =  TRUE, smoking? =  TRUE ...</code></pre>
+<pre><code># Handling case: high #visits? = FALSE, smoking? =  TRUE ...</code></pre>
 <pre><code># Empty data.table (0 rows) of 2 cols: high_vis,smoke</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dev.off</span>()</code></pre></div>
 <pre><code># png 
 #   2</code></pre>
-<p>Plotting graphs is beyond the scope of this document, but the example above should make intuitive sense after reading the docs for each object, <code>?MASS::birthwt</code>, <code>?pdf</code>, et al. For each group, we’re formatting a string with <code>sprintf</code>; printing it with <code>cat</code>; and saving a plot. The special symbol <code>.BY</code> is a list containing the per-group values of the <code>by=</code> variables. Formatting and printing strings will be covered more in <a href="work.html#strings">4.9</a>.</p>
+<p>Plotting graphs is beyond the scope of this document, but the example above should make intuitive sense after reading the docs for each object, <code>?MASS::birthwt</code>, <code>?pdf</code>, et al. For each group, we’re formatting a string with <code>sprintf</code>; printing it with <code>cat</code>; and saving a plot. The special symbol <code>.BY</code> is a list containing the per-group values of the <code>by=</code> variables. Formatting and printing strings will be covered more in <a href="work.html#strings">4.8</a>.</p>
 
 <div class="rmd-caution">
 <strong>Filtering on logical columns.</strong> <code>DT[z]</code> and <code>DT[!z]</code> will give errors, for design reasons related to the syntax for joins (<a href="tables.html#dt-joins">3.5</a>). To get around this, always wrap the column in parentheses: <code>DT[(z)]</code> and <code>DT[!(z)]</code>.
@@ -571,7 +576,7 @@ bwDT[, {
 <p></p>
 
 <div class="rmd-caution">
-<strong>Grouping on floats.</strong> Much of the computational and syntactical magic of the package comes from grouping rows together with the <code>by=</code> argument. To group on a floating-point variable, however, is just asking for trouble, <a href="http://floating-point-gui.de/">for the usual numerical computing reasons</a>. Instead, always use characters, integers or factors. To discretise a continuous variable into bins, use <code>cut</code>.
+<strong>Grouping on floats.</strong> Much of the computational and syntactical magic of the package comes from grouping rows together with the <code>by=</code> argument. To group on a floating-point variable, however, is just asking for trouble, <a href="http://floating-point-gui.de/">for the usual numerical computing reasons</a>. Instead, always use characters, integers or factors. To discretize a continuous variable into bins, use <code>cut</code>.
 </div>
 <p></p>
 
@@ -801,7 +806,7 @@ carsDT[, <span class="kw">lapply</span>(.SD, mean), by=.(am, vs), .SDcols =<span
 # 2:  1  1  80.57143 2.028286   89.8000
 # 3:  0  1 102.14286 3.194286  175.1143
 # 4:  0  0 194.16667 4.104083  357.6167</code></pre>
-<p>The trailing <code>%&gt;% print</code> command is used because, <code>setnames</code>, like <code>:=</code> and the other <code>set*</code> operators, does not print the table on its own. The string-formatter <code>sprintf</code> will be explained in <a href="work.html#strings">4.9</a>.</p></li>
+<p>The trailing <code>%&gt;% print</code> command is used because, <code>setnames</code>, like <code>:=</code> and the other <code>set*</code> operators, does not print the table on its own. The string-formatter <code>sprintf</code> will be explained in <a href="work.html#strings">4.8</a>.</p></li>
 <li><p><code>setattr</code> is a general function for altering attributes of a vector or other object (see <code>?attributes</code>). For example, if we have a factor column (encoding categorical data), we can change its “levels”:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># example data</span>
 fDT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">fac =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>)))</code></pre></div>
@@ -1244,6 +1249,7 @@ DT[, <span class="kw">c</span>(<span class="st">&quot;d&quot;</span>, <span clas
 # 1: 2017-01-01 01:11 2017-01-01 01:11:00</code></pre>
 <p>However, it does not include a combined datetime class, which would be useful if we want to measure time differences across days.</p>
 <p>For a combined datetime class, we have to use POSIXct. This brings with it a couple of annoyances. First, it uses floating-point measurement, so grouping on it with <code>by=</code> is not a good idea and some table operations will be slower. Second, in keeping with POSIX rules, it has an irritating time zone attribute that always demands careful watching. Nonetheless, it is the standard option for a datetime format currently. (There is also a POSIXlt format, but data.table discourages it, since it does not build on atomic vectors.)</p>
+<p>If datetimes are central to the analysis, it might be worth loading <a href="https://CRAN.R-project.org/package=chron">the chron package</a>, which offers a datetime class without the time-zone annoyances of POSIXct. It is “suggested” by the data.table package (in CRAN lingo), so probably reliably compatible.</p>
 </div>
 <div id="sub-second-measures" class="section level4">
 <h4><span class="header-section-number">3.6.4.3</span> Sub-second measures</h4>
@@ -1274,7 +1280,7 @@ DT[, <span class="st">`</span><span class="dt">:=</span><span class="st">`</span
 #  $ x_num: chr  &quot;001&quot; &quot;001&quot;
 #  $ x_val: chr  &quot;ABC&quot; &quot;DEF&quot;
 #  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt;</code></pre></li>
-<li><p>If the split follows a pattern that can be characterized using regular expressions (<a href="work.html#strings">4.9</a>), <code>tstrsplit</code> can make the split and automatically convert to appropriate column types just as <code>fread</code> does:</p>
+<li><p>If the split follows a pattern that can be characterized using regular expressions (<a href="work.html#strings">4.8</a>), <code>tstrsplit</code> can make the split and automatically convert to appropriate column types just as <code>fread</code> does:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="st">&quot;A_1_22.2&quot;</span>, <span class="st">&quot;B_33_44.4&quot;</span>))
 DT[, <span class="kw">c</span>(<span class="st">&quot;x_id&quot;</span>, <span class="st">&quot;x_int&quot;</span>, <span class="st">&quot;x_float&quot;</span>) :<span class="er">=</span><span class="st"> </span><span class="kw">tstrsplit</span>(x, <span class="st">&quot;_&quot;</span>, <span class="dt">type.convert =</span> <span class="ot">TRUE</span>)][]</code></pre></div>
 <pre><code>#            x x_id x_int x_float
@@ -1296,7 +1302,7 @@ DT[.(<span class="dt">state_code =</span> state.abb, <span class="dt">state_name
 <pre><code>#    state_code state_name
 # 1:         MN  Minnesota
 # 2:         KS     Kansas</code></pre>
-<p>In the case of messier strings, the convenience functions in the stringi package may be helpful, along with a read of <code>?regex</code> and the string section in the next chapter (<a href="work.html#strings">4.9</a>).</p>
+<p>In the case of messier strings, the convenience functions in the stringi package may be helpful, along with a read of <code>?regex</code> and the string section in the next chapter (<a href="work.html#strings">4.8</a>).</p>
 </div>
 <div id="dt-recode" class="section level3">
 <h3><span class="header-section-number">3.6.6</span> Categorical columns</h3>
@@ -1322,7 +1328,7 @@ DT[v_translateDT, on=.(<span class="dt">v =</span> v_old), vt :<span class="er">
 <div id="fwrite" class="section level3">
 <h3><span class="header-section-number">3.6.8</span> <code>fwrite</code> to write delimited files</h3>
 <p>To write a CSV or other delimited-table format, <code>fwrite</code> is usually the best option.</p>
-<p>It is fast and includes nice features for printing dates and times, like the <code>squash</code> option that will print dates like <code>20171020</code>.</p>
+<p>It is fast and includes nice features for printing dates and times, like the <code>squash</code> option that will print dates like <code>20171020</code>. For other tools for printing exotic columns out as strings see <a href="work.html#strings">4.8</a>.</p>
 </div>
 <div id="dt-saveload" class="section level3">
 <h3><span class="header-section-number">3.6.9</span> Saving and loading R objects</h3>
@@ -1362,7 +1368,7 @@ old_dat &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span clas
 <h3><span class="header-section-number">3.6.10</span> Reading and writing other formats</h3>
 <p>For “foreign” table formats (Excel, Stata, etc), use an internet search. These input and output tools will always be in active development because the formats themselves are in flux. of course, it is unwise to use any such formats for long-term data storage.</p>
 </div>
-<div id="formatting-the-display-of-columns" class="section level3">
+<div id="format-cols" class="section level3">
 <h3><span class="header-section-number">3.6.11</span> Formatting the display of columns</h3>
 <p>While the way R displays dates (like <code>2017-11-22</code>) might not align with what is seen elsewhere, I suggest getting used to it rather than seeking a workaround, though I’m sure there are some (like making a new class). It will be easier for everyone looking at the data if it is in a standard format.</p>
 <p>For the display of numbers, again, I suggest leaving it alone instead of, e.g., rounding or truncating everything. If it’s really an issue that must be addressed, read about <code>scipen</code> in <code>?options</code>.</p>
@@ -1403,7 +1409,7 @@ carsDT[, vs :<span class="er">=</span><span class="st"> </span><span class="ot">
 <p>The <code>tables</code> output shows keys and other attributes, which is handy. If we look at objects of all types (tables, vectors, matrices, functions and more), we usually only view names:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ls</span>()</code></pre></div>
 <pre><code># [1] &quot;airDT&quot;   &quot;carsDT&quot;  &quot;e_stuff&quot;</code></pre>
-<p>Output can be filtered according to a regex (<a href="work.html#strings">4.9</a>):</p>
+<p>Output can be filtered according to a regex (<a href="work.html#strings">4.8</a>):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ls</span>(<span class="dt">patt =</span> <span class="st">&quot;DT$&quot;</span>)</code></pre></div>
 <pre><code># [1] &quot;airDT&quot;  &quot;carsDT&quot;</code></pre>
 <p>And it can be done within an environment:</p>
@@ -1773,7 +1779,7 @@ My guess is that the terms melting and casting (for conversion of a table to and
 <div id="structuring-data" class="section level2">
 <h2><span class="header-section-number">3.8</span> Organizing relational tables</h2>
 <p>The best way to organize data in R takes advantage of the power to have multiple data sets in the workspace. With tabular data, that means using “relational” tables that can be linked together by various index columns.</p>
-<p>Some good references are the Wikipedia pages on <a href="https://en.wikipedia.org/wiki/Database_normalization">normalisation</a> and the <a href="https://en.wikipedia.org/wiki/Relational_model">relational model</a>; and <a href="https://www.jstatsoft.org/article/view/v059i10">Hadley Wickham’s exposition aimed at R users</a>.</p>
+<p>Some good references are the Wikipedia pages on <a href="https://en.wikipedia.org/wiki/Database_normalization">normalization</a> and the <a href="https://en.wikipedia.org/wiki/Relational_model">relational model</a>; and <a href="https://www.jstatsoft.org/article/view/v059i10">Hadley Wickham’s exposition aimed at R users</a>.</p>
 <div id="redundant" class="section level3">
 <h3><span class="header-section-number">3.8.1</span> Removing redundant data</h3>
 <p>Consider this table of experimental results (see <code>?datasets::CO2</code>):</p>
@@ -1873,7 +1879,7 @@ test_lvls =<span class="st"> </span><span class="kw">do.call</span>(CJ, <span cl
 mDT[, conc :<span class="er">=</span><span class="st"> </span><span class="kw">as.numeric</span>(conc)]</code></pre></div>
 <p>It is not essential to set keys (<a href="tables.html#keys-indices">3.5.8.1</a>), but it’s fairly low-cost and makes thinking through the structure of the data clearer.</p>
 <p>Even when it’s not as egregious as storing numbers as column names, it is very often the case that multiple columns store similar information that really would be more naturally stored in a single column.</p>
-<p>Stubbornly sticking to wide form can create problems particularly with dynamic data (that is updated over time). For example, if you have a column for “daily sales online” and another column for “daily sales in-store”, what happens when you must also store data on “sales through our affiliate”? Adding more and more columns on-the-fly is asking for trouble: what class should this new column have? what are the rules for where it can have missing values? is its name consistent with those of related columns (“sales_online”, “sales_offline”, “sales_partner”, “sales_newpartner”)? This problem is what is meant by <a href="https://en.wikipedia.org/wiki/Database_normalization#Minimize_redesign_when_extending_the_database_structure">“minimise redesign when extending” (on Wikipedia’s normalisation page)</a>.</p>
+<p>Stubbornly sticking to wide form can create problems particularly with dynamic data (that is updated over time). For example, if you have a column for “daily sales online” and another column for “daily sales in-store”, what happens when you must also store data on “sales through our affiliate”? Adding more and more columns on-the-fly is asking for trouble: what class should this new column have? what are the rules for where it can have missing values? is its name consistent with those of related columns (“sales_online”, “sales_offline”, “sales_partner”, “sales_newpartner”)? This problem is what is meant by <a href="https://en.wikipedia.org/wiki/Database_normalization#Minimize_redesign_when_extending_the_database_structure">“minimise redesign when extending” (on Wikipedia’s normalization page)</a>.</p>
 <p>See <code>vignette(&quot;datatable-reshape&quot;)</code> for more on reshaping tables.</p>
 </div>
 <div id="relational-updatejoin" class="section level3">
@@ -2044,14 +2050,16 @@ exDT =<span class="st"> </span><span class="kw">data.table</span>(CO2)[<span cla
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_bycol =<span class="st"> &quot;Type&quot;</span>
 my_sumcol =<span class="st"> &quot;uptake&quot;</span>
 myj =<span class="st"> </span><span class="kw">substitute</span>(<span class="kw">sum</span>(my_sumcol), <span class="kw">list</span>(<span class="dt">my_sumcol =</span> <span class="kw">as.name</span>(my_sumcol)))
-
-<span class="co"># eval j expression</span>
+myj</code></pre></div>
+<pre><code># sum(uptake)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># eval j expression</span>
 exDT[ , <span class="kw">eval</span>(myj), by=my_bycol]</code></pre></div>
 <pre><code>#           Type   V1
 # 1:      Quebec 46.4
 # 2: Mississippi 42.8</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># eval entire expression</span>
-mycall =<span class="st"> </span><span class="kw">as.call</span>(<span class="kw">list</span>(<span class="kw">as.symbol</span>(<span class="st">&quot;[&quot;</span>), <span class="kw">as.symbol</span>(<span class="st">&quot;exDT&quot;</span>), <span class="dt">j =</span> myj, <span class="dt">by =</span> my_bycol))</code></pre></div>
+mycall =<span class="st"> </span><span class="kw">as.call</span>(<span class="kw">list</span>(<span class="kw">as.symbol</span>(<span class="st">&quot;[&quot;</span>), <span class="kw">as.symbol</span>(<span class="st">&quot;exDT&quot;</span>), <span class="dt">j =</span> myj, <span class="dt">by =</span> my_bycol))
+mycall</code></pre></div>
 <pre><code># exDT[j = sum(uptake), by = &quot;Type&quot;]</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">eval</span>(mycall)</code></pre></div>
 <pre><code>#           Type   V1
@@ -2070,7 +2078,7 @@ dat[plantDT, on=.(Plant), (up_cols) :<span class="er">=</span><span class="st"> 
 </div>
 <div id="data.table-options" class="section level4">
 <h4><span class="header-section-number">3.8.4.5</span> Data.table options</h4>
-<p>The data.table package has many global options related to optimisation and console output. To review them…</p>
+<p>The data.table package has many global options related to optimization and console output. To review them…</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>() %&gt;%<span class="st"> </span>.[<span class="kw">grep</span>(<span class="st">&quot;datatable&quot;</span>, <span class="kw">names</span>(.))]</code></pre></div>
 <pre><code># $datatable.alloccol
 # [1] 1024

@@ -141,6 +141,7 @@ img {
 <li><a href="basics.html#matrix-extract"><span class="toc-section-number">2.2.4</span> Extracting from matrices</a></li>
 <li><a href="basics.html#subassigning-to-matrices"><span class="toc-section-number">2.2.5</span> Subassigning to matrices</a></li>
 <li><a href="basics.html#arrays"><span class="toc-section-number">2.2.6</span> Arrays</a></li>
+<li><a href="basics.html#matrix-misc"><span class="toc-section-number">2.2.7</span> Computing with matrices</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#syntax"><span class="toc-section-number">2.3</span> Syntax</a><ul>
 <li><a href="basics.html#assigning-to-attributes"><span class="toc-section-number">2.3.1</span> Assigning to attributes</a></li>
@@ -216,7 +217,7 @@ img {
 <li><a href="tables.html#fwrite"><span class="toc-section-number">3.6.8</span> <code>fwrite</code> to write delimited files</a></li>
 <li><a href="tables.html#dt-saveload"><span class="toc-section-number">3.6.9</span> Saving and loading R objects</a></li>
 <li><a href="tables.html#reading-and-writing-other-formats"><span class="toc-section-number">3.6.10</span> Reading and writing other formats</a></li>
-<li><a href="tables.html#formatting-the-display-of-columns"><span class="toc-section-number">3.6.11</span> Formatting the display of columns</a></li>
+<li><a href="tables.html#format-cols"><span class="toc-section-number">3.6.11</span> Formatting the display of columns</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#exploring-data"><span class="toc-section-number">3.7</span> Exploring data</a><ul>
 <li><a href="tables.html#browse-env"><span class="toc-section-number">3.7.1</span> Browsing loaded objects</a></li>
@@ -257,10 +258,14 @@ img {
 <li><a href="work.html#combining-table-columns"><span class="toc-section-number">4.5</span> Combining table columns</a></li>
 <li class="has-sub"><a href="work.html#reg"><span class="toc-section-number">4.6</span> Regression</a><ul>
 <li><a href="work.html#extracting-results"><span class="toc-section-number">4.6.1</span> Extracting results</a></li>
+<li><a href="work.html#formulas"><span class="toc-section-number">4.6.2</span> Formulas</a></li>
+<li><a href="work.html#custom-regression"><span class="toc-section-number">4.6.3</span> Custom regression</a></li>
 </ul></li>
-<li><a href="work.html#optimization"><span class="toc-section-number">4.7</span> Optimization</a></li>
-<li><a href="work.html#integration"><span class="toc-section-number">4.8</span> Integration</a></li>
-<li><a href="work.html#strings"><span class="toc-section-number">4.9</span> String operations</a></li>
+<li class="has-sub"><a href="work.html#numerical-tasks"><span class="toc-section-number">4.7</span> Numerical tasks</a><ul>
+<li><a href="work.html#optimization"><span class="toc-section-number">4.7.1</span> Optimization</a></li>
+<li><a href="work.html#integration"><span class="toc-section-number">4.7.2</span> Integration</a></li>
+</ul></li>
+<li><a href="work.html#strings"><span class="toc-section-number">4.8</span> String operations</a></li>
 </ul></li>
 </ul>
 </div>
@@ -592,7 +597,6 @@ v =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,
 <strong>Vectors with attributes.</strong> In fact, a matrix <em>is</em> a vector, just augmented by the <code>dim</code> attribute. As mentioned at the top, all data in R is stored in vectors; and as mentioned in <a href="basics.html#classes">2.1.2</a>, most classes are built on top of vectors. One wrinkle is that <code>is.vector</code> is false for matrices. However, this makes sense in light of the doc, <code>?is.vector</code>.
 </div>
 <p></p>
-<p>caution – column-major, not sure if this needs a box</p>
 <div id="building-matrices" class="section level3">
 <h3><span class="header-section-number">2.2.1</span> Building matrices</h3>
 <p>Matrices can also be built from vectors with <code>cbind</code> and <code>rbind</code> (for “binding” columns or rows):</p>
@@ -670,6 +674,15 @@ m[im]</code></pre></div>
 <div id="arrays" class="section level3">
 <h3><span class="header-section-number">2.2.6</span> Arrays</h3>
 <p>Arrays are the same as matrices, just in higher dimensions. For example, a three-dimensional array will have a <code>dim</code> attribute of length three and have slicing syntax like <code>a[i,j,k]</code>. They can be constructed like <code>a = array(v, dim = c(1,2,2))</code>.</p>
+</div>
+<div id="matrix-misc" class="section level3">
+<h3><span class="header-section-number">2.2.7</span> Computing with matrices</h3>
+<p>Matrix algebra functions are covered in <a href="basics.html#matrix-algebra">2.3.4</a>. Some other handy functions are:</p>
+<ul>
+<li><code>colSums</code> and <code>rowSums</code>, which take sums over columns and rows, respectively.</li>
+<li><code>max.col</code> which finds, for each row, which is the first column to achieve the per-row maximum.</li>
+</ul>
+<p>The <code>apply</code> function is popular for applying arbitrary functions along dimensions of a matrix or array. However, it is very inefficient and usually discouraged. <code>sweep</code> is a similar function.</p>
 </div>
 </div>
 <div id="syntax" class="section level2">
@@ -930,7 +943,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nrow</code></pre></div>
 <pre><code># function (x) 
 # dim(x)[1L]
-# &lt;bytecode: 0x00000000140bbaf0&gt;
+# &lt;bytecode: 0x000000000691cb70&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">replace</code></pre></div>
 <pre><code># function (x, list, values) 
@@ -938,7 +951,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 #     x[list] &lt;- values
 #     x
 # }
-# &lt;bytecode: 0x0000000018107d78&gt;
+# &lt;bytecode: 0x00000000087a3800&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <p>The last two rows of these functions show (i) that they are compiled and (ii) the environment they were defined in.</p>
 <p>Many functions are not “exported” for direct use. Nonetheless, their code may be found using <code>getAnywhere</code> or accessed directly using <code>:::</code> syntax:</p>

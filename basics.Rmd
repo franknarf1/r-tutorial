@@ -366,8 +366,6 @@ All elements of a matrix must have the same class, just like a vector. So we can
 **Vectors with attributes.** In fact, a matrix *is* a vector, just augmented by the `dim` attribute. As mentioned at the top, all data in R is stored in vectors; and as mentioned in \@ref(classes), most classes are built on top of vectors. One wrinkle is that `is.vector` is false for matrices. However, this makes sense in light of the doc, `?is.vector`.
 ```
 
-caution -- column-major, not sure if this needs a box
-
 ### Building matrices
 
 Matrices can also be built from vectors with `cbind` and `rbind` (for "binding" columns or rows):
@@ -453,6 +451,15 @@ In all cases, `z` is a vector or matrix of values.
 
 Arrays are the same as matrices, just in higher dimensions. For example, a three-dimensional array will have a `dim` attribute of length three and have slicing syntax like `a[i,j,k]`. They can be constructed like `a = array(v, dim = c(1,2,2))`.
 
+### Computing with matrices {#matrix-misc}
+
+Matrix algebra functions are covered in \@ref(matrix-algebra). Some other handy functions are:
+
+- `colSums` and `rowSums`, which take sums over columns and rows, respectively.
+- `max.col` which finds, for each row, which is the first column to achieve the per-row maximum.
+
+The `apply` function is popular for applying arbitrary functions along dimensions of a matrix or array. However, it is very inefficient and usually discouraged. `sweep` is a similar function.
+
 ## Syntax
 
 ### Assigning to attributes
@@ -484,10 +491,6 @@ As in [any other programming environment](http://floating-point-gui.de/), floati
 **Arithmetic with logical values.** Particularly when exploring data, we often want to tally observations meeting some condition. To do this in R, we can treat true/false like 1/0: `is_gt = c(1,5,2) > c(1,2,3); sum(is_gt)`. 
 ```
 
-```{r todo-ref-tallying, echo=FALSE, eval=FALSE}
-Tallying will be revisited in @ref(tallying). 
-#tallying was removed, maybe move elsewhere
-```
 
 
 
@@ -507,7 +510,7 @@ A couple additional symbols, `||` and `&&`, do short circuiting and will be expl
 
 For a logical vector, `any` and `all` summarise it in the natural way. 
 
-### Matrix algebra
+### Matrix algebra {#matrix-algebra}
 
 - *Transpose* `t(X)` 
 - *Multiply* `X %*% Y`

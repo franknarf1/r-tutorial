@@ -302,14 +302,14 @@ bwDT = data.table(MASS::birthwt)
 
 pdf(file="birthweight_graphs.pdf")
 bwDT[, {
-  case = sprintf("high #visits? = %s, smoking? = %s", .BY$high_vis, .BY$smoke)
+  case = sprintf("high #visits? = % 5s, smoking? = % 5s", .BY$high_vis, .BY$smoke)
   
-  cat("Handling", case, "...\n")
+  cat("Handling case:", case, "...\n")
   plot(
     age ~ lwt, 
     main = case
   )  
-}, by=.(high_vis = ftv >= 1, smoke)]
+}, by=.(high_vis = ftv >= 1, smoke = as.logical(smoke))]
 dev.off()
 ```
 
@@ -320,7 +320,7 @@ Plotting graphs is beyond the scope of this document, but the example above shou
 ```
 
 ```{block2 dt-byfloats, type='rmd-caution'}
-**Grouping on floats.** Much of the computational and syntactical magic of the package comes from grouping rows together with the `by=` argument. To group on a floating-point variable, however, is just asking for trouble, [for the usual numerical computing reasons](http://floating-point-gui.de/). Instead, always use characters, integers or factors. To discretise a continuous variable into bins, use `cut`.
+**Grouping on floats.** Much of the computational and syntactical magic of the package comes from grouping rows together with the `by=` argument. To group on a floating-point variable, however, is just asking for trouble, [for the usual numerical computing reasons](http://floating-point-gui.de/). Instead, always use characters, integers or factors. To discretize a continuous variable into bins, use `cut`.
 ```
 
 ```{block2 dt-verbose, type='rmd-details'}
@@ -980,7 +980,9 @@ DT[, c("d", "t") := IDateTime(as.factor(dt))][]
 
 However, it does not include a combined datetime class, which would be useful if we want to measure time differences across days. 
 
-For a combined datetime class, we have to use POSIXct. This brings with it a couple of annoyances. First, it uses floating-point measurement, so grouping on it with `by=` is not a good idea and some table operations will be slower. Second, in keeping with POSIX rules, it has an irritating time zone attribute that always demands careful watching. Nonetheless, it is the standard option for a datetime format currently. (There is also a POSIXlt format, but data.table discourages it, since it does not build on atomic vectors.) 
+For a combined datetime class, we have to use POSIXct. This brings with it a couple of annoyances. First, it uses floating-point measurement, so grouping on it with `by=` is not a good idea and some table operations will be slower. Second, in keeping with POSIX rules, it has an irritating time zone attribute that always demands careful watching. Nonetheless, it is the standard option for a datetime format currently. (There is also a POSIXlt format, but data.table discourages it, since it does not build on atomic vectors.)
+
+If datetimes are central to the analysis, it might be worth loading [the chron package](https://CRAN.R-project.org/package=chron), which offers a datetime class without the time-zone annoyances of POSIXct. It is "suggested" by the data.table package (in CRAN lingo), so probably reliably compatible.
 
 #### Sub-second measures
 
@@ -1062,7 +1064,7 @@ They are good for many things, but should be avoided if possible while cleaning 
 
 To write a CSV or other delimited-table format, `fwrite` is usually the best option.
 
-It is fast and includes nice features for printing dates and times, like the `squash` option that will print dates like `20171020`.
+It is fast and includes nice features for printing dates and times, like the `squash` option that will print dates like `20171020`. For other tools for printing exotic columns out as strings see \@ref(strings).
 
 ### Saving and loading R objects {#dt-saveload}
 
@@ -1112,7 +1114,7 @@ old_dat <- readRDS("dat.rds")
 
 For "foreign" table formats (Excel, Stata, etc), use an internet search. These input and output tools will always be in active development because the formats themselves are in flux. of course, it is unwise to use any such formats for long-term data storage.
 
-### Formatting the display of columns
+### Formatting the display of columns {#format-cols}
 
 While the way R displays dates (like `2017-11-22`) might not align with what is seen elsewhere, I suggest getting used to it rather than seeking a workaround, though I'm sure there are some (like making a new class). It will be easier for everyone looking at the data if it is in a standard format.
 
@@ -1294,7 +1296,7 @@ carsDT[, c(
 
 The `as.list` is necessary to split the results over multiple columns. It is inefficient, but that won't matter much when exploring data, I imagine.
 
-#### Tabulating
+#### Tabulating {#tabulating}
 
 For a better look at a character or factor column, we'd want to tabulate values:
 
@@ -1420,7 +1422,7 @@ My guess is that the terms melting and casting (for conversion of a table to and
 
 The best way to organize data in R takes advantage of the power to have multiple data sets in the workspace. With tabular data, that means using "relational" tables that can be linked together by various index columns.
 
-Some good references are the Wikipedia pages on [normalisation](https://en.wikipedia.org/wiki/Database_normalization) and the [relational model](https://en.wikipedia.org/wiki/Relational_model); and [Hadley Wickham's exposition aimed at R users](https://www.jstatsoft.org/article/view/v059i10).
+Some good references are the Wikipedia pages on [normalization](https://en.wikipedia.org/wiki/Database_normalization) and the [relational model](https://en.wikipedia.org/wiki/Relational_model); and [Hadley Wickham's exposition aimed at R users](https://www.jstatsoft.org/article/view/v059i10).
 
 
 ### Removing redundant data {#redundant}
@@ -1525,7 +1527,7 @@ It is not essential to set keys (\@ref(keys-indices)), but it's fairly low-cost 
 
 Even when it's not as egregious as storing numbers as column names, it is very often the case that multiple columns store similar information that really would be more naturally stored in a single column. 
 
-Stubbornly sticking to wide form can create problems particularly with dynamic data (that is updated over time). For example, if you have a column for "daily sales online" and another column for "daily sales in-store", what happens when you must also store data on "sales through our affiliate"? Adding more and more columns on-the-fly is asking for trouble: what class should this new column have? what are the rules for where it can have missing values? is its name consistent with those of related columns ("sales_online", "sales_offline", "sales_partner", "sales_newpartner")? This problem is what is meant by ["minimise redesign when extending" (on Wikipedia's normalisation page)](https://en.wikipedia.org/wiki/Database_normalization#Minimize_redesign_when_extending_the_database_structure).
+Stubbornly sticking to wide form can create problems particularly with dynamic data (that is updated over time). For example, if you have a column for "daily sales online" and another column for "daily sales in-store", what happens when you must also store data on "sales through our affiliate"? Adding more and more columns on-the-fly is asking for trouble: what class should this new column have? what are the rules for where it can have missing values? is its name consistent with those of related columns ("sales_online", "sales_offline", "sales_partner", "sales_newpartner")? This problem is what is meant by ["minimise redesign when extending" (on Wikipedia's normalization page)](https://en.wikipedia.org/wiki/Database_normalization#Minimize_redesign_when_extending_the_database_structure).
 
 See `vignette("datatable-reshape")` for more on reshaping tables.
 
@@ -1658,10 +1660,11 @@ exDT = data.table(CO2)[c(1:2,60,65)]
 
 When an `i` or `j` call in `DT[i, j, by]` must be constructed programmatically, it is best to store it as an expression and then to evaluate that expression inside `DT[...]`, for efficiency. Alternately, the entire `DT[...]` expression could be constructed and evaluated.
 
-```{r evalparse, echo=-10}
+```{r evalparse}
 my_bycol = "Type"
 my_sumcol = "uptake"
 myj = substitute(sum(my_sumcol), list(my_sumcol = as.name(my_sumcol)))
+myj
 
 # eval j expression
 exDT[ , eval(myj), by=my_bycol]
@@ -1696,7 +1699,7 @@ http://stackoverflow.com/questions/41228076/using-data-tables-shortcut-in-quoted
 
 #### Data.table options
 
-The data.table package has many global options related to optimisation and console output. To review them...
+The data.table package has many global options related to optimization and console output. To review them...
 
 ```{r dt-opts}
 options() %>% .[grep("datatable", names(.))]
