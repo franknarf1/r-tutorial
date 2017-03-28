@@ -2,14 +2,99 @@
 
 This chapter covers common analytical tasks (without any discussion of their statisical justification).
 
-## Sets and combinations
+Unlike earlier chapters, this one leans more towards saying what the right function is called rather than giving examples. R has weird function names but good per-function examples. Remember that typing `example(function_name)` will run them in the console.
 
-todo -- bring this section back
+## Sets {#sets}
 
+### Unary operators
+
+To treat a vector or data.table as a set (in the limited sense of dropping duplicates), use `unique(x)`. I guess the function is called "unique" since in the resulting vector (or table), every element (or row) is unique.
+
+For the data.table version, there is a `by=` option, so we can drop duplicates in terms of some of the table's columns. By default, it will keep the first row within the `by=` group, but `fromLast = TRUE` can switch it to keep the last row instead.
+
+A complementary function `duplicated` also exists, but is rarely needed.
+
+### Testing membership
+
+Besides comparisons, `x == y`, we can test membership like `x %in% y`:
+
+```{r in}
+c(1, 3, NA) %in% c(1, 2)
+"A" %in% c("A", "A", "B")
+```
+
+We get one true/false value for each element on the left-hand side. Duplicate values on the right-hand side are ignored. That is, the right-hand side is treated like a *set*. 
+
+Unlike `==`, here we always get a true/false result, even when missing values are present.
+
+### Other binary operators
+
+As documented at `?sets`, for two vectors `x` and `y` we can write
+
+- $x\cup y$ as `union(x,y)`,
+- $x\cap y$ as `intersect(x,y)`,
+- $x\ \backslash\ y$ as `setdiff(x,y)` and 
+- $x = y$ as `setequal(x,y)`.
+
+As mentioned in \@ref(classes), R does not actually support an unordered set data type. However, these functions treat `x` and `y` as sets in the sense that they ignore duplicated values in them. So `union(c(1,1,2), c(3,4))` is `c(1,2,3,4)`, with the repeating 1 ignored because it has no meaning in this context.
+
+Corresponding functions exist for data.tables, prefixed like `f*`: `funion`, `fintersect`, `fsetdiff` and `fsetequal`. Two tables can be combined in this way only if their columns line up (in terms of class, etc.).
+
+### Operators on lists of sets
+
+R only includes binary versions of these operators. However, the `Reduce` function can help for finite unions or intersections. It collapses a list of arguments using a binary operator successively, so the union of four sets 
+
+$$
+\bigcup_{i=1}^4 x_i =  ((x_1\cup x_2) \cup x_3) \cup x_4
+$$
+
+is written as
+
+```{r setreduce}
+xList = list(1:2, 2:3, 11L, 4:6)
+Reduce(union, xList)
+```
+
+Another alternative for the union of a set of vectors is `unique(unlist(xList))`. The `unlist` function just combines the four vectors into a single vector. `Reduce(intersect, xList)` makes sense for taking the intersection of a bunch of sets.
+
+For a list of data.tables, the same can be done (with `funion` and `fintersect`). However, again, the alternative for finite unions `unique(rbindlist(dList))` may be better in terms of performance in some cases.
+
+## Combinations {#combos}
+
+```{r cj, eval=FALSE}
+CJ(x, y, z, unique = TRUE)
+```
+
+return a table with all combinations: 
+
+$$
+\{(x_i,y_j,z_k): x_i \in x, y_j \in y, z_k \in z\}
+$$
+
+The `unique = TRUE` clause means we are treating the vectors like sets (\@ref(sets)), ignoring their duplicated values.
+
+So to take all pairs of values for a vector...
+
+```{r CJ, echo=-c(3,7)}
+x = LETTERS[1:4]
+xcomb = CJ(x,x)
+xcomb
+
+# limit to distinct pairs
+xpairs <- xcomb[ V1 < V2 ]
+xpairs
+
+# create a single categorical var
+xpairs[, pair_code := sprintf("%s_%s", V1, V2)][]
+```
+
+In base, `combn(x, n, f)` finds all `x`'s subvectors of length `n` and optionally applies a function to them. And `outer(x, y, f)` applies a function to all pairs of elements of `x` and `y`, returning a matrix.
+
+All of these options can get out of hand, in terms of memory consumption, but that's normal for combinatorial operations.
 
 ## Randomization
 
-To make your draw reproducible, use `set.seed` before it:
+To make a draw reproducible, use `set.seed` before it:
 
 ```{r set-seed, eval=FALSE}
 set.seed(1)
@@ -21,8 +106,15 @@ rnorm(10)
 
 To draw `n` random numbers from the unit interval, use `runif(n)`. All random-draw functions follow this naming convention -- `rnorm`, `rpoisson`, `rbinom` -- for a full list of the built-in ones, type `?distributions`. Many more are offered in packages that can be found by searching online.
 
-details -- quickly glance at a function with curve()
+To get a quick look at the density being drawn from, use `curve`:
 
+```{r dist-glance}
+# glance at chi-squared with 10 degrees of freedom
+df = 10
+curve(dchisq(x, df), xlim = qchisq(c(.01, .99), df))
+```
+
+`d*` is the density and `q*` is the quantile function. We're using the latter to find good x-axis bounds for the graph.
 
 ### Urn draws
 
@@ -45,7 +137,7 @@ sample(y, size = 2, replace = TRUE)
 Where did `4` and `6` come from? Those aren't elements of `y`!
 
 ```{block2 sampling, type='rmd-caution'}
-**Sampling from a numeric vector.** Vanilla `sample` cannot be trusted on numeric or integer vectors unless you are sure they have a length greater than 1. 
+**Sampling from a numeric vector.** Vanilla `sample` cannot be trusted on numeric or integer vectors unless we are sure the vector has a length greater than 1. 
 ```
 
 I should have instead sampled from `y`s indices like 
@@ -79,7 +171,7 @@ y[sample(seq_along(y))]
 
 ### Simulations
 
-If you have a random process to repeat `nsim` times, the `replicate` function is the answer. Suppose we want to take 10 standard normal draws and return the top three:
+For a random process to repeat `nsim` times, the `replicate` function is the answer. Suppose we want to take 10 standard normal draws and return the top three:
 
 ```{r replicate}
 nsim = 2
@@ -135,13 +227,16 @@ simparmDT = data.table(set_id = LETTERS[1:2], nsim = 3, n = 10, mu = c(0, 10), s
 
 set.seed(1)
 simDT = simparmDT[, .(
+    
     # assign a unique ID to each run
     run_id = sprintf("%s%03d", set_id, seq.int(nsim)),  
+    
     # run simulations, storing results in a list column
     res = replicate(nsim, simplify = FALSE, {
         x = rnorm(n, mu, sd)
         list(mu = mean(x), top3 = tail(sort(x),3))
     })
+    
 ), by=set_id]
 simDT
 ```
@@ -166,9 +261,9 @@ simDT = simparmDT[, .(
 
 ```
 
-We are setting `.SDcols` to be those names that are used as arguments to `sim_fun` and also appear as columns in `simparmDT`. That is, we are taking the intersection of these two vectors of names.
+We are setting `.SDcols` to be those names that are used as arguments to `sim_fun` and also appear as columns in `simparmDT`. That is, we are taking the intersection of these two vectors of names. 
 
-todo -- check where do.call and intersect are introduced and link to them
+The `do.call` and `intersect` functions are covered in \@ref(do-call) and \@ref(sets), respectively.
 
 Next we can extract all components as new columns (still sticking with one row per simulation run):
 
@@ -211,7 +306,6 @@ shiftDT = setDT(c(list(x = x), shift(x, 0:3)))
 shiftDT
 ```
 
-
 The `embed` function from base R may also be useful when handling lags. It extracts all sequences of a given size:
 
 ```{r embed}
@@ -231,22 +325,37 @@ DT[, dv_fill := v - shift(v, fill = 0), by=id][]
 
 There is also a `diff` function in base R, but it is less flexible than computing differences with `shift`; and it does not return a vector of the same length as its input.
 
-### Rolling computations
+### Rolling computations {#rolling}
 
-note combinatorial cost
+If we want a rolling sum, the naive approach is to take the sum of elements 1:2, then the sum of 1:3, then the sum of 1:4. In the context of
+data.tables, this would look like a self non-equi join (\@ref(joins-nonequi)):
 
-use example of cumulative sum
+```{r badroll-pre, echo=-4}
+# example data
+set.seed(1)
+DT = data.table(id = rep(LETTERS[1:3], each = 3))[, `:=`(
+  sid = rowid(id),
+  v   = sample(0:2, .N, replace = TRUE)
+)][]
+DT
+```
+```{r badroll}
+DT[, vsum := 
+  DT[.(id = id, sid = sid), on=.(id, sid <= sid), sum(v), by=.EACHI]$V1
+]
+```
 
+(As a side-note, `rowid` conveniently builds a within-group counter, as seen here. For more counters, see \@ref(gids).)
 
-general solution is a non-equi join
+The number of calculations performed with this non-equi join approach scales at around `N^2` as the number of rows `N` increases, which is pretty poor. Nonetheless, for any rolling computation, this will always be an option.
 
-for computational reasons, this is best avoided
+In this case (and many others), there's a better way, though:
 
-cummax, cummin, cumsum
+```{r goodroll}
+DT[, vsum2 := cumsum(v), by=id][]
+```
 
-
-zoo, RcppRoll also exist
-
+Besides `cumsum` for the cumulative sum, there's also `cumprod` for the cumulative product; and `cummin` and `cummax`, for the cumulative min and max. For more rollers and to roll new ones, see the [zoo](https://CRAN.R-project.org/package=zoo) and [RcppRoll](https://CRAN.R-project.org/package=RcppRoll) packages. 
 
 ### Run-length encoding
 
@@ -270,11 +379,9 @@ new_r = with(r, {
 inverse.rle(new_r)
 ```
 
-In section  ... rleid
+As we saw in \@ref(function-environment), `with(L, expr)` attaches objects in a list or environment `L` temporarily for the purpose of evaluating the expression `expr`.
 
-show with(rle(x), ) refer to environments
-
-### Grouping on runs
+### Grouping on runs {#gids}
 
 `cut` and `findInterval` are good ways to construct groups from intervals of a continuous variable.
 
@@ -286,29 +393,52 @@ To group by sequences, it is often useful to take advantage of...
 
 To label rows *within* a group, use data.table's `rowid`. To label groups, use data.table's `.GRP`, like `DT[, g_id := .GRP, by=g]`.
 
-It's often tempting in R to run computations by row, like `DT[, ..., by=1:nrow(DT)]` but this is almost always a bad idea, both in terms of clarity and speed.
+Remember that while it's often tempting in R to run computations by row, like `DT[, ..., by=1:nrow(DT)]`, this is almost always a bad idea, both in terms of clarity and speed.
 
 
 ## Combining table columns
 
-do.call
-pmin, pmax
-shift
+As noted in \@ref(dt-lapply), it is generally a bad sign if many calculations are made across columns. Nonetheless, some occasionally make sense.
 
-ex, creating indices with Map, Reduce
+For example, if each row represents a vector and columns represent dimensions of the vectors, we might want to take the Euclidean norm rowwise:
 
-ex, computing euclidean distance moved: shift lapply Reduce sqrt
+```{r combcol-norm}
+DT = data.table(id = 1:2, x = 1:2, y = 3:4, z = 5:6)
+DT[, norm := Reduce(`+`, lapply(.SD, `^`, 2)) %>% sqrt, .SDcols = x:z][]
+```
 
-ex, with pmin vs some capacity
+Or we might have several categorical string variables that we want to collapse into a single code (essentially reversing `tstrsplit` from \@ref(char-input)):
 
+```{r paste-pre}
+# example data
+set.seed(1)
+DT = data.table(city = c("A", "B"))[, 
+  state := sample(state.abb, .N)][, 
+  country := c("US", "CA")]
+```
+```{r paste}
+DT[, code := do.call(paste, c(.SD, sep = "_"))][]
+```
 
-details -- Passing a list of arguments to a function with do.call like python kwargs
+Or we might want to take the minimum over the last `n` rows, a rolling-window operation (\@ref(rolling)):
 
-caution -- never write a program with rowwise operations on a table, which is column-major -- super slow, weird side effects from combining classes
+```{r shiftroll-pre}
+set.seed(1)
+DT = data.table(id = rep(LETTERS[1:20], each=10))[,
+  v := sample(-10:10, .N, replace = TRUE)]
+```
+```{r shiftroll}
+DT[, lag_min := do.call(pmin, shift(v, 0:2)), by=id][]
+```
 
-precomputing indices http://stackoverflow.com/q/19279075
+While all of these examples are doing rowwise computations, none of them actually condition on each row, with `by=1:nrow(DT)` or similar. As a result, they are much more efficient.
+
+All of these functions (`pmin`, `pmax`, `paste`) take a variable number of arguments. Looking at the functions' arguments with `args(function_name)`, we can see that they do this via dots `...` (\@ref(fundots)).
+
 
 ## Regression {#reg}
+
+Most basic regression models have helper functions to run them, as a search online will reveal.
 
 (so far, we've just talked about data manipulation, now onto math/stats)
 

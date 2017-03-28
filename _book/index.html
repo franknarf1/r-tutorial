@@ -17,8 +17,14 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-03-27" />
+<meta name="date" content="2017-03-28" />
 
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
 <meta name="description" content="This book covers the essentials of using R.">
 
@@ -126,8 +132,7 @@ img {
 <li><a href="basics.html#initializing"><span class="toc-section-number">2.1.11</span> Initializing</a></li>
 <li><a href="basics.html#factors"><span class="toc-section-number">2.1.12</span> Factors</a></li>
 <li><a href="basics.html#sort-rank-order"><span class="toc-section-number">2.1.13</span> Sorting, rank, order</a></li>
-<li><a href="basics.html#testing-membership"><span class="toc-section-number">2.1.14</span> Testing membership</a></li>
-<li><a href="basics.html#exercises"><span class="toc-section-number">2.1.15</span> Exercises</a></li>
+<li><a href="basics.html#exercises"><span class="toc-section-number">2.1.14</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#matrix-array"><span class="toc-section-number">2.2</span> Matrices and arrays</a><ul>
 <li><a href="basics.html#building-matrices"><span class="toc-section-number">2.2.1</span> Building matrices</a></li>
@@ -205,7 +210,7 @@ img {
 <li><a href="tables.html#fread"><span class="toc-section-number">3.6.2</span> <code>fread</code> to read delimited files</a></li>
 <li><a href="tables.html#rbindlist-read"><span class="toc-section-number">3.6.3</span> <code>rbindlist</code> to combine tables</a></li>
 <li><a href="tables.html#dates-times"><span class="toc-section-number">3.6.4</span> Date and time columns</a></li>
-<li><a href="tables.html#character-columns"><span class="toc-section-number">3.6.5</span> Character columns</a></li>
+<li><a href="tables.html#char-input"><span class="toc-section-number">3.6.5</span> Character columns</a></li>
 <li><a href="tables.html#dt-recode"><span class="toc-section-number">3.6.6</span> Categorical columns</a></li>
 <li><a href="tables.html#list-columns"><span class="toc-section-number">3.6.7</span> List columns</a></li>
 <li><a href="tables.html#fwrite"><span class="toc-section-number">3.6.8</span> <code>fwrite</code> to write delimited files</a></li>
@@ -229,27 +234,33 @@ img {
 </ul></li>
 </ul></li>
 <li class="has-sub"><a href="work.html#work"><span class="toc-section-number">4</span> Getting work done</a><ul>
-<li><a href="work.html#sets-and-combinations"><span class="toc-section-number">4.1</span> Sets and combinations</a></li>
-<li class="has-sub"><a href="work.html#randomization"><span class="toc-section-number">4.2</span> Randomization</a><ul>
-<li><a href="work.html#distribution-draws"><span class="toc-section-number">4.2.1</span> Distribution draws</a></li>
-<li><a href="work.html#urn-draws"><span class="toc-section-number">4.2.2</span> Urn draws</a></li>
-<li><a href="work.html#permutations"><span class="toc-section-number">4.2.3</span> Permutations</a></li>
-<li><a href="work.html#simulations"><span class="toc-section-number">4.2.4</span> Simulations</a></li>
+<li class="has-sub"><a href="work.html#sets"><span class="toc-section-number">4.1</span> Sets</a><ul>
+<li><a href="work.html#unary-operators"><span class="toc-section-number">4.1.1</span> Unary operators</a></li>
+<li><a href="work.html#testing-membership"><span class="toc-section-number">4.1.2</span> Testing membership</a></li>
+<li><a href="work.html#other-binary-operators"><span class="toc-section-number">4.1.3</span> Other binary operators</a></li>
+<li><a href="work.html#operators-on-lists-of-sets"><span class="toc-section-number">4.1.4</span> Operators on lists of sets</a></li>
 </ul></li>
-<li class="has-sub"><a href="work.html#sequences"><span class="toc-section-number">4.3</span> Working with sequences</a><ul>
-<li><a href="work.html#lag"><span class="toc-section-number">4.3.1</span> Lag operators</a></li>
-<li><a href="work.html#taking-differences"><span class="toc-section-number">4.3.2</span> Taking differences</a></li>
-<li><a href="work.html#rolling-computations"><span class="toc-section-number">4.3.3</span> Rolling computations</a></li>
-<li><a href="work.html#run-length-encoding"><span class="toc-section-number">4.3.4</span> Run-length encoding</a></li>
-<li><a href="work.html#grouping-on-runs"><span class="toc-section-number">4.3.5</span> Grouping on runs</a></li>
+<li><a href="work.html#combos"><span class="toc-section-number">4.2</span> Combinations</a></li>
+<li class="has-sub"><a href="work.html#randomization"><span class="toc-section-number">4.3</span> Randomization</a><ul>
+<li><a href="work.html#distribution-draws"><span class="toc-section-number">4.3.1</span> Distribution draws</a></li>
+<li><a href="work.html#urn-draws"><span class="toc-section-number">4.3.2</span> Urn draws</a></li>
+<li><a href="work.html#permutations"><span class="toc-section-number">4.3.3</span> Permutations</a></li>
+<li><a href="work.html#simulations"><span class="toc-section-number">4.3.4</span> Simulations</a></li>
 </ul></li>
-<li><a href="work.html#combining-table-columns"><span class="toc-section-number">4.4</span> Combining table columns</a></li>
-<li class="has-sub"><a href="work.html#reg"><span class="toc-section-number">4.5</span> Regression</a><ul>
-<li><a href="work.html#extracting-results"><span class="toc-section-number">4.5.1</span> Extracting results</a></li>
+<li class="has-sub"><a href="work.html#sequences"><span class="toc-section-number">4.4</span> Working with sequences</a><ul>
+<li><a href="work.html#lag"><span class="toc-section-number">4.4.1</span> Lag operators</a></li>
+<li><a href="work.html#taking-differences"><span class="toc-section-number">4.4.2</span> Taking differences</a></li>
+<li><a href="work.html#rolling"><span class="toc-section-number">4.4.3</span> Rolling computations</a></li>
+<li><a href="work.html#run-length-encoding"><span class="toc-section-number">4.4.4</span> Run-length encoding</a></li>
+<li><a href="work.html#gids"><span class="toc-section-number">4.4.5</span> Grouping on runs</a></li>
 </ul></li>
-<li><a href="work.html#optimization"><span class="toc-section-number">4.6</span> Optimization</a></li>
-<li><a href="work.html#integration"><span class="toc-section-number">4.7</span> Integration</a></li>
-<li><a href="work.html#strings"><span class="toc-section-number">4.8</span> String operations</a></li>
+<li><a href="work.html#combining-table-columns"><span class="toc-section-number">4.5</span> Combining table columns</a></li>
+<li class="has-sub"><a href="work.html#reg"><span class="toc-section-number">4.6</span> Regression</a><ul>
+<li><a href="work.html#extracting-results"><span class="toc-section-number">4.6.1</span> Extracting results</a></li>
+</ul></li>
+<li><a href="work.html#optimization"><span class="toc-section-number">4.7</span> Optimization</a></li>
+<li><a href="work.html#integration"><span class="toc-section-number">4.8</span> Integration</a></li>
+<li><a href="work.html#strings"><span class="toc-section-number">4.9</span> String operations</a></li>
 </ul></li>
 </ul>
 </div>
@@ -260,7 +271,7 @@ img {
 <div id="header">
 <h1 class="title"><br><br>Quick R Tutorial</h1>
 <h4 class="author"><em>Frank Erickson</em></h4>
-<h4 class="date"><em>2017-03-27</em></h4>
+<h4 class="date"><em>2017-03-28</em></h4>
 </div>
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction</h1>

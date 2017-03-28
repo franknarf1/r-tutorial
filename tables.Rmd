@@ -684,7 +684,7 @@ Now we want to "complete" the data set so that every `id` has a row for every ti
 a[CJ(id = id, t = t, unique=TRUE), on=.(id, t)]
 ```
 
-This is called a self join because we are using the table's own columns in `i` of `x[i, on=]`. The `CJ` function is a helper that takes all combinations of vectors, alternately called the Cartesian product or a "cross join." By applying `unique=TRUE`, we treat each vector *as a set* in the mathematical sense, only considering distinct values.
+This is called a self join because we are using the table's own columns in `i` of `x[i, on=]`. The `CJ` function is a helper that takes all combinations of vectors, alternately called the Cartesian product or a "cross join." See \@ref(combos) for details. By applying `unique=TRUE`, we treat each vector *as a set* in the mathematical sense, only considering distinct values.
 
 Notice that missing values (`NA`) in `i` are treated in the same way as other values.
 
@@ -997,7 +997,7 @@ Arithmetic on IDates with `+` and `-` reads `1L` as one day; and on ITimes, as o
 Time differences between dates or times can be taken using `difftime`, which allows for the specification of units of measure for the output.
 
 
-### Character columns
+### Character columns {#char-input}
 
 With character columns that combine multiple variables, there are a few options. 
 
@@ -1443,6 +1443,8 @@ carbDT[, c("Type", "Treatment") := NULL ]
 setkey(carbDT, Plant, conc)
 ```
 
+The `unique` function drops duplicates. Related tools are discussed in \@ref(sets).
+
 There are a few advantages to having data in this format:
 
 1. The data takes up less space.
@@ -1476,7 +1478,7 @@ There are a few advantages to having data in this format:
     )
     ```
       
-    We are using `CJ` to enumerate combinations; then counting matches using merge diagnostics (\@ref(join-unmatched)); and then asserting that every combo was matched by at least 1 row. The repetition of column names required here is annoying and will hopefully be addressed by nicer syntax soon. For the time being, there's...
+    We are using `CJ` to enumerate combinations (see \@ref(combos)); then counting matches using merge diagnostics (\@ref(join-unmatched)); and then asserting that every combo was matched by at least 1 row. The repetition of column names required here is annoying and will hopefully be addressed by nicer syntax soon. For the time being, there's...
     
     ```{r assert-alllevels-clean}    
     test_cols = c("Type", "Treatment")
@@ -1486,7 +1488,7 @@ There are a few advantages to having data in this format:
     )
     ```
     
-    `do.call` and other helpful programming tricks are covered in \@ref().
+    `do.call` and other helpful programming tricks are covered in \@ref(do-call).
 
 Continuing the example, if we had many more types of plants, besides Quebec and Mississippi, we might end up assigning attributes to these as well (like country or latitude). In that case, we would want a further table:
 
@@ -1543,7 +1545,7 @@ dat[plantDT, on=.(Plant), `:=`(Type = i.Type, Treatment = i.Treatment)]
 
 ### Programming with tables {#program-tables}
 
-#### Passing a list of arguments
+#### Passing a list of arguments {#do-call}
 
 To pass multiple arguments to a function programmatically, use `do.call`. Here's an example for construction of a Cartesian product table (from \@ref(redundant)):
 
@@ -1558,7 +1560,7 @@ CJ(Type = plantDT$Type, Treatment = plantDT$Treatment, unique=TRUE)
 
 This is the closest R gets to Python's `**kwargs` syntax.
 
-#### Writing wrapper functions
+#### Writing wrapper functions {#fundots}
 
 When writing functions, the `...` pseudo-argument can be used to capture multiple arguments not known ahead of time, usually to pass them on to other functions. Here's an example for browsing keyed tables (from \@ref(keys-indices)):
 
@@ -1584,13 +1586,6 @@ r(carbDT, "Mc1", 1000)
 
 my_tuple = list("Mc1", 1000)
 do.call(r, c(list(d = carbDT), my_tuple))
-
-my_tuples = list(
-  tup_a = list("Mc1", 1000),
-  tup_b = list("Mc3", 250)
-)
-
-my_tuples %>% lapply(do.call, what = CJ)
 ```
 
 This function is just for illustration; and I don't mean to suggest that it's terribly useful.
@@ -1690,6 +1685,8 @@ dat = copy(carbDT)
 up_cols = setdiff(names(plantDT), "Plant")
 dat[plantDT, on=.(Plant), (up_cols) := mget(sprintf("i.%s", up_cols))]
 ```
+
+The `setdiff` operator subtracts its second argument from the first, treating both as sets. See \@ref(sets).
 
 ```{r todo-dtq, eval=FALSE, echo=FALSE}
 note .() issue per 
