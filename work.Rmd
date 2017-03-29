@@ -509,6 +509,44 @@ The doc at `?formula` explains all the ways to write formulas concisely. Many fu
 
 We saw `dcast` (\@ref(dcast-browse)) also uses formulas. These only come in very simple forms, as documented in `?dcast`.
 
+```{r todo-learn-formula, eval=FALSE, echo=FALSE}
+# i'll just leave this collection here until i learn more
+# 
+# needed for regression, whether with `model.matrix` or a regression function like `lm`
+# 
+# also needed for reshaping, whether with `aggregate` or `dcast`
+# 
+# read the docs carefully for the syntax, which is quite nice. however, it's not so easy to change a formula
+# 
+# do what you can to minimize its scope
+
+http://stackoverflow.com/documentation/r/1061/formula#t=201703291535130876176
+
+http://stackoverflow.com/q/4951442
+
+http://stackoverflow.com/q/18017765
+
+?formula
+
+http://ww2.coastal.edu/kingw/statistics/R-tutorials/formulae.html
+
+http://faculty.chicagobooth.edu/richard.hahn/teaching/formulanotation.pdf
+
+http://stackoverflow.com/q/4392042/
+
+http://stackoverflow.com/questions/9585890 -- a very nice usage, i think
+
+http://stackoverflow.com/q/21330633/
+
+http://stackoverflow.com/q/29563622/
+
+http://stackoverflow.com/q/2427279/
+
+http://stackoverflow.com/q/1300575/
+
+http://stackoverflow.com/q/32616762/ -- very helpful
+```
+
 ### Custom regression
 
 If no one has implemented the regression procedure we want, it is possible to program up a basic version of it (assuming we understand it). Writing up a version that works nicely with formulas and has all the attributes and methods seen with `lm` would be a tall order, of course.

@@ -8,85 +8,57 @@ For now, it's not part of the book (determined by bookdown.yml).
 
 ## Program structure and style
 
-    never ever do DT <- DT[...], makes the code impossible to maintain, and it's not like you need to economise on RAM or something
-    
-    
-    clearly separate data processing from analysis, to the point where you could easily split them into two separate scripts in a few minutes if needed
-    
-    similarly, separate analysis from generation of output tables and graphs
-    
-    similarly, separate run parameters related to each stage into groups in the preamble
-    
-    define dirs at the top of the file and always refer to them by var name, not raw path
-    
-    never use T and F as shortcuts to TRUE and FALSE. in economics, F is a CDF and T is the number of periods; and i'm sure other fields have similar conventions
-    
-    
-    ### Mapping values
-    
-    always have a table, either as an input csv or defined in the program
-    
-    merge on that table -- don't do if-else
-    
-    if you're making a categorical variable in some more complicated way that demands an if-else structure, still save the resulting map 
-  
-    ### Reproducible research
-    
-    develop and publish a package? maybe. sounds like overkill to me
-    
-    knitr/rmarkdown seem promising, plus whatever that tool is that bundles/snapshots package versions
+never ever do DT <- DT[...], makes the code impossible to maintain, and it's not like you need to economise on RAM or something
 
 
-## The formula interface {#formula-interface}
-    
-    i'll just leave this collection here until i learn more
+clearly separate data processing from analysis, to the point where you could easily split them into two separate scripts in a few minutes if needed
 
-    needed for regression, whether with `model.matrix` or a regression function like `lm`
-    
-    also needed for reshaping, whether with `aggregate` or `dcast`
-    
-    read the docs carefully for the syntax, which is quite nice. however, it's not so easy to change a formula
-    
-    do what you can to minimize its scope
-    
-    http://stackoverflow.com/q/4951442
-    
-    http://stackoverflow.com/q/18017765
-    
-    ?formula
-    
-    http://ww2.coastal.edu/kingw/statistics/R-tutorials/formulae.html
-    
-    http://faculty.chicagobooth.edu/richard.hahn/teaching/formulanotation.pdf
-    
-    http://stackoverflow.com/q/4392042/
-    
-    http://stackoverflow.com/questions/9585890 -- a very nice usage, i think
-    
-    http://stackoverflow.com/q/21330633/
-    
-    http://stackoverflow.com/q/29563622/
-    
-    http://stackoverflow.com/q/2427279/
-    
-    http://stackoverflow.com/q/1300575/
-    
-    http://stackoverflow.com/q/32616762/ -- very helpful
-  
-## Advanced tools
+similarly, separate analysis from generation of output tables and graphs
 
-    ### Profiling
+similarly, separate run parameters related to each stage into groups in the preamble
+
+define dirs at the top of the file and always refer to them by var name, not raw path
+
+never use T and F as shortcuts to TRUE and FALSE. in economics, F is a CDF and T is the number of periods; and i'm sure other fields have similar conventions
+
+don't do the crazy bracket/paren indenting advocated by RStudio, Google, et al, except maybe in function definition. trust `args(function_name)` to print that bit that way if you really care
+
+### Interactive tricks
+
+page-able graphics with R console https://stat.ethz.ch/pipermail/r-help/2008-April/160722.html
+
+args(function_name) to quick-recap a function (having read the docs before)
+
     
-    common sense takes you a long ways. i have never needed profiling -- just think carefully about your problem and notice when you're stepping into combinatorially costly operations.
+### Mapping values
     
-    options(datatable.verbose = TRUE)
+always have a table, either as an input csv or defined in the program
+
+merge on that table -- don't do if-else
+
+if you're making a categorical variable in some more complicated way that demands an if-else structure, still save the resulting map 
+
+### Reproducible research
+
+develop and publish a package? maybe. sounds like overkill to me
+
+knitr/rmarkdown seem promising, plus whatever that tool is that bundles/snapshots package versions
+
+
+## Performance
+
+### Profiling
+
+common sense takes you a long ways. i have never needed profiling -- just think carefully about your problem and notice when you're stepping into combinatorially costly operations.
+
+options(datatable.verbose = TRUE)
+
+debugonce()
+
+(whatever else for profiling)
+
     
-    debugonce()
-    
-    (whatever else for profiling)
-    
-    
-    ### Rcpp {#rcpp}
+### Rcpp {#rcpp}
     
     it can speed up your code
     
@@ -96,21 +68,55 @@ For now, it's not part of the book (determined by bookdown.yml).
     
     R itself is written in C, as is the core functionality of data.table
     
+    had's guide: http://adv-r.had.co.nz/Rcpp.html 
     
-    ### Parallelization
+    
+### Parallelization
     
     e.g., for bootstrapping. the cheap way is to use perl or r to write a script that calls the program many times
 
-    ### Working with files on disk
-    
-    yeah, this seems to be changing all the time
-    
-    database interfacing and such, maybe you are tied to the DB and can't switch to R (no problem); maybe you can't fit the data in memory (start over from the beginning and rethink everything and/or learn AWS)
-    
+### Working with files on disk
 
-## Graph theory
+yeah, this seems to be changing all the time
+
+database interfacing and such, maybe you are tied to the DB and can't switch to R (no problem); maybe you can't fit the data in memory (start over from the beginning and rethink everything and/or learn AWS)
+    
+## Nontabular data    
+
+### Graph theory
 
 Don't reinvent the wheel. Use igraph if it fits
+
+### Spatial data
+
+?
+
+maybe a good example: http://stackoverflow.com/q/13316185/
+
+
+
+## Data packages
+
+see "data sets" section https://cran.r-project.org/web/views/Econometrics.html
+
+### APIs
+
+(kind of surprised this doesn't have a task view)
+
+BEA: package bea.R
+
+### Just data
+
+misc: 
+  package noncensus
+  package Ecdat
+  package EconData (not on CRAN, https://github.com/floswald/EconData)
+
+
+### Mixed with code
+
+panel data econometrics: package plm
+Achim Zeileis' 'metrics book: package AER
 
 ## Dynamic programming
 
@@ -143,6 +149,33 @@ if it's regex (it's usually regex), maybe don't post to SO, try chat
 
 
 library(help="datasets") as here http://stackoverflow.com/a/8368263/
+
+## Publishing
+
+link back and forth with "reproducible research", under "style"
+
+### Graphs
+
+Ihaka on lattice https://www.stat.auckland.ac.nz/~ihaka/120/Lectures/lecture25.pdf 
+
+### Docs
+
+
+### Object Orientation
+
+methods and such, Joshua Ulrich's community wiki post http://stackoverflow.com/questions/19226816/how-can-i-view-the-source-code-for-a-function/19226817#19226817
+
+
+### Packages
+
+browse r internals http://docs.rexamine.com/R-devel/index.html (hosted by stringi maintainer, out of date)
+
+well-known copy, without the doc-like structure https://github.com/wch/r-source (linked earlier in the "functions" section)
+
+official mirror, i guess https://svn.r-project.org/R/trunk/ 
+
+
+
 
 
 

@@ -312,6 +312,10 @@ bwDT[, {
 }, by=.(high_vis = ftv >= 1, smoke = as.logical(smoke))]
 dev.off()
 ```
+```{r dt-bydemo-cleanup, echo=FALSE, results=FALSE}
+for (fn in intersect("birthweight_graphs.pdf", list.files()))
+  file.remove(fn)
+```
 
 Plotting graphs is beyond the scope of this document, but the example above should make intuitive sense after reading the docs for each object, `?MASS::birthwt`, `?pdf`, et al. For each group, we're formatting a string with `sprintf`; printing it with `cat`; and saving a plot. The special symbol `.BY` is a list containing the per-group values of the `by=` variables. Formatting and printing strings will be covered more in \@ref(strings).
 
@@ -735,7 +739,7 @@ Dropping unmatched elements of `i` is similar to filtering `_m == 3` in Stata.
 There is another way of merging, `merge(b, a)`, that allows for `all.x` and `all.y`, resembling Stata's options, but I have never found any reason to use it.
 ```
 
-#### Handling imperfect matches with rolling joins
+#### Handling imperfect matches with rolling joins {#im-rolling}
 
 Sometimes we want unmatched rows paired with the closest match occurring earlier or later in the table:
 
@@ -931,6 +935,11 @@ DT = fileDT[, rbindlist(setNames(contents, id), idcol="file_id")]
 DT[fileDT, on=.(file_id = id), year := i.year ][]
 ```
 
+```{r fread-list-long-cleanup, echo=FALSE, results=FALSE}
+for (fn in intersect(fileDT$fn, list.files()))
+  file.remove(fn)
+```
+
 Results can be debugged by investigating individual files like `fileDT[year == 2012, contents[[1]]]`. The `setNames` function (\@ref(names)) is needed here since `rbindlist` uses names to populate the id column.
 
 ### Date and time columns {#dates-times}
@@ -998,6 +1007,49 @@ Arithmetic on IDates with `+` and `-` reads `1L` as one day; and on ITimes, as o
 
 Time differences between dates or times can be taken using `difftime`, which allows for the specification of units of measure for the output.
 
+#### Erroneously coded `NA`s {#erroneous-na}
+
+While doing arithmetic with dates and times is convenient, it has some risks. These are essentially numeric and integer vectors with special display formats. When the display format breaks down, we see `NA` even if the underlying numeric or integer value is not missing:
+
+```{r bewarefancyclasses}
+tDT = data.table(d = as.IDate("2017-01-01") + 0:10)
+
+# find min date greater than today
+d_next = tDT[ d > as.IDate(Sys.Date()), min(d) ]
+d_next
+
+# check if d_next is past 2099
+d_next > as.IDate("2099-01-01")
+```
+
+`NA > x` should always evaluate to `NA` (\@ref(na)), but here we see that it does not. To see the reason, we need to extract the core data by coercion or use `dput`:
+
+```{r debugfancyclasses}
+# str is no help
+str(d_next)
+
+# as.vector strips class
+as.vector(d_next)
+
+# or unclass
+unclass(d_next)
+
+# or we can inspect with dput
+dput(d_next)
+```
+
+This is an issue to watch out for with any fancy vector classes. To get around it in this case, we can sort and pick the first match (which is NA since there are no valid matches):
+
+```{r altfancyclasses}
+d_next2 = tDT[ d > as.IDate(Sys.Date()) ][order(-d), d[1L] ]
+dput(d_next2)
+
+# or a rolling join
+d_next3 = tDT[order(-d)][.(as.IDate(Sys.Date())), on =.(d), roll=-Inf, x.d]
+dput(d_next2)
+```
+
+The second approach is a rolling join (\@ref(im-rolling)), taking advantage of the `nomatch=NA` default in joins.
 
 ### Character columns {#char-input}
 
@@ -1091,6 +1143,11 @@ rm(list = ls()) # clear workspace
 n   = 20          # create a different n
 load("stuff.rdata", env = e_stuff <- new.env())
 ```
+```{r read-saveload-note, eval=FALSE, echo=FALSE}
+note that this file will only be cleaned up at the end
+since it is used again much later
+```
+
 
 Now, `n` is still 20, while the loaded value of `n = 10` can be accessed like `e_stuff$n`. The `$` and `[[` extractors for lists (\@ref(extract-list)) also work on environments, as does `names(e_stuff)`.
 
@@ -1109,6 +1166,11 @@ saveRDS(dat, file = "dat.rds")
 # and later, in another script
 old_dat <- readRDS("dat.rds")
 ```
+```{r read-saveloadrds-cleanup, echo=FALSE, results=FALSE}
+for (fn in intersect("dat.rds", list.files()))
+  file.remove(fn)
+```
+
 
 ### Reading and writing other formats
 
@@ -1231,10 +1293,10 @@ So, it takes us from a logical index to one of positions. When using `which` on 
 Beware of using `which` output as an index:
 
 ```{r bad-which}
-x  = 1:5
-w  = which(x^2 > 50)
-w
-x[-w]
+x       = 1:5
+w_not   = which(x^2 > 50)
+w_not
+x[-w_not]
 ```
 
 We wanted to filter to where `x` fails our condition, but instead we lost the whole vector. Straight-up logical filtering is the safer route here: `x[!(x^2 > 50)]`.
@@ -1733,6 +1795,10 @@ DT[, if (.GRP == 1L) {
 This is similar to the "dry run" approach to parsing dates (looking at only the first row or two, see \@ref(idatetime)). R has debugging tools like `debugonce` and `browser` as well, though they may take some getting used to for those who, like me, are not used to debugging properly.
 
 
+```{r stuff-cleanup, echo=FALSE, results=FALSE}
+for (fn in intersect("stuff.rdata", list.files()))
+  file.remove(fn)
+```
 
 
 

@@ -100,6 +100,8 @@ For complicated objects, like `L3` above, `class(L3)` is not very informative. E
 str(L3)
 ```
 
+Sometimes, we need closer inspection for debugging. The functions `unclass` (which removes the class) and `dput` (which prints R code to create the object) are helpful for this. See \@ref(erroneous-na) for an example relevant to date and time objects.
+
 To explore the set of loaded objects, see the tools in \@ref(browse-env).
 
 ### Named elements {#names}
@@ -491,9 +493,6 @@ As in [any other programming environment](http://floating-point-gui.de/), floati
 **Arithmetic with logical values.** Particularly when exploring data, we often want to tally observations meeting some condition. To do this in R, we can treat true/false like 1/0: `is_gt = c(1,5,2) > c(1,2,3); sum(is_gt)`. 
 ```
 
-
-
-
 ### Logical operators
 
 The self-explanatory symbols `!`, `&` and `|` are used to construct compound logical tests. The treatment of missing values is intuitive:
@@ -523,9 +522,6 @@ Remember that the undecorated `*` will always work elementwise (ref above) and s
 Additional convenience functions for matrix algebra are covered in @ref(matrix-more). 
 # figure out where this @matrix-more should go
 ```
-
-
-
 
 ### Order of operations {#order-ops}
 
@@ -638,7 +634,9 @@ type sessionInfo() to view packages and other details about the r session
 ```
 
 ```{block2 pkg-docs, type='rmd-caution'}
-**My opinion on trusting packages.** If you don't understand a package's docs, don't use it for anything serious. If the version number of the package is below 1.0, be ready to keep track of its development (since most package developers follow a pattern like [Hadley Wickham's](http://r-pkgs.had.co.nz/release.html)). Packages for input, output or graphing are fragile in any language, so isolate the code that depends on them as much as possible.
+**My opinion on trusting packages.** If you don't understand a package's docs, don't use it for anything serious. For a stats package, look for a published journal paper introducing it (often in the R Journal or the Journal of Statistical Software).
+
+If the version number of the package is below 1.0, be ready to keep track of its development (since most package developers follow a pattern like [Hadley Wickham's](http://r-pkgs.had.co.nz/release.html)). Packages for input, output or graphing are fragile in any language, so isolate the code that depends on them as much as possible.
 ```
 
 ### Passing arguments {#passing-arguments}

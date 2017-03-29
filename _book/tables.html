@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-03-28" />
+<meta name="date" content="2017-03-29" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -84,7 +84,7 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 </style>
 
 
-<link rel="stylesheet" href="toc.css" type="text/css" />
+<link rel="stylesheet" href="style.css" type="text/css" />
 
 <style type = "text/css">
 .main-container {
@@ -1027,7 +1027,7 @@ There is another way of merging, <code>merge(b, a)</code>, that allows for <code
 </div>
 <p></p>
 </div>
-<div id="handling-imperfect-matches-with-rolling-joins" class="section level4">
+<div id="im-rolling" class="section level4">
 <h4><span class="header-section-number">3.5.6.3</span> Handling imperfect matches with rolling joins</h4>
 <p>Sometimes we want unmatched rows paired with the closest match occurring earlier or later in the table:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># target x</span>
@@ -1261,6 +1261,43 @@ DT[, <span class="kw">c</span>(<span class="st">&quot;d&quot;</span>, <span clas
 <p>The <code>max</code> or <code>min</code> of a vector of dates can be taken (just as it can be for numbers, characters and ordered factors); and inequalities also work.</p>
 <p>Arithmetic on IDates with <code>+</code> and <code>-</code> reads <code>1L</code> as one day; and on ITimes, as one second.</p>
 <p>Time differences between dates or times can be taken using <code>difftime</code>, which allows for the specification of units of measure for the output.</p>
+</div>
+<div id="erroneous-na" class="section level4">
+<h4><span class="header-section-number">3.6.4.5</span> Erroneously coded <code>NA</code>s</h4>
+<p>While doing arithmetic with dates and times is convenient, it has some risks. These are essentially numeric and integer vectors with special display formats. When the display format breaks down, we see <code>NA</code> even if the underlying numeric or integer value is not missing:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tDT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">d =</span> <span class="kw">as.IDate</span>(<span class="st">&quot;2017-01-01&quot;</span>) +<span class="st"> </span><span class="dv">0</span>:<span class="dv">10</span>)
+
+<span class="co"># find min date greater than today</span>
+d_next =<span class="st"> </span>tDT[ d &gt;<span class="st"> </span><span class="kw">as.IDate</span>(<span class="kw">Sys.Date</span>()), <span class="kw">min</span>(d) ]</code></pre></div>
+<pre><code># Warning in min.default(structure(integer(0), class = c(&quot;IDate&quot;, &quot;Date&quot;)), : no non-missing
+# arguments to min; returning Inf</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d_next</code></pre></div>
+<pre><code># [1] NA</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># check if d_next is past 2099</span>
+d_next &gt;<span class="st"> </span><span class="kw">as.IDate</span>(<span class="st">&quot;2099-01-01&quot;</span>)</code></pre></div>
+<pre><code># [1] TRUE</code></pre>
+<p><code>NA &gt; x</code> should always evaluate to <code>NA</code> (<a href="basics.html#na">2.1.6</a>), but here we see that it does not. To see the reason, we need to extract the core data by coercion or use <code>dput</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># str is no help</span>
+<span class="kw">str</span>(d_next)</code></pre></div>
+<pre><code>#  IDate[1:1], format: NA</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># as.vector strips class</span>
+<span class="kw">as.vector</span>(d_next)</code></pre></div>
+<pre><code># [1] Inf</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or unclass</span>
+<span class="kw">unclass</span>(d_next)</code></pre></div>
+<pre><code># [1] Inf</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or we can inspect with dput</span>
+<span class="kw">dput</span>(d_next)</code></pre></div>
+<pre><code># structure(Inf, class = c(&quot;IDate&quot;, &quot;Date&quot;))</code></pre>
+<p>This is an issue to watch out for with any fancy vector classes. To get around it in this case, we can sort and pick the first match (which is NA since there are no valid matches):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d_next2 =<span class="st"> </span>tDT[ d &gt;<span class="st"> </span><span class="kw">as.IDate</span>(<span class="kw">Sys.Date</span>()) ][<span class="kw">order</span>(-d), d[1L] ]
+<span class="kw">dput</span>(d_next2)</code></pre></div>
+<pre><code># structure(NA_integer_, class = c(&quot;IDate&quot;, &quot;Date&quot;))</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or a rolling join</span>
+d_next3 =<span class="st"> </span>tDT[<span class="kw">order</span>(-d)][.(<span class="kw">as.IDate</span>(<span class="kw">Sys.Date</span>())), on =.(d), roll=-<span class="ot">Inf</span>, x.d]
+<span class="kw">dput</span>(d_next2)</code></pre></div>
+<pre><code># structure(NA_integer_, class = c(&quot;IDate&quot;, &quot;Date&quot;))</code></pre>
+<p>The second approach is a rolling join (<a href="tables.html#im-rolling">3.5.6.3</a>), taking advantage of the <code>nomatch=NA</code> default in joins.</p>
 </div>
 </div>
 <div id="char-input" class="section level3">
@@ -1500,11 +1537,11 @@ carsDT[ , .SD[carb ==<span class="st"> </span><span class="kw">max</span>(carb)]
 <pre><code># [1] 2 3</code></pre>
 <p>So, it takes us from a logical index to one of positions. When using <code>which</code> on a matrix or array (see <a href="basics.html#matrix-array">2.2</a>), we can find out “where” in terms of row and column using the <code>arr.ind</code> option.</p>
 <p>Beware of using <code>which</code> output as an index:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x  =<span class="st"> </span><span class="dv">1</span>:<span class="dv">5</span>
-w  =<span class="st"> </span><span class="kw">which</span>(x^<span class="dv">2</span> &gt;<span class="st"> </span><span class="dv">50</span>)
-w</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x       =<span class="st"> </span><span class="dv">1</span>:<span class="dv">5</span>
+w_not   =<span class="st"> </span><span class="kw">which</span>(x^<span class="dv">2</span> &gt;<span class="st"> </span><span class="dv">50</span>)
+w_not</code></pre></div>
 <pre><code># integer(0)</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[-w]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[-w_not]</code></pre></div>
 <pre><code># integer(0)</code></pre>
 <p>We wanted to filter to where <code>x</code> fails our condition, but instead we lost the whole vector. Straight-up logical filtering is the safer route here: <code>x[!(x^2 &gt; 50)]</code>.</p>
 <p>To find which table rows a subset pertains to, use <code>DT[i, which = TRUE]</code>. The <code>i</code> index could be a logical condition or a table being joined. It might seem like the special symbol <code>.I</code> would work here instead, like <code>DT[i, .I]</code>, but currently it does not.</p>
