@@ -1,3 +1,7 @@
+
+
+/* TOC */
+
 #TOC ul,
 #TOC li,
 #TOC span,
@@ -127,6 +131,9 @@
 #TOC ul {
   font-size: 1.2rem;
 }
+
+/* CUSTOM BLOCKS */
+
 .rmd-caution {
   padding: 1em 1em 1em 4em;
   margin-bottom: 10px;
@@ -149,33 +156,20 @@
   font-style: italic;
   content: "";
 }
-.spcaution {
-  /*background: #FFFFCC;*/
-}
-.spcaution:before {
-  font-variant:small-caps;
-  content:"Note";
-  background:#FFFF33;
-}
-.spcaution:after {
-  background:#FFFF33;
-  content: "\2318";
-}
-.spdetails {
-  /*background:#CCFFCC;*/
-}
-.spdetails:before {
-  font-variant:small-caps;
-  content:"Details";
-  background:#66FF66;
-}
-.spdetails:after {
-  background:#66FF66;
-  content: "\2318";
-}
+
+/* EXTRA BOOK TITLE SPACING */
+
 .level1 {
   margin-top: 60px;
 }
+
+/* TOC FORMATTING TWEAKS */
+/*
+  set spacing so that links go to the right place
+
+  (considering the floating top bar's height)
+*/
+
 .section::before {
   /*Using @Jerry's answer http://stackoverflow.com/a/9618795/ */
   content:"";
@@ -183,4 +177,21 @@
   height:60px;
   margin:-60px 0 0;
 }
+
+/* 
+  ensure floating TOC doesn't display when printing
+
+  as far as i can tell, this does not work (to hide TOC when printing) 
+  it should be used in conjunction with the include arg to html_book, 
+  but that arg breaks violently, so...
+*/
+
+@media print {
+  #TOC, TOC {
+    display: none;
+  }
+}
+
+
+
 

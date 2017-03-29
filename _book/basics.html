@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-03-28" />
+<meta name="date" content="2017-03-29" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -84,7 +84,7 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 </style>
 
 
-<link rel="stylesheet" href="toc.css" type="text/css" />
+<link rel="stylesheet" href="style.css" type="text/css" />
 
 <style type = "text/css">
 .main-container {
@@ -356,6 +356,7 @@ L3 =<span class="st"> </span><span class="kw">c</span>(L, L2)</code></pre></div>
 #  $ : chr &quot;A&quot;
 #  $ : num [1:2] 1 2
 #  $ : logi FALSE</code></pre>
+<p>Sometimes, we need closer inspection for debugging. The functions <code>unclass</code> (which removes the class) and <code>dput</code> (which prints R code to create the object) are helpful for this. See <a href="tables.html#erroneous-na">3.6.4.5</a> for an example relevant to date and time objects.</p>
 <p>To explore the set of loaded objects, see the tools in <a href="tables.html#browse-env">3.7.1</a>.</p>
 </div>
 <div id="names" class="section level3">
@@ -829,7 +830,8 @@ x /<span class="st"> </span>y</code></pre></div>
 <p></p>
 
 <div class="rmd-caution">
-<strong>My opinion on trusting packages.</strong> If you don’t understand a package’s docs, don’t use it for anything serious. If the version number of the package is below 1.0, be ready to keep track of its development (since most package developers follow a pattern like <a href="http://r-pkgs.had.co.nz/release.html">Hadley Wickham’s</a>). Packages for input, output or graphing are fragile in any language, so isolate the code that depends on them as much as possible.
+<p><strong>My opinion on trusting packages.</strong> If you don’t understand a package’s docs, don’t use it for anything serious. For a stats package, look for a published journal paper introducing it (often in the R Journal or the Journal of Statistical Software).</p>
+If the version number of the package is below 1.0, be ready to keep track of its development (since most package developers follow a pattern like <a href="http://r-pkgs.had.co.nz/release.html">Hadley Wickham’s</a>). Packages for input, output or graphing are fragile in any language, so isolate the code that depends on them as much as possible.
 </div>
 <p></p>
 </div>
@@ -945,12 +947,16 @@ y =<span class="st"> </span><span class="dv">1</span>
 # dim(x)[1L]
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # &lt;bytecode: 0x000000000691cab0&gt;
 =======
 # &lt;bytecode: 0x00000000145e8868&gt;
 >>>>>>> refs/remotes/origin/master
 =======
 # &lt;bytecode: 0x00000000145e8868&gt;
+>>>>>>> refs/remotes/origin/master
+=======
+# &lt;bytecode: 0x000000000691cbc0&gt;
 >>>>>>> refs/remotes/origin/master
 # &lt;environment: namespace:base&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">replace</code></pre></div>
@@ -961,12 +967,16 @@ y =<span class="st"> </span><span class="dv">1</span>
 # }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # &lt;bytecode: 0x00000000086e8cf8&gt;
 =======
 # &lt;bytecode: 0x0000000018108698&gt;
 >>>>>>> refs/remotes/origin/master
 =======
 # &lt;bytecode: 0x0000000018108698&gt;
+>>>>>>> refs/remotes/origin/master
+=======
+# &lt;bytecode: 0x00000000084378e0&gt;
 >>>>>>> refs/remotes/origin/master
 # &lt;environment: namespace:base&gt;</code></pre>
 <p>The last two rows of these functions show (i) that they are compiled and (ii) the environment they were defined in.</p>
