@@ -16,11 +16,9 @@ length(x)
 class(x)
 ```
 
-The bracketed `[1]` indicates that we are seeing the first element of a vector. This printing pattern is handy with vectors too long for a single line, like `c(LETTERS, letters)`.
+The bracketed `[1]` indicates that we are seeing the first element of a vector. This printing pattern is handy with vectors too long for a single line, like `c(LETTERS, letters)`. It is also a useful reminder that vectors are indexed starting from 1 (instead of 0 as in C, Python, et al).
 
 Assign with `=` or `<-`. Or even like `c(2,3) -> z`, though this is rare and hard to read in my opinion. If an existing vector is overwritten, no warning is given.
-
-caution -- indexing starting from 1, for those coming from 0-indexed langs, treatment of negative indices in slicing will also be a surprise (ref it)
 
 ### Documentation
 
@@ -180,8 +178,6 @@ There are a few edge cases worth noting. As mentioned in \@ref(na), it can be us
 
 Convenience functions `head` and `tail` enable easy slicing from the start or end of a vector.
 
-... also mention blank slice
-
 ### Extracting from a list {#extract-list}
 
 Grab a single element of a vector like `x[[i]]`, where `i` is a single name or number:
@@ -219,9 +215,7 @@ The allowed values of `i` are the same as we saw for slicing a vector in \@ref(s
 **Hard-to-find documentation.** For documentation on slicing and extracting, type ``?`[` ``. Even though there is a `]` for every `[`, it is the opening bracket that is the function's actual name, which will come back in \@ref(lapply). For documentation on sub-assignment, type ``?`[<-` ``.
 ```
 
-caution -- silent extension of vector when assigning at a new index
-
-empty index means the whole thing
+Assigning to an empty index, `x[] <- "blargh"`, will overwrite all elements. Assigning to indices beyond the vector's bounds, `x[11] <- "huzzah"`, will silently extend the vector to accomodate (which is generally quite inefficient).
 
 ### Assigning to a list element
 
@@ -299,15 +293,10 @@ seq.int(5, 10)
 seq.int(5, 10, by = 2)
 seq.int(5, by = 3, length.out = 3)
 seq.int(to = 100, by = -11, length.out = 3)
+seq.int(5, 10, by=.5)
 ```
 
-The `seq` function extends further by allowing for non-integer values:
-
-```{r seq}
-seq(5, 10, by=.5)
-```
-
-Other vector classes have their own `seq` methods. For example, `seq.Date` will allow for a sequence of dates.
+The `seq` function does essentially the same thing; see the docs if interested in details. Other vector classes have their own `seq` methods. For example, `seq.Date` will allow for a sequence of dates.
 
 ### Factors {#factors}
 
@@ -335,7 +324,7 @@ There are three key functions here:
 
 Be careful not to use these functions on an unordered factor, where they will make no sense but run without warning.
 
-The `frank()` function (yes, really) from the data.table package is also useful, for its "dense" rank tie-breaking rule.
+The `frank()` function from the data.table package is also useful, for its "dense" rank tie-breaking rule.
 
 ### Exercises
 
@@ -343,6 +332,11 @@ The `frank()` function (yes, really) from the data.table package is also useful,
 2. What is the length of `list(1, c(2,3))`?
 3. If I run `x = c("a","b")` and then `x[c(2,1)] = c("c","d")`, what is the value of `x[1]`?
 4. Write the command to summon documenation for for the assignment procedure used in `L$X <- list(3)`.
+
+```{r todo-more-vec-ex, eval=FALSE, echo=FALSE}
+something to do with assigning names
+
+```
 
 
 ## Matrices and arrays {#matrix-array}
@@ -391,7 +385,7 @@ matrix(c(1,2,3,4), nrow = 2, dimnames = list(c("a","b"), c("x","y")))
 
 ### Slicing to a submatrix {#slicing-matrix}
 
-To take a matrix slice, selecting a submatrix, use `m[i,j]` as in math:
+To select a submatrix (a "matrix slice"), use `m[i,j]` as in math:
 
 ```{r matrix-slicing-pre, echo=1:2}
 # example data
@@ -428,8 +422,9 @@ m[c(2,3)]
 
 Matrices also allow extraction like `X[Y]`, where `Y` is a two column "index matrix":
 
-```{r matrix-matsubset}
+```{r matrix-matsubset, echo=-2}
 im = matrix(c(1,1,2,2), 2, 2, byrow=TRUE)
+im
 m[im]
 ```
 
@@ -447,7 +442,7 @@ Assign to elements of a matrix in one of a few ways:
 - `X[i] = z` with `i` being an index vector
 - `X[im] = z` with `im` being an index matrix
 
-In all cases, `z` is a vector or matrix of values.
+In all cases, `z` is a vector or matrix of values. 
 
 ### Arrays
 
@@ -462,7 +457,26 @@ Matrix algebra functions are covered in \@ref(matrix-algebra). Some other handy 
 
 The `apply` function is popular for applying arbitrary functions along dimensions of a matrix or array. However, it is very inefficient and usually discouraged. `sweep` is a similar function.
 
+```{r todo matrix-ex, eval=FALSE, echo=FALSE}
+rbind/cbind two matrices
+overwrite a submatrix with another matrix
+```
+
 ## Syntax
+
+The parser interprets `;` as the end of a command, so three commands `x <- 10; y <- 5; x + y` can be written on a single line. This is rarely useful when writing a program.
+
+The `{...}` braces will return their last value, so `{x <- 10; y <- 5; x + y}` will return `15`. It will also have the side effect of creating `x` and `y`. To avoid this side effect, use `local`, like 
+
+```{r local}
+local({
+  x <- 10
+  y <- 5
+  x + y
+})
+```
+
+This is also rarely needed since `DT[i, {...}, by]` syntax for data.tables (\@ref(tables)) achieves the same result.
 
 ### Assigning to attributes
 
@@ -473,13 +487,9 @@ There are convenience functions for modifying object attributes, with syntax lik
 - vector length, `` ?`length<-` ``
 - matrix or array dimensions, `` ?`dim<-` `` 
 - matrix or array names, `` ?`dimnames<-` `` 
+` matrix parts, `` ?`diag<-` ``, `` ?`upper.tri<-` ``, `` ?`lower.tri<-` ``
 
-These are rarely needed and can be confusing for obvious reasons.
-
-... also, link to data.table mod by ref
-
-... insert a section on vectorization / elementwise operators, mention interaction with recycling
-oh, that section already exists, well, move it up here or carefully avoid elementwise stuff until after that section...
+These are rarely needed and can be confusing for obvious reasons. Section \@ref(dt-subassign) will discuss a different approach.
 
 ### Arithmetic {#arithmetic}
 
@@ -509,31 +519,6 @@ A couple additional symbols, `||` and `&&`, do short circuiting and will be expl
 
 For a logical vector, `any` and `all` summarise it in the natural way. 
 
-### Matrix algebra {#matrix-algebra}
-
-- *Transpose* `t(X)` 
-- *Multiply* `X %*% Y`
-
-These functions treat a vanilla vector as a column vector.
-
-Remember that the undecorated `*` will always work elementwise (ref above) and silently recycle values.
-
-```{r todo-ref-matrix-more, echo=FALSE, eval=FALSE}
-Additional convenience functions for matrix algebra are covered in @ref(matrix-more). 
-# figure out where this @matrix-more should go
-```
-
-### Order of operations {#order-ops}
-
-The order of operations is listed in `?Syntax`. In addition to the operators listed, `**` is an alias for `^`. The `%any%` listed there refers to a broad class of "infix" binary operators: 
-
-- `%/%` and `%%` for integer division and modulo; 
-- `%in%` to test membership (see \@ref(sets)); 
-- `%*%` for matrix multiplication; and 
-- any custom infix operators defined by the user or in loaded packages.
-
-Even knowing the order of operations, I recommend using parentheses liberally, particularly in `!(...)` statements.
-
 ### Elementwise operations {#vectorization}
 
 Most operations in R are performed elementwise:
@@ -552,6 +537,41 @@ We call functions with this behavior "vectorized." R is a lot faster when operat
 ```
 
 A couple of notably non-vectorized functions are `&&` and `||`. These will (silently) only look at the first element on each side; and if the result can be determined using the left-hand side, for example in `FALSE && x`, then the right-hand side will not be evaluated. These are useful mostly for improving efficiency on the margins.
+
+### Matrix algebra {#matrix-algebra}
+
+- *Transpose* `t(X)` 
+- *Take determinant* `det(X)`
+- *Multiply* `X %*% Y`
+
+Transposition and multiplication treat a vanilla vector as a column vector.
+
+The undecorated `*` will always work elementwise (\@ref(vectorization)) and silently recycle values:
+
+```{r mult-compare-pre}
+# example data
+X = matrix(c(0, 0, 1, 1), 2)
+Y = matrix(c(2, 3, 4, 5), 2)
+```
+```{r mult-compare}
+# elementwise multiplication
+X * Y
+# matrix multiplication
+X %*% Y
+```
+
+### Order of operations {#order-ops}
+
+The order of operations is listed in `?Syntax`. In addition to the operators listed, `**` is an alias for `^`. The `%any%` listed there refers to a broad class of "infix" binary operators: 
+
+- `%/%` and `%%` for integer division and modulo; 
+- `%in%` to test membership (see \@ref(sets)); 
+- `%*%` for matrix multiplication; and 
+- any custom infix operators defined by the user or in loaded packages.
+
+Even knowing the order of operations, I recommend using parentheses liberally, particularly in `!(...)` statements.
+
+
 
 ## Functions
 
@@ -627,7 +647,7 @@ install.packages("fortunes")
 
 If a package is loaded (or attached), it cannot be updated, so close all R sessions where the package is loaded before updating it.
 
-type sessionInfo() to view packages and other details about the r session
+Type `sessionInfo()` to see which packages are loaded (along with additional information on the current R session).
 
 ```{block2, type='rmd-details'} 
 **Managing packages.** Use `installed.packages` to view dependencies and version numbers. Some other tools, [rocker](https://github.com/rocker-org/rocker) and [drat](https://github.com/eddelbuettel/drat), look promising.
@@ -641,13 +661,19 @@ If the version number of the package is below 1.0, be ready to keep track of its
 
 ### Passing arguments {#passing-arguments}
 
-Compare the documentation `?vector` against usage in \@ref(initializing):
+We can see the arguments to the vector function by typing `?vector` or using `args`:
+
+```{r argsargsargs}
+args(vector)
+```
+
+we see that the order of arguments here contrasts with how it was used in \@ref(initializing):
 
 ```{r preallocate-again, eval=FALSE}
 x = vector(length = 5, mode = "list")
 ```
 
-The arguments are being passed out-of-order, but this still works since the arguments are being passed by name. Passing arguments by the position, like `sort(x, TRUE)`, is a riskier proposition, since it is harder to get right initially and to interpret correctly later. Some data.table idioms for merging (\@ref(dt-joins)) involve passing arguments out-of-order.
+The arguments are being passed out-of-order, but it still works since the arguments are being passed by name. Passing arguments by the position, like `sort(x, TRUE)`, is a riskier proposition, since it is harder to get right initially and to interpret correctly later. Data.table idioms I follow for merging (\@ref(dt-joins)) all involve passing arguments out-of-order.
 
 ### Iterating over a list {#lapply}
 
@@ -657,7 +683,9 @@ To apply the same function to every element of a list, use `lapply`.
 lapply(list(c(3,1,4), c(2,7,9), 0), min)
 ```
 
-`lapply` is a very important tool in R and will come up again and again.
+`lapply` is a very important tool in R and will come up again and again. 
+
+When the function's return value is guaranteed to be a scalar, `sapply` or `vapply` may be a better choice, but I almost never need those in practice.
 
 ### Writing functions {#function-writing}
 
@@ -754,11 +782,18 @@ y = 1
 g2(1)
 ```
 
-Now, `y` is defined in the "environment" of the function. Environments are essentially lists, so the value can be extracted following syntax from \@ref(extract-list):
+Now, the `y` the function uses is part of the "environment" of the function. Environments are essentially lists, so the value can be extracted following syntax from \@ref(extract-list):
 
 ```{r env-extract}
 environment(g2)[["y"]]
 ```
+
+They can also be assigned to:
+
+```{r env-assign}
+environment(g2)[["y"]] <- 10
+```
+
 
 ### Default arguments {#default-args}
 
@@ -778,6 +813,8 @@ Here, if we don't pass `y` as an argument, the default value prevails. Thanks to
 g4 = function(x, y = x) x + y
 g4(2)
 ```
+
+Of course, this will still break if the definitions are circular.
 
 ### Finding a function by name
 
@@ -832,7 +869,7 @@ As in most programming languages, we have `for` loops, `if`/`else` blocks, and s
 
 ### Thinking about `for` loops {#for-loops}
 
-Suppose we have this loop:
+Suppose we have this loop to compute `x[i]` from `idx[i]`:
 
 ```{r for-loop}
 idx = c(1, 2, 3, 4, 5)
@@ -918,11 +955,13 @@ Naturally, if the data already is entirely numeric and the remaining analytical 
 
 ### Iterating over columns {#lapply-df}
 
-It is useful to keep in mind that data frames are really lists of columns, not matrices. Because they are lists, we can iterate over columns:
+It is useful to keep in mind that data frames are really lists of columns, not matrices. We can use `lapply` (\@ref(lapply)) to iterate over such lists:
 
 ```{r lapply-df}
 lapply(DF, function(x) x[3])
 ```
+
+Here, we are extracting the third element from each column.
 
 ```{block2, type='rmd-caution'}
 **Manual coercion.** We can also get the result of that `lapply` call by coercion to a list: `as.list(DF[3, ])`. The names of similar functions can be guessed: `as.matrix`, `as.data.frame`, `as.vector`, `as.logical`, `as.integer`, `as.numeric`, `as.character`, `as.factor`, and so on. There is `as(x, "class_name")`, but I have found the latter to be finicky.
