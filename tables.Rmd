@@ -168,7 +168,7 @@ DT[, keep_cols]                  # error
 DT[, ..keep_cols]                # use this instead
 ```
 
-... or `with=FALSE` if programming inline:
+... or we need `with=FALSE` if programming inline:
 
 ```{r dt-slicing-cols-program}
 DT[, letters[25:26]]             # no error, but doesn't print what we want
@@ -290,7 +290,7 @@ The use of `by=` is very similar to a `for` loop (\@ref(for-loops)) over subsets
 
 There are some syntactical shortcuts for writing a list of columns in `by=`; see \@ref(program-cols).
 
-#### An example
+#### An example {#dt-syntax-ex}
 
 The task in `j` can really be anything. Just as a demonstration of its power, here's how it can be used for saving per-group plots to a PDF:
 
@@ -409,7 +409,7 @@ DT[, (nms) := .(1, 2, 3)][]
 All of these tasks are performed in-place -- altering `DT` without making a new object. Usually, the results are not printed in the console; but they appear here because `[]` is "chained" onto the end of each task.
 
 ```{block2 modify-op, type='rmd-caution'}
-**`:=` is the function *creation, modification and deletion* of columns.** This will be covered it more detail in subsequent sections, but is worth emphasising. In particular, this contrasts with Stata (which uses distinct verbs `gen`, `replace` and `drop`).
+**`:=` is the function for *creation, modification and deletion* of columns.** This will be covered it more detail in subsequent sections, but is worth emphasising. In particular, this contrasts with Stata (which uses distinct verbs `gen`, `replace` and `drop`).
 ```
 
 ```{block2 modify-iter, type='rmd-details'}
@@ -486,6 +486,8 @@ Another nice feature, similar to Stata, is reporting of the number of rows modif
 DT[, b := "Aardvark"][y > 1, b := "Zebra", verbose = TRUE]
 ```
 
+The number reported is the number of rows assigned to (irrespective of whether their values were changed by the assignment), in contrast with Stata, which reports the number of changes.
+
 ### Other in-place modifications
 
 The data.table package has a few other tools for modifying table attributes in-place:
@@ -547,10 +549,12 @@ Besides `DT2 = DT1`, `names1 = names(DT1)` is also unsafe, since the `names` fun
 A user-written function (\@ref(function-writing)) like
 
 ```{r modify-fun}
-f <- function(DT) DT[, newcol := 1111 ]
+f <- function(DT) DT[, newcol := 1111 ][]
 ```
 
 will act like `:=` and the `set*` functions, altering its input in-place. This can be useful, but requires extra caution. See the "`:=` for its side effect" section of `vignette("datatable-reference-semantics")` for discussion.
+
+The `[]` inside the function is necessary for printing, due to restrictions of R syntax and how data.table gets around them. 
 
 
 ```{r todo-modify-ex, echo=FALSE, eval=FALSE}
@@ -757,7 +761,7 @@ a[myxDT, on=.(x = myx), roll=-3, .(i.myx, x.x)]
 
 Recall from \@ref(joins-update) that the `i.*` and `x.*` prefixes refer to where columns come from in `x[i]`.
 
-When joining on multiple columns, the roll is taken on the last listed in `on=`.
+When joining on multiple columns, the roll is taken on the last column listed in `on=`.
 
 The value of `roll=` refers to how much higher or lower the value of `x` can be and still qualify as a match. We add (up to) `roll` to the target row if necessary to find a match. So `roll = -3` means we would accept a `x` as far away as `x - 3 = myx`. 
 
@@ -767,6 +771,7 @@ It is sometimes useful to match on a range of values. To do this, we explicitly 
 
 ```{r join-interval, echo=-2}
 mDT = data.table(id = 1:3, x_dn = 10L, x_up = 13L)
+mDT
 a[mDT, on=.(id, x >= x_dn, x <= x_up), .(id, i.x_dn, i.x_up, x.x)]
 ```
 
@@ -843,7 +848,7 @@ Keys and indices are destroyed whenever any of their columns are edited in a way
 
 #### Anti joins
 
-We also have the option of selecting *unmatched* rows:
+We also have the option of selecting *unmatched* rows with `!`:
 
 ```{r dt-join-notjoin}
 a[!b, on=.(id)]
@@ -859,6 +864,8 @@ This "not join" or "anti join" returns all rows of `a` that are not matched by r
 - initialize v := 0L. Then in an update self join, use mult= to tag the first row of each group with 1L.
 
 - use a self non-equi join to count the number of observations within the last 90 days per id
+
+- use x. and i. to show differing values of the join col
 
 ```
 
@@ -1018,7 +1025,7 @@ tDT = data.table(d = as.IDate("2017-01-01") + 0:10)
 d_next = tDT[ d > as.IDate(Sys.Date()), min(d) ]
 d_next
 
-# check if d_next is past 2099
+# check if d_next is past the year 2099
 d_next > as.IDate("2099-01-01")
 ```
 
@@ -1046,7 +1053,7 @@ dput(d_next2)
 
 # or a rolling join
 d_next3 = tDT[order(-d)][.(as.IDate(Sys.Date())), on =.(d), roll=-Inf, x.d]
-dput(d_next2)
+dput(d_next3)
 ```
 
 The second approach is a rolling join (\@ref(im-rolling)), taking advantage of the `nomatch=NA` default in joins.

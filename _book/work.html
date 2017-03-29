@@ -147,9 +147,9 @@ img {
 <li><a href="basics.html#assigning-to-attributes"><span class="toc-section-number">2.3.1</span> Assigning to attributes</a></li>
 <li><a href="basics.html#arithmetic"><span class="toc-section-number">2.3.2</span> Arithmetic</a></li>
 <li><a href="basics.html#logical-operators"><span class="toc-section-number">2.3.3</span> Logical operators</a></li>
-<li><a href="basics.html#matrix-algebra"><span class="toc-section-number">2.3.4</span> Matrix algebra</a></li>
-<li><a href="basics.html#order-ops"><span class="toc-section-number">2.3.5</span> Order of operations</a></li>
-<li><a href="basics.html#vectorization"><span class="toc-section-number">2.3.6</span> Elementwise operations</a></li>
+<li><a href="basics.html#vectorization"><span class="toc-section-number">2.3.4</span> Elementwise operations</a></li>
+<li><a href="basics.html#matrix-algebra"><span class="toc-section-number">2.3.5</span> Matrix algebra</a></li>
+<li><a href="basics.html#order-ops"><span class="toc-section-number">2.3.6</span> Order of operations</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#functions"><span class="toc-section-number">2.4</span> Functions</a><ul>
 <li><a href="basics.html#community-made-functions"><span class="toc-section-number">2.4.1</span> Community-made functions</a></li>
@@ -818,7 +818,7 @@ res =<span class="st"> </span>DT[, <span class="kw">lm</span>(y ~<span class="st
 </div>
 <div id="integration" class="section level3">
 <h3><span class="header-section-number">4.7.2</span> Integration</h3>
-<p>Given a vectorized function (<a href="basics.html#vectorization">2.3.6</a>) mapping to and from the real line and an interval, <code>integrate</code> will approximate the associated definite integral. The documentation explains the method used and the numerical issues.</p>
+<p>Given a vectorized function (<a href="basics.html#vectorization">2.3.4</a>) mapping to and from the real line and an interval, <code>integrate</code> will approximate the associated definite integral. The documentation explains the method used and the numerical issues.</p>
 </div>
 </div>
 <div id="strings" class="section level2">
@@ -834,7 +834,7 @@ res =<span class="st"> </span>DT[, <span class="kw">lm</span>(y ~<span class="st
 <li><p><code>sub</code> and <code>gsub</code> rewrite strings.</p></li>
 <li><p><code>strsplit</code> and <code>tstrsplit</code> can split strings based on a pattern.</p></li>
 </ul>
-<p>Most of these are vectorized (<a href="basics.html#vectorization">2.3.6</a>) whenever it makes sense. Examples for a couple of them can be found in <a href="tables.html#char-input">3.6.5</a>.</p>
+<p>Most of these are vectorized (<a href="basics.html#vectorization">2.3.4</a>) whenever it makes sense. Examples for a couple of them can be found in <a href="tables.html#char-input">3.6.5</a>.</p>
 <p>For searching, rewriting or splitting strings, some familiarity with regular expressions will often be helpful. See <code>?regex</code>. Because the syntax of the functions can also get cumbersome, it may be worth it to use a helper like <a href="https://CRAN.R-project.org/package=stringi">the stringi package</a>.</p>
 <p>As mentioned in <a href="tables.html#format-cols">3.6.11</a>, the number of digits printed on numbers can be tweaked via the scipen option (see <code>?options</code>), though I think this is only likely to be useful when printing out results.</p>
 <p><code>print</code> and <code>cat</code> can both be used to print output to the screen, with various options. Of the two, <code>cat</code> will actually parse the string, so <code>cat('Egad!\nI dare say, &quot;It\'s you!&quot;\n')</code> will print the newlines and quotes.</p>

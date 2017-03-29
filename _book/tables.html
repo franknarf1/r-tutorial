@@ -147,9 +147,9 @@ img {
 <li><a href="basics.html#assigning-to-attributes"><span class="toc-section-number">2.3.1</span> Assigning to attributes</a></li>
 <li><a href="basics.html#arithmetic"><span class="toc-section-number">2.3.2</span> Arithmetic</a></li>
 <li><a href="basics.html#logical-operators"><span class="toc-section-number">2.3.3</span> Logical operators</a></li>
-<li><a href="basics.html#matrix-algebra"><span class="toc-section-number">2.3.4</span> Matrix algebra</a></li>
-<li><a href="basics.html#order-ops"><span class="toc-section-number">2.3.5</span> Order of operations</a></li>
-<li><a href="basics.html#vectorization"><span class="toc-section-number">2.3.6</span> Elementwise operations</a></li>
+<li><a href="basics.html#vectorization"><span class="toc-section-number">2.3.4</span> Elementwise operations</a></li>
+<li><a href="basics.html#matrix-algebra"><span class="toc-section-number">2.3.5</span> Matrix algebra</a></li>
+<li><a href="basics.html#order-ops"><span class="toc-section-number">2.3.6</span> Order of operations</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#functions"><span class="toc-section-number">2.4</span> Functions</a><ul>
 <li><a href="basics.html#community-made-functions"><span class="toc-section-number">2.4.1</span> Community-made functions</a></li>
@@ -414,7 +414,7 @@ DT[, keep_cols]                  <span class="co"># error</span></code></pre></d
 # 3: 3 FALSE
 # 4: 4  TRUE
 # 5: 5  TRUE</code></pre>
-<p>… or <code>with=FALSE</code> if programming inline:</p>
+<p>… or we need <code>with=FALSE</code> if programming inline:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[, letters[<span class="dv">25</span>:<span class="dv">26</span>]]             <span class="co"># no error, but doesn&#39;t print what we want</span></code></pre></div>
 <pre><code># [1] &quot;y&quot; &quot;z&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[, letters[<span class="dv">25</span>:<span class="dv">26</span>], with=<span class="ot">FALSE</span>] <span class="co"># use this instead</span></code></pre></div>
@@ -542,7 +542,7 @@ DT[i, j, by]                    # R function arguments</code></pre>
 </ul>
 <p>There are some syntactical shortcuts for writing a list of columns in <code>by=</code>; see <a href="tables.html#program-cols">3.8.4.3</a>.</p>
 </div>
-<div id="an-example" class="section level4">
+<div id="dt-syntax-ex" class="section level4">
 <h4><span class="header-section-number">3.2.4.4</span> An example</h4>
 <p>The task in <code>j</code> can really be anything. Just as a demonstration of its power, here’s how it can be used for saving per-group plots to a PDF:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># note: this code will save to your current working directory</span>
@@ -680,7 +680,7 @@ DT[, (nms) :<span class="er">=</span><span class="st"> </span>.(<span class="dv"
 <p>All of these tasks are performed in-place – altering <code>DT</code> without making a new object. Usually, the results are not printed in the console; but they appear here because <code>[]</code> is “chained” onto the end of each task.</p>
 
 <div class="rmd-caution">
-<strong><code>:=</code> is the function <em>creation, modification and deletion</em> of columns.</strong> This will be covered it more detail in subsequent sections, but is worth emphasising. In particular, this contrasts with Stata (which uses distinct verbs <code>gen</code>, <code>replace</code> and <code>drop</code>).
+<strong><code>:=</code> is the function for <em>creation, modification and deletion</em> of columns.</strong> This will be covered it more detail in subsequent sections, but is worth emphasising. In particular, this contrasts with Stata (which uses distinct verbs <code>gen</code>, <code>replace</code> and <code>drop</code>).
 </div>
 <p></p>
 
@@ -780,6 +780,7 @@ Elsewhere in R, <code>a</code> would be coerced to match the float <code>32.5</c
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT[, b :<span class="er">=</span><span class="st"> &quot;Aardvark&quot;</span>][y &gt;<span class="st"> </span><span class="dv">1</span>, b :<span class="er">=</span><span class="st"> &quot;Zebra&quot;</span>, verbose =<span class="st"> </span><span class="ot">TRUE</span>]</code></pre></div>
 <pre><code># Detected that j uses these columns: b 
 # Assigning to 4 row subset of 5 rows</code></pre>
+<p>The number reported is the number of rows assigned to (irrespective of whether their values were changed by the assignment), in contrast with Stata, which reports the number of changes.</p>
 </div>
 <div id="other-in-place-modifications" class="section level3">
 <h3><span class="header-section-number">3.4.5</span> Other in-place modifications</h3>
@@ -827,8 +828,9 @@ fDT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt
 <div id="using-in-place-modification-in-functions" class="section level3">
 <h3><span class="header-section-number">3.4.7</span> Using in-place modification in functions</h3>
 <p>A user-written function (<a href="basics.html#function-writing">2.4.4</a>) like</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span>function(DT) DT[, newcol :<span class="er">=</span><span class="st"> </span><span class="dv">1111</span> ]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span>function(DT) DT[, newcol :<span class="er">=</span><span class="st"> </span><span class="dv">1111</span> ][]</code></pre></div>
 <p>will act like <code>:=</code> and the <code>set*</code> functions, altering its input in-place. This can be useful, but requires extra caution. See the “<code>:=</code> for its side effect” section of <code>vignette(&quot;datatable-reference-semantics&quot;)</code> for discussion.</p>
+<p>The <code>[]</code> inside the function is necessary for printing, due to restrictions of R syntax and how data.table gets around them.</p>
 </div>
 </div>
 <div id="dt-joins" class="section level2">
@@ -1055,7 +1057,7 @@ a[myxDT, on=.(<span class="dt">x =</span> myx), roll=-<span class="dv">3</span>,
 # 3:    15  15
 # 4:    20  NA</code></pre>
 <p>Recall from <a href="tables.html#joins-update">3.5.4</a> that the <code>i.*</code> and <code>x.*</code> prefixes refer to where columns come from in <code>x[i]</code>.</p>
-<p>When joining on multiple columns, the roll is taken on the last listed in <code>on=</code>.</p>
+<p>When joining on multiple columns, the roll is taken on the last column listed in <code>on=</code>.</p>
 <p>The value of <code>roll=</code> refers to how much higher or lower the value of <code>x</code> can be and still qualify as a match. We add (up to) <code>roll</code> to the target row if necessary to find a match. So <code>roll = -3</code> means we would accept a <code>x</code> as far away as <code>x - 3 = myx</code>.</p>
 </div>
 </div>
@@ -1063,6 +1065,11 @@ a[myxDT, on=.(<span class="dt">x =</span> myx), roll=-<span class="dv">3</span>,
 <h3><span class="header-section-number">3.5.7</span> Non-equi joins</h3>
 <p>It is sometimes useful to match on a range of values. To do this, we explicitly name all columns in <code>i</code> and define inequalities in <code>on=</code>. Suppose we want to see, for every time <code>t</code> in 1..5, how many individuals were seen in the preceding three days:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mDT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">id =</span> <span class="dv">1</span>:<span class="dv">3</span>, <span class="dt">x_dn =</span> 10L, <span class="dt">x_up =</span> 13L)</code></pre></div>
+<pre><code>#    id x_dn x_up
+# 1:  1   10   13
+# 2:  2   10   13
+# 3:  3   10   13</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a[mDT, on=.(id, x &gt;=<span class="st"> </span>x_dn, x &lt;=<span class="st"> </span>x_up), .(id, i.x_dn, i.x_up, x.x)]</code></pre></div>
 <pre><code>#    id i.x_dn i.x_up x.x
 # 1:  1     10     13  11
 # 2:  1     10     13  12
@@ -1128,7 +1135,7 @@ DT[.(<span class="st">&quot;B&quot;</span>, <span class="dv">1</span>, <span cla
 </div>
 <div id="anti-joins" class="section level4">
 <h4><span class="header-section-number">3.5.8.2</span> Anti joins</h4>
-<p>We also have the option of selecting <em>unmatched</em> rows:</p>
+<p>We also have the option of selecting <em>unmatched</em> rows with <code>!</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a[!b, on=.(id)]</code></pre></div>
 <pre><code>#    id  t  x
 # 1:  3  2 14
@@ -1273,7 +1280,7 @@ d_next =<span class="st"> </span>tDT[ d &gt;<span class="st"> </span><span class
 # arguments to min; returning Inf</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d_next</code></pre></div>
 <pre><code># [1] NA</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># check if d_next is past 2099</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># check if d_next is past the year 2099</span>
 d_next &gt;<span class="st"> </span><span class="kw">as.IDate</span>(<span class="st">&quot;2099-01-01&quot;</span>)</code></pre></div>
 <pre><code># [1] TRUE</code></pre>
 <p><code>NA &gt; x</code> should always evaluate to <code>NA</code> (<a href="basics.html#na">2.1.6</a>), but here we see that it does not. To see the reason, we need to extract the core data by coercion or use <code>dput</code>:</p>
@@ -1295,7 +1302,7 @@ d_next &gt;<span class="st"> </span><span class="kw">as.IDate</span>(<span class
 <pre><code># structure(NA_integer_, class = c(&quot;IDate&quot;, &quot;Date&quot;))</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or a rolling join</span>
 d_next3 =<span class="st"> </span>tDT[<span class="kw">order</span>(-d)][.(<span class="kw">as.IDate</span>(<span class="kw">Sys.Date</span>())), on =.(d), roll=-<span class="ot">Inf</span>, x.d]
-<span class="kw">dput</span>(d_next2)</code></pre></div>
+<span class="kw">dput</span>(d_next3)</code></pre></div>
 <pre><code># structure(NA_integer_, class = c(&quot;IDate&quot;, &quot;Date&quot;))</code></pre>
 <p>The second approach is a rolling join (<a href="tables.html#im-rolling">3.5.6.3</a>), taking advantage of the <code>nomatch=NA</code> default in joins.</p>
 </div>
