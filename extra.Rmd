@@ -1,157 +1,125 @@
 # Miscellaneous {#extra}
 
-This chapter is a WIP, a dumping location for things I am not putting a priority on covering, mostly because I don't use them myself.
+This chapter is a WIP, a dumping location for things I am not putting a priority on covering, mostly because I don't know them well enough.
 
 For now, it's not part of the book (determined by bookdown.yml).
 
 
 
-## Program structure {#programming}
+## Program structure and style
 
-never ever do DT <- DT[...], makes the code impossible to maintain, and it's not like you need to economise on RAM or something
+    never ever do DT <- DT[...], makes the code impossible to maintain, and it's not like you need to economise on RAM or something
+    
+    
+    clearly separate data processing from analysis, to the point where you could easily split them into two separate scripts in a few minutes if needed
+    
+    similarly, separate analysis from generation of output tables and graphs
+    
+    similarly, separate run parameters related to each stage into groups in the preamble
+    
+    define dirs at the top of the file and always refer to them by var name, not raw path
+    
+    never use T and F as shortcuts to TRUE and FALSE. in economics, F is a CDF and T is the number of periods; and i'm sure other fields have similar conventions
+    
+    
+    ### Mapping values
+    
+    always have a table, either as an input csv or defined in the program
+    
+    merge on that table -- don't do if-else
+    
+    if you're making a categorical variable in some more complicated way that demands an if-else structure, still save the resulting map 
+  
+    ### Reproducible research
+    
+    develop and publish a package? maybe. sounds like overkill to me
+    
+    knitr/rmarkdown seem promising, plus whatever that tool is that bundles/snapshots package versions
 
 
-clearly separate data processing from analysis, to the point where you could easily split them into two separate scripts in a few minutes if needed
+## The formula interface {#formula-interface}
+    
+    i'll just leave this collection here until i learn more
 
-similarly, separate analysis from generation of output tables and graphs
-
-similarly, separate run parameters related to each stage into groups in the preamble
-
-define dirs at the top of the file and always refer to them by var name, not raw path
-
-choose a comment structure and stick to it
-
-indent and use white space liberally
-
-
-### Reused code
-
-auxiliary files with reused functions
-
-again, i don't want to develop a package just for this. from where i sit, it looks like a lot more overhead and fragility than a plain file
-
-### Shortcuts
-
-personally, i write and use a qw. it may make excerpts from the code nonportable to forum posts, but who cares? if a colleague needs to read my code, it costs them 10 seconds to learn what the function does.
-
-on the other hand, i would never use T and F as shortcuts to TRUE and FALSE. F is a CDF and T is the number of periods
-
-and absolutely no to regex outside the data-cleaning phase, and even there it should be limited. never use regex on column names
-
-### Mapping values
-
-always have a table, either as an input csv or defined in the program
-
-merge on that table -- don't do if-else
-
-if you're making a categorical variable in some more complicated way that demands an if-else structure, still save the resulting map 
-
-### The formula interface {#formula-interface}
-
-needed for regression, whether with `model.matrix` or a regression function like `lm`
-
-also needed for reshaping, whether with `aggregate` or `dcast`
-
-read the docs carefully for the syntax, which is quite nice. however, it's not so easy to change a formula
-
-do what you can to minimize its scope
-
-http://stackoverflow.com/q/4951442
-
-http://stackoverflow.com/q/18017765
-
-?formula
-
-http://ww2.coastal.edu/kingw/statistics/R-tutorials/formulae.html
-
-http://faculty.chicagobooth.edu/richard.hahn/teaching/formulanotation.pdf
-
-http://stackoverflow.com/q/4392042/
-
-http://stackoverflow.com/questions/9585890 -- a very nice usage, i think
-
-http://stackoverflow.com/q/21330633/
-
-http://stackoverflow.com/q/29563622/
-
-http://stackoverflow.com/q/2427279/
-
-http://stackoverflow.com/q/1300575/
-
-http://stackoverflow.com/q/32616762/ -- very helpful
-
-### Reproducible research
-
-develop and publish a package? maybe. sounds like overkill to me
-
-knitr/rmarkdown seem promising, plus whatever that tool is that bundles/snapshots package versions
-
+    needed for regression, whether with `model.matrix` or a regression function like `lm`
+    
+    also needed for reshaping, whether with `aggregate` or `dcast`
+    
+    read the docs carefully for the syntax, which is quite nice. however, it's not so easy to change a formula
+    
+    do what you can to minimize its scope
+    
+    http://stackoverflow.com/q/4951442
+    
+    http://stackoverflow.com/q/18017765
+    
+    ?formula
+    
+    http://ww2.coastal.edu/kingw/statistics/R-tutorials/formulae.html
+    
+    http://faculty.chicagobooth.edu/richard.hahn/teaching/formulanotation.pdf
+    
+    http://stackoverflow.com/q/4392042/
+    
+    http://stackoverflow.com/questions/9585890 -- a very nice usage, i think
+    
+    http://stackoverflow.com/q/21330633/
+    
+    http://stackoverflow.com/q/29563622/
+    
+    http://stackoverflow.com/q/2427279/
+    
+    http://stackoverflow.com/q/1300575/
+    
+    http://stackoverflow.com/q/32616762/ -- very helpful
+  
 ## Advanced tools
 
-### Profiling
+    ### Profiling
+    
+    common sense takes you a long ways. i have never needed profiling -- just think carefully about your problem and notice when you're stepping into combinatorially costly operations.
+    
+    options(datatable.verbose = TRUE)
+    
+    debugonce()
+    
+    (whatever else for profiling)
+    
+    
+    ### Rcpp {#rcpp}
+    
+    it can speed up your code
+    
+    it is dead simple to read and write
+    
+    it is often be more elegant, e.g., because C++ has unordered sets as a basic data type http://stackoverflow.com/a/35559972 and also linked lists and such. all the nice stuff proper programming languages have
+    
+    R itself is written in C, as is the core functionality of data.table
+    
+    
+    ### Parallelization
+    
+    e.g., for bootstrapping. the cheap way is to use perl or r to write a script that calls the program many times
 
-common sense takes you a long ways. i have never needed profiling -- just think carefully about your problem and notice when you're stepping into combinatorially costly operations.
+    ### Working with files on disk
+    
+    yeah, this seems to be changing all the time
+    
+    database interfacing and such, maybe you are tied to the DB and can't switch to R (no problem); maybe you can't fit the data in memory (start over from the beginning and rethink everything and/or learn AWS)
+    
 
-options(datatable.verbose = TRUE)
-
-debugonce()
-
-(whatever else for profiling)
-
-
-### Rcpp {#rcpp}
-
-it can speed up your code
-
-it is dead simple to read and write
-
-it is often be more elegant, e.g., because C++ has unordered sets as a basic data type http://stackoverflow.com/a/35559972 and also linked lists and such. all the nice stuff proper programming languages have
-
-R itself is written in C, as is the core functionality of data.table
-
-### Combinatorial problems
-
-If you're iterating over rows in DT1 and rows in DT2 -- do a merge
-
-if you're running a simulation, be aware of how many dimensions you're varying
-
-outer -- eats memory right quick
-
-CJ, combn, expand.grid
-
-### Rolling operations
-
-fill down with by
-
-fill down with na.locf
-
-merge-fill down with rolling joins
-
-### Parallelization
-
-e.g., for bootstrapping. the cheap way is to use perl or r to write a script that calls the program many times
-
-### Intervals 
-
-IRanges, foverlaps
-
-(compare with rle), overlap joins
-
-### Graph theory
+## Graph theory
 
 Don't reinvent the wheel. Use igraph if it fits
 
-### Dynamic programming
+## Dynamic programming
 
 i did it with data.table, but there may be more efficient approaches that rely only on matrices
 
-### Working with files on disk
-
-yeah, this seems to be changing all the time
-
-database interfacing and such, maybe you are tied to the DB and can't switch to R (no problem); maybe you can't fit the data in memory (start over from the beginning and rethink everything and/or learn AWS)
 
 ## Asking questions online
+
+not worth the bother to add this
 
 if using random example data, use set.seed
 
