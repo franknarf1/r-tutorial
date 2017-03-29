@@ -1,398 +1,125 @@
 # Miscellaneous {#extra}
 
-This chapter is a WIP, a dumping location for things I am not putting a priority on covering, mostly because I don't use them myself: graphing, graph theory, yada yada.
+This chapter is a WIP, a dumping location for things I am not putting a priority on covering, mostly because I don't know them well enough.
 
-You probably won't need to think about these on your first few projects.
-
-I don't even have very fixed ideas about them myself, but decided to write down my thoughts anyways, mostly for my own reference.
-
-## Tallying {#tallying}
-
-To tabulate a variable, use `table`:
-
-```{r table}
-set.seed(1)
-n  = 100
-f  = factor(c("a", "b", "c"))
-x  = f[ sample.int(length(f), size = n, replace = TRUE) ]
-table(x)
-```
-
-For details, consider exploring: 
-
-```{r table-more, eval=FALSE}
-plot(x)
-plot(table(x))
-methods("plot")
-methods(class="table")
-```
-
-We can also tabulate conditions:
-
-```{r table-cond}
-set.seed(1)
-x = rpois(100, lambda = 10)
-table(hix = x > 10)
-```
-
-And make cross-tabs:
-
-```{r table-cross}
-set.seed(1)
-n = 100
-x = rpois(n, lambda = 10)
-y = x^2 + rpois(n, lambda = 10)
-table(hix = x > 10, hiy = y > x + 50)
-```
-
-Data.table syntax for counting rows is covered in \@ref(counting-rows).
-
-## Finding a value
-
-To find exactly matching values:
-
-```{r match}
-match(x = c(23, 45, 15), c(11, 23, 34, 45, 23))
-```
-
-This tells us where `x[1]`, `x[2]` and `x[3]` found their matches in the second vector. If multiple matches exist, only the first is found and returned; and if no match is found, `NA` is returned (or a custom value). 
-
-This is occasionally useful for merges, and is the workhorse behind all the set operators in \@ref(set-ops).
-
-## Matrix columns
-
-max.col
-
-apply -- strongly discouraged
-
-colSums
-
-## Matrix rows
-
-rowSums
+For now, it's not part of the book (determined by bookdown.yml).
 
 
-## Set operators {#set-ops}
 
-### On vectors
+## Program structure and style
 
-`unique(x)` returns the values appearing of `x`. That is, every element of `unique(x)` is unique .
-
-`x %in% y` tests each element of `x` for membership in `y`, returning a TRUE/FALSE vector of the same length as `x`. 
-
-As documented at `?sets`, we can write
-
-- $x\cup y$ as `union(x,y)`,
-- $x\cap y$ as `intersect(x,y)`,
-- $x\ \backslash\ y$ as `setdiff(x,y)` and 
-- $x = y$ as `setequal(x,y)`.
-
-To extend to finite unions and intersections, we can write
-
-- $\bigcup_{{s}_i=1}^n {s}_i$ as `Reduce(union, sList)` and 
-- $\bigcap_{{s}_i=1}^n {s}_i$ as `Reduce(intersect, sList)`.
-
-To test whether a condition holds anywhere, use `any(cond)`; and to test if it holds everywhere, `all(cond)`.
-
-To investigate overlap between two sets, I suggest rolling a custom function:
-
-```{r set-overlap}
-xtab_set <- function(A, B){
-  both    <-  c(A, B)     # or union(A, B) if there are no dupes in either set
-  inA     <-  both %in% A
-  inB     <-  both %in% B
+    never ever do DT <- DT[...], makes the code impossible to maintain, and it's not like you need to economise on RAM or something
+    
+    
+    clearly separate data processing from analysis, to the point where you could easily split them into two separate scripts in a few minutes if needed
+    
+    similarly, separate analysis from generation of output tables and graphs
+    
+    similarly, separate run parameters related to each stage into groups in the preamble
+    
+    define dirs at the top of the file and always refer to them by var name, not raw path
+    
+    never use T and F as shortcuts to TRUE and FALSE. in economics, F is a CDF and T is the number of periods; and i'm sure other fields have similar conventions
+    
+    
+    ### Mapping values
+    
+    always have a table, either as an input csv or defined in the program
+    
+    merge on that table -- don't do if-else
+    
+    if you're making a categorical variable in some more complicated way that demands an if-else structure, still save the resulting map 
   
-  return(table(inA, inB))
-}
-
-set.seed(1)
-A <- sample(letters[1:20], 10, replace = TRUE)
-B <- sample(letters[1:20], 10, replace = TRUE)
-xtab_set(A, B)
-```
-
-It is also possible to visualize set overlaps [using nice packages for Venn diagrams](http://stackoverflow.com/q/31681110).
-
-`unique` works as one might expect on a data.frame (by "dropping duplicated rows" in Stata-speak), but none of the other functions carry over. In section \@ref(dt-set-ops), we'll look at set operations for data.tables.
-
-... and in data.table set operations
-
-### On tables
-
-
-### Combinatorics
-
-Refer to CJ in the tables chapter
-
-outer -> combn section
-
-maybe a nice combinatorics example http://stackoverflow.com/a/36942700
-no, actually docendo should have used a two-sided graph there...
-
-
-## Functions' methods {#methods}
-
-`head` behaves very differently depending on whether it is working with a vector or a data.table:
-
-```{r head-tail-DF}
-v = 1:11
-head(v, 3)
-DT = data.table(1:11, letters[1:11])
-head(DT, 3)
-```
-
-If we look at the head function, we see a fairly unhelpful definition:
-
-```{r head-def}
-head
-```
-
-This code tells us that `head(x, n)` looks at `class(x)` and may "dispatch" to a class-specific "method." In this case, it dispatches to `head.data.frame`, which has documentation at `?head.data.frame` like any other function. This help page is shared with vanilla `?head`, but this is not always the case. For example, `?seq` and `?seq.Date` (\@ref(seq-fancy)) are on different pages.
-
-To investigate whether a method is being used on `x`, use the `methods` function, which performs a search.
-
-```{r methods}
-methods("head", class(v))
-methods("head", class(DT))
-```
-
-This is not terribly useful either, in terms of narrowing down what's going on, but at least we have some functions to look closer at, using `?` to see docs, or the steps in \@ref(inspect-fns) to see source code. Probably, formal debugging procedures are the proper way to investigate, but that's beyond my skill set currently.
-
-```{block2 fancy-methods, type='rmd-details'}
-Methods are part of R's support for object-oriented programming. In other languages' OO systems, methods are attached to classes; while in R they are attached to functions. (R has countless OO systems, some added by packages, so this might not be strictly true.) To make your own methods, start by reading `?Methods`. I've never needed this functionality myself. 
-```
-
-
-## Passing a list of arguments to a function
-
-do.call
-
-
-## Fancy function definitions
-
-list(...) fanciness in functions
-
-### Custom operators 
-
-#### Custom unary prefix operator
-
-#### Custom binary infix operator
-
-
-## Cross join two tables
-
-If you have two tables and want to take all combinations, then a cross join (or "Cartesian join") is needed. For example, suppose we have people and places and want to capture the last year each person visited each place:
-
-```{r dt-join-cross-pre, echo=c(1,3)}
-psnDT = data.table(id = 1:2, name = LETTERS[1:2])
-psnDT
-locDT = data.table(id = 1:2, name = state.abb[1:2])
-locDT
-```
-
-In principle, we should be able to do `psnDT[locDT, on=.()]`. The workaround is:
-
-```{r dt-join-cross, results="hide"}
-psnDT[, .cjid := NA ]
-locDT[, .cjid := NA ]
-visitDT = psnDT[locDT, on=.(.cjid), 
-  .(psn_id = x.id, loc_id = i.id, psn_name = x.name, loc_name = i.name)]
-visitDT[, last_visit_year := c(1972L, NA, 2005L, 1990L) ]
-```
-```{r dt-join-cross-grr1, echo=FALSE}
-visitDT
-```
-```{r dt-join-cross-grr2, results="hide"}
-# cleanup
-psnDT[, .cjid := NULL ]
-locDT[, .cjid := NULL ]
-```
-
-This is likely to get simpler [eventually](https://github.com/Rdatatable/data.table/issues/1717).
-
-... explain `CJ`...
-
-## Output tables and graphs
-
-automatic selection with plot
-  (numeric, numeric)
-  (numeric, factor)
-
-output to pdf slideshow
-
-par + mfrow
-
-tricks for printing text tables
-
-as with I/O functions, graphing packages will always be under active development and cannot be relied on. don't build anything too fancy on non-base syntax or it will become a nightmare to maintain.
-
-exploring data feeds (my rr() and rr2() functions ... need to work on hideby=/noby=)
-
-note: for loops are fine/good for this; DT[, j, by] also work; lapply(res, `[[`,"name") is another common idiom
-
-https://www.datacamp.com/community/tutorials/15-questions-about-r-plots
-
-## Style
-
-write so that you do not need to repeat variable names
-
-don't refer to columns by number
-
-
-
-## Program structure {#programming}
-
-never ever do DT <- DT[...], makes the code impossible to maintain, and it's not like you need to economise on RAM or something
-
-source is for scripts, load is for data, etc.
-
-decide what should be a parameter and use it as such, obvs.
-
-setwd
-
-preamble -- clear, get libraries, document
-
-clearly separate data processing from analysis, to the point where you could easily split them into two separate scripts in a few minutes if needed
-
-similarly, separate analysis from generation of output tables and graphs
-
-similarly, separate run parameters related to each stage into groups in the preamble
-
-define dirs at the top of the file and always refer to them by var name, not raw path
-
-choose a comment structure and stick to it
-
-indent and use white space liberally
-
-
-### Reused code
-
-auxiliary files with reused functions
-
-again, i don't want to develop a package just for this. from where i sit, it looks like a lot more overhead and fragility than a plain file
-
-### Shortcuts
-
-personally, i write and use a qw. it may make excerpts from the code nonportable to forum posts, but who cares? if a colleague needs to read my code, it costs them 10 seconds to learn what the function does.
-
-on the other hand, i would never use T and F as shortcuts to TRUE and FALSE. F is a CDF and T is the number of periods
-
-and absolutely no to regex outside the data-cleaning phase, and even there it should be limited. never use regex on column names
-
-### Mapping values
-
-always have a table, either as an input csv or defined in the program
-
-merge on that table -- don't do if-else
-
-if you're making a categorical variable in some more complicated way that demands an if-else structure, still save the resulting map 
-
-### The formula interface {#formula-interface}
-
-needed for regression, whether with `model.matrix` or a regression function like `lm`
-
-also needed for reshaping, whether with `aggregate` or `dcast`
-
-read the docs carefully for the syntax, which is quite nice. however, it's not so easy to change a formula
-
-do what you can to minimize its scope
-
-http://stackoverflow.com/q/4951442
-
-http://stackoverflow.com/q/18017765
-
-?formula
-
-http://ww2.coastal.edu/kingw/statistics/R-tutorials/formulae.html
-
-http://faculty.chicagobooth.edu/richard.hahn/teaching/formulanotation.pdf
-
-http://stackoverflow.com/q/4392042/
-
-http://stackoverflow.com/questions/9585890 -- a very nice usage, i think
-
-http://stackoverflow.com/q/21330633/
-
-http://stackoverflow.com/q/29563622/
-
-http://stackoverflow.com/q/2427279/
-
-http://stackoverflow.com/q/1300575/
-
-http://stackoverflow.com/q/32616762/ -- very helpful
-
-### Reproducible research
-
-develop and publish a package? maybe. sounds like overkill to me
-
-knitr/rmarkdown seem promising, plus whatever that tool is that bundles/snapshots package versions
-
+    ### Reproducible research
+    
+    develop and publish a package? maybe. sounds like overkill to me
+    
+    knitr/rmarkdown seem promising, plus whatever that tool is that bundles/snapshots package versions
+
+
+## The formula interface {#formula-interface}
+    
+    i'll just leave this collection here until i learn more
+
+    needed for regression, whether with `model.matrix` or a regression function like `lm`
+    
+    also needed for reshaping, whether with `aggregate` or `dcast`
+    
+    read the docs carefully for the syntax, which is quite nice. however, it's not so easy to change a formula
+    
+    do what you can to minimize its scope
+    
+    http://stackoverflow.com/q/4951442
+    
+    http://stackoverflow.com/q/18017765
+    
+    ?formula
+    
+    http://ww2.coastal.edu/kingw/statistics/R-tutorials/formulae.html
+    
+    http://faculty.chicagobooth.edu/richard.hahn/teaching/formulanotation.pdf
+    
+    http://stackoverflow.com/q/4392042/
+    
+    http://stackoverflow.com/questions/9585890 -- a very nice usage, i think
+    
+    http://stackoverflow.com/q/21330633/
+    
+    http://stackoverflow.com/q/29563622/
+    
+    http://stackoverflow.com/q/2427279/
+    
+    http://stackoverflow.com/q/1300575/
+    
+    http://stackoverflow.com/q/32616762/ -- very helpful
+  
 ## Advanced tools
 
-### Profiling
+    ### Profiling
+    
+    common sense takes you a long ways. i have never needed profiling -- just think carefully about your problem and notice when you're stepping into combinatorially costly operations.
+    
+    options(datatable.verbose = TRUE)
+    
+    debugonce()
+    
+    (whatever else for profiling)
+    
+    
+    ### Rcpp {#rcpp}
+    
+    it can speed up your code
+    
+    it is dead simple to read and write
+    
+    it is often be more elegant, e.g., because C++ has unordered sets as a basic data type http://stackoverflow.com/a/35559972 and also linked lists and such. all the nice stuff proper programming languages have
+    
+    R itself is written in C, as is the core functionality of data.table
+    
+    
+    ### Parallelization
+    
+    e.g., for bootstrapping. the cheap way is to use perl or r to write a script that calls the program many times
 
-common sense takes you a long ways. i have never needed profiling -- just think carefully about your problem and notice when you're stepping into combinatorially costly operations.
+    ### Working with files on disk
+    
+    yeah, this seems to be changing all the time
+    
+    database interfacing and such, maybe you are tied to the DB and can't switch to R (no problem); maybe you can't fit the data in memory (start over from the beginning and rethink everything and/or learn AWS)
+    
 
-options(datatable.verbose = TRUE)
-
-debugonce()
-
-(whatever else for profiling)
-
-
-### Rcpp {#rcpp}
-
-it can speed up your code
-
-it is dead simple to read and write
-
-it is often be more elegant, e.g., because C++ has unordered sets as a basic data type http://stackoverflow.com/a/35559972 and also linked lists and such. all the nice stuff proper programming languages have
-
-R itself is written in C, as is the core functionality of data.table
-
-### Combinatorial problems
-
-If you're iterating over rows in DT1 and rows in DT2 -- do a merge
-
-if you're running a simulation, be aware of how many dimensions you're varying
-
-outer -- eats memory right quick
-
-CJ, combn, expand.grid
-
-### Rolling operations
-
-fill down with by
-
-fill down with na.locf
-
-merge-fill down with rolling joins
-
-### Parallelization
-
-e.g., for bootstrapping. the cheap way is to use perl or r to write a script that calls the program many times
-
-### Intervals 
-
-IRanges, foverlaps
-
-(compare with rle), overlap joins
-
-### Graph theory
+## Graph theory
 
 Don't reinvent the wheel. Use igraph if it fits
 
-### Dynamic programming
+## Dynamic programming
 
 i did it with data.table, but there may be more efficient approaches that rely only on matrices
 
-### Working with files on disk
-
-yeah, this seems to be changing all the time
-
-database interfacing and such, maybe you are tied to the DB and can't switch to R (no problem); maybe you can't fit the data in memory (start over from the beginning and rethink everything and/or learn AWS)
 
 ## Asking questions online
+
+not worth the bother to add this
 
 if using random example data, use set.seed
 

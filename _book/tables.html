@@ -17,8 +17,14 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-03-27" />
+<meta name="date" content="2017-03-28" />
 
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
 <meta name="description" content="This book covers the essentials of using R.">
 
@@ -126,8 +132,7 @@ img {
 <li><a href="basics.html#initializing"><span class="toc-section-number">2.1.11</span> Initializing</a></li>
 <li><a href="basics.html#factors"><span class="toc-section-number">2.1.12</span> Factors</a></li>
 <li><a href="basics.html#sort-rank-order"><span class="toc-section-number">2.1.13</span> Sorting, rank, order</a></li>
-<li><a href="basics.html#testing-membership"><span class="toc-section-number">2.1.14</span> Testing membership</a></li>
-<li><a href="basics.html#exercises"><span class="toc-section-number">2.1.15</span> Exercises</a></li>
+<li><a href="basics.html#exercises"><span class="toc-section-number">2.1.14</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#matrix-array"><span class="toc-section-number">2.2</span> Matrices and arrays</a><ul>
 <li><a href="basics.html#building-matrices"><span class="toc-section-number">2.2.1</span> Building matrices</a></li>
@@ -136,6 +141,7 @@ img {
 <li><a href="basics.html#matrix-extract"><span class="toc-section-number">2.2.4</span> Extracting from matrices</a></li>
 <li><a href="basics.html#subassigning-to-matrices"><span class="toc-section-number">2.2.5</span> Subassigning to matrices</a></li>
 <li><a href="basics.html#arrays"><span class="toc-section-number">2.2.6</span> Arrays</a></li>
+<li><a href="basics.html#matrix-misc"><span class="toc-section-number">2.2.7</span> Computing with matrices</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#syntax"><span class="toc-section-number">2.3</span> Syntax</a><ul>
 <li><a href="basics.html#assigning-to-attributes"><span class="toc-section-number">2.3.1</span> Assigning to attributes</a></li>
@@ -205,13 +211,13 @@ img {
 <li><a href="tables.html#fread"><span class="toc-section-number">3.6.2</span> <code>fread</code> to read delimited files</a></li>
 <li><a href="tables.html#rbindlist-read"><span class="toc-section-number">3.6.3</span> <code>rbindlist</code> to combine tables</a></li>
 <li><a href="tables.html#dates-times"><span class="toc-section-number">3.6.4</span> Date and time columns</a></li>
-<li><a href="tables.html#character-columns"><span class="toc-section-number">3.6.5</span> Character columns</a></li>
+<li><a href="tables.html#char-input"><span class="toc-section-number">3.6.5</span> Character columns</a></li>
 <li><a href="tables.html#dt-recode"><span class="toc-section-number">3.6.6</span> Categorical columns</a></li>
 <li><a href="tables.html#list-columns"><span class="toc-section-number">3.6.7</span> List columns</a></li>
 <li><a href="tables.html#fwrite"><span class="toc-section-number">3.6.8</span> <code>fwrite</code> to write delimited files</a></li>
 <li><a href="tables.html#dt-saveload"><span class="toc-section-number">3.6.9</span> Saving and loading R objects</a></li>
 <li><a href="tables.html#reading-and-writing-other-formats"><span class="toc-section-number">3.6.10</span> Reading and writing other formats</a></li>
-<li><a href="tables.html#formatting-the-display-of-columns"><span class="toc-section-number">3.6.11</span> Formatting the display of columns</a></li>
+<li><a href="tables.html#format-cols"><span class="toc-section-number">3.6.11</span> Formatting the display of columns</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#exploring-data"><span class="toc-section-number">3.7</span> Exploring data</a><ul>
 <li><a href="tables.html#browse-env"><span class="toc-section-number">3.7.1</span> Browsing loaded objects</a></li>
@@ -229,26 +235,36 @@ img {
 </ul></li>
 </ul></li>
 <li class="has-sub"><a href="work.html#work"><span class="toc-section-number">4</span> Getting work done</a><ul>
-<li><a href="work.html#sets-and-combinations"><span class="toc-section-number">4.1</span> Sets and combinations</a></li>
-<li class="has-sub"><a href="work.html#randomization"><span class="toc-section-number">4.2</span> Randomization</a><ul>
-<li><a href="work.html#distribution-draws"><span class="toc-section-number">4.2.1</span> Distribution draws</a></li>
-<li><a href="work.html#urn-draws"><span class="toc-section-number">4.2.2</span> Urn draws</a></li>
-<li><a href="work.html#permutations"><span class="toc-section-number">4.2.3</span> Permutations</a></li>
-<li><a href="work.html#simulations"><span class="toc-section-number">4.2.4</span> Simulations</a></li>
+<li class="has-sub"><a href="work.html#sets"><span class="toc-section-number">4.1</span> Sets</a><ul>
+<li><a href="work.html#unary-operators"><span class="toc-section-number">4.1.1</span> Unary operators</a></li>
+<li><a href="work.html#testing-membership"><span class="toc-section-number">4.1.2</span> Testing membership</a></li>
+<li><a href="work.html#other-binary-operators"><span class="toc-section-number">4.1.3</span> Other binary operators</a></li>
+<li><a href="work.html#operators-on-lists-of-sets"><span class="toc-section-number">4.1.4</span> Operators on lists of sets</a></li>
 </ul></li>
-<li class="has-sub"><a href="work.html#sequences"><span class="toc-section-number">4.3</span> Working with sequences</a><ul>
-<li><a href="work.html#lag"><span class="toc-section-number">4.3.1</span> Lag operators</a></li>
-<li><a href="work.html#taking-differences"><span class="toc-section-number">4.3.2</span> Taking differences</a></li>
-<li><a href="work.html#rolling-computations"><span class="toc-section-number">4.3.3</span> Rolling computations</a></li>
-<li><a href="work.html#run-length-encoding"><span class="toc-section-number">4.3.4</span> Run-length encoding</a></li>
-<li><a href="work.html#grouping-on-runs"><span class="toc-section-number">4.3.5</span> Grouping on runs</a></li>
+<li><a href="work.html#combos"><span class="toc-section-number">4.2</span> Combinations</a></li>
+<li class="has-sub"><a href="work.html#randomization"><span class="toc-section-number">4.3</span> Randomization</a><ul>
+<li><a href="work.html#distribution-draws"><span class="toc-section-number">4.3.1</span> Distribution draws</a></li>
+<li><a href="work.html#urn-draws"><span class="toc-section-number">4.3.2</span> Urn draws</a></li>
+<li><a href="work.html#permutations"><span class="toc-section-number">4.3.3</span> Permutations</a></li>
+<li><a href="work.html#simulations"><span class="toc-section-number">4.3.4</span> Simulations</a></li>
 </ul></li>
-<li><a href="work.html#combining-table-columns"><span class="toc-section-number">4.4</span> Combining table columns</a></li>
-<li class="has-sub"><a href="work.html#reg"><span class="toc-section-number">4.5</span> Regression</a><ul>
-<li><a href="work.html#extracting-results"><span class="toc-section-number">4.5.1</span> Extracting results</a></li>
+<li class="has-sub"><a href="work.html#sequences"><span class="toc-section-number">4.4</span> Working with sequences</a><ul>
+<li><a href="work.html#lag"><span class="toc-section-number">4.4.1</span> Lag operators</a></li>
+<li><a href="work.html#taking-differences"><span class="toc-section-number">4.4.2</span> Taking differences</a></li>
+<li><a href="work.html#rolling"><span class="toc-section-number">4.4.3</span> Rolling computations</a></li>
+<li><a href="work.html#run-length-encoding"><span class="toc-section-number">4.4.4</span> Run-length encoding</a></li>
+<li><a href="work.html#gids"><span class="toc-section-number">4.4.5</span> Grouping on runs</a></li>
 </ul></li>
-<li><a href="work.html#optimization"><span class="toc-section-number">4.6</span> Optimization</a></li>
-<li><a href="work.html#integration"><span class="toc-section-number">4.7</span> Integration</a></li>
+<li><a href="work.html#combining-table-columns"><span class="toc-section-number">4.5</span> Combining table columns</a></li>
+<li class="has-sub"><a href="work.html#reg"><span class="toc-section-number">4.6</span> Regression</a><ul>
+<li><a href="work.html#extracting-results"><span class="toc-section-number">4.6.1</span> Extracting results</a></li>
+<li><a href="work.html#formulas"><span class="toc-section-number">4.6.2</span> Formulas</a></li>
+<li><a href="work.html#custom-regression"><span class="toc-section-number">4.6.3</span> Custom regression</a></li>
+</ul></li>
+<li class="has-sub"><a href="work.html#numerical-tasks"><span class="toc-section-number">4.7</span> Numerical tasks</a><ul>
+<li><a href="work.html#optimization"><span class="toc-section-number">4.7.1</span> Optimization</a></li>
+<li><a href="work.html#integration"><span class="toc-section-number">4.7.2</span> Integration</a></li>
+</ul></li>
 <li><a href="work.html#strings"><span class="toc-section-number">4.8</span> String operations</a></li>
 </ul></li>
 </ul>
@@ -536,18 +552,18 @@ bwDT =<span class="st"> </span><span class="kw">data.table</span>(MASS::birthwt)
 
 <span class="kw">pdf</span>(<span class="dt">file=</span><span class="st">&quot;birthweight_graphs.pdf&quot;</span>)
 bwDT[, {
-  case =<span class="st"> </span><span class="kw">sprintf</span>(<span class="st">&quot;high #visits? = %s, smoking? = %s&quot;</span>, .BY$high_vis, .BY$smoke)
+  case =<span class="st"> </span><span class="kw">sprintf</span>(<span class="st">&quot;high #visits? = % 5s, smoking? = % 5s&quot;</span>, .BY$high_vis, .BY$smoke)
   
-  <span class="kw">cat</span>(<span class="st">&quot;Handling&quot;</span>, case, <span class="st">&quot;...</span><span class="ch">\n</span><span class="st">&quot;</span>)
+  <span class="kw">cat</span>(<span class="st">&quot;Handling case:&quot;</span>, case, <span class="st">&quot;...</span><span class="ch">\n</span><span class="st">&quot;</span>)
   <span class="kw">plot</span>(
     age ~<span class="st"> </span>lwt, 
     <span class="dt">main =</span> case
   )  
-}, by=.(<span class="dt">high_vis =</span> ftv &gt;=<span class="st"> </span><span class="dv">1</span>, smoke)]</code></pre></div>
-<pre><code># Handling high #visits? = FALSE, smoking? = 0 ...</code></pre>
-<pre><code># Handling high #visits? = TRUE, smoking? = 0 ...</code></pre>
-<pre><code># Handling high #visits? = TRUE, smoking? = 1 ...</code></pre>
-<pre><code># Handling high #visits? = FALSE, smoking? = 1 ...</code></pre>
+}, by=.(<span class="dt">high_vis =</span> ftv &gt;=<span class="st"> </span><span class="dv">1</span>, <span class="dt">smoke =</span> <span class="kw">as.logical</span>(smoke))]</code></pre></div>
+<pre><code># Handling case: high #visits? = FALSE, smoking? = FALSE ...</code></pre>
+<pre><code># Handling case: high #visits? =  TRUE, smoking? = FALSE ...</code></pre>
+<pre><code># Handling case: high #visits? =  TRUE, smoking? =  TRUE ...</code></pre>
+<pre><code># Handling case: high #visits? = FALSE, smoking? =  TRUE ...</code></pre>
 <pre><code># Empty data.table (0 rows) of 2 cols: high_vis,smoke</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dev.off</span>()</code></pre></div>
 <pre><code># png 
@@ -560,7 +576,7 @@ bwDT[, {
 <p></p>
 
 <div class="rmd-caution">
-<strong>Grouping on floats.</strong> Much of the computational and syntactical magic of the package comes from grouping rows together with the <code>by=</code> argument. To group on a floating-point variable, however, is just asking for trouble, <a href="http://floating-point-gui.de/">for the usual numerical computing reasons</a>. Instead, always use characters, integers or factors. To discretise a continuous variable into bins, use <code>cut</code>.
+<strong>Grouping on floats.</strong> Much of the computational and syntactical magic of the package comes from grouping rows together with the <code>by=</code> argument. To group on a floating-point variable, however, is just asking for trouble, <a href="http://floating-point-gui.de/">for the usual numerical computing reasons</a>. Instead, always use characters, integers or factors. To discretize a continuous variable into bins, use <code>cut</code>.
 </div>
 <p></p>
 
@@ -956,7 +972,7 @@ b[, sumx :<span class="er">=</span><span class="st"> </span>
 # 10:  3 NA NA
 # 11:  3  1 NA
 # 12:  3  2 14</code></pre>
-<p>This is called a self join because we are using the table’s own columns in <code>i</code> of <code>x[i, on=]</code>. The <code>CJ</code> function is a helper that takes all combinations of vectors, alternately called the Cartesian product or a “cross join.” By applying <code>unique=TRUE</code>, we treat each vector <em>as a set</em> in the mathematical sense, only considering distinct values.</p>
+<p>This is called a self join because we are using the table’s own columns in <code>i</code> of <code>x[i, on=]</code>. The <code>CJ</code> function is a helper that takes all combinations of vectors, alternately called the Cartesian product or a “cross join.” See <a href="work.html#combos">4.2</a> for details. By applying <code>unique=TRUE</code>, we treat each vector <em>as a set</em> in the mathematical sense, only considering distinct values.</p>
 <p>Notice that missing values (<code>NA</code>) in <code>i</code> are treated in the same way as other values.</p>
 </div>
 <div id="join-matches" class="section level3">
@@ -1233,6 +1249,7 @@ DT[, <span class="kw">c</span>(<span class="st">&quot;d&quot;</span>, <span clas
 # 1: 2017-01-01 01:11 2017-01-01 01:11:00</code></pre>
 <p>However, it does not include a combined datetime class, which would be useful if we want to measure time differences across days.</p>
 <p>For a combined datetime class, we have to use POSIXct. This brings with it a couple of annoyances. First, it uses floating-point measurement, so grouping on it with <code>by=</code> is not a good idea and some table operations will be slower. Second, in keeping with POSIX rules, it has an irritating time zone attribute that always demands careful watching. Nonetheless, it is the standard option for a datetime format currently. (There is also a POSIXlt format, but data.table discourages it, since it does not build on atomic vectors.)</p>
+<p>If datetimes are central to the analysis, it might be worth loading <a href="https://CRAN.R-project.org/package=chron">the chron package</a>, which offers a datetime class without the time-zone annoyances of POSIXct. It is “suggested” by the data.table package (in CRAN lingo), so probably reliably compatible.</p>
 </div>
 <div id="sub-second-measures" class="section level4">
 <h4><span class="header-section-number">3.6.4.3</span> Sub-second measures</h4>
@@ -1246,7 +1263,7 @@ DT[, <span class="kw">c</span>(<span class="st">&quot;d&quot;</span>, <span clas
 <p>Time differences between dates or times can be taken using <code>difftime</code>, which allows for the specification of units of measure for the output.</p>
 </div>
 </div>
-<div id="character-columns" class="section level3">
+<div id="char-input" class="section level3">
 <h3><span class="header-section-number">3.6.5</span> Character columns</h3>
 <p>With character columns that combine multiple variables, there are a few options.</p>
 <ul>
@@ -1305,13 +1322,13 @@ DT[v_translateDT, on=.(<span class="dt">v =</span> v_old), vt :<span class="er">
 <div id="list-columns" class="section level3">
 <h3><span class="header-section-number">3.6.7</span> List columns</h3>
 <p>Data.table supports columns of class <code>list</code>. A “list column” is a list with a length equal to the number of rows of the table. Each element of the list (that is, each row) can hold anything, just like a normal list. We saw an example of this in <a href="tables.html#rbindlist-read">3.6.3</a>.</p>
-<p>List columns are rarely a good fit with tabular data for a few reasons. First, they make the data structure significantly harder to understand. Second, grouping, sorting or merging on them is not supported and probably never will be. Third, they do not play nice with time series operators like <code>shift</code> (<a href="work.html#lag">4.3.1</a>).</p>
+<p>List columns are rarely a good fit with tabular data for a few reasons. First, they make the data structure significantly harder to understand. Second, grouping, sorting or merging on them is not supported and probably never will be. Third, they do not play nice with time series operators like <code>shift</code> (<a href="work.html#lag">4.4.1</a>).</p>
 <p>They are good for many things, but should be avoided if possible while cleaning the primary data. Nonetheless, <code>fread</code> does support reading list columns in.</p>
 </div>
 <div id="fwrite" class="section level3">
 <h3><span class="header-section-number">3.6.8</span> <code>fwrite</code> to write delimited files</h3>
 <p>To write a CSV or other delimited-table format, <code>fwrite</code> is usually the best option.</p>
-<p>It is fast and includes nice features for printing dates and times, like the <code>squash</code> option that will print dates like <code>20171020</code>.</p>
+<p>It is fast and includes nice features for printing dates and times, like the <code>squash</code> option that will print dates like <code>20171020</code>. For other tools for printing exotic columns out as strings see <a href="work.html#strings">4.8</a>.</p>
 </div>
 <div id="dt-saveload" class="section level3">
 <h3><span class="header-section-number">3.6.9</span> Saving and loading R objects</h3>
@@ -1351,7 +1368,7 @@ old_dat &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span clas
 <h3><span class="header-section-number">3.6.10</span> Reading and writing other formats</h3>
 <p>For “foreign” table formats (Excel, Stata, etc), use an internet search. These input and output tools will always be in active development because the formats themselves are in flux. of course, it is unwise to use any such formats for long-term data storage.</p>
 </div>
-<div id="formatting-the-display-of-columns" class="section level3">
+<div id="format-cols" class="section level3">
 <h3><span class="header-section-number">3.6.11</span> Formatting the display of columns</h3>
 <p>While the way R displays dates (like <code>2017-11-22</code>) might not align with what is seen elsewhere, I suggest getting used to it rather than seeking a workaround, though I’m sure there are some (like making a new class). It will be easier for everyone looking at the data if it is in a standard format.</p>
 <p>For the display of numbers, again, I suggest leaving it alone instead of, e.g., rounding or truncating everything. If it’s really an issue that must be addressed, read about <code>scipen</code> in <code>?options</code>.</p>
@@ -1762,7 +1779,7 @@ My guess is that the terms melting and casting (for conversion of a table to and
 <div id="structuring-data" class="section level2">
 <h2><span class="header-section-number">3.8</span> Organizing relational tables</h2>
 <p>The best way to organize data in R takes advantage of the power to have multiple data sets in the workspace. With tabular data, that means using “relational” tables that can be linked together by various index columns.</p>
-<p>Some good references are the Wikipedia pages on <a href="https://en.wikipedia.org/wiki/Database_normalization">normalisation</a> and the <a href="https://en.wikipedia.org/wiki/Relational_model">relational model</a>; and <a href="https://www.jstatsoft.org/article/view/v059i10">Hadley Wickham’s exposition aimed at R users</a>.</p>
+<p>Some good references are the Wikipedia pages on <a href="https://en.wikipedia.org/wiki/Database_normalization">normalization</a> and the <a href="https://en.wikipedia.org/wiki/Relational_model">relational model</a>; and <a href="https://www.jstatsoft.org/article/view/v059i10">Hadley Wickham’s exposition aimed at R users</a>.</p>
 <div id="redundant" class="section level3">
 <h3><span class="header-section-number">3.8.1</span> Removing redundant data</h3>
 <p>Consider this table of experimental results (see <code>?datasets::CO2</code>):</p>
@@ -1786,6 +1803,7 @@ carbDT %&gt;%<span class="st"> </span><span class="kw">print</span>(<span class=
 <span class="kw">setkey</span>(plantDT, Plant)
 carbDT[, <span class="kw">c</span>(<span class="st">&quot;Type&quot;</span>, <span class="st">&quot;Treatment&quot;</span>) :<span class="er">=</span><span class="st"> </span><span class="ot">NULL</span> ]
 <span class="kw">setkey</span>(carbDT, Plant, conc)</code></pre></div>
+<p>The <code>unique</code> function drops duplicates. Related tools are discussed in <a href="work.html#sets">4.1</a>.</p>
 <p>There are a few advantages to having data in this format:</p>
 <ol style="list-style-type: decimal">
 <li>The data takes up less space.</li>
@@ -1816,13 +1834,13 @@ carbDT[, <span class="kw">c</span>(<span class="st">&quot;Type&quot;</span>, <sp
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stopifnot</span>(
   plantDT[<span class="kw">CJ</span>(<span class="dt">Type =</span> Type, <span class="dt">Treatment =</span> Treatment, <span class="dt">unique =</span> <span class="ot">TRUE</span>), <span class="dt">on=</span>.(Type, Treatment), .N, <span class="dt">by=</span>.EACHI][, <span class="kw">all</span>(N &gt;=<span class="st"> </span>1L)]
 )</code></pre></div>
-<p>We are using <code>CJ</code> to enumerate combinations; then counting matches using merge diagnostics (<a href="tables.html#join-unmatched">3.5.6.2</a>); and then asserting that every combo was matched by at least 1 row. The repetition of column names required here is annoying and will hopefully be addressed by nicer syntax soon. For the time being, there’s…</p>
+<p>We are using <code>CJ</code> to enumerate combinations (see <a href="work.html#combos">4.2</a>); then counting matches using merge diagnostics (<a href="tables.html#join-unmatched">3.5.6.2</a>); and then asserting that every combo was matched by at least 1 row. The repetition of column names required here is annoying and will hopefully be addressed by nicer syntax soon. For the time being, there’s…</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test_cols =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Type&quot;</span>, <span class="st">&quot;Treatment&quot;</span>)
 test_lvls =<span class="st"> </span><span class="kw">do.call</span>(CJ, <span class="kw">c</span>(plantDT[, ..test_cols], <span class="dt">unique=</span><span class="ot">TRUE</span>))
 <span class="kw">stopifnot</span>(
   plantDT[test_lvls, <span class="dt">on=</span>test_cols, .N, <span class="dt">by=</span>.EACHI][, <span class="kw">all</span>(N &gt;=<span class="st"> </span><span class="dv">1</span>)]
 )</code></pre></div>
-<p><code>do.call</code> and other helpful programming tricks are covered in @ref().</p></li>
+<p><code>do.call</code> and other helpful programming tricks are covered in <a href="tables.html#do-call">3.8.4.1</a>.</p></li>
 </ol>
 <p>Continuing the example, if we had many more types of plants, besides Quebec and Mississippi, we might end up assigning attributes to these as well (like country or latitude). In that case, we would want a further table:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">typeDT =<span class="st"> </span><span class="kw">data.table</span>(
@@ -1861,7 +1879,11 @@ test_lvls =<span class="st"> </span><span class="kw">do.call</span>(CJ, <span cl
 mDT[, conc :<span class="er">=</span><span class="st"> </span><span class="kw">as.numeric</span>(conc)]</code></pre></div>
 <p>It is not essential to set keys (<a href="tables.html#keys-indices">3.5.8.1</a>), but it’s fairly low-cost and makes thinking through the structure of the data clearer.</p>
 <p>Even when it’s not as egregious as storing numbers as column names, it is very often the case that multiple columns store similar information that really would be more naturally stored in a single column.</p>
+<<<<<<< HEAD
 <p>Stubbornly sticking to wide form can create problems particularly with dynamic data (that is updated over time). For example, if you have a column for “daily sales online” and another column for “daily sales in-store”, what happens when you must also store data on “sales through our affiliate”? Adding more and more columns on-the-fly is asking for trouble: what class should this new column have? what are the rules for where it can have missing values? is its name consistent with those of related columns (“sales_online”, “sales_offline”, “sales_partner”, “sales_newpartner”)? This problem is what is meant by <a href="https://en.wikipedia.org/wiki/Database_normalization#Minimize_redesign_when_extending_the_database_structure">“minimise redesign when extending” (on Wikipedia’s normalisation page)</a>.</p>
+=======
+<p>Stubbornly sticking to wide form can create problems particularly with dynamic data (that is updated over time). For example, if you have a column for “daily sales online” and another column for “daily sales in-store”, what happens when you must also store data on “sales through our affiliate”? Adding more and more columns on-the-fly is asking for trouble: what class should this new column have? what are the rules for where it can have missing values? is its name consistent with those of related columns (“sales_online”, “sales_offline”, “sales_partner”, “sales_newpartner”)? This problem is what is meant by <a href="https://en.wikipedia.org/wiki/Database_normalization#Minimize_redesign_when_extending_the_database_structure">“minimise redesign when extending” (on Wikipedia’s normalization page)</a>.</p>
+>>>>>>> refs/remotes/origin/master
 <p>See <code>vignette(&quot;datatable-reshape&quot;)</code> for more on reshaping tables.</p>
 </div>
 <div id="relational-updatejoin" class="section level3">
@@ -1878,7 +1900,7 @@ dat[plantDT, on=.(Plant), <span class="st">`</span><span class="dt">:=</span><sp
 </div>
 <div id="program-tables" class="section level3">
 <h3><span class="header-section-number">3.8.4</span> Programming with tables</h3>
-<div id="passing-a-list-of-arguments" class="section level4">
+<div id="do-call" class="section level4">
 <h4><span class="header-section-number">3.8.4.1</span> Passing a list of arguments</h4>
 <p>To pass multiple arguments to a function programmatically, use <code>do.call</code>. Here’s an example for construction of a Cartesian product table (from <a href="tables.html#redundant">3.8.1</a>):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_args =<span class="st"> </span><span class="kw">c</span>(plantDT[, <span class="kw">c</span>(<span class="st">&quot;Type&quot;</span>, <span class="st">&quot;Treatment&quot;</span>)], <span class="dt">unique=</span><span class="ot">TRUE</span>)</code></pre></div>
@@ -1909,7 +1931,7 @@ dat[plantDT, on=.(Plant), <span class="st">`</span><span class="dt">:=</span><sp
 # 4: Mississippi    chilled</code></pre>
 <p>This is the closest R gets to Python’s <code>**kwargs</code> syntax.</p>
 </div>
-<div id="writing-wrapper-functions" class="section level4">
+<div id="fundots" class="section level4">
 <h4><span class="header-section-number">3.8.4.2</span> Writing wrapper functions</h4>
 <p>When writing functions, the <code>...</code> pseudo-argument can be used to capture multiple arguments not known ahead of time, usually to pass them on to other functions. Here’s an example for browsing keyed tables (from <a href="tables.html#keys-indices">3.5.8.1</a>):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">r &lt;-<span class="st"> </span>function(d, ...) {
@@ -1936,19 +1958,6 @@ dat[plantDT, on=.(Plant), <span class="st">`</span><span class="dt">:=</span><sp
 <span class="kw">do.call</span>(r, <span class="kw">c</span>(<span class="kw">list</span>(<span class="dt">d =</span> carbDT), my_tuple))</code></pre></div>
 <pre><code>#  Plant conc uptake
 #    Mc1 1000   21.9</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_tuples =<span class="st"> </span><span class="kw">list</span>(
-  <span class="dt">tup_a =</span> <span class="kw">list</span>(<span class="st">&quot;Mc1&quot;</span>, <span class="dv">1000</span>),
-  <span class="dt">tup_b =</span> <span class="kw">list</span>(<span class="st">&quot;Mc3&quot;</span>, <span class="dv">250</span>)
-)
-
-my_tuples %&gt;%<span class="st"> </span><span class="kw">lapply</span>(do.call, <span class="dt">what =</span> CJ)</code></pre></div>
-<pre><code># $tup_a
-#     V1   V2
-# 1: Mc1 1000
-# 
-# $tup_b
-#     V1  V2
-# 1: Mc3 250</code></pre>
 <p>This function is just for illustration; and I don’t mean to suggest that it’s terribly useful.</p>
 </div>
 <div id="program-cols" class="section level4">
@@ -2045,14 +2054,16 @@ exDT =<span class="st"> </span><span class="kw">data.table</span>(CO2)[<span cla
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_bycol =<span class="st"> &quot;Type&quot;</span>
 my_sumcol =<span class="st"> &quot;uptake&quot;</span>
 myj =<span class="st"> </span><span class="kw">substitute</span>(<span class="kw">sum</span>(my_sumcol), <span class="kw">list</span>(<span class="dt">my_sumcol =</span> <span class="kw">as.name</span>(my_sumcol)))
-
-<span class="co"># eval j expression</span>
+myj</code></pre></div>
+<pre><code># sum(uptake)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># eval j expression</span>
 exDT[ , <span class="kw">eval</span>(myj), by=my_bycol]</code></pre></div>
 <pre><code>#           Type   V1
 # 1:      Quebec 46.4
 # 2: Mississippi 42.8</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># eval entire expression</span>
-mycall =<span class="st"> </span><span class="kw">as.call</span>(<span class="kw">list</span>(<span class="kw">as.symbol</span>(<span class="st">&quot;[&quot;</span>), <span class="kw">as.symbol</span>(<span class="st">&quot;exDT&quot;</span>), <span class="dt">j =</span> myj, <span class="dt">by =</span> my_bycol))</code></pre></div>
+mycall =<span class="st"> </span><span class="kw">as.call</span>(<span class="kw">list</span>(<span class="kw">as.symbol</span>(<span class="st">&quot;[&quot;</span>), <span class="kw">as.symbol</span>(<span class="st">&quot;exDT&quot;</span>), <span class="dt">j =</span> myj, <span class="dt">by =</span> my_bycol))
+mycall</code></pre></div>
 <pre><code># exDT[j = sum(uptake), by = &quot;Type&quot;]</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">eval</span>(mycall)</code></pre></div>
 <pre><code>#           Type   V1
@@ -2067,10 +2078,11 @@ mycall =<span class="st"> </span><span class="kw">as.call</span>(<span class="kw
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat =<span class="st"> </span><span class="kw">copy</span>(carbDT)
 up_cols =<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">names</span>(plantDT), <span class="st">&quot;Plant&quot;</span>)
 dat[plantDT, on=.(Plant), (up_cols) :<span class="er">=</span><span class="st"> </span><span class="kw">mget</span>(<span class="kw">sprintf</span>(<span class="st">&quot;i.%s&quot;</span>, up_cols))]</code></pre></div>
+<p>The <code>setdiff</code> operator subtracts its second argument from the first, treating both as sets. See <a href="work.html#sets">4.1</a>.</p>
 </div>
 <div id="data.table-options" class="section level4">
 <h4><span class="header-section-number">3.8.4.5</span> Data.table options</h4>
-<p>The data.table package has many global options related to optimisation and console output. To review them…</p>
+<p>The data.table package has many global options related to optimization and console output. To review them…</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>() %&gt;%<span class="st"> </span>.[<span class="kw">grep</span>(<span class="st">&quot;datatable&quot;</span>, <span class="kw">names</span>(.))]</code></pre></div>
 <pre><code># $datatable.alloccol
 # [1] 1024
