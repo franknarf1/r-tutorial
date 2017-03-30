@@ -1711,13 +1711,16 @@ exDT = data.table(CO2)[c(1:2,60,65)]
 
     ```{r shortcols-by}
     # basic
-    exDT[, .N, by="Plant"]
+    exDT[, .N, by=c("Plant", "Type")]
+
+    # single string
+    exDT[, .N, by="Plant,Type"]
 
     # no quotes
-    exDT[, .N, by=.(Plant)]
+    exDT[, .N, by=.(Plant, Type)]
 
     # defined and labeled on-the-fly
-    exDT[, .N, by=.(Plant, v = conc + uptake)]
+    exDT[, .N, by=.(Plant, Type, v = conc + uptake)]
     ```
 
 Column numbers also work in `.SDcols` and `j`, but don't do that.
