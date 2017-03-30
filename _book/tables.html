@@ -952,7 +952,8 @@ b[, sumx :<span class="er">=</span><span class="st"> </span>
 <div id="self-join-to-fill-in-missing-levels" class="section level3">
 <h3><span class="header-section-number">3.5.5</span> Self join to fill in missing levels</h3>
 <p>Consider the <code>a</code> data set from above:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># example data</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># example data</span>
+a =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">id =</span> <span class="kw">c</span>(1L, 1L, 2L, 3L, <span class="ot">NA_integer_</span>), <span class="dt">t =</span> <span class="kw">c</span>(1L, 2L, 1L, 2L, <span class="ot">NA_integer_</span>), <span class="dt">x =</span> <span class="dv">11</span>:<span class="dv">15</span>)</code></pre></div>
 <pre><code>#    id  t  x
 # 1:  1  1 11
 # 2:  1  2 12

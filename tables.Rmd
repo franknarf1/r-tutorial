@@ -680,7 +680,7 @@ The `i.*` prefix in `i.y` indicates that we are taking the column from the `i` t
 
 Consider the `a` data set from above:
 
-```{r dt-join-CJ-pre, echo=1}
+```{r dt-join-CJ-pre, echo=-3}
 # example data
 a = data.table(id = c(1L, 1L, 2L, 3L, NA_integer_), t = c(1L, 2L, 1L, 2L, NA_integer_), x = 11:15)
 a
