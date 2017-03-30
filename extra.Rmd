@@ -23,6 +23,12 @@ never use T and F as shortcuts to TRUE and FALSE. in economics, F is a CDF and T
 
 don't do the crazy bracket/paren indenting advocated by RStudio, Google, et al, except maybe in function definition. trust `args(function_name)` to print that bit that way if you really care
 
+### Calling in batch
+
+i prefer that my scripts work both interactively and via batch
+
+also, i prefer that as many args as possible be passed in a transparent way via CSVs or other structured data, so... almost no command args
+
 ### Interactive tricks
 
 page-able graphics with R console https://stat.ethz.ch/pipermail/r-help/2008-April/160722.html

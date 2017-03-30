@@ -1387,12 +1387,14 @@ carsDT[, drat %>% cut(4) %>% table ]
 
 #### Plotting
 
-We can plot a binned version of the variable; or instead a histogram; or a kernel approximation to the density; or a box plot:
+We can plot a binned version of the variable; or instead a stem-and-leaf plot; or histogram; or a kernel approximation to the density; or a box plot:
 
 ```{r cut-table-plot}
 carsDT[, drat %>% cut(4) %>% table %>% plot ]
 # or
 carsDT[, drat %>% hist(4) %>% {NULL} ]
+# or
+carsDT[, drat %>% stem ]
 # or
 carsDT[, drat %>% density %>% plot ]
 # or
