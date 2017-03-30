@@ -109,15 +109,15 @@ define triples(x) which returns all subsets of size x, in a data.table with one 
 
 To make a draw reproducible, use `set.seed` before it:
 
-```{r set-seed, eval=FALSE}
+```{r set-seed}
 set.seed(1)
-rnorm(10)
+rnorm(10) # 10 random draws from the standard normal distribution
 ```
 
 
 ### Distribution draws
 
-To draw `n` random numbers from the unit interval, use `runif(n)`. All random-draw functions follow this naming convention -- `rnorm`, `rpoisson`, `rbinom` -- for a full list of the built-in ones, type `?distributions`. Many more are offered in packages that can be found by searching online.
+To draw `n` random numbers from the uniform distribution on the unit interval, use `runif(n)`. All random-draw functions follow this naming convention -- `rnorm`, `rpoisson`, `rbinom` -- for a full list of the built-in ones, type `?distributions`. Many more are offered in packages that can be found by searching online.
 
 To get a quick look at the density being drawn from, use `curve`:
 
@@ -127,7 +127,7 @@ df = 10
 curve(dchisq(x, df), xlim = qchisq(c(.01, .99), df))
 ```
 
-`d*` is the density and `q*` is the quantile function. We're using the latter to find good x-axis bounds for the graph.
+`d*` is the density and `q*` is the quantile function. We're using the latter to find good x-axis bounds for the graph. The final function is `p*`, for the cumulative density function.
 
 ### Urn draws
 
