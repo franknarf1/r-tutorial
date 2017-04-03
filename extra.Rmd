@@ -50,6 +50,13 @@ develop and publish a package? maybe. sounds like overkill to me
 
 knitr/rmarkdown seem promising, plus whatever that tool is that bundles/snapshots package versions
 
+### Global options
+
+stringsAsFactors = FALSE
+
+(recent changes from r-devel news:)
+
+-  When the condition ‘code’ in ‘if(.)’ or ‘while(.)’ is not of length one, an error instead of a warning may be triggered by setting an environment variable, see the help page.
 
 ## Performance
 
