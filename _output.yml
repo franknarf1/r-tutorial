@@ -1,9 +1,10 @@
-
 bookdown::html_book:
   toc: yes
   split_by: chapter
   css: 
     - style.css 
   highlight: tango
-
-
+bookdown::gitbook:
+  dev: svglite
+  css: style.css
+  split_by: chapter
