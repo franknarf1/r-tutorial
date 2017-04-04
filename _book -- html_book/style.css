@@ -1,0 +1,40 @@
+
+
+/* CUSTOM BLOCKS */
+
+.rmd-caution {
+  padding: 1em 1em 1em 4em;
+  margin-bottom: 10px;
+  background: /* #FFFF99 */ url("images/1459472920_attention.png") left center/3em no-repeat;
+  border-style:solid;
+  border-color:#FFFF00;
+}
+.rmd-caution:before {
+  font-style: italic;
+  content: "";
+}
+.rmd-details {
+  padding: 1em 1em 1em 4em;
+  margin-bottom: 10px;
+  background: /* #99FF99 */ url("images/1459472947_idea.png") left center/3em no-repeat;
+  border-style:solid;
+  border-color:#00FF00;
+}
+.rmd-details:before {
+  font-style: italic;
+  content: "";
+}
+
+
+
+.rmd-yh {
+  padding: 1em 1em 1em 4em;
+  margin-bottom: 10px;
+  background: #f5f5f5 5px center/3em no-repeat;
+}
+.rmd-yh {
+  background-image: url("../images/1459472947_idea.png");
+}
+
+
+
