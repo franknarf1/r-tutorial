@@ -137,7 +137,7 @@
 .rmd-caution {
   padding: 1em 1em 1em 4em;
   margin-bottom: 10px;
-  background: /* #FFFF99 */ url("images/1459472920_attention.png") left center/3em no-repeat;
+  background: /* #FFFF99 */ url("images/1459472920_attention.png") left center/3em no-repeat !important;
   border-style:solid;
   border-color:#FFFF00;
 }
@@ -148,7 +148,7 @@
 .rmd-details {
   padding: 1em 1em 1em 4em;
   margin-bottom: 10px;
-  background: /* #99FF99 */ url("images/1459472947_idea.png") left center/3em no-repeat;
+  background: /* #99FF99 */ url("images/1459472947_idea.png") left center/3em no-repeat !important;
   border-style:solid;
   border-color:#00FF00;
 }

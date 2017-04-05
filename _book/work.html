@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-03-29" />
+<meta name="date" content="2017-04-05" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -379,16 +379,18 @@ xpairs[, pair_code :<span class="er">=</span><span class="st"> </span><span clas
 <h2><span class="header-section-number">4.3</span> Randomization</h2>
 <p>To make a draw reproducible, use <code>set.seed</code> before it:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)
-<span class="kw">rnorm</span>(<span class="dv">10</span>)</code></pre></div>
+<span class="kw">rnorm</span>(<span class="dv">10</span>) <span class="co"># 10 random draws from the standard normal distribution</span></code></pre></div>
+<pre><code>#  [1] -0.6264538  0.1836433 -0.8356286  1.5952808  0.3295078 -0.8204684  0.4874291
+#  [8]  0.7383247  0.5757814 -0.3053884</code></pre>
 <div id="distribution-draws" class="section level3">
 <h3><span class="header-section-number">4.3.1</span> Distribution draws</h3>
-<p>To draw <code>n</code> random numbers from the unit interval, use <code>runif(n)</code>. All random-draw functions follow this naming convention – <code>rnorm</code>, <code>rpoisson</code>, <code>rbinom</code> – for a full list of the built-in ones, type <code>?distributions</code>. Many more are offered in packages that can be found by searching online.</p>
+<p>To draw <code>n</code> random numbers from the uniform distribution on the unit interval, use <code>runif(n)</code>. All random-draw functions follow this naming convention – <code>rnorm</code>, <code>rpoisson</code>, <code>rbinom</code> – for a full list of the built-in ones, type <code>?distributions</code>. Many more are offered in packages that can be found by searching online.</p>
 <p>To get a quick look at the density being drawn from, use <code>curve</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># glance at chi-squared with 10 degrees of freedom</span>
 df =<span class="st"> </span><span class="dv">10</span>
 <span class="kw">curve</span>(<span class="kw">dchisq</span>(x, df), <span class="dt">xlim =</span> <span class="kw">qchisq</span>(<span class="kw">c</span>(.<span class="dv">01</span>, .<span class="dv">99</span>), df))</code></pre></div>
 <p><img src="tutorial_files/figure-html/dist-glance-1.png" width="672" /></p>
-<p><code>d*</code> is the density and <code>q*</code> is the quantile function. We’re using the latter to find good x-axis bounds for the graph.</p>
+<p><code>d*</code> is the density and <code>q*</code> is the quantile function. We’re using the latter to find good x-axis bounds for the graph. The final function is <code>p*</code>, for the cumulative density function.</p>
 </div>
 <div id="urn-draws" class="section level3">
 <h3><span class="header-section-number">4.3.2</span> Urn draws</h3>

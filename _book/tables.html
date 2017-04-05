@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-03-29" />
+<meta name="date" content="2017-04-05" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -1674,13 +1674,31 @@ carsDT[, drat %&gt;%<span class="st"> </span><span class="kw">cut</span>(<span c
 </div>
 <div id="plotting" class="section level4">
 <h4><span class="header-section-number">3.7.4.3</span> Plotting</h4>
-<p>We can plot a binned version of the variable; or instead a histogram; or a kernel approximation to the density; or a box plot:</p>
+<p>We can plot a binned version of the variable; or instead a stem-and-leaf plot; or histogram; or a kernel approximation to the density; or a box plot:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">carsDT[, drat %&gt;%<span class="st"> </span><span class="kw">cut</span>(<span class="dv">4</span>) %&gt;%<span class="st"> </span>table %&gt;%<span class="st"> </span>plot ]</code></pre></div>
 <p><img src="tutorial_files/figure-html/cut-table-plot-1.png" width="672" /></p>
 <pre><code># [1] 1 2 3 4</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or</span>
 carsDT[, drat %&gt;%<span class="st"> </span><span class="kw">hist</span>(<span class="dv">4</span>) %&gt;%<span class="st"> </span>{<span class="ot">NULL</span>} ]</code></pre></div>
 <p><img src="tutorial_files/figure-html/cut-table-plot-2.png" width="672" /></p>
+<pre><code># NULL</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or</span>
+carsDT[, drat %&gt;%<span class="st"> </span>stem ]</code></pre></div>
+<pre><code># 
+#   The decimal point is 1 digit(s) to the left of the |
+# 
+#   26 | 66
+#   28 | 3
+#   30 | 07778855
+#   32 | 13
+#   34 | 4
+#   36 | 29037
+#   38 | 500222
+#   40 | 881
+#   42 | 22
+#   44 | 3
+#   46 | 
+#   48 | 3</code></pre>
 <pre><code># NULL</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or</span>
 carsDT[, drat %&gt;%<span class="st"> </span>density %&gt;%<span class="st"> </span>plot ]</code></pre></div>
@@ -2066,24 +2084,30 @@ exDT[, <span class="kw">lapply</span>(.SD, max), .SDcols =<span class="st"> </sp
 # 1:  350   30.4</code></pre></li>
 <li><p><code>by</code></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># basic</span>
-exDT[, .N, by=<span class="st">&quot;Plant&quot;</span>]</code></pre></div>
-<pre><code>#    Plant N
-# 1:   Qn1 2
-# 2:   Mn3 1
-# 3:   Mc1 1</code></pre>
+exDT[, .N, by=<span class="kw">c</span>(<span class="st">&quot;Plant&quot;</span>, <span class="st">&quot;Type&quot;</span>)]</code></pre></div>
+<pre><code>#    Plant        Type N
+# 1:   Qn1      Quebec 2
+# 2:   Mn3 Mississippi 1
+# 3:   Mc1 Mississippi 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># single string</span>
+exDT[, .N, by=<span class="st">&quot;Plant,Type&quot;</span>]</code></pre></div>
+<pre><code>#    Plant        Type N
+# 1:   Qn1      Quebec 2
+# 2:   Mn3 Mississippi 1
+# 3:   Mc1 Mississippi 1</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># no quotes</span>
-exDT[, .N, by=.(Plant)]</code></pre></div>
-<pre><code>#    Plant N
-# 1:   Qn1 2
-# 2:   Mn3 1
-# 3:   Mc1 1</code></pre>
+exDT[, .N, by=.(Plant, Type)]</code></pre></div>
+<pre><code>#    Plant        Type N
+# 1:   Qn1      Quebec 2
+# 2:   Mn3 Mississippi 1
+# 3:   Mc1 Mississippi 1</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># defined and labeled on-the-fly</span>
-exDT[, .N, by=.(Plant, <span class="dt">v =</span> conc +<span class="st"> </span>uptake)]</code></pre></div>
-<pre><code>#    Plant     v N
-# 1:   Qn1 111.0 1
-# 2:   Qn1 205.4 1
-# 3:   Mn3 377.9 1
-# 4:   Mc1 189.9 1</code></pre></li>
+exDT[, .N, by=.(Plant, Type, <span class="dt">v =</span> conc +<span class="st"> </span>uptake)]</code></pre></div>
+<pre><code>#    Plant        Type     v N
+# 1:   Qn1      Quebec 111.0 1
+# 2:   Qn1      Quebec 205.4 1
+# 3:   Mn3 Mississippi 377.9 1
+# 4:   Mc1 Mississippi 189.9 1</code></pre></li>
 </ul>
 <p>Column numbers also work in <code>.SDcols</code> and <code>j</code>, but don’t do that.</p>
 </div>
