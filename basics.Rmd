@@ -512,7 +512,7 @@ The self-explanatory symbols `!`, `&` and `|` are used to construct compound log
 - And so on.
 
 ```{block2 logical-nums, type='rmd-caution'}
-**Logic with numeric values.** Numbers are treated as `FALSE` when zero and `TRUE` otherwise. This allows us to use `length(x)` as a test instead of `length(x) > 0`.
+**Logic with numeric values.** Numbers are treated as `FALSE` when zero and `TRUE` otherwise. This allows us to use `length(x)` as a test instead of `length(x) > 0`. Some functions refuse to treat numeric as logical, but this is usually noted in their docs (for example, `?which`).
 ```
 
 A couple additional symbols, `||` and `&&`, do short circuiting and will be explained in \@ref(vectorization).
