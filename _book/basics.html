@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-04-05" />
+<meta name="date" content="2017-04-06" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -729,7 +729,7 @@ m =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</s
 </ul>
 
 <div class="rmd-caution">
-<strong>Logic with numeric values.</strong> Numbers are treated as <code>FALSE</code> when zero and <code>TRUE</code> otherwise. This allows us to use <code>length(x)</code> as a test instead of <code>length(x) &gt; 0</code>.
+<strong>Logic with numeric values.</strong> Numbers are treated as <code>FALSE</code> when zero and <code>TRUE</code> otherwise. This allows us to use <code>length(x)</code> as a test instead of <code>length(x) &gt; 0</code>. Some functions refuse to treat numeric as logical, but this is usually noted in their docs (for example, <code>?which</code>).
 </div>
 <p></p>
 <p>A couple additional symbols, <code>||</code> and <code>&amp;&amp;</code>, do short circuiting and will be explained in <a href="basics.html#vectorization">2.3.4</a>.</p>
@@ -973,7 +973,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nrow</code></pre></div>
 <pre><code># function (x) 
 # dim(x)[1L]
-# &lt;bytecode: 0x00000000145e88f0&gt;
+# &lt;bytecode: 0x000000000692cac8&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">replace</code></pre></div>
 <pre><code># function (x, list, values) 
@@ -981,7 +981,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 #     x[list] &lt;- values
 #     x
 # }
-# &lt;bytecode: 0x00000000163b2d30&gt;
+# &lt;bytecode: 0x000000000831c0d8&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <p>The last two rows of these functions show (i) that they are compiled and (ii) the environment they were defined in.</p>
 <p>Many functions are not “exported” for direct use. Nonetheless, their code may be found using <code>getAnywhere</code> or accessed directly using <code>:::</code> syntax:</p>
