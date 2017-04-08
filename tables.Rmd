@@ -1283,7 +1283,7 @@ carsDT[ , .SD[carb == max(carb)], by=.(am, vs) ]
 ```
 
 ```{block2, type='rmd-details'}
-**Efficient selection of rows within each group.**  The second task here is [somewhat inefficient](https://github.com/Rdatatable/data.table/issues/735) currently, with a faster workaround [provided by eddi](http://stackoverflow.com/a/16574176): `carsDT[carsDT[ , .I[carb == max(carb)], by=.(am, vs) ]$V1]`. And [Arun provided a further improvement](http://stackoverflow.com/a/31854111): `carsDT[carsDT[, max(carb), by=.(am, vs)], on=.(am, vs, carb = V1)]`. 
+**Efficient selection of rows within each group.**  The second task here is [somewhat inefficient](https://github.com/Rdatatable/data.table/issues/735) currently, with a faster workaround [provided by eddi](http://stackoverflow.com/a/16574176): `carsDT[carsDT[ , .I[carb == max(carb)], by=.(am, vs) ]$V1]`. And [Arun provided a further improvement](http://stackoverflow.com/a/31854111): `carsDT[carsDT[, max(carb), by=.(am, vs)], on=.(am, vs, carb = V1)]`. For a broader look at optimizing data.table calls, see `?datatable.optimize`.
 ```
 
 #### Finding where a condition holds
@@ -1768,7 +1768,6 @@ The `setdiff` operator subtracts its second argument from the first, treating bo
 ```{r todo-dtq, eval=FALSE, echo=FALSE}
 note .() issue per 
 http://stackoverflow.com/questions/41228076/using-data-tables-shortcut-in-quoted-expressions
-
 ```
 
 #### Data.table options
