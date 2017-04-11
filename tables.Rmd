@@ -1755,6 +1755,8 @@ Uglier but quicker (in terms of programming time) is to use `get`:
 exDT[, sum(get(my_sumcol)), by=my_bycol]
 ```
 
+When writing a function, avoid inline calls `DT[, eval(substitute(yada yada))]` and `get`, since [that's just inviting trouble](http://stackoverflow.com/q/43343269/).
+
 Along with `get` for a single column, there's `mget` for a list of them. This can be useful for update joins. Revisiting \@ref(relational-updatejoin), we can do...
 
 ```{r mget-updatejoin}
