@@ -487,7 +487,7 @@ There are convenience functions for modifying object attributes, with syntax lik
 - vector length, `` ?`length<-` ``
 - matrix or array dimensions, `` ?`dim<-` `` 
 - matrix or array names, `` ?`dimnames<-` `` 
-` matrix parts, `` ?`diag<-` ``, `` ?`upper.tri<-` ``, `` ?`lower.tri<-` ``
+- matrix parts, `` ?`diag<-` ``, `` ?`upper.tri<-` ``, `` ?`lower.tri<-` ``
 
 These are rarely needed and can be confusing for obvious reasons. Section \@ref(dt-subassign) will discuss a different approach.
 
