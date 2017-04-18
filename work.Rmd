@@ -101,7 +101,7 @@ In base, `combn(x, n, f)` finds all `x`'s subvectors of length `n` and optionall
 
 All of these options can get out of hand, in terms of memory consumption, but that's normal for combinatorial operations.
 
-```{r todo-combos-ex, eval=FALSE, results=FALSE}
+```{r todo-combos-ex, eval=FALSE, echo=FALSE}
 define triples(x) which returns all subsets of size x, in a data.table with one triple per row
 ```
 
