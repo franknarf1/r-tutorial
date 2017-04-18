@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-04-06" />
+<meta name="date" content="2017-04-17" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -704,7 +704,8 @@ m =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</s
 <li>vector class, <code>?`class&lt;-`</code></li>
 <li>vector length, <code>?`length&lt;-`</code></li>
 <li>matrix or array dimensions, <code>?`dim&lt;-`</code></li>
-<li>matrix or array names, <code>?`dimnames&lt;-`</code> <code>matrix parts, `` ?</code>diag&lt;-<code>``, `` ?</code>upper.tri&lt;-<code>``, `` ?</code>lower.tri&lt;-` ``</li>
+<li>matrix or array names, <code>?`dimnames&lt;-`</code></li>
+<li>matrix parts, <code>?`diag&lt;-`</code>, <code>?`upper.tri&lt;-`</code>, <code>?`lower.tri&lt;-`</code></li>
 </ul>
 <p>These are rarely needed and can be confusing for obvious reasons. Section <a href="tables.html#dt-subassign">3.4</a> will discuss a different approach.</p>
 </div>
@@ -973,7 +974,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nrow</code></pre></div>
 <pre><code># function (x) 
 # dim(x)[1L]
-# &lt;bytecode: 0x000000000692cac8&gt;
+# &lt;bytecode: 0x00000000140be740&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">replace</code></pre></div>
 <pre><code># function (x, list, values) 
@@ -981,7 +982,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 #     x[list] &lt;- values
 #     x
 # }
-# &lt;bytecode: 0x000000000831c0d8&gt;
+# &lt;bytecode: 0x00000000163b88f0&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <p>The last two rows of these functions show (i) that they are compiled and (ii) the environment they were defined in.</p>
 <p>Many functions are not “exported” for direct use. Nonetheless, their code may be found using <code>getAnywhere</code> or accessed directly using <code>:::</code> syntax:</p>

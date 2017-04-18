@@ -1,0 +1,30 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# Explicit paths specified without -i or -o; assuming --only paths...
+# On branch gh-pages
+# Your branch is up-to-date with 'origin/gh-pages'.
+#
+# Changes to be committed:
+#	modified:   _book/basics.html
+#	modified:   _book/index.html
+#	modified:   _book/tables.html
+#	modified:   _book/tutorial_files/figure-html/cut-table-plot-1.png
+#	modified:   _book/tutorial_files/figure-html/cut-table-plot-2.png
+#	modified:   _book/tutorial_files/figure-html/cut-table-plot-3.png
+#	modified:   _book/tutorial_files/figure-html/cut-table-plot-4.png
+#	modified:   _book/tutorial_files/figure-html/dist-glance-1.png
+#	modified:   _book/tutorial_files/figure-html/hexbin-1.png
+#	modified:   _book/tutorial_files/figure-html/hexbin-2.png
+#	modified:   _book/tutorial_files/figure-html/vcv-1.png
+#	modified:   _book/work.html
+#	modified:   _bookdown_files/tutorial_files/figure-html/cut-table-plot-1.png
+#	modified:   _bookdown_files/tutorial_files/figure-html/cut-table-plot-2.png
+#	modified:   _bookdown_files/tutorial_files/figure-html/cut-table-plot-3.png
+#	modified:   _bookdown_files/tutorial_files/figure-html/cut-table-plot-4.png
+#	modified:   _bookdown_files/tutorial_files/figure-html/dist-glance-1.png
+#	modified:   _bookdown_files/tutorial_files/figure-html/hexbin-1.png
+#	modified:   _bookdown_files/tutorial_files/figure-html/hexbin-2.png
+#	modified:   _bookdown_files/tutorial_files/figure-html/vcv-1.png
+#
+# FFFFFFF grr
