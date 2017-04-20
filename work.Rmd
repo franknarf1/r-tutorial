@@ -40,7 +40,7 @@ As mentioned in \@ref(classes), R does not actually support an unordered set dat
 
 Corresponding functions exist for data.tables, prefixed like `f*`: `funion`, `fintersect`, `fsetdiff` and `fsetequal`. Two tables can be combined in this way only if their columns line up (in terms of class, etc.).
 
-Looking at the source code for these functions, we'll see a lot of the `match` function.
+Looking at the source code for these functions, we'll see a lot of them use the `match` function.
 
 ### Operators on lists of sets
 
