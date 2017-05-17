@@ -8,7 +8,7 @@ For now, it's not part of the book (determined by bookdown.yml).
 
 don't use `shell` (only available on Windows); instead use `system`
 
-some features must vary by OS
+some features must vary by OS, `is_win = Sys.info()['sysname'] == "Windows"`
 
 - on linux, capitalization matters; while on win, there are extra extensions, so rscript.exe vs Rscript
 
