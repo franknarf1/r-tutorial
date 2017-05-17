@@ -4,7 +4,17 @@ This chapter is a WIP, a dumping location for things I am not putting a priority
 
 For now, it's not part of the book (determined by bookdown.yml).
 
+## Platform independence
 
+don't use `shell` (only available on Windows); instead use `system`
+
+some features must vary by OS
+
+- on linux, capitalization matters; while on win, there are extra extensions, so rscript.exe vs Rscript
+
+- some R functions hand work off to the OS, like `sprintf`. this is dangerous but hard to avoid. for example, this broke my ITime columns on linux
+
+i haven't yet managed an "open file" command in linux. in win, it's "cmd.exe file" ... probably in linux, it's just "file", but i haven't tested yet... i don't really know where it grabs file associations from, nor even what in-console text editors it has...
 
 ## Program structure and style
 
