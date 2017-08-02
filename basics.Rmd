@@ -32,7 +32,7 @@ R doesn't do error codes, only error messages and warnings. If confused by a mes
 
 ### Classes {#classes}
 
-Every vanilla vector has a class. That is, every element of the vector contains the same type of data:
+Every vanilla vector has a single class. That is, every element of the vector contains the same type of data:
 
 ```{r coercion}
 c(4, c("A", "B"))
