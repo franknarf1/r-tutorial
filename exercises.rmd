@@ -1,0 +1,467 @@
+This is just a drop-off for SO.Docs materials that will be shunted to JSON shortly. 
+
+* Header = "topic"
+* H2 = "example", contents indented
+
+It probably won't compile as a proper rmd.
+
+See https://github.com/franknarf1/r-tutorial/issues/12
+
+Some of them can be added as "exercises" maybe
+
+# Cleaning data
+
+## Handling duplicates
+
+      # example data
+      DT = data.table(id = c(1,2,2,3,3,3))[, v := LETTERS[.I]][]
+
+  To deal with "duplicates," combine [counting rows in a group][2] and [subsetting rows by group][1]. 
+
+  # Keep one row per group
+
+  Aka "drop duplicates" aka "deduplicate" aka "uniquify."
+
+      unique(DT, by="id")
+      # or
+      DT[, .SD[1L], by=id]
+      #    id v
+      # 1:  1 A
+      # 2:  2 B
+      # 3:  3 D
+
+  This keeps the first row. To select a different row, one can fiddle with the `1L` part or use `order` in `i`.
+
+  # Keep only unique rows
+
+      DT[, if (.N == 1L) .SD, by=id]
+      #    id v
+      # 1:  1 A
+
+  # Keep only nonunique rows
+
+      DT[, if (.N > 1L) .SD, by=id]
+      #    id v
+      # 1:  2 B
+      # 2:  2 C
+      # 3:  3 D
+      # 4:  3 E
+      # 5:  3 F
+
+    [1]: http://stackoverflow.com/documentation/data.table/3784/subsetting-rows-by-group#t=201608031529506961952
+    [2]: http://stackoverflow.com/documentation/data.table/3785/computing-summary-statistics/13079/counting-rows-by-group#t=201608031502148326098
+
+# Creating a data.table 
+
+## Modify a data.frame with setDT()
+
+  For efficiency, data.table offers a way of altering a data.frame or list to make a data.table in-place:
+
+      # example data.frame
+      DF = data.frame(x = letters[1:5], y = 1:5, z = (1:5) > 3)
+
+      # modification
+      setDT(DF)
+
+  Note that we do not `<-` assign the result, since the object `DF` has been modified in-place. 
+
+  The class attributes of the data.frame will be retained:
+
+      sapply(DF, class)
+      #         x         y         z 
+      #  "factor" "integer" "logical" 
+      
+## Build with data.table()
+
+    There is a constructor of the same name:
+
+        DT <- data.table(
+          x = letters[1:5], 
+          y = 1:5, 
+          z = (1:5) > 3
+        )
+        #    x y     z
+        # 1: a 1 FALSE
+        # 2: b 2 FALSE
+        # 3: c 3 FALSE
+        # 4: d 4  TRUE
+        # 5: e 5  TRUE
+
+    Unlike `data.frame`, `data.table` will not coerce strings to factors by default:
+
+        sapply(DT, class)
+        #               x           y           z 
+        #     "character"   "integer"   "logical" 
+
+## Coerce a data.frame
+
+    To copy a data.frame as a data.table, use `as.data.table` or `data.table`:
+
+        DF = data.frame(x = letters[1:5], y = 1:5, z = (1:5) > 3)
+
+        DT <- as.data.table(DF)
+        # or
+        DT <- data.table(DF)
+
+    This is rarely necessary. One exception is when using built-in datasets like `mtcars`, which must be copied since they cannot be modified in-place.
+
+## Read in with fread()
+
+    We can read from a text file:
+
+        dt <- fread("my_file.csv")
+
+    Unlike `read.csv`, `fread` will read strings as strings, not as factors by default.
+
+    See the [topic on `fread`][need_a_link] for more examples.
+
+# Intro
+
+[Data.table][1] is a package for the R statistical computing environment. It extends the functionality of data frames from base R, particularly improving on their performance and syntax. A number of related tasks, including rolling and non-equi joins, are handled in a consistent concise syntax like `DT[where, select|update|do, by]`.
+
+A number of complementary functions are also included in the package:
+
+- I/O: `fread`/`fwrite`
+- Reshaping: `melt`/`dcast`/`rbindlist`/`split`
+- Runs of values: `rleid`
+
+## Syntax and features
+
+    # Basic syntax
+
+    `DT[where, select|update|do, by]` syntax is used to work with columns of a data.table.
+     - The "where" part is the `i` argument
+     - The "select|update|do" part is the `j` argument
+
+    These two arguments are usually passed by position instead of by name.
+
+    A sequence of steps can be chained like `DT[...][...]`.
+
+    # Shortcuts, special functions and special symbols inside `DT[...]`
+    | Function or symbol | Notes |
+    | ------  | ------ |
+    | `.()`   | in several arguments, replaces `list()`
+    | `J()`   | in `i`, replaces `list()`
+    | `:=`    | in `j`, a function used to add or modify columns
+    | `.N`    | in `i`, the total number of rows <br> in `j`, the number of rows in a group
+    | `.I`    | in `j`, the vector of row numbers in the table (filtered by `i`)
+    | `.SD`   | in `j`, the current subset of the data <br> selected by the `.SDcols` argument
+    | `.GRP`  | in `j`, the current index of the subset of the data
+    | `.BY`   | in `j`, the list of by values for the current subset of data
+    | `V1, V2, ...`  | default names for unnamed columns created in `j`
+
+    # Joins inside `DT[...]` 
+
+    | Notation | Notes |
+    | ------  | ------ |
+    | `DT1[DT2, on, j]`  | join two tables
+    | `i.*`  | special prefix on DT2's columns after the join
+    | `by=.EACHI`  | special option available only with a join
+    | `DT1[!DT2, on, j]`  | anti-join two tables
+    | `DT1[DT2, on, roll, j]`  | join two tables, rolling on the last column in `on=`
+
+    # Reshaping, stacking and splitting
+
+    | Notation | Notes |
+    | ------  | ------ |
+    | `melt(DT, id.vars, measure.vars)`  | transform to long format  <br> for multiple columns, use `measure.vars = patterns(...)`
+    | `dcast(DT, formula)`  | transform to wide format
+    | `rbind(DT1, DT2, ...)`  | stack enumerated data.tables
+    | `rbindlist(DT_list, idcol)`  | stack a list of data.tables 
+    | `split(DT, by)`  | split a data.table into a list 
+
+    # Some other functions specialized for data.tables
+
+    | Function(s) | Notes |
+    | ------  | ------ |
+    | `foverlaps` | overlap joins
+    | `merge` | another way of joining two tables
+    | `set` | another way of adding or modifying columns
+    | `fintersect`, `fsetdiff`, <br> `funion`, `fsetequal`, <br> `unique`, `duplicated`, `anyDuplicated` | set-theory operations with rows as elements  
+    | `CJ`| the Cartesian product of vectors
+    | `uniqueN`  | the number of distinct rows
+    | `rowidv(DT, cols)`  | row ID (1 to .N) within each group determined by cols
+    | `rleidv(DT, cols)`  | group ID (1 to .GRP) within each group determined by runs of cols
+    | `shift(DT, n)` | apply a shift operator to every column
+    | `setorder`, `setcolorder`, <br> `setnames`, `setkey`, `setindex`, <br> `setattr` | modify attributes and order by reference
+
+    # Other features of the package
+
+    | Features | Notes |
+    | ------  | ------ |
+    | `IDate` and `ITime` | integer dates and times
+  [1]: http://r-datatable.com
+
+# Reshaping, stacking and splitting
+
+The official vignette, ["Efficient reshaping using data.tables"][1], is the best introduction to this topic.
+
+Many reshaping tasks require moving between long and wide formats:
+ - Wide data is data with each column representing a seperate variable, and rows representing seperate observations
+ - Long data is data with the form ID | variable | value, where each row representing a observation-variable pair
+
+
+  [1]: https://rawgit.com/wiki/Rdatatable/data.table/vignettes/datatable-reshape.html
+
+## Stacking multiple tables using rbindlist
+
+    A common refrain in R goes along these lines:
+
+    > You should not have a bunch of related tables with names like `DT1`, `DT2`, ..., `DT11`. Iteratively reading and assigning to objects by name is messy. The solution is a list of tables of data!
+
+    Such a list looks like
+
+        set.seed(1)
+        DT_list = lapply(setNames(1:3, paste0("D", 1:3)), function(i)
+          data.table(id = 1:2, v = sample(letters, 2)))
+
+        $D1
+           id v
+        1:  1 g
+        2:  2 j
+
+        $D2
+           id v
+        1:  1 o
+        2:  2 w
+
+        $D3
+           id v
+        1:  1 f
+        2:  2 w
+
+    Another perspective is that you should store these tables together *as one table*, by stacking them. This is straightforward to do using `rbindlist`:
+
+        DT = rbindlist(DT_list, id="src")
+
+           src id v
+        1:  D1  1 g
+        2:  D1  2 j
+        3:  D2  1 o
+        4:  D2  2 w
+        5:  D3  1 f
+        6:  D3  2 w
+
+    This format makes a lot more sense with data.table syntax, where "by group" operations are common and straightforward. 
+
+    For a deeper look, [Gregor's answer][1] might be a good place to start. Also check out `?rbindlist`, of course. There's a separate example covering [reading in a bunch of tables from CSV and then stacking them][2].
+
+
+      [1]: http://stackoverflow.com/a/24376207/
+      [2]: http://stackoverflow.com/documentation/data.table/4456/using-list-columns-to-store-data/15561/reading-in-many-related-files#t=201607281413477829271
+
+# Subsetting rows by group
+
+A reminder: `DT[where, select|update|do, by]` syntax is used to work with columns of a data.table.
+ - The "where" part is the `i` argument
+ - The "select|update|do" part is the `j` argument
+ 
+ These two arguments are usually passed by position instead of by name.
+
+## nothing -- got this already
+
+# Computing summary statistics
+
+## Applying a summarizing function to multiple variables
+
+        # example data
+        DT = data.table(iris)
+        DT[, Bin := cut(Sepal.Length, c(4,6,8))]
+
+    To apply the same summarizing function to every column by group, we can use `lapply` and `.SD`
+
+        DT[, lapply(.SD, median), by=.(Species, Bin)]
+
+        #       Species   Bin Sepal.Length Sepal.Width Petal.Length Petal.Width
+        # 1:     setosa (4,6]          5.0         3.4         1.50         0.2
+        # 2: versicolor (6,8]          6.4         2.9         4.60         1.4
+        # 3: versicolor (4,6]          5.6         2.7         4.05         1.3
+        # 4:  virginica (6,8]          6.7         3.0         5.60         2.1
+        # 5:  virginica (4,6]          5.8         2.7         5.00         1.9
+
+    We can filter the columns in `.SD` with the `.SDcols` argument:
+
+        DT[, lapply(.SD, median), by=.(Species, Bin), .SDcols="Petal.Length"]
+
+        #       Species   Bin Petal.Length
+        # 1:     setosa (4,6]         1.50
+        # 2: versicolor (6,8]         4.60
+        # 3: versicolor (4,6]         4.05
+        # 4:  virginica (6,8]         5.60
+        # 5:  virginica (4,6]         5.00
+
+    # Multiple summarizing functions
+
+    Currently, the simplest extension to multiple functions is perhaps:
+
+        DT[, unlist(recursive=FALSE, lapply(
+            .(med = median, iqr = IQR),
+            function(f) lapply(.SD, f)
+        )), by=.(Species, Bin), .SDcols=Petal.Length:Petal.Width]
+
+        #       Species   Bin med.Petal.Length med.Petal.Width iqr.Petal.Length iqr.Petal.Width
+        # 1:     setosa (4,6]             1.50             0.2            0.175           0.100
+        # 2: versicolor (6,8]             4.60             1.4            0.300           0.200
+        # 3: versicolor (4,6]             4.05             1.3            0.525           0.275
+        # 4:  virginica (6,8]             5.60             2.1            0.700           0.500
+        # 5:  virginica (4,6]             5.00             1.9            0.200           0.200
+
+    If you want the names to be like `Petal.Length.med` instead of `med.Petal.Length`, change the order:
+
+        DT[, unlist(recursive=FALSE, lapply(
+            .SD,
+            function(x) lapply(.(med = median, iqr = IQR), function(f) f(x))
+        )), by=.(Species, Bin), .SDcols=Petal.Length:Petal.Width]
+
+        #       Species   Bin Petal.Length.med Petal.Length.iqr Petal.Width.med Petal.Width.iqr
+        # 1:     setosa (4,6]             1.50            0.175             0.2           0.100
+        # 2: versicolor (6,8]             4.60            0.300             1.4           0.200
+        # 3: versicolor (4,6]             4.05            0.525             1.3           0.275
+        # 4:  virginica (6,8]             5.60            0.700             2.1           0.500
+        # 5:  virginica (4,6]             5.00            0.200             1.9           0.200
+
+## Counting rows by group
+
+        # example data
+        DT = data.table(iris)
+        DT[, Bin := cut(Sepal.Length, c(4,6,8))]
+
+    # Using `.N`
+
+    `.N` in `j` stores the number of rows in a subset.  When exploring data, `.N` is handy to... 
+
+    1. count rows in a group,
+
+           DT[Species == "setosa", .N]
+
+           # 50
+
+    1. or count rows in all groups,
+
+           DT[, .N, by=.(Species, Bin)]
+
+           #       Species   Bin  N
+           # 1:     setosa (4,6] 50
+           # 2: versicolor (6,8] 20
+           # 3: versicolor (4,6] 30
+           # 4:  virginica (6,8] 41
+           # 5:  virginica (4,6]  9
+
+    1. or find groups that have a certain number of rows.
+
+           DT[, .N, by=.(Species, Bin)][ N < 25 ]
+
+           #       Species   Bin  N
+           # 1: versicolor (6,8] 20
+           # 2:  virginica (4,6]  9
+
+    # Handling missing groups
+
+    However, we are missing groups with a count of zero above. If they matter, we can use `table` from base:
+
+        DT[, data.table(table(Species, Bin))][ N < 25 ]
+
+        #       Species   Bin  N
+        # 1:  virginica (4,6]  9
+        # 2:     setosa (6,8]  0
+        # 3: versicolor (6,8] 20
+
+    Alternately, we can join on all groups:
+
+        DT[CJ(Species=Species, Bin=Bin, unique=TRUE), on=c("Species","Bin"), .N, by=.EACHI][N < 25]
+
+        #       Species   Bin  N
+        # 1:     setosa (6,8]  0
+        # 2: versicolor (6,8] 20
+        # 3:  virginica (4,6]  9
+
+    A note on `.N`:
+     - This example uses `.N` in `j`, where it refers to size of a subset. 
+     - In `i`, it refers to the total number of rows.
+
+## Custom summaries
+
+        # example data
+        DT = data.table(iris)
+        DT[, Bin := cut(Sepal.Length, c(4,6,8))]
+
+    Suppose we want the `summary` function output for `Sepal.Length` along with the number of observations:
+
+        DT[, c(
+            as.list(summary(Sepal.Length)),
+            N = .N
+        ), by=.(Species, Bin)]
+
+        #       Species   Bin Min. 1st Qu. Median  Mean 3rd Qu. Max.  N
+        # 1:     setosa (4,6]  4.3     4.8    5.0 5.006     5.2  5.8 50
+        # 2: versicolor (6,8]  6.1     6.2    6.4 6.450     6.7  7.0 20
+        # 3: versicolor (4,6]  4.9     5.5    5.6 5.593     5.8  6.0 30
+        # 4:  virginica (6,8]  6.1     6.4    6.7 6.778     7.2  7.9 41
+        # 5:  virginica (4,6]  4.9     5.7    5.8 5.722     5.9  6.0  9
+
+    We have to make `j` a list of columns. Usually, some playing around with `c`, `as.list` and `.` is enough to figure out the correct way to proceed.
+
+    # Assigning summary statistics as new columns
+
+    Instead of making a summary table, we may want to store a summary statistic in a new column. We can use `:=` as usual. For example,
+
+        DT[, is_big := .N >= 25, by=.(Species, Bin)]
+
+    # Pitfalls 
+
+    ## Untidy data
+
+    If you find yourself wanting to parse column names, like
+
+    > Take the mean of `x.Length/x.Width` where `x` takes ten different values.
+
+    then you are probably looking at data embedded in column names, which is a bad idea. Read about [tidy data][1] and then reshape to long format.
+
+    ## Rowwise summaries
+
+    Data frames and data.tables are well-designed for tabular data, where rows correspond to observations and columns to variables. If you find yourself wanting to summarize over rows, like 
+
+    > Find the standard deviation across columns for each row. 
+
+    then you should probably be using a matrix or some other data format entirely.
+
+      [1]: https://www.jstatsoft.org/article/view/v059i10/
+
+## The summary function
+
+        # example data
+        DT = data.table(iris)
+        DT[, Bin := cut(Sepal.Length, c(4,6,8))]
+
+    `summary` is handy for browsing summary statistics. Besides direct usage like `summary(DT)`, it can also be applied per-group conveniently with `split`:
+
+        lapply(split(DT, by=c("Species", "Bin"), drop=TRUE, keep.by=FALSE), summary)
+
+        # $`setosa.(4,6]`
+        #   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+        #  Min.   :4.300   Min.   :2.300   Min.   :1.000   Min.   :0.100  
+        #  1st Qu.:4.800   1st Qu.:3.200   1st Qu.:1.400   1st Qu.:0.200  
+        #  Median :5.000   Median :3.400   Median :1.500   Median :0.200  
+        #  Mean   :5.006   Mean   :3.428   Mean   :1.462   Mean   :0.246  
+        #  3rd Qu.:5.200   3rd Qu.:3.675   3rd Qu.:1.575   3rd Qu.:0.300  
+        #  Max.   :5.800   Max.   :4.400   Max.   :1.900   Max.   :0.600  
+        # 
+        # $`versicolor.(6,8]`
+        #   Sepal.Length   Sepal.Width    Petal.Length    Petal.Width  
+        #  Min.   :6.10   Min.   :2.20   Min.   :4.000   Min.   :1.20  
+        #  1st Qu.:6.20   1st Qu.:2.80   1st Qu.:4.400   1st Qu.:1.30  
+        #  Median :6.40   Median :2.90   Median :4.600   Median :1.40  
+        #  Mean   :6.45   Mean   :2.89   Mean   :4.585   Mean   :1.42  
+        #  3rd Qu.:6.70   3rd Qu.:3.10   3rd Qu.:4.700   3rd Qu.:1.50  
+        #  Max.   :7.00   Max.   :3.30   Max.   :5.000   Max.   :1.70  
+        # 
+        # [...results truncated...]
+
+    To include zero-count groups, set `drop=FALSE` in `split`.
+
+
+
+
+
+
+
