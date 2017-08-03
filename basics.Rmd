@@ -20,13 +20,13 @@ The bracketed `[1]` indicates that we are seeing the first element of a vector. 
 
 Assign with `=` or `<-`. Or even like `c(2,3) -> z`, though this is rare and hard to read in my opinion. If an existing vector is overwritten, no warning is given.
 
-### Documentation
+### Documentation {#docs}
 
 Everything is documented in convenient wikified html pages, accessible with `?` or `help`. For example, `?TRUE`, `?LETTERS` or `?length`. Backticks are sometimes required, as for ``?`for` `` and ``?`?` ``. Keep a close eye on the Description and Value sections, which concisely explain what to expect from a function. 
 
 The Examples section always usefully illustrates functionality; it can be run in the console like `example("LETTERS")`. Additional illustrations are available using `demo`; type `demo()` for a listing.
 
-Try typing `help.start()`. This will show a page of links to documents including "An Introduction to R", "The R language definition" and the "R FAQ" (under "Resources"). These are essential reference documents on R, also [available in pdf online](https://cran.r-project.org/manuals.html).
+Try typing `help.start()`. This will open a page of links to manuals including "An Introduction to R", "The R language definition" and the "R FAQ" (under "Resources"). These are essential reference documents on R, also [available in pdf online](https://cran.r-project.org/manuals.html).
 
 R doesn't do error codes, only error messages and warnings. If confused by a message, a search online or a review of the relevant docs is usually sufficient.
 

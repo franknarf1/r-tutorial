@@ -73,7 +73,9 @@ Again, CRAN can be used:
 install.packages('data.table')
 ```
 
-However, the package is under active development, with new features available only in the development version. To install it, follow [the instructions from the package wiki](https://github.com/Rdatatable/data.table/wiki/Installation):
+#### Development version
+
+The CRAN version is usually all you need. However, the package is under active development, with new features available only in the development version. To install it, follow [the instructions from the package wiki](https://github.com/Rdatatable/data.table/wiki/Installation):
 
 ```{r inst-dt-dev, eval=FALSE}
 remove.packages("data.table")
@@ -81,7 +83,19 @@ install.packages("data.table", type = "source",
   repos = "http://Rdatatable.github.io/data.table")
 ```
 
-If using Windows, you'll need to first install [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (requiring administrator privileges), as explained in the last link.
+```{block2 grr-rtools, type='rmd-caution'}
+**Windows shenanigans.** If using Windows, you'll need to first install [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (requiring administrator privileges), as explained in the last wiki link. This is also required for many other packages. After installing Rtools, it may also be necessary to tell R where it is. Instructions are in section "6.3.1 Windows" of the "R Installation and Administration" manual (see \@ref(docs)).
+
+The manual covers it, but here's my synopsis. Navigate to R's Makeconf files: 
+      
+    $(R_HOME)/etc/$(R_ARCH)/Makeconf
+
+For `R_HOME`, paste the result of `R.home() %>% normalizePath %>% cat("\n")` into Windows Explorer. For `R_ARCH` select one of the folders seen there (usually `i386` and `64x`). Edit the Makeconf file, setting the BINPREF or BINPREF64 line to something like
+
+    BINPREF ?= c:/Rtools/mingw_64/bin/
+
+It will depend on where Rtools was installed. This might have to be done again whenever a new version of Rtools is installed.
+```
 
 #### Getting started
 
