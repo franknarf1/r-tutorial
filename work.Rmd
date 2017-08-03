@@ -585,6 +585,10 @@ Here are various string-related functions:
 
 - `strsplit` and `tstrsplit` can split strings based on a pattern.
 
+- `chartr` changes single characters.
+
+- `lower` and `upper` change cases.
+
 Most of these are vectorized (\@ref(vectorization)) whenever it makes sense. Examples for a couple of them can be found in \@ref(char-input).
 
 For searching, rewriting or splitting strings, some familiarity with regular expressions will often be helpful. See `?regex`. Because the syntax of the functions can also get cumbersome, it may be worth it to use a helper like [the stringi package](https://CRAN.R-project.org/package=stringi).
