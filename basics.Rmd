@@ -32,7 +32,7 @@ R doesn't do error codes, only error messages and warnings. If confused by a mes
 
 ### Classes {#classes}
 
-Every vanilla vector has a class. That is, every element of the vector contains the same type of data:
+Every vanilla vector has a single class. That is, every element of the vector contains the same type of data:
 
 ```{r coercion}
 c(4, c("A", "B"))
@@ -168,7 +168,7 @@ So, the index `i` can be...
 `i` can even contain repeated elements, like `x[c(1,1,2)]`, which is some more general "slice" of `x`, not really a subvector.
 
 ```{block2 recycling, type='rmd-caution'}
-**Recycling.** What would be the natural behavior of `x[TRUE]` in the example above? Well, in R, it acts like `x[c(TRUE, TRUE, TRUE, TRUE)]`, without giving any warning. This is called recycling -- the argument `i` is repeated until it is long enough for the context is used in. What about `x[c(TRUE, FALSE)]`? The full rules for recycling can be found in the [R intro doc](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#The-recycling-rule).
+**Recycling.** What would be the natural behavior of `x[TRUE]` in the example above? Well, in R, it acts like `x[c(TRUE, TRUE, TRUE, TRUE)]`, without giving any warning. This is called recycling -- the argument `i` is repeated until it is long enough for the context it is used in. What about `x[c(TRUE, FALSE)]`? The full rules for recycling can be found in the [R intro doc](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#The-recycling-rule).
 ```
 
 ```{block2 fancy-splicing, type='rmd-details'} 

@@ -4,6 +4,7 @@ This chapter is a WIP, a dumping location for things I am not putting a priority
 
 For now, it's not part of the book (determined by bookdown.yml).
 
+<<<<<<< HEAD
 ## Platform independence
 
 don't use `shell` (only available on Windows); instead use `system`
@@ -15,6 +16,42 @@ some features must vary by OS, `is_win = Sys.info()['sysname'] == "Windows"`
 - some R functions hand work off to the OS, like `sprintf`. this is dangerous but hard to avoid. for example, this broke my ITime columns on linux
 
 i haven't yet managed an "open file" command in linux. in win, it's "cmd.exe file" ... probably in linux, it's just "file", but i haven't tested yet... i don't really know where it grabs file associations from, nor even what in-console text editors it has...
+=======
+Some more, just dropping this here...
+
+**Other resources:** 
+
+* Emphasize that internal resources are best. Can recap:
+  * Task Views
+  * ?, ??
+  * Manuals
+  * vignettes
+  * point again to section on browsing function code
+  * etc
+* Repos: CRAN, Bioconductor, Github, skip old and new obscure ones (gitlab, omegahat, bitbucket)
+* Maybe datacamp's intro to r (try it first).  But nope to: O'Reilly codeschool, Jupyter. Caveat about links breaking, recommendation to search online for latest.
+* Can also cover how to ask on SO. 
+
+----
+
+**UI features.** 
+
+* Arrow keys, HOME/END for navigating console. 
+* Drag and drop into the console. 
+* Management of windows. Can cut down on some of the platform comparisons in the first chapter.
+
+----
+
+**Updating R.**
+
+I'd say just install it all again.
+
+---- 
+
+**Debugging, package development, testing.**
+
+I don't actually know how to do this competently.
+>>>>>>> origin/master
 
 ## Program structure and style
 
