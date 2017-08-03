@@ -324,7 +324,7 @@ There are three key functions here:
 
 Be careful not to use these functions on an unordered factor, where they will make no sense but run without warning.
 
-The `frank()` function from the data.table package is also useful, for its "dense" rank tie-breaking rule.
+The `frank()` function from the data.table package is also useful, for its "dense rank" tie-breaking rule.
 
 ### Exercises
 

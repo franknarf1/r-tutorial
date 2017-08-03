@@ -1791,7 +1791,7 @@ http://stackoverflow.com/questions/41228076/using-data-tables-shortcut-in-quoted
 The data.table package has many global options related to optimization and console output. To review them...
 
 ```{r dt-opts}
-options() %>% .[grep("datatable", names(.))]
+.Options %>% .[grep("datatable", names(.))]
 ```
 
 Options can be set like `options(name = value)`.
