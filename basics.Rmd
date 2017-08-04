@@ -579,7 +579,7 @@ Functions in R all map input to output. In the documentation for a function, the
 
 ### Community-made functions
 
-#### Exploring packages
+#### Exploring packages {#cran}
 
 R has a variety of packages specialized by task and area of research. The [Task Views](https://cran.r-project.org/web/views/) on the web are a good way to browse available packages on CRAN, the Comprehensive R Archive Network.
 
@@ -587,7 +587,7 @@ Besides adding additional functions, many packages add new classes, for example 
 
 #### Installing packages
 
-It is best to install packages from CRAN, rather than elsewhere. Packages submitted to CRAN (i) have to pass some vetting procedures defined by the developers of R and and (ii) are typically used much more broadly than those not on CRAN, improving exposure of bugs. 
+It is best to install packages from CRAN or another major repository, rather than personal sites. Packages submitted to CRAN (i) have to pass some vetting procedures defined by the developers of R and and (ii) are typically used broadly, improving exposure of bugs.
 
 To install a package from CRAN, use `install.packages`: 
 

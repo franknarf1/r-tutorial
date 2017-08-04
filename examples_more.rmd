@@ -1,3 +1,31 @@
+# and some not from SO
+
+## example data
+
+Nontabular data    
+  graphs - igraph 
+  spatial - http://stackoverflow.com/q/13316185/
+
+Data packages
+  see "data sets" section https://cran.r-project.org/web/views/Econometrics.html
+
+  APIs
+    (kind of surprised this doesn't have a task view)
+    BEA: package bea.R
+  
+  Just data
+    package noncensus
+    package Ecdat
+    package EconData (not on CRAN, https://github.com/floswald/EconData)
+
+  Mixed with code
+    panel data econometrics: package plm
+    Achim Zeileis' 'metrics book: package AER
+
+
+
+
+
 # capture output of system/system2 (credit Uwe)
 
 see their docs

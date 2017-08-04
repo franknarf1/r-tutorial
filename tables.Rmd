@@ -1399,7 +1399,7 @@ carsDT[, .N, by=.(drat_bin = cut(drat, 4))]
 carsDT[, drat %>% cut(4) %>% table ]
 ```
 
-#### Plotting
+#### Plotting {#plotting}
 
 We can plot a binned version of the variable; or instead a stem-and-leaf plot; or histogram; or a kernel approximation to the density; or a box plot:
 
