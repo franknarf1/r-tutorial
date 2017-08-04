@@ -331,7 +331,7 @@ for (fn in intersect("birthweight_graphs.pdf", list.files()))
   file.remove(fn)
 ```
 
-Plotting graphs is beyond the scope of this document, but the example above should make intuitive sense after reading the docs for each object, `?MASS::birthwt`, `?pdf`, et al. For each group, we're formatting a string with `sprintf`; printing it with `cat`; and saving a plot. The special symbol `.BY` is a list containing the per-group values of the `by=` variables. Formatting and printing strings will be covered more in \@ref(strings).
+The example above should make intuitive sense after reading the docs for each object, `?MASS::birthwt`, `?pdf`, et al. For each group, we're formatting a string with `sprintf`; printing it with `cat`; and saving a plot. The special symbol `.BY` is a list containing the per-group values of the `by=` variables. Formatting and printing strings will be covered more in \@ref(strings). Plotting will be covered more under "Exploring data" (\@ref(exploring-data)) and exporting graphs in \@ref(pub-graphs).
 
 ```{block2 dt-logicolsub, type='rmd-caution'}
 **Filtering on logical columns.** `DT[z]` and `DT[!z]` will give errors, for design reasons related to the syntax for joins (\@ref(dt-joins)). To get around this, always wrap the column in parentheses: `DT[(z)]` and `DT[!(z)]`.
@@ -1472,14 +1472,19 @@ airDT[,  plot(Wind, Temp)]
 To see how a particular curve relates to the data, it can be overlaid on compatible plots like `curve(100 - 3*x, add = TRUE)`. Without the `add=TRUE` option, the curve would be placed in a new plot.
 
 ```{block2 plot-windows, type='rmd-caution'}
-**Plot windows.** Working interactively in the R console, each plot takes the place of the last one, using the same window. To open new windows use `x11()` whatever command the plotting function says is necessary. Multiple plots can be fit in the same window using `par`.
+**Plot windows.** Working interactively in the R console, each plot takes the place of the last one, using the same window. To open new windows use `x11()` or whatever command the plotting function says is necessary. Multiple plots can be fit in the same window using `par`.
 
 In R Studio, a history of plots is saved in the "Plots" area and can be browsed using the left and right arrow buttons there. The x and broom buttons can be used to remove plots from the history. If you want plots in separate windows (like seen in the R console), `x11()` or a similar call can be used.
 ```
 
 #### Other analyses
 
-An internet search will reveal many tools for estimating a model and plotting its fitted curve and confidence bands on top of the cloud of points, so I won't cover those here. Usually, after finding such a tool, a read of its documentation and running its examples will be sufficient to figure it out. And for more than two variables, the same is true -- a search online will serve very well, assuming the desired task is clear.
+For plotting, in addition to hexbin, corrplot and the base graphics package, there are...
+
+* [lattice](https://cran.r-project.org/package=lattice) and [latticeExtra](https://cran.r-project.org/package=latticeExtra) offer more flexibility. For a quick intro, maybe see [Ross Ihaka's slides](https://www.google.com/search?q=trellis+graphics+slides+ihaka).  
+* [rgl](https://cran.r-project.org/package=rgl) is fun for examining surfaces and 3D scatterplots in an interactive display.
+
+These packages are mature and maintained by members of "R Core," so code written for them will probably continue to work. Beyond directly plotting raw data, there are many packages for estimating a model and exploring the results (e.g., plotting a fitted curve and confidence bands on top of data).
 
 ### Reshaping to wide {#dcast-browse}
 

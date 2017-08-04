@@ -598,7 +598,7 @@ As mentioned in \@ref(format-cols), the number of digits printed on numbers can 
 `print` and `cat` can both be used to print output to the screen, with various options. Of the two, `cat` will actually parse the string, so `cat('Egad!\nI dare say, "It\'s you!"\n')` will print the newlines and quotes.
 
 ```{block2 message-programming, type='rmd-details'}
-**Writing to console.** While I have simply used `cat`, `print` and `stopifnot` throughout this document, the proper way to handle messages is more complicated, as [explained by @coatless on Stack Overflow](http://stackoverflow.com/a/36700294/). I still haven't learned it myself, but it is likely to be important when writing a package.
+**Writing to console.** While I have simply used `cat`, `print` and `stopifnot` throughout this document, the proper way to handle messages is more complicated, as [explained by coatless on Stack Overflow](http://stackoverflow.com/a/36700294/). I still haven't learned it myself, but it is likely to be important when writing a package.
 ```
 
 In my opinion, very few string operations (and no regex operations) are necessary outside of input-output processing (\@ref(input-output)) and printing messages.
@@ -606,7 +606,15 @@ In my opinion, very few string operations (and no regex operations) are necessar
 The input and output functions have their own string processing tools, so plenty of manual string tweaking can often be avoided. For example, `na.strings` in `fread` can recognize missing values as such when a file is read in; and `dateTimeAs` in `fwrite` can format date and time columns when printing a table out.
 
 ```{block2 qw, type='rmd-details'}
-**Saving keystrokes.** Finally, for the sake of my sanity, I borrow [a Perl function](https://www.google.com/#q=perl%20qw) for creating character vectors, e.g., of column names: `qw <- function(s="") unlist(strsplit(s,'[[:space:]]+'))` used like `my_cols <- qw("id city_name state_code country_code"); setkeyv(DT, my_cols)`. Those coming from Stata, where columns are always barewords, may appreciate this style, and I guess such quality-of-life functions are fairly harmless so long as no function using them is shared as if it's standalone.
+
+**Saving keystrokes.** 
+Finally, for the sake of my sanity, I borrow [a Perl function](https://www.google.com/#q=perl%20qw) for creating character vectors.
+
+    qw <- function(s="") unlist(strsplit(s,'[[:space:]]+'))
+    my_cols <- qw("id city_name state_code country_code")
+    setkeyv(DT, my_cols)
+
+Those coming from Stata, where columns are always barewords, may appreciate this style, and I guess such quality-of-life functions are fairly harmless so long as no function using them is shared as if it's standalone.
 ```
 
 

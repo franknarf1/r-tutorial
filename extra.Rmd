@@ -16,9 +16,11 @@ The first step is to talk through the problem, even if no one is around to liste
 
 This rubber-ducking often solves it. If the problem persists, work on making a self-contained example of what you want to happen: reproducible input and associated desired output. Test code for the example in a new R session, since it's possible that attached objects and packages will introduce confusing complications. 
 
-This example-building often solves it. If the problem persists, the next step is to formulate a question built around the example. This requires explaining the problem succinctly. For some advice on how to ask a good question, see [BrodieG's post](stackoverflow.com/a/28481250/). If asking folks online (instead of colleagues), make sure to formulate the question with reference to the example; for a good question, folks shouldn't need to know about your full project. 
+This example-building often solves it. If the problem persists, the next step is to formulate a question built around the example. This requires explaining the problem succinctly. For some advice on how to ask a good question, see [BrodieG's post](https://stackoverflow.com/a/28481250/).
 
 ### Asking a question online
+
+If asking folks online instead of colleagues, make sure your post contains a single question, self-contained without a need for a sweeping narrative of the broader project. On the other hand, [be open to the possibility](https://meta.stackexchange.com/a/66378) that you have identified and characterized the core problem incorrectly. That is, be respectful when folks ask for clarification or suggest a different approach, and don't respond by shouting "I told you what you need to know and what I want to do. Now, where is my answer!?"
 
 The two main venues for questions, also identified on the R website's [help page](https://www.r-project.org/help.html), are:
 
@@ -26,7 +28,7 @@ The two main venues for questions, also identified on the R website's [help page
 
 * Stack Overflow ("SO")
 
-There are different rules for posting to each mailing list and to SO. It will be expected that every poster has read these rules and [exhausted other resources](https://meta.stackoverflow.com/a/261593).
+There are different rules for posting to each mailing list and to SO. It is expected that every poster has read these rules and [exhausted other resources](https://meta.stackoverflow.com/a/261593).
 
 Here are some common question types:
 
@@ -34,25 +36,29 @@ Here are some common question types:
 
 - **Performance.** For a question like "How can I write this code better?", consider the Code Review Stack Exchange site. Like SO and the mailing lists, it has its own posting guidelines. And look into profiling, `?Rprof`. If it's related to data.table, toggle verbose messages on with `options(datatable.verbose = TRUE)` before running the code.
 
-    For a question like "What is the fastest way to do x?", make sure the example is big enough so timing matters. Generally, it is best to write a parameterized example, e.g., with `n` for the number of rows, `ng` for the number of groups, or similar. Common functions for timing are `system.time`; `benchmark` from the `rbenchmark` package; and `microbenchmark` from the `microbenchmark` package. Here's a [good example question](https://stackoverflow.com/q/33027611).
+    For a question like "What is the fastest way to do x?", make sure the example is big enough so timing matters. Generally, it is best to write a parameterized example, e.g., with `n` for the number of rows, `ng` for the number of groups, or similar. Common functions for timing are `system.time`; `benchmark` from the rbenchmark package; and `microbenchmark` from the microbenchmark package. Here's a [good example question](https://stackoverflow.com/q/33027611).
   
 - **Recommendations.** Questions asking about which package or software to use usually don't yield good answers. Better to investigate directly, but mailing lists may serve as a last resort, assuming their posting rules allow it.
 
 ## Publishing
 
-### Tables
+Tools for outputting results for publication will always be in flux. When I started using R, tikzDevice, ggplot and Sweave were *the* packages for handling output. But since then, tikzDevice and ggplot went unmaintained and were removed from CRAN; and Sweave was removed from CRAN, integrated into base R's utils package, and then supplanted in popularity by knitr (which builds on it). The upshot is: I think one should maintain a clean division between core code and code for publishing output, and as little time as humanly possible should be put into learning tools for the latter.
 
+### Graphs {#pub-graphs}
 
+When plotting (\@ref(plotting)), graphs can be sent to various output file formats, like PNG and PDF, as seen in \@ref(dt-syntax-ex). See `?Devices` for a full list.
 
-### Graphs
+### Tables {#pub-tables}
 
-Ihaka on lattice https://www.stat.auckland.ac.nz/~ihaka/120/Lectures/lecture25.pdf 
+For multilevel tables, [the tables package](https://CRAN.R-project.org/package=tables) is a good option. It's been around long enough to be stable and is maintained by a member of the core R development team. The tables package outputs in many formats, including LaTeX code. Others like it can be found in the [Reproducible Research Task View](https://CRAN.R-project.org/view=ReproducibleResearch). And other output formats, like spreadsheets, can be found using google.
 
 ### Documents
 
+Tables and graphs can be embedded in documents programmatically with LaTeX, but dropping R outputs off and then reading them into LaTeX can get complicated. 
 
+These days, [knitr](https://cran.r-project.org/package=knitr) and related packages (rmarkdown, bookdown) are the friendliest tools for making documents that compile jointly with R code. They output to PDF; or html; or a multi-file document like this tutorial. They also have nice integration with Rstudio (syntax highlighting, a dynamic table of contents in the sidebar, one-click compilation). Knitr is compatible with LaTeX or markdown. LaTeX offers more control and typesets properly for the printed page, but only outputs nicely to PDF and can be cumbersome to write and maintain relative to markdown. Anyway, [just pick one](https://yihui.name/en/2013/10/markdown-or-latex/).
 
-
+For interactive documents, there are a variety of shiny whizz-bang tools: [shiny](https://cran.r-project.org/package=shiny) (yes, really); [DT](https://cran.r-project.org/package=DT); and various packages for visualizing maps and graphs ("networks"). Code written for these is likely to have a short shelf-life compared to documents and code written mostly in R and Markdown or LaTeX, I reckon, but they can be fun.
 
 
 
