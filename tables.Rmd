@@ -390,6 +390,9 @@ While dot notation `.SDcols=.(hp, wt, disp)` is not yet supported, there are a v
 **"Aggregating" across columns.** One major red flag to look out for is the desire to "aggregate" columns by row, setting `by=1:nrow(DT)` and possibly using `unlist(.SD)` somewhere. Not only will this be incredibly slow, but it also suggests that the data is poorly organized, costing a lot of extra mental energy at every step. Section \@ref(structuring-data) explains some ways to format data better to avoid the need for this problematic approach.
 ```
 
+### Exercises
+
+1. Within each `.(am, vs)` group, return the last row / last element of each column. (There are many ways to do this.)
 
 ## Modifying data {#dt-subassign}
 
@@ -423,7 +426,7 @@ DT[, (nms) := .(1, 2, 3)][]
 All of these tasks are performed in-place -- altering `DT` without making a new object. Usually, the results are not printed in the console; but they appear here because `[]` is "chained" onto the end of each task.
 
 ```{block2 modify-op, type='rmd-caution'}
-**`:=` is the function for *creation, modification and deletion* of columns.** This will be covered it more detail in subsequent sections, but is worth emphasising. In particular, this contrasts with Stata (which uses distinct verbs `gen`, `replace` and `drop`).
+**`:=` is the function for *creation, modification and deletion* of columns.** This will be covered it more detail in subsequent sections, but is worth emphasising how parsimonious this syntax is. In particular, this contrasts with Stata (which uses distinct verbs `gen`, `replace` and `drop`).
 ```
 
 ```{block2 modify-iter, type='rmd-details'}
@@ -570,13 +573,27 @@ will act like `:=` and the `set*` functions, altering its input in-place. This c
 
 The `[]` inside the function is necessary for printing, due to restrictions of R syntax and how data.table gets around them. 
 
-
-```{r todo-modify-ex, echo=FALSE, eval=FALSE}
 ### Exercises
 
-use carsDT = data.table(mtcars, rn = TRUE), overwrite am with factor levels "automatic" and "manual"
+1. With `carsDT = data.table(mtcars, keep.rownames = TRUE)`, overwrite the `am` column with a factor so 0 becomes "automatic" and 1 becomes "manual", so `head(carsDT)` looks like...
 
-```
+        #                   rn  mpg cyl disp  hp drat    wt  qsec vs        am gear carb
+        # 1:         Mazda RX4 21.0   6  160 110 3.90 2.620 16.46  0    manual    4    4
+        # 2:     Mazda RX4 Wag 21.0   6  160 110 3.90 2.875 17.02  0    manual    4    4
+        # 3:        Datsun 710 22.8   4  108  93 3.85 2.320 18.61  1    manual    4    1
+        # 4:    Hornet 4 Drive 21.4   6  258 110 3.08 3.215 19.44  1 automatic    3    1
+        # 5: Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0 automatic    3    2
+        # 6:           Valiant 18.1   6  225 105 2.76 3.460 20.22  1 automatic    3    1
+
+2. In `DT = data.table(x = letters[1:5], y = 1:5, z = 1:5 > 3)`, edit `x` to equal "yolo" on rows where `z` is true, so `DT` looks like...
+  
+        #       x y     z
+        # 1:    a 1 FALSE
+        # 2:    b 2 FALSE
+        # 3:    c 3 FALSE
+        # 4: yolo 4  TRUE
+        # 5: yolo 5  TRUE
+
 
 ## Joins {#dt-joins}
 
@@ -882,7 +899,6 @@ This "not join" or "anti join" returns all rows of `a` that are not matched by r
 - use x. and i. to show differing values of the join col
 
 ```
-
 
 ## Input and output {#input-output}
 
@@ -1845,6 +1861,8 @@ DT[, if (.GRP == 1L) {
   ...
 }, by=.(x, y, z)]
 ```
+
+The `.GRP` is a group counter, introduced in the next chapter (\@ref(gids)); and `if (FALSE) x` does not evaluate `x` and returns nothing; so we are looking at results only for the first group.
 
 This is similar to the "dry run" approach to parsing dates (looking at only the first row or two, see \@ref(idatetime)). R has debugging tools like `debugonce` and `browser` as well, though they may take some getting used to for those who, like me, are not used to debugging properly.
 

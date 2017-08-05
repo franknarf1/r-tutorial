@@ -250,7 +250,7 @@ rep(c(3, 4), length.out = 5)
 rep(c(3, 4), c(3, 4))
 ```
 
-#### Integer sequences
+#### Integer sequences {#seq}
 
 Use a single colon to build a sequence of integers:
 
@@ -327,9 +327,9 @@ The `frank()` function from the data.table package is also useful, for its "dens
 ### Exercises
 
 1. What is the class of `c(TRUE, 1)`?
-2. What is the length of `list(1, c(2,3))`?
+2. What is the length of `list(1, c(2,3,4))`?
 3. If I run `x = c("a","b")` and then `x[c(2,1)] = c("c","d")`, what is the value of `x[1]`?
-4. Write the command to summon documenation for for the assignment procedure used in `L$X <- list(3)`.
+4. What is the command to open documenation for for the assignment procedure used in `L$X <- list(3)`?
 
 ```{r todo-more-vec-ex, eval=FALSE, echo=FALSE}
 something to do with assigning names
@@ -421,7 +421,7 @@ m[c(2,3)]
 Matrices also allow extraction like `X[Y]`, where `Y` is a two column "index matrix":
 
 ```{r matrix-matsubset, echo=-2}
-im = matrix(c(1,1,2,2), 2, 2, byrow=TRUE)
+im = matrix(c(1,1,2,2), 2, 2, byrow = TRUE)
 im
 m[im]
 ```
@@ -459,6 +459,11 @@ The `apply` function is popular for applying arbitrary functions along dimension
 rbind/cbind two matrices
 overwrite a submatrix with another matrix
 ```
+
+### Exercises
+
+1. From `x = 1:6`, build a 3x2 matrix rowwise like `m(x, _fill_this_in_)`.
+2. From `m = matrix(1:6, 2)`, extract a submatrix containing the first column.
 
 ## Syntax
 
@@ -569,6 +574,14 @@ The order of operations is listed in `?Syntax`. In addition to the operators lis
 
 Even knowing the order of operations, I recommend using parentheses liberally, particularly in `!(...)` statements.
 
+### Exercises
+
+1. From `x = 1:4`, use the functions introduced so far to compute how many elements are greater than 1.
+2. Read `?log10` and use it to round `x = 40` up to the next order of magnitude, like `10^(_fill_this_in_)`.
+3. From `x = c(NA, 1, 33)`, filter to elements greater than 10 (and not missing), like `x[_fill_this_in_]`.
+4. Read `?rev` and from `x = 1:10`, extract the last three elements using `head` and `rev`. What is a more direct way?
+5. Why does `NA | 1` evaluate to `TRUE`?
+6. Read `?abs` and figure out why `abs(NA) + 1 > 0` evaluates to `NA`. Should it?
 
 
 ## Functions
@@ -856,6 +869,13 @@ Often, the source code for base R functions is in C and is fairly readable even 
 1. Read the `c-entry` column for the function of interest.
 1. Search the text of `/src/main/*.c` for it.
 
+### Exercises
+
+1. Write `ndim`, a function to count the number of dimensions an array has.
+2. Review (\@(seq)) and read `?cumsum`, then write a `cummean` function to compute the cumulative mean.
+3. Install a new package, then use `library(package = _your_new_package_)` to find several objects included with the package.
+4. Read `?pmin`, then write a function that takes three vectors and computes $\min((x-y)^+, z)$ elementwise, where${()}^+$ denotes [the positive part](http://mathworld.wolfram.com/PositivePart.html), testing on `x = c(10,20,30); y = 15; z = c(25,15,5)`.
+
 ## Loops and control flow {#loops}
 
 As in most programming languages, we have `for` loops, `if`/`else` blocks, and so on. Some quirks to note:
@@ -918,6 +938,10 @@ Vectorized code and matrix algebra are much faster than a loop. Loops should be 
 ```
 
 The base R tool for handling elementwise `if`/`else` rules is the function `ifelse`. However, it has some serious shortcomings. A better way, similar to the `gen`/`replace` pattern in Stata, is covered in \@ref(dt-ifelse).
+
+### Exercises
+
+1. Write a vectorized function for the root mean squared deviation between two vectors, $\sqrt{\frac{1}{n}\sum_1^n (x_i - y_i)^2 }$ where `n` is how long the vectors are.
 
 ## Data frames {#data-frames}
 
