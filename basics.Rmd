@@ -872,7 +872,7 @@ Often, the source code for base R functions is in C and is fairly readable even 
 ### Exercises
 
 1. Write `ndim`, a function to count the number of dimensions an array has.
-2. Review (\@(seq)) and read `?cumsum`, then write a `cummean` function to compute the cumulative mean.
+2. Review (\@ref(seq)) and read `?cumsum`, then write a `cummean` function to compute the cumulative mean.
 3. Install a new package, then use `library(package = _your_new_package_)` to find several objects included with the package.
 4. Read `?pmin`, then write a function that takes three vectors and computes $\min((x-y)^+, z)$ elementwise, where${()}^+$ denotes [the positive part](http://mathworld.wolfram.com/PositivePart.html), testing on `x = c(10,20,30); y = 15; z = c(25,15,5)`.
 
@@ -941,7 +941,7 @@ The base R tool for handling elementwise `if`/`else` rules is the function `ifel
 
 ### Exercises
 
-1. Write a vectorized function for the root mean squared deviation between two vectors, $\sqrt{\frac{1}{n}\sum_1^n (x_i - y_i)^2 }$ where `n` is how long the vectors are.
+1. Write a vectorized function for the root mean squared deviation between two vectors, $\sqrt{\frac{1}{n}\sum_1^n (x_i - y_i)^2 }$ where `n` is how long the vectors are. For `x = 1:4; y = c(6,1,4,1)` it should return `3`.
 
 ## Data frames {#data-frames}
 

@@ -29,7 +29,7 @@ Unlike `==`, here we always get a true/false result, even when missing values ar
 
 ### Other binary operators
 
-As documented at `?sets`, for two vectors `x` and `y` we can write
+As documented at `?sets`, for two vectors `x` and `y` we can construct various statements:
 
 - $x\cup y$ as `union(x,y)`,
 - $x\cap y$ as `intersect(x,y)`,
@@ -61,10 +61,10 @@ Another alternative for the union of a set of vectors is `unique(unlist(xList))`
 
 For a list of data.tables, the same can be done (with `funion` and `fintersect`). However, again, the alternative for finite unions `unique(rbindlist(dList))` may be better in terms of performance in some cases.
 
-```{r todo-sets-ex, eval=FALSE, results=FALSE}
-define subseteq(x, y), which returns true if x is a (nonstrict) subset of y
-define symdiff(x, y), which returns items in x or y but not both
-```
+### Exercises
+
+1. Define a "subset or equal" function for two vectors, `subsetequal(x,y)`, which returns `TRUE` iff `x` is a (nonstrict) subset of `y`, $x \subseteq y$. How would the function change for testing a strict subset, $x \subset y$?
+2. Define a "symmetric difference" function for two vectors, `symdiff(x,y)`, which returns unique items appearing in `x` or in `y` but not in both.
 
 ## Combinations {#combos}
 
@@ -101,9 +101,21 @@ In base, `combn(x, n, f)` finds all `x`'s subvectors of length `n` and optionall
 
 All of these options can get out of hand, in terms of memory consumption, but that's normal for combinatorial operations.
 
-```{r todo-combos-ex, eval=FALSE, echo=FALSE}
-define triples(x) which returns all subsets of size x, in a data.table with one triple per row
-```
+### Exercises
+
+1. Define a function, `triples`, which takes a vector `x` and returns all length-3 subsets, one on each row. For `x = 1:5`, there are ten `= choose(5,3)` such subsets, so it should look something like...
+
+        #     V1 V2 V3
+        #  1:  1  2  3
+        #  2:  1  2  4
+        #  3:  1  2  5
+        #  4:  1  3  4
+        #  5:  1  3  5
+        #  6:  1  4  5
+        #  7:  2  3  4
+        #  8:  2  3  5
+        #  9:  2  4  5
+        # 10:  3  4  5
 
 ## Randomization
 

@@ -1,5 +1,7 @@
-```{r todo-tables-general, echo=FALSE, eval=FALSE}
+```{todo-tables-general, echo=FALSE, eval=FALSE}
 prolly use fewer distinct example data sets, especially in joins. this can be done after everything's in and organized throughout the full tutorial
+
+then again, maybe it's not a real problem
 ```
 
 # Tables {#tables}
@@ -392,7 +394,7 @@ While dot notation `.SDcols=.(hp, wt, disp)` is not yet supported, there are a v
 
 ### Exercises
 
-1. Within each `.(am, vs)` group, return the last row / last element of each column. (There are many ways to do this.)
+1. Within each `.(am, vs)` group, return the last row (or equivalently, the last element of each column). There are many ways to do this.
 
 ## Modifying data {#dt-subassign}
 
@@ -630,8 +632,8 @@ When merging on columns with different names, they must be written in `on=` like
 
 A character vector also works in, e.g., `on=c("id", x = "y")`, making it easier to merge programmatically.
 
-```{r todo-join-eff, eval=FALSE, echo=FALSE}
-details re efficiency, citing "binary search vs vector scans" section of `vignette("datatable-keys-fast-subset")` and perhaps a benchmark
+```{block2 dt-efficientlookup, type='rmd-details'}
+**Binary search.** Data.table joins find matching rows using a binary search algorithm, which is usually faster than a naive "vector scan" (which tests every element for a match). See the "binary search vs vector scans" section of `vignette("datatable-keys-fast-subset")` for details.
 ```
 
 ### Subset lookup
@@ -887,18 +889,28 @@ a[!b, on=.(id)]
 
 This "not join" or "anti join" returns all rows of `a` that are not matched by rows in `b`.
 
-```{r todo-join-ex, eval=FALSE, echo=FALSE}
 ### Exercises
 
-- use an anti join to assign to rows not matched in b
+1. In `DT = data.table(id = rep(1:2, 2:3), x = 1:5, y = FALSE)`, use an update self join with `mult=` to edit `y` to `TRUE` in the first row of each `id` group.
+2. In `DT = data.table(id = 1:4, v = 10:13)`, use an anti join to set `v` to missing if `id` is not in `my_ids = 2:3`.
+3. In `DT = data.table(id = rep(1:2, c(10,5)), t = cumsum(1:15))`, use a non-equi self join to add a column counting how many observations of the current `id` are in the interval $(t-20, t)$. The result should be...
 
-- initialize v := 0L. Then in an update self join, use mult= to tag the first row of each group with 1L.
-
-- use a self non-equi join to count the number of observations within the last 90 days per id
-
-- use x. and i. to show differing values of the join col
-
-```
+        #     id   t N
+        #  1:  1   1 0
+        #  2:  1   3 1
+        #  3:  1   6 2
+        #  4:  1  10 3
+        #  5:  1  15 4
+        #  6:  1  21 4
+        #  7:  1  28 3
+        #  8:  1  36 2
+        #  9:  1  45 2
+        # 10:  1  55 2
+        # 11:  2  66 0
+        # 12:  2  78 1
+        # 13:  2  91 1
+        # 14:  2 105 1
+        # 15:  2 120 1
 
 ## Input and output {#input-output}
 
@@ -1827,7 +1839,7 @@ note .() issue per
 http://stackoverflow.com/questions/41228076/using-data-tables-shortcut-in-quoted-expressions
 ```
 
-When writing a function, avoid inline calls `DT[, eval(substitute(yada yada))]` and `get`, since [that's just inviting trouble](http://stackoverflow.com/q/43343269/). For details on constructing and manipulating calls, see the "Computing on the Language" section of the "R Language Definition" manual (\@ref(docs)).
+When writing a function, avoid inline calls `DT[, eval(substitute(yada yada))]` and `get`, since [that's just inviting trouble](http://stackoverflow.com/q/43343269/). For details on constructing and manipulating calls, see the "Computing on the Language" section of the "R Language Definition" manual (\@ref(docs)). And if you are delving very deep into constructing data.table calls, maybe have a look at [some edge case](https://stackoverflow.com/q/41228076).
 
 #### Data.table options
 
