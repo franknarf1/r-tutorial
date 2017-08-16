@@ -1231,6 +1231,9 @@ While the way R displays dates (like `2017-11-22`) might not align with what is 
 
 For the display of numbers, again, I suggest leaving it alone instead of, e.g., rounding or truncating everything. If it's really an issue that must be addressed, read about `scipen` in `?options`.
 
+### Exercises
+
+1. To enumerate the first day of each month in a year, we can do `seq(as.IDate("2017-01-01"), by="month", length.out = 12)`. How about the last day of each month?
 
 ## Exploring data {#exploring-data}
 

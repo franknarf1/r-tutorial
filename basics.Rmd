@@ -331,12 +331,6 @@ The `frank()` function from the data.table package is also useful, for its "dens
 3. If I run `x = c("a","b")` and then `x[c(2,1)] = c("c","d")`, what is the value of `x[1]`?
 4. What is the command to open documenation for for the assignment procedure used in `L$X <- list(3)`?
 
-```{r todo-more-vec-ex, eval=FALSE, echo=FALSE}
-something to do with assigning names
-
-```
-
-
 ## Matrices and arrays {#matrix-array}
 
 The `matrix` function is used for construction:
@@ -455,15 +449,12 @@ Matrix algebra functions are covered in \@ref(matrix-algebra). Some other handy 
 
 The `apply` function is popular for applying arbitrary functions along dimensions of a matrix or array. However, it is very inefficient and usually discouraged. `sweep` is a similar function.
 
-```{r todo matrix-ex, eval=FALSE, echo=FALSE}
-rbind/cbind two matrices
-overwrite a submatrix with another matrix
-```
-
 ### Exercises
 
 1. From `x = 1:6`, build a 3x2 matrix rowwise like `m(x, _fill_this_in_)`.
 2. From `m = matrix(1:6, 2)`, extract a submatrix containing the first column.
+3. Read `?do.call` and from `L = list(c(1,1), c(2,2), c(3,3))`, bind the elements of `L` as columns of a single matrix.
+4. From `m = matrix(1:4, 2)`, overwrite the upper left and lower right cells with `0`.
 
 ## Syntax
 
@@ -699,10 +690,6 @@ lapply(list(c(3,1,4), c(2,7,9), 0), min)
 When the function's return value is guaranteed to be a scalar, `sapply` or `vapply` may be a better choice, but I almost never need those in practice.
 
 ### Writing functions {#function-writing}
-
-```{r todo-explain-funs, echo=FALSE, eval=FALSE}
-explain the syntax, starting with function() ending with (possibly implicit) return()
-```
 
 Like any other object, functions can be assigned with `<-` or `=`:
 

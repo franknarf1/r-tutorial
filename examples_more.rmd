@@ -22,44 +22,6 @@ Data packages
     panel data econometrics: package plm
     Achim Zeileis' 'metrics book: package AER
 
-
-
-
-
-# capture output of system/system2 (credit Uwe)
-
-see their docs
-
-fread can also do this. linux machines example: `fread("top -a -b -n 1", check.names = TRUE)`
-
-# read/write to file (cr abhiieor)
-
-file(), read/writeLines, cat
-
-# get user input (cr ashish)
-
-readline
-
-motivating example: swirl pkg
-
-# reading and writing data frames (meta topic)
-
-binary (rds), plain text (delimited, fixed width), foreign, relational DB
-
-# reading and writing other data
-
-graphs, geo data (raster or vector), whatever
-
-# date and time
-
-Sys.timezone() 
-
-last day of the month
-
-add months, weeks
-
-difftime for IDate, ITime pairs
-
 # Date class (cr random folks,  i guess)
 
     # Jumbled notes
