@@ -55,6 +55,10 @@ install.packages('magrittr')
 
 The name is a pun on [René Magritte's pipe painting](https://en.wikipedia.org/wiki/The_Treachery_of_Images). To get a handle on the package, I would start with the package [vignette](https://CRAN.R-project.org/package=magrittr/vignettes/magrittr.html).
 
+```{block2 mispipery, type='rmd-caution'}
+**Gotchas with pipes.** Typing `3/c(3,3) %>% sum`, you might expect 3/3 + 3/3 = 2, but instead get 3/(3+3) = 1/2. This is a confusing quirk of operator precedence (\@ref(order-ops)) and something to watch out for with pipes. As usual, using parentheses to clarify fixes it: `(3/c(3,3)) %>% sum`.
+```
+
 ### The data.table package {#data-table}
 
 [Data.table](http://r-datatable.com) offers a variant of the `data.frame` class for data frames (seen in \@ref(data-frames)), optimized for fast sorted and grouped operations and enhanced with cleaner syntax. Section \@ref(dt-class) introduces this `data.table` class. 
@@ -77,13 +81,15 @@ install.packages('data.table')
 
 #### Development version
 
-The CRAN version is usually all you need. However, the package is under active development, with new features available only in the development version. To install it, follow [the instructions from the package wiki](https://github.com/Rdatatable/data.table/wiki/Installation):
+The CRAN version is usually all you need. However, the package is under active development, with new features available only in the development version. To install it, I usually run: 
 
 ```{r inst-dt-dev, eval=FALSE}
 remove.packages("data.table")
 install.packages("data.table", type = "source",
   repos = "http://Rdatatable.github.io/data.table")
 ```
+
+[The instructions on the package wiki](https://github.com/Rdatatable/data.table/wiki/Installation) offer details and other options.
 
 ```{block2 grr-rtools, type='rmd-caution'}
 **Windows shenanigans.** If using Windows, you'll need to first install [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (requiring administrator privileges), as explained in the last wiki link. This is also required for many other packages. After installing Rtools, it may also be necessary to tell R where it is. Instructions are in section "6.3.1 Windows" of the "R Installation and Administration" manual (see \@ref(docs)).
@@ -99,6 +105,7 @@ For `R_HOME`, paste the result of `R.home() %>% normalizePath %>% cat("\n")` int
 It will depend on where Rtools was installed. This might have to be done again whenever a new version of Rtools is installed.
 ```
 
+
 #### Getting started
 
 The official vignettes for the package are a great way to start with the package. See them on the [wiki](http://r-datatable.com/Getting-started) or with 
@@ -109,6 +116,21 @@ browseVignettes(package="data.table")
 
 (Beware that as of March 2017, the website vignettes are somewhat out-of-date.) The website also includes links to other useful materials (an online course, presentation materials, blog posts). Before using the package, I started by reading some slides and the FAQ in full.
 
+```{block2 watch-dev, type='rmd-details'}
+**Keeping track of changes in R and packages.**
+
+To follow changes in R:
+
+> Go to https://cran.r-project.org > "What's New" > "NEWS"
+
+To follow changes in the CRAN version of a package:
+
+> Go to, e.g., https://cran.r-project.org/package=data.table > "NEWS"
+
+To follow changes to an in-development version of a package, instead navigate from its CRAN page to the "URL" field. The magrittr package is not in active development, so it has no "NEWS" file and little happening on its website, but data.table has been changing consistently for years. 
+
+Usually, these changes don't matter much, but it's generally a good idea to check the "Potentially Breaking Changes" list, if there is any (e.g., [in data.table 1.9.8](https://github.com/Rdatatable/data.table/blob/master/NEWS.md#changes-in-v198--on-cran-25-nov-2016)) before upgrading.
+```
 
 
 ## The data.table class {#dt-class}
