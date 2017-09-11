@@ -175,19 +175,7 @@ define, examine, subset functional sequences
 
     - lhs %T>% rhs  # pipe syntax for `{ rhs(lhs); lhs }`
 
-# publishing
-
-## formatting tables
-
-plain text with sink and options(width=)
-
-delimited or fixed width with fwrite, write*
-
-knitr::kable, stargazer, tables::tabular, texreg, xtable, DT/shiny/whatever
-
-
-  
-
+#
 
 
 

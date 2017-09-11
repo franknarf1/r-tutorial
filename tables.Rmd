@@ -529,6 +529,10 @@ DT[, b := "Aardvark"][y > 1, b := "Zebra", verbose = TRUE]
 
 The number reported is the number of rows assigned to (irrespective of whether their values were changed by the assignment), in contrast with Stata, which reports the number of changes.
 
+```{block2 dt-subassign, type='rmd-details'}
+**Modifying subsets.** Conditional modifications `DT[cond, v := expr]` are a special case of more general subset modifications, `DT[i, v := expr]`, where `i` can be any row-slicer covered in \@ref(dt-slicing) (e.g., a vector of row numbers) or even another data.table (in an "update join"; see \@ref(joins-update)).
+```
+
 ### Other in-place modifications
 
 The data.table package has a few other tools for modifying table attributes in-place:
@@ -572,6 +576,7 @@ The data.table package has a few other tools for modifying table attributes in-p
     levels(fDT$fac)
     ```
 
+With `setattr`, we avoid the copy usually incurred when using `levels(x) <- lvls` (base R syntax), but it will also skip some checks, so it is important to be careful to assign a valid vector of levels.
 
 ### Avoiding in-place modification
 
@@ -617,6 +622,11 @@ The `[]` inside the function is necessary for printing, due to restrictions of R
         # 3:    c 3 FALSE
         # 4: yolo 4  TRUE
         # 5: yolo 5  TRUE
+
+
+3. In `DT = data.table(x = letters[1:5], matrix(1:15,5) > 7)`, add a column `id` that contains the row number; and use `setcolorder`, `names(DT)` and `setdiff` to move `id` to be the first column. 
+
+4. In `DT = data.table(id = 1:5, x = letters[1:5], matrix(1:15,5) > 7)`, use `setnames` to rename `id` to `ID`.
 
 
 ## Joins {#dt-joins}
@@ -1794,6 +1804,31 @@ exDT = data.table(CO2)[c(1:2,60,65)]
     # defined and labeled on-the-fly
     exDT[, .N, by=.(Plant, Type, v = conc + uptake)]
     ```
+
+- `j` modifications
+
+    ```{r shortcols-jedit}
+    # programming
+    newcols = c("ha", "egad")
+    newvals = list("1", "2")
+    exDT[, (newcols) := newvals] 
+    # exDT[, newcols := newvals ] will not work
+
+    # overwrite by function
+    exDT[, (newcols) := lapply(.SD, type.convert), .SDcols=newcols]
+    ```
+
+With `:=`, the table is not printed after the changes are made. To overcome this, it's idiomatic to add a trailing `[]`, like `exDT[, (newcols) := newvals][]`.
+
+Columns can also be modified with `set`, but this is rarely necessary:
+
+```{r shortcols-set}
+# programming
+newcols = c("ha", "egad")
+newvals = list("1", "2")
+
+for (k in newcols) set(DT, j = k, v = newvals[[k]])
+```
 
 Column numbers also work in `.SDcols` and `j`, but don't do that.
 
