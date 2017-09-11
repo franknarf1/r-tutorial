@@ -64,7 +64,11 @@ For a list of data.tables, the same can be done (with `funion` and `fintersect`)
 ### Exercises
 
 1. Define a "subset or equal" function for two vectors, `subsetequal(x,y)`, which returns `TRUE` iff `x` is a (nonstrict) subset of `y`, $x \subseteq y$. How would the function change for testing a strict subset, $x \subset y$?
+
 2. Define a "symmetric difference" function for two vectors, `symdiff(x,y)`, which returns unique items appearing in `x` or in `y` but not in both.
+
+3. With `DT = data.table(g = c(1,1,2,2,2,3), v = 1:6)`, we can select the first row of each `g` group with `unique(DT, by="g")` or `DT[!duplicated(DT, by="g")]` or `DT[, .SD[1L], by=g]` or `DT[.(unique(g)), on=.(g), mult="first"]` or `DT[DT[, first(.I), by=g]$V1]`. Find several ways to select the *last* row in each `g` group. (Hint: one uses `order(-(1:.N))`.) 
+
 
 ## Combinations {#combos}
 

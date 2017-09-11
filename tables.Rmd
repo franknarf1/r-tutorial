@@ -1569,6 +1569,11 @@ The `dcast` function and its counterpart, `melt`, are covered in `vignette("data
 My guess is that the terms melting and casting (for conversion of a table to and from long format) are taken from mettalurgy. There is only one long-form arrangement of data -- its liquid or molten form -- and this form is the most flexible. In contrast, there are many rigid wide-form arrangements, each with its own mold to cast the molten data into.
 ```
 
+### Exercises
+
+1. With `DT = data.table(g = c(1,1,2,2,2,3), v = 1:6)`, select only `g` groups having only a single row. Then, instead select only `g` groups having more than one row.
+
+
 
 
 ## Organizing relational tables {#structuring-data}
