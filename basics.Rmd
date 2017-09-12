@@ -985,7 +985,7 @@ To browse a data frame in a separate window, use `View(DF)`.
 R includes several handy constants, like `pi`, the alphabet (`?letters`), months (`?month.name`), days of the week (`?weekdays`) and US state names and abbreviations (`?state`). There is no need to worry about accidentally reusing any of these contants' names for variables (though redefining `pi` might not be a great idea).
 
 ```{block2 masking, type='rmd-caution'}
-**Masking.** Besides built-in constants, it is also possible to reuse names of variables and functions from base R. In general, this is harmless unless its going to make things confusing, like a `matrix` named "matrix."
+**Masking.** Besides built-in constants, it is also possible to reuse names of most variables and functions from base R. In general, this is harmless unless its going to make things confusing, like a `matrix` named "matrix." One common mistake is writing scripts with `T` and `F` (built-in abbreviations for `TRUE` and `FALSE`), which is a bad idea because it is easy to accidentally break such code by overwriting, for example, `T` as the number of periods in a panel and `F` as some cumulative distribution function.
 ```
 
 On a related note, `?Reserved` lists all of R's important built-ins that cannot be overwritten.

@@ -52,77 +52,7 @@ Data packages
         - [List of tz database time zones (Wikipedia)](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
         - [IANA TZ Data (2016e)](http://www.iana.org/time-zones/repository/releases/tzdata2016e.tar.gz) 
 
-# style (relevant for posting to SO)
 
-also useful? dget
-
-
-    # Prompts
-
-    If you want your code to be copy-pastable, remove prompts such as `R>`, `>`, or `+` at the beginning of each new line. Some Docs authors prefer to not make copy-pasting easy, and that is okay.
-
-    # Console output
-
-    Console output should be clearly distinguished from code. Common approaches include:
-    - Include prompts on input (as seen when using the console).
-    - Comment out all output, with `#` or `##` starting each line.
-    - Print as-is, trusting the leading `[1]` to make the output stand out from the input.
-    - Add a blank line between code and console output.
-
-    # Assignment
-
-    `=` and `<-` are fine for assigning R objects. Use white space appropriately to avoid writing code that is difficult to parse, such as `x<-1` (ambiguous between `x <- 1` and `x < -1`)
-
-    # Code comments
-
-    Be sure to explain the purpose and function of the code itself. There isn't any hard-and-fast rule on whether this explanation should be in prose or in code comments. Prose may be more readable and allows for longer explanations, but code comments make for easier copy-pasting. Keep both options in mind.
-
-    # Sections
-
-    Many examples are short enough to not need sections, but if you use them, start with [H1][1].
-
-
-      [1]: http://stackoverflow.com/editing-help#headers
-
-# making good examples
-
-    Most of the guidance for [creating good examples](http://stackoverflow.com/questions/5963269/how-to-make-a-great-r-reproducible-example) for Q&A carries over into the documentation. 
-
-    - Make it minimal and get to the point. Complications and digressions are counterproductive.
-
-    - Include both working code and prose explaining it. Neither one is sufficient on its own.
-
-    - Don't rely on external sources for data. Generate data or use the datasets library if possible: 
-
-          library(help = "datasets")
-
-    There are some additional considerations in the context of Docs:
-
-    - Refer to built-in docs like `?data.frame` whenever relevant. The SO Docs are not an attempt to replace the built-in docs. It is important to make sure new R users know that the built-in docs exist as well as how to find them.
-
-    - Move content that applies to multiple examples to the Remarks section.
-
-# na input/output
-
-most fns have args for it
-
-# regex
-
-use perl for lookahead/behind
-
-backslash to escape chars
-
-## Differences from other languages (cr who?)
-
-    Please note that regular expressions in R often look _ever-so-slightly_ different from regular expressions used in other languages.
-
-     - R requires double-backslash escapes (because `"\"` already implies escaping in general in R strings), so, for example, to capture whitespace in most regular expression engines, one simply needs to type `\s`, vs. `\\s` in R. 
-
-     - UTF-8 characters in R should be escaped with a capital U, e.g. `[\U{1F600}]` and `[\U1F600]` match 😀, whereas in, e.g., Ruby, this would be matched with a lower-case u. 
-
-# logicals
-
-`TRUE`, `FALSE` and `NA` are the only values for logical vectors; and all three are reserved words. `T` and `F` can be shorthand for `TRUE` and `FALSE` in a clean R session, but neither `T` nor `F` are reserved, so assignment of non-default values to those names can set users up for difficulties.
 
 xor
 
@@ -135,12 +65,7 @@ For a true set data type in R, the Rcpp package provides [some options][1].
 
   [1]: http://stackoverflow.com/a/23015853/
   
-## cross products
-
-expand.grid, CJ
-
-outer for special case of two
-  
+#  
 ## dupe drop
 
 (note still not a "set", since it has an ordered index)

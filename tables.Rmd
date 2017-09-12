@@ -1631,6 +1631,7 @@ The `unique` function drops duplicates. Related tools are discussed in \@ref(set
 There are a few advantages to having data in this format:
 
 1. The data takes up less space.
+1. The relationships among variables are transparent. When building a statistical model, we won't accidentally forget that `Treatment` is determined at the `Plant` level, for example; and we can easily count how many plants have each treatment with `plantDT[, table(Treatment)]` (see \@ref(tabulating)).
 1. The data will be easier to browse, since we won't have columns spilling off the right side of the screen whenever inspecting the data; and, with the keys (\@ref(keys-indices)), we can subset like...
  
     ```{r relational-brows}
