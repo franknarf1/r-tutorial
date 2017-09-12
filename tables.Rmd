@@ -631,7 +631,7 @@ The `[]` inside the function is necessary for printing, due to restrictions of R
 
 ## Joins {#dt-joins}
 
-They are called "joins" or "merges."
+Almost any operation between related tables can be called a "join" or "merge." One notable exception is "stacking" tables atop each other, covered in \@ref(rbindlist-read).
 
 ### Equi joins
 
@@ -1415,15 +1415,20 @@ airDT[, .(
 )]
 ```
 
-This can also be done by group, like
+These can also be done by group, like
 
-```{r mdesc-group, eval=FALSE}
+```{r summary-mdesc-group, eval=FALSE}
+split(airDT, by=c("Month")) %>% lapply(summary)
 airDT[, .(
   col = names(.SD),
   nna = nna <- colSums(is.na(.SD)),
   nok = .N - nna,
   tot = .N
 ), by=Month]
+```
+
+```{block2 list-iter, type='rmd-details'}
+**Iterative column enumeration.**  As noted in \@ref(dt-col-create), `` `:=`(...)`` does not assign columns iteratively. Similarly, `.(...)` does not define columns iteratively, so in the last example we needed to do `nna = nna <- expr` to use that column in later expressions.
 ```
 
 Various function can be applied and have the usual names: `mean`, `median`, `range` (combining `min` and `max`), `var`, `skew`, `quantile`, etc. Most of these functions can be applied by group as well, with syntax like ...
@@ -1440,7 +1445,25 @@ carsDT[, c(
 ), by=am]
 ```
 
-The `as.list` is necessary to split the results over multiple columns. It is inefficient, but that won't matter much when exploring data, I imagine.
+The `as.list` is necessary to split the results over multiple columns. It is inefficient, but that won't matter much when exploring data, I imagine. Usually, to figure out how to make `j` a list of columns, some trial and error with `c`, `as.list` and `.` will work.
+
+The messiest case is of multiple functions applied to multiple variables. The best approach might be like:
+
+```{r mult-var-mult-stats}
+carsDT[, unlist(recursive=FALSE, lapply(
+  .(med = median, iqr = IQR),
+  function(f) lapply(.SD, f)
+)), by=.(am), .SDcols=wt:qsec]
+```
+
+To flip from names like `med.qsec` to `qsec.med`, change the order of `lapply`:
+
+```{r mult-var-mult-stats2}
+carsDT[, unlist(recursive=FALSE, lapply(
+  .SD,
+  function(x) lapply(.(med = median, iqr = IQR), function(f) f(x))
+)), by=.(am), .SDcols=wt:qsec]
+```
 
 #### Tabulating {#tabulating}
 
@@ -1516,7 +1539,7 @@ carsDT[, .N, by=.(am, drat_bin = cut(drat, 4))]
 carsDT[, table(am, drat_bin = cut(drat, 4))]
 ```
 
-Note that the `table` approach includes zeros, while they don't show up in the aggregation using `.N`.
+Note that the `table` approach includes zeros, while they don't show up in the aggregation using `.N`. Another way of filling in missing levels is with a self-join (\@ref(self-join-to-fill-in-missing-levels)).
 
 #### Plotting
 
