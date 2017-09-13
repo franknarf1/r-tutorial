@@ -29,7 +29,7 @@ Unlike `==`, here we always get a true/false result, even when missing values ar
 
 ### Other binary operators
 
-As documented at `?sets`, for two vectors `x` and `y` we can write
+As documented at `?sets`, for two vectors `x` and `y` we can construct various statements:
 
 - $x\cup y$ as `union(x,y)`,
 - $x\cap y$ as `intersect(x,y)`,
@@ -40,7 +40,7 @@ As mentioned in \@ref(classes), R does not actually support an unordered set dat
 
 Corresponding functions exist for data.tables, prefixed like `f*`: `funion`, `fintersect`, `fsetdiff` and `fsetequal`. Two tables can be combined in this way only if their columns line up (in terms of class, etc.).
 
-Looking at the source code for these functions, we'll see a lot of the `match` function.
+Looking at the source code for these functions, we'll see a lot of them use the `match` function.
 
 ### Operators on lists of sets
 
@@ -61,10 +61,14 @@ Another alternative for the union of a set of vectors is `unique(unlist(xList))`
 
 For a list of data.tables, the same can be done (with `funion` and `fintersect`). However, again, the alternative for finite unions `unique(rbindlist(dList))` may be better in terms of performance in some cases.
 
-```{r todo-sets-ex, eval=FALSE, results=FALSE}
-define subseteq(x, y), which returns true if x is a (nonstrict) subset of y
-define symdiff(x, y), which returns items in x or y but not both
-```
+### Exercises
+
+1. Define a "subset or equal" function for two vectors, `subsetequal(x,y)`, which returns `TRUE` iff `x` is a (nonstrict) subset of `y`, $x \subseteq y$. How would the function change for testing a strict subset, $x \subset y$?
+
+2. Define a "symmetric difference" function for two vectors, `symdiff(x,y)`, which returns unique items appearing in `x` or in `y` but not in both.
+
+3. With `DT = data.table(g = c(1,1,2,2,2,3), v = 1:6)`, we can select the first row of each `g` group with `unique(DT, by="g")` or `DT[!duplicated(DT, by="g")]` or `DT[, .SD[1L], by=g]` or `DT[.(unique(g)), on=.(g), mult="first"]` or `DT[DT[, first(.I), by=g]$V1]`. Find several ways to select the *last* row in each `g` group. (Hint: one uses `order(-(1:.N))`.) 
+
 
 ## Combinations {#combos}
 
@@ -101,9 +105,21 @@ In base, `combn(x, n, f)` finds all `x`'s subvectors of length `n` and optionall
 
 All of these options can get out of hand, in terms of memory consumption, but that's normal for combinatorial operations.
 
-```{r todo-combos-ex, eval=FALSE, echo=FALSE}
-define triples(x) which returns all subsets of size x, in a data.table with one triple per row
-```
+### Exercises
+
+1. Define a function, `triples`, which takes a vector `x` and returns all length-3 subsets, one on each row. For `x = 1:5`, there are ten `= choose(5,3)` such subsets, so it should look something like...
+
+        #     V1 V2 V3
+        #  1:  1  2  3
+        #  2:  1  2  4
+        #  3:  1  2  5
+        #  4:  1  3  4
+        #  5:  1  3  5
+        #  6:  1  4  5
+        #  7:  2  3  4
+        #  8:  2  3  5
+        #  9:  2  4  5
+        # 10:  3  4  5
 
 ## Randomization
 
@@ -585,6 +601,10 @@ Here are various string-related functions:
 
 - `strsplit` and `tstrsplit` can split strings based on a pattern.
 
+- `chartr` changes single characters.
+
+- `lower` and `upper` change cases.
+
 Most of these are vectorized (\@ref(vectorization)) whenever it makes sense. Examples for a couple of them can be found in \@ref(char-input).
 
 For searching, rewriting or splitting strings, some familiarity with regular expressions will often be helpful. See `?regex`. Because the syntax of the functions can also get cumbersome, it may be worth it to use a helper like [the stringi package](https://CRAN.R-project.org/package=stringi).
@@ -594,7 +614,7 @@ As mentioned in \@ref(format-cols), the number of digits printed on numbers can 
 `print` and `cat` can both be used to print output to the screen, with various options. Of the two, `cat` will actually parse the string, so `cat('Egad!\nI dare say, "It\'s you!"\n')` will print the newlines and quotes.
 
 ```{block2 message-programming, type='rmd-details'}
-**Writing to console.** While I have simply used `cat`, `print` and `stopifnot` throughout this document, the proper way to handle messages is more complicated, as [explained by @coatless on Stack Overflow](http://stackoverflow.com/a/36700294/). I still haven't learned it myself, but it is likely to be important when writing a package.
+**Writing to console.** While I have simply used `cat`, `print` and `stopifnot` throughout this document, the proper way to handle messages is more complicated, as [explained by coatless on Stack Overflow](http://stackoverflow.com/a/36700294/). I still haven't learned it myself, but it is likely to be important when writing a package.
 ```
 
 In my opinion, very few string operations (and no regex operations) are necessary outside of input-output processing (\@ref(input-output)) and printing messages.
@@ -602,8 +622,15 @@ In my opinion, very few string operations (and no regex operations) are necessar
 The input and output functions have their own string processing tools, so plenty of manual string tweaking can often be avoided. For example, `na.strings` in `fread` can recognize missing values as such when a file is read in; and `dateTimeAs` in `fwrite` can format date and time columns when printing a table out.
 
 ```{block2 qw, type='rmd-details'}
-**Saving keystrokes.** Finally, for the sake of my sanity, I borrow [a Perl function](https://www.google.com/#q=perl%20qw) for creating character vectors, e.g., of column names: `qw <- function(s="") unlist(strsplit(s,'[[:space:]]+'))` used like `my_cols <- qw("id city_name state_code country_code"); setkeyv(DT, my_cols)`. Those coming from Stata, where columns are always barewords, may appreciate this style, and I guess such quality-of-life functions are fairly harmless so long as no function using them is shared as if it's standalone.
-```
 
+**Saving keystrokes.** 
+Finally, for the sake of my sanity, I borrow [a Perl function](https://www.google.com/#q=perl%20qw) for creating character vectors.
+
+    qw <- function(s="") unlist(strsplit(s,'[[:space:]]+'))
+    my_cols <- qw("id city_name state_code country_code")
+    setkeyv(DT, my_cols)
+
+Those coming from Stata, where columns are always barewords, may appreciate this style, and I guess such quality-of-life functions are fairly harmless so long as no function using them is shared as if it's standalone.
+```
 
 

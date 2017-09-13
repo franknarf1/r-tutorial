@@ -1,195 +1,70 @@
-# Miscellaneous {#extra}
+# Misc {#extra}
 
-This chapter is a WIP, a dumping location for things I am not putting a priority on covering, mostly because I don't know them well enough.
+## Finding solutions
 
-For now, it's not part of the book (determined by bookdown.yml).
+The documentation included during installation (\@ref(docs)) is the best resource. Beyond base R, the Task Views (\@ref(cran)) are a good way to see what is on CRAN. And beyond CRAN, specialized repositories offer further packages, like Bioconductor for bioinformatics.
 
+The R website's [help page](https://www.r-project.org/help.html) has a great overview of resources to use when you have a programming problem. It's worth reading all the way through.
 
+### Pinning down a problem
 
-## Program structure and style
+The first step is to talk through the problem, even if no one is around to listen:
 
-never ever do DT <- DT[...], makes the code impossible to maintain, and it's not like you need to economise on RAM or something
+> *totally commit* to asking a thorough, detailed question of this imaginary person or inanimate object. 
+> 
+> -- Jeff Atwood, [Rubber Duck Problem Solving](https://blog.codinghorror.com/rubber-duck-problem-solving/)
 
+This rubber-ducking often solves it. If the problem persists, work on making a self-contained example of what you want to happen: reproducible input and associated desired output. Test code for the example in a new R session, since it's possible that attached objects and packages will introduce confusing complications. 
 
-clearly separate data processing from analysis, to the point where you could easily split them into two separate scripts in a few minutes if needed
+This example-building often solves it. If the problem persists, the next step is to formulate a question built around the example. This requires explaining the problem succinctly. For some advice on how to ask a good question, see [BrodieG's post](https://stackoverflow.com/a/28481250/).
 
-similarly, separate analysis from generation of output tables and graphs
+### Asking a question online
 
-similarly, separate run parameters related to each stage into groups in the preamble
+If asking folks online instead of colleagues, make sure your post contains a single question, self-contained without a need for a sweeping narrative of the broader project. On the other hand, [be open to the possibility](https://meta.stackexchange.com/a/66378) that you have identified and characterized the core problem incorrectly. That is, be respectful when folks ask for clarification or suggest a different approach, and don't respond by shouting "I told you what you need to know and what I want to do. Now, where is my answer!?"
 
-define dirs at the top of the file and always refer to them by var name, not raw path
+The two main venues for questions, also identified on the R website's [help page](https://www.r-project.org/help.html), are:
 
-never use T and F as shortcuts to TRUE and FALSE. in economics, F is a CDF and T is the number of periods; and i'm sure other fields have similar conventions
+* mailing lists
 
-don't do the crazy bracket/paren indenting advocated by RStudio, Google, et al, except maybe in function definition. trust `args(function_name)` to print that bit that way if you really care
+* Stack Overflow ("SO")
 
-### Calling in batch
+There are different rules for posting to each mailing list and to SO. It is expected that every poster has read these rules and [exhausted other resources](https://meta.stackoverflow.com/a/261593).
 
-i prefer that my scripts work both interactively and via batch
+Here are some common question types:
 
-also, i prefer that as many args as possible be passed in a transparent way via CSVs or other structured data, so... almost no command args
+- **Parsing (date-time or regex).** This tutorial has some pointers for date-time (\@ref(dates-times)) and string parsing (\@ref(strings)) issues. Make sure you've gone through the relevant docs and their examples, e.g., `example(gsub)` or `example(as.Date)`. 
 
-### Interactive tricks
+- **Performance.** For a question like "How can I write this code better?", consider the Code Review Stack Exchange site. Like SO and the mailing lists, it has its own posting guidelines. And look into profiling, `?Rprof`. If it's related to data.table, toggle verbose messages on with `options(datatable.verbose = TRUE)` before running the code.
 
-page-able graphics with R console https://stat.ethz.ch/pipermail/r-help/2008-April/160722.html
+    For a question like "What is the fastest way to do x?", make sure the example is big enough so timing matters. Generally, it is best to write a parameterized example, e.g., with `n` for the number of rows, `ng` for the number of groups, or similar. Common functions for timing are `system.time`; `benchmark` from the rbenchmark package; and `microbenchmark` from the microbenchmark package. Here's a [good example question](https://stackoverflow.com/q/33027611).
+  
+- **Recommendations.** Questions asking about which package or software to use usually don't yield good answers. Better to investigate directly, but mailing lists may serve as a last resort, assuming their posting rules allow it.
 
-args(function_name) to quick-recap a function (having read the docs before)
+```{block2 online-style, type='rmd-caution'}
+**Question posting style.** It's easier for others to follow your example code if it is copy-pastable. For this, remove prompts such as `R>`, `>`, or `+` at the beginning of each new line. Be sure to explain the purpose and function of the code itself, either as code comments or in separate prose. Finally, it's helpful to display important objects (e.g., I show input and output [here](https://stackoverflow.com/q/18279425)).
+```
 
-    
-### Mapping values
-    
-always have a table, either as an input csv or defined in the program
 
-merge on that table -- don't do if-else
-
-if you're making a categorical variable in some more complicated way that demands an if-else structure, still save the resulting map 
-
-### Reproducible research
-
-develop and publish a package? maybe. sounds like overkill to me
-
-knitr/rmarkdown seem promising, plus whatever that tool is that bundles/snapshots package versions
-
-### Global options
-
-stringsAsFactors = FALSE
-
-(recent changes from r-devel news:)
-
--  When the condition ‘code’ in ‘if(.)’ or ‘while(.)’ is not of length one, an error instead of a warning may be triggered by setting an environment variable, see the help page.
-
-## Performance
-
-### Profiling
-
-common sense takes you a long ways. i have never needed profiling -- just think carefully about your problem and notice when you're stepping into combinatorially costly operations.
-
-options(datatable.verbose = TRUE)
-
-debugonce()
-
-(whatever else for profiling)
-
-    
-### Rcpp {#rcpp}
-    
-    it can speed up your code
-    
-    it is dead simple to read and write
-    
-    it is often be more elegant, e.g., because C++ has unordered sets as a basic data type http://stackoverflow.com/a/35559972 and also linked lists and such. all the nice stuff proper programming languages have
-    
-    R itself is written in C, as is the core functionality of data.table
-    
-    had's guide: http://adv-r.had.co.nz/Rcpp.html 
-    
-    
-### Parallelization
-    
-    e.g., for bootstrapping. the cheap way is to use perl or r to write a script that calls the program many times
-
-### Working with files on disk
-
-yeah, this seems to be changing all the time
-
-database interfacing and such, maybe you are tied to the DB and can't switch to R (no problem); maybe you can't fit the data in memory (start over from the beginning and rethink everything and/or learn AWS)
-    
-## Nontabular data    
-
-### Graph theory
-
-Don't reinvent the wheel. Use igraph if it fits
-
-### Spatial data
-
-?
-
-maybe a good example: http://stackoverflow.com/q/13316185/
-
-
-
-## Data packages
-
-see "data sets" section https://cran.r-project.org/web/views/Econometrics.html
-
-### APIs
-
-(kind of surprised this doesn't have a task view)
-
-BEA: package bea.R
-
-### Just data
-
-misc: 
-  package noncensus
-  package Ecdat
-  package EconData (not on CRAN, https://github.com/floswald/EconData)
-
-
-### Mixed with code
-
-panel data econometrics: package plm
-Achim Zeileis' 'metrics book: package AER
-
-## Dynamic programming
-
-i did it with data.table, but there may be more efficient approaches that rely only on matrices
-
-
-## Asking questions online
-
-not worth the bother to add this
-
-if using random example data, use set.seed
-
-test the example in a new session to make sure it runs on its own
-
-built-in data sets
-
-don't worry about making objects with the same names as built-ins (rivers, state.abb, etc)
-
-use built-in data sets or simple hand-made examples
-
-provide expected output
-
-isolate the problem
-
-if it's a performance question, write the example as a function of n and look at other good performance questions
-
-try your code in a new R session to make sure it works as you described
-
-if it's regex (it's usually regex), maybe don't post to SO, try chat
-
-
-library(help="datasets") as here http://stackoverflow.com/a/8368263/
 
 ## Publishing
 
-link back and forth with "reproducible research", under "style"
+Tools for outputting results for publication will always be in flux. When I started using R, tikzDevice, ggplot and Sweave were *the* packages for handling output. But since then, tikzDevice and ggplot went unmaintained and were removed from CRAN; and Sweave was removed from CRAN, integrated into base R's utils package, and then supplanted in popularity by knitr (which builds on it). The upshot is: I think one should maintain a clean division between core code and code for publishing output, and as little time as humanly possible should be put into learning tools for the latter.
 
-### Graphs
+### Graphs {#pub-graphs}
 
-Ihaka on lattice https://www.stat.auckland.ac.nz/~ihaka/120/Lectures/lecture25.pdf 
+When plotting (\@ref(plotting)), graphs can be sent to various output file formats, like PNG and PDF, as seen in \@ref(dt-syntax-ex). See `?Devices` for a full list.
 
-### Docs
+### Tables {#pub-tables}
 
+For multilevel tables, [the tables package](https://CRAN.R-project.org/package=tables) is a good option. It's been around long enough to be stable and is maintained by a member of the core R development team. The tables package outputs in many formats, including LaTeX code. Others like it can be found in the [Reproducible Research Task View](https://CRAN.R-project.org/view=ReproducibleResearch). And other output formats, like spreadsheets, can be found using google.
 
-### Object Orientation
+### Documents
 
-methods and such, Joshua Ulrich's community wiki post http://stackoverflow.com/questions/19226816/how-can-i-view-the-source-code-for-a-function/19226817#19226817
+Tables and graphs can be embedded in documents programmatically with LaTeX, but dropping R outputs off and then reading them into LaTeX can get complicated. 
 
+These days, [knitr](https://cran.r-project.org/package=knitr) and related packages (rmarkdown, bookdown) are the friendliest tools for making documents that compile jointly with R code. They output to PDF; or html; or a multi-file document like this tutorial. They also have nice integration with Rstudio (syntax highlighting, a dynamic table of contents in the sidebar, one-click compilation). Knitr is compatible with LaTeX or markdown. LaTeX offers more control and typesets properly for the printed page, but only outputs nicely to PDF and can be cumbersome to write and maintain relative to markdown. Anyway, [just pick one](https://yihui.name/en/2013/10/markdown-or-latex/).
 
-### Packages
-
-browse r internals http://docs.rexamine.com/R-devel/index.html (hosted by stringi maintainer, out of date)
-
-well-known copy, without the doc-like structure https://github.com/wch/r-source (linked earlier in the "functions" section)
-
-official mirror, i guess https://svn.r-project.org/R/trunk/ 
-
-
-
-
+For interactive documents, there are a variety of shiny whizz-bang tools: [shiny](https://cran.r-project.org/package=shiny) (yes, really); [DT](https://cran.r-project.org/package=DT); and various packages for visualizing maps and graphs ("networks"). Code written for these is likely to have a short shelf-life compared to documents and code written mostly in R and Markdown or LaTeX, I reckon, but they can be fun.
 
 
 

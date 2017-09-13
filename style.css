@@ -192,6 +192,15 @@
   }
 }
 
+/* 
+  shrink blockquote text size vs rmarkdown default
+  italicize and color so it still stands out
+*/
 
+blockquote {
+  background: #f5f5f0;
+  font-size: medium;
+  font-style: italic;
+}
 
 

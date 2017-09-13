@@ -20,19 +20,17 @@ The bracketed `[1]` indicates that we are seeing the first element of a vector. 
 
 Assign with `=` or `<-`. Or even like `c(2,3) -> z`, though this is rare and hard to read in my opinion. If an existing vector is overwritten, no warning is given.
 
-### Documentation
+### Documentation {#docs}
 
-Everything is documented in convenient wikified html pages, accessible with `?` or `help`. For example, `?TRUE`, `?LETTERS` or `?length`. Backticks are sometimes required, as for ``?`for` `` and ``?`?` ``. Keep a close eye on the Description and Value sections, which concisely explain what to expect from a function. 
+Try typing `help.start()`. This will open a page of links to manuals including "An Introduction to R", "The R Language Definition" and the "R FAQ" (under "Resources"). These are also [available in pdf online](https://cran.r-project.org/manuals.html).
 
-The Examples section always usefully illustrates functionality; it can be run in the console like `example("LETTERS")`. Additional illustrations are available using `demo`; type `demo()` for a listing.
-
-Try typing `help.start()`. This will show a page of links to documents including "An Introduction to R", "The R language definition" and the "R FAQ" (under "Resources"). These are essential reference documents on R, also [available in pdf online](https://cran.r-project.org/manuals.html).
+Everything is documented in convenient wikified html pages, accessible with `?` or `help`. For example, `?TRUE`, `?LETTERS` or `?length`. Backticks are sometimes required, as for ``?`for` `` and ``?`?` ``. Keep a close eye on the Description and Value sections, which concisely explain what to expect from a function. The Examples section always usefully illustrates functionality; it can be run in the console like `example("LETTERS")`. Additional illustrations are available using `demo`; type `demo()` for a listing.
 
 R doesn't do error codes, only error messages and warnings. If confused by a message, a search online or a review of the relevant docs is usually sufficient.
 
 ### Classes {#classes}
 
-Every vanilla vector has a class. That is, every element of the vector contains the same type of data:
+Every vanilla vector has a single class. That is, every element of the vector contains the same type of data:
 
 ```{r coercion}
 c(4, c("A", "B"))
@@ -168,7 +166,7 @@ So, the index `i` can be...
 `i` can even contain repeated elements, like `x[c(1,1,2)]`, which is some more general "slice" of `x`, not really a subvector.
 
 ```{block2 recycling, type='rmd-caution'}
-**Recycling.** What would be the natural behavior of `x[TRUE]` in the example above? Well, in R, it acts like `x[c(TRUE, TRUE, TRUE, TRUE)]`, without giving any warning. This is called recycling -- the argument `i` is repeated until it is long enough for the context is used in. What about `x[c(TRUE, FALSE)]`? The full rules for recycling can be found in the [R intro doc](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#The-recycling-rule).
+**Recycling.** What would be the natural behavior of `x[TRUE]` in the example above? Well, in R, it acts like `x[c(TRUE, TRUE, TRUE, TRUE)]`, without giving any warning. This is called recycling -- the argument `i` is repeated until it is long enough for the context it is used in. What about `x[c(TRUE, FALSE)]`? The full rules for recycling can be found in the [R intro doc](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#The-recycling-rule).
 ```
 
 ```{block2 fancy-splicing, type='rmd-details'} 
@@ -252,7 +250,7 @@ rep(c(3, 4), length.out = 5)
 rep(c(3, 4), c(3, 4))
 ```
 
-#### Integer sequences
+#### Integer sequences {#seq}
 
 Use a single colon to build a sequence of integers:
 
@@ -324,20 +322,14 @@ There are three key functions here:
 
 Be careful not to use these functions on an unordered factor, where they will make no sense but run without warning.
 
-The `frank()` function from the data.table package is also useful, for its "dense" rank tie-breaking rule.
+The `frank()` function from the data.table package is also useful, for its "dense rank" tie-breaking rule.
 
 ### Exercises
 
 1. What is the class of `c(TRUE, 1)`?
-2. What is the length of `list(1, c(2,3))`?
+2. What is the length of `list(1, c(2,3,4))`?
 3. If I run `x = c("a","b")` and then `x[c(2,1)] = c("c","d")`, what is the value of `x[1]`?
-4. Write the command to summon documenation for for the assignment procedure used in `L$X <- list(3)`.
-
-```{r todo-more-vec-ex, eval=FALSE, echo=FALSE}
-something to do with assigning names
-
-```
-
+4. What is the command to open documenation for for the assignment procedure used in `L$X <- list(3)`?
 
 ## Matrices and arrays {#matrix-array}
 
@@ -423,7 +415,7 @@ m[c(2,3)]
 Matrices also allow extraction like `X[Y]`, where `Y` is a two column "index matrix":
 
 ```{r matrix-matsubset, echo=-2}
-im = matrix(c(1,1,2,2), 2, 2, byrow=TRUE)
+im = matrix(c(1,1,2,2), 2, 2, byrow = TRUE)
 im
 m[im]
 ```
@@ -457,10 +449,12 @@ Matrix algebra functions are covered in \@ref(matrix-algebra). Some other handy 
 
 The `apply` function is popular for applying arbitrary functions along dimensions of a matrix or array. However, it is very inefficient and usually discouraged. `sweep` is a similar function.
 
-```{r todo matrix-ex, eval=FALSE, echo=FALSE}
-rbind/cbind two matrices
-overwrite a submatrix with another matrix
-```
+### Exercises
+
+1. From `x = 1:6`, build a 3x2 matrix rowwise like `m(x, _fill_this_in_)`.
+2. From `m = matrix(1:6, 2)`, extract a submatrix containing the first column.
+3. Read `?do.call` and from `L = list(c(1,1), c(2,2), c(3,3))`, bind the elements of `L` as columns of a single matrix.
+4. From `m = matrix(1:4, 2)`, overwrite the upper left and lower right cells with `0`.
 
 ## Syntax
 
@@ -571,6 +565,14 @@ The order of operations is listed in `?Syntax`. In addition to the operators lis
 
 Even knowing the order of operations, I recommend using parentheses liberally, particularly in `!(...)` statements.
 
+### Exercises
+
+1. From `x = 1:4`, use the functions introduced so far to compute how many elements are greater than 1.
+2. Read `?log10` and use it to round `x = 40` up to the next order of magnitude, like `10^(_fill_this_in_)`.
+3. From `x = c(NA, 1, 33)`, filter to elements greater than 10 (and not missing), like `x[_fill_this_in_]`.
+4. Read `?rev` and from `x = 1:10`, extract the last three elements using `head` and `rev`. What is a more direct way?
+5. Why does `NA | 1` evaluate to `TRUE`?
+6. Read `?abs` and figure out why `abs(NA) + 1 > 0` evaluates to `NA`. Should it?
 
 
 ## Functions
@@ -579,7 +581,7 @@ Functions in R all map input to output. In the documentation for a function, the
 
 ### Community-made functions
 
-#### Exploring packages
+#### Exploring packages {#cran}
 
 R has a variety of packages specialized by task and area of research. The [Task Views](https://cran.r-project.org/web/views/) on the web are a good way to browse available packages on CRAN, the Comprehensive R Archive Network.
 
@@ -587,7 +589,7 @@ Besides adding additional functions, many packages add new classes, for example 
 
 #### Installing packages
 
-It is best to install packages from CRAN, rather than elsewhere. Packages submitted to CRAN (i) have to pass some vetting procedures defined by the developers of R and and (ii) are typically used much more broadly than those not on CRAN, improving exposure of bugs. 
+It is best to install packages from CRAN or another major repository, rather than personal sites. Packages submitted to CRAN (i) have to pass some vetting procedures defined by the developers of R and and (ii) are typically used broadly, improving exposure of bugs.
 
 To install a package from CRAN, use `install.packages`: 
 
@@ -688,10 +690,6 @@ lapply(list(c(3,1,4), c(2,7,9), 0), min)
 When the function's return value is guaranteed to be a scalar, `sapply` or `vapply` may be a better choice, but I almost never need those in practice.
 
 ### Writing functions {#function-writing}
-
-```{r todo-explain-funs, echo=FALSE, eval=FALSE}
-explain the syntax, starting with function() ending with (possibly implicit) return()
-```
 
 Like any other object, functions can be assigned with `<-` or `=`:
 
@@ -858,6 +856,13 @@ Often, the source code for base R functions is in C and is fairly readable even 
 1. Read the `c-entry` column for the function of interest.
 1. Search the text of `/src/main/*.c` for it.
 
+### Exercises
+
+1. Write `ndim`, a function to count the number of dimensions an array has.
+2. Review (\@ref(seq)) and read `?cumsum`, then write a `cummean` function to compute the cumulative mean.
+3. Install a new package, then use `library(package = _your_new_package_)` to find several objects included with the package.
+4. Read `?pmin`, then write a function that takes three vectors and computes $\min((x-y)^+, z)$ elementwise, where${()}^+$ denotes [the positive part](http://mathworld.wolfram.com/PositivePart.html), testing on `x = c(10,20,30); y = 15; z = c(25,15,5)`.
+
 ## Loops and control flow {#loops}
 
 As in most programming languages, we have `for` loops, `if`/`else` blocks, and so on. Some quirks to note:
@@ -921,6 +926,10 @@ Vectorized code and matrix algebra are much faster than a loop. Loops should be 
 
 The base R tool for handling elementwise `if`/`else` rules is the function `ifelse`. However, it has some serious shortcomings. A better way, similar to the `gen`/`replace` pattern in Stata, is covered in \@ref(dt-ifelse).
 
+### Exercises
+
+1. Write a vectorized function for the root mean squared deviation between two vectors, $\sqrt{\frac{1}{n}\sum_1^n (x_i - y_i)^2 }$ where `n` is how long the vectors are. For `x = 1:4; y = c(6,1,4,1)` it should return `3`.
+
 ## Data frames {#data-frames}
 
 *My recommendation is always to use a data.table (introduced in \@ref(dt-class)) instead of a data frame, so I've kept this section short.*
@@ -976,7 +985,7 @@ To browse a data frame in a separate window, use `View(DF)`.
 R includes several handy constants, like `pi`, the alphabet (`?letters`), months (`?month.name`), days of the week (`?weekdays`) and US state names and abbreviations (`?state`). There is no need to worry about accidentally reusing any of these contants' names for variables (though redefining `pi` might not be a great idea).
 
 ```{block2 masking, type='rmd-caution'}
-**Masking.** Besides built-in constants, it is also possible to reuse names of variables and functions from base R. In general, this is harmless unless its going to make things confusing, like a `matrix` named "matrix."
+**Masking.** Besides built-in constants, it is also possible to reuse names of most variables and functions from base R. In general, this is harmless unless its going to make things confusing, like a `matrix` named "matrix." One common mistake is writing scripts with `T` and `F` (built-in abbreviations for `TRUE` and `FALSE`), which is a bad idea because it is easy to accidentally break such code by overwriting, for example, `T` as the number of periods in a panel and `F` as some cumulative distribution function.
 ```
 
 On a related note, `?Reserved` lists all of R's important built-ins that cannot be overwritten.
