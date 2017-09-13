@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-04-17" />
+<meta name="date" content="2017-09-13" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -119,7 +119,7 @@ img {
 </ul></li>
 <li class="has-sub"><a href="basics.html#basics"><span class="toc-section-number">2</span> Basics</a><ul>
 <li class="has-sub"><a href="basics.html#vectors"><span class="toc-section-number">2.1</span> Vectors</a><ul>
-<li><a href="basics.html#documentation"><span class="toc-section-number">2.1.1</span> Documentation</a></li>
+<li><a href="basics.html#docs"><span class="toc-section-number">2.1.1</span> Documentation</a></li>
 <li><a href="basics.html#classes"><span class="toc-section-number">2.1.2</span> Classes</a></li>
 <li><a href="basics.html#making-comparisons"><span class="toc-section-number">2.1.3</span> Making comparisons</a></li>
 <li><a href="basics.html#str"><span class="toc-section-number">2.1.4</span> Inspecting objects</a></li>
@@ -142,6 +142,7 @@ img {
 <li><a href="basics.html#subassigning-to-matrices"><span class="toc-section-number">2.2.5</span> Subassigning to matrices</a></li>
 <li><a href="basics.html#arrays"><span class="toc-section-number">2.2.6</span> Arrays</a></li>
 <li><a href="basics.html#matrix-misc"><span class="toc-section-number">2.2.7</span> Computing with matrices</a></li>
+<li><a href="basics.html#exercises-1"><span class="toc-section-number">2.2.8</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#syntax"><span class="toc-section-number">2.3</span> Syntax</a><ul>
 <li><a href="basics.html#assigning-to-attributes"><span class="toc-section-number">2.3.1</span> Assigning to attributes</a></li>
@@ -150,6 +151,7 @@ img {
 <li><a href="basics.html#vectorization"><span class="toc-section-number">2.3.4</span> Elementwise operations</a></li>
 <li><a href="basics.html#matrix-algebra"><span class="toc-section-number">2.3.5</span> Matrix algebra</a></li>
 <li><a href="basics.html#order-ops"><span class="toc-section-number">2.3.6</span> Order of operations</a></li>
+<li><a href="basics.html#exercises-2"><span class="toc-section-number">2.3.7</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#functions"><span class="toc-section-number">2.4</span> Functions</a><ul>
 <li><a href="basics.html#community-made-functions"><span class="toc-section-number">2.4.1</span> Community-made functions</a></li>
@@ -162,10 +164,12 @@ img {
 <li><a href="basics.html#default-args"><span class="toc-section-number">2.4.8</span> Default arguments</a></li>
 <li><a href="basics.html#finding-a-function-by-name"><span class="toc-section-number">2.4.9</span> Finding a function by name</a></li>
 <li><a href="basics.html#inspect-fns"><span class="toc-section-number">2.4.10</span> Inspecting function source code</a></li>
+<li><a href="basics.html#exercises-3"><span class="toc-section-number">2.4.11</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#loops"><span class="toc-section-number">2.5</span> Loops and control flow</a><ul>
 <li><a href="basics.html#for-loops"><span class="toc-section-number">2.5.1</span> Thinking about <code>for</code> loops</a></li>
 <li><a href="basics.html#ifelse"><span class="toc-section-number">2.5.2</span> <code>if</code>/<code>else</code> elementwise</a></li>
+<li><a href="basics.html#exercises-4"><span class="toc-section-number">2.5.3</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#data-frames"><span class="toc-section-number">2.6</span> Data frames</a><ul>
 <li><a href="basics.html#lapply-df"><span class="toc-section-number">2.6.1</span> Iterating over columns</a></li>
@@ -186,6 +190,7 @@ img {
 </ul></li>
 <li class="has-sub"><a href="tables.html#dt-agg"><span class="toc-section-number">3.3</span> Aggregation</a><ul>
 <li><a href="tables.html#dt-lapply"><span class="toc-section-number">3.3.1</span> Iterating over columns</a></li>
+<li><a href="tables.html#exercises-5"><span class="toc-section-number">3.3.2</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#dt-subassign"><span class="toc-section-number">3.4</span> Modifying data</a><ul>
 <li><a href="tables.html#dt-col-create"><span class="toc-section-number">3.4.1</span> Creating columns</a></li>
@@ -195,6 +200,7 @@ img {
 <li><a href="tables.html#other-in-place-modifications"><span class="toc-section-number">3.4.5</span> Other in-place modifications</a></li>
 <li><a href="tables.html#avoiding-in-place-modification"><span class="toc-section-number">3.4.6</span> Avoiding in-place modification</a></li>
 <li><a href="tables.html#using-in-place-modification-in-functions"><span class="toc-section-number">3.4.7</span> Using in-place modification in functions</a></li>
+<li><a href="tables.html#exercises-6"><span class="toc-section-number">3.4.8</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#dt-joins"><span class="toc-section-number">3.5</span> Joins</a><ul>
 <li><a href="tables.html#equi-joins"><span class="toc-section-number">3.5.1</span> Equi joins</a></li>
@@ -205,6 +211,7 @@ img {
 <li><a href="tables.html#join-matches"><span class="toc-section-number">3.5.6</span> Handling matches</a></li>
 <li><a href="tables.html#joins-nonequi"><span class="toc-section-number">3.5.7</span> Non-equi joins</a></li>
 <li><a href="tables.html#shortcuts-and-tricks"><span class="toc-section-number">3.5.8</span> Shortcuts and tricks</a></li>
+<li><a href="tables.html#exercises-7"><span class="toc-section-number">3.5.9</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#input-output"><span class="toc-section-number">3.6</span> Input and output</a><ul>
 <li><a href="tables.html#file-paths"><span class="toc-section-number">3.6.1</span> File paths</a></li>
@@ -218,6 +225,7 @@ img {
 <li><a href="tables.html#dt-saveload"><span class="toc-section-number">3.6.9</span> Saving and loading R objects</a></li>
 <li><a href="tables.html#reading-and-writing-other-formats"><span class="toc-section-number">3.6.10</span> Reading and writing other formats</a></li>
 <li><a href="tables.html#format-cols"><span class="toc-section-number">3.6.11</span> Formatting the display of columns</a></li>
+<li><a href="tables.html#exercises-8"><span class="toc-section-number">3.6.12</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#exploring-data"><span class="toc-section-number">3.7</span> Exploring data</a><ul>
 <li><a href="tables.html#browse-env"><span class="toc-section-number">3.7.1</span> Browsing loaded objects</a></li>
@@ -226,6 +234,7 @@ img {
 <li><a href="tables.html#explore-onevar"><span class="toc-section-number">3.7.4</span> Examining each variable</a></li>
 <li><a href="tables.html#explore-vars"><span class="toc-section-number">3.7.5</span> Examining variables jointly</a></li>
 <li><a href="tables.html#dcast-browse"><span class="toc-section-number">3.7.6</span> Reshaping to wide</a></li>
+<li><a href="tables.html#exercises-9"><span class="toc-section-number">3.7.7</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#structuring-data"><span class="toc-section-number">3.8</span> Organizing relational tables</a><ul>
 <li><a href="tables.html#redundant"><span class="toc-section-number">3.8.1</span> Removing redundant data</a></li>
@@ -233,6 +242,7 @@ img {
 <li><a href="tables.html#relational-updatejoin"><span class="toc-section-number">3.8.3</span> Preparing data with update joins</a></li>
 <li><a href="tables.html#program-tables"><span class="toc-section-number">3.8.4</span> Programming with tables</a></li>
 </ul></li>
+<li><a href="tables.html#notation-cheat-sheet"><span class="toc-section-number">3.9</span> Notation cheat sheet</a></li>
 </ul></li>
 <li class="has-sub"><a href="work.html#work"><span class="toc-section-number">4</span> Getting work done</a><ul>
 <li class="has-sub"><a href="work.html#sets"><span class="toc-section-number">4.1</span> Sets</a><ul>
@@ -240,8 +250,11 @@ img {
 <li><a href="work.html#testing-membership"><span class="toc-section-number">4.1.2</span> Testing membership</a></li>
 <li><a href="work.html#other-binary-operators"><span class="toc-section-number">4.1.3</span> Other binary operators</a></li>
 <li><a href="work.html#operators-on-lists-of-sets"><span class="toc-section-number">4.1.4</span> Operators on lists of sets</a></li>
+<li><a href="work.html#exercises-10"><span class="toc-section-number">4.1.5</span> Exercises</a></li>
 </ul></li>
-<li><a href="work.html#combos"><span class="toc-section-number">4.2</span> Combinations</a></li>
+<li class="has-sub"><a href="work.html#combos"><span class="toc-section-number">4.2</span> Combinations</a><ul>
+<li><a href="work.html#exercises-11"><span class="toc-section-number">4.2.1</span> Exercises</a></li>
+</ul></li>
 <li class="has-sub"><a href="work.html#randomization"><span class="toc-section-number">4.3</span> Randomization</a><ul>
 <li><a href="work.html#distribution-draws"><span class="toc-section-number">4.3.1</span> Distribution draws</a></li>
 <li><a href="work.html#urn-draws"><span class="toc-section-number">4.3.2</span> Urn draws</a></li>
@@ -266,6 +279,17 @@ img {
 <li><a href="work.html#integration"><span class="toc-section-number">4.7.2</span> Integration</a></li>
 </ul></li>
 <li><a href="work.html#strings"><span class="toc-section-number">4.8</span> String operations</a></li>
+</ul></li>
+<li class="has-sub"><a href="extra.html#extra"><span class="toc-section-number">5</span> Misc</a><ul>
+<li class="has-sub"><a href="extra.html#finding-solutions"><span class="toc-section-number">5.1</span> Finding solutions</a><ul>
+<li><a href="extra.html#pinning-down-a-problem"><span class="toc-section-number">5.1.1</span> Pinning down a problem</a></li>
+<li><a href="extra.html#asking-a-question-online"><span class="toc-section-number">5.1.2</span> Asking a question online</a></li>
+</ul></li>
+<li class="has-sub"><a href="extra.html#publishing"><span class="toc-section-number">5.2</span> Publishing</a><ul>
+<li><a href="extra.html#pub-graphs"><span class="toc-section-number">5.2.1</span> Graphs</a></li>
+<li><a href="extra.html#pub-tables"><span class="toc-section-number">5.2.2</span> Tables</a></li>
+<li><a href="extra.html#documents"><span class="toc-section-number">5.2.3</span> Documents</a></li>
+</ul></li>
 </ul></li>
 </ul>
 </div>
@@ -297,7 +321,7 @@ img {
 </div>
 <div id="other-binary-operators" class="section level3">
 <h3><span class="header-section-number">4.1.3</span> Other binary operators</h3>
-<p>As documented at <code>?sets</code>, for two vectors <code>x</code> and <code>y</code> we can write</p>
+<p>As documented at <code>?sets</code>, for two vectors <code>x</code> and <code>y</code> we can construct various statements:</p>
 <ul>
 <li><span class="math inline">\(x\cup y\)</span> as <code>union(x,y)</code>,</li>
 <li><span class="math inline">\(x\cap y\)</span> as <code>intersect(x,y)</code>,</li>
@@ -306,7 +330,7 @@ img {
 </ul>
 <p>As mentioned in <a href="basics.html#classes">2.1.2</a>, R does not actually support an unordered set data type. However, these functions treat <code>x</code> and <code>y</code> as sets in the sense that they ignore duplicated values in them. So <code>union(c(1,1,2), c(3,4))</code> is <code>c(1,2,3,4)</code>, with the repeating 1 ignored because it has no meaning in this context.</p>
 <p>Corresponding functions exist for data.tables, prefixed like <code>f*</code>: <code>funion</code>, <code>fintersect</code>, <code>fsetdiff</code> and <code>fsetequal</code>. Two tables can be combined in this way only if their columns line up (in terms of class, etc.).</p>
-<p>Looking at the source code for these functions, we’ll see a lot of the <code>match</code> function.</p>
+<p>Looking at the source code for these functions, we’ll see a lot of them use the <code>match</code> function.</p>
 </div>
 <div id="operators-on-lists-of-sets" class="section level3">
 <h3><span class="header-section-number">4.1.4</span> Operators on lists of sets</h3>
@@ -320,8 +344,14 @@ img {
 <pre><code># [1]  1  2  3 11  4  5  6</code></pre>
 <p>Another alternative for the union of a set of vectors is <code>unique(unlist(xList))</code>. The <code>unlist</code> function just combines the four vectors into a single vector. <code>Reduce(intersect, xList)</code> makes sense for taking the intersection of a bunch of sets.</p>
 <p>For a list of data.tables, the same can be done (with <code>funion</code> and <code>fintersect</code>). However, again, the alternative for finite unions <code>unique(rbindlist(dList))</code> may be better in terms of performance in some cases.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">define <span class="kw">subseteq</span>(x, y), which returns true if x is <span class="kw">a</span> (nonstrict) subset of y
-define <span class="kw">symdiff</span>(x, y), which returns items in x or y but not both</code></pre></div>
+</div>
+<div id="exercises-10" class="section level3">
+<h3><span class="header-section-number">4.1.5</span> Exercises</h3>
+<ol style="list-style-type: decimal">
+<li><p>Define a “subset or equal” function for two vectors, <code>subsetequal(x,y)</code>, which returns <code>TRUE</code> iff <code>x</code> is a (nonstrict) subset of <code>y</code>, <span class="math inline">\(x \subseteq y\)</span>. How would the function change for testing a strict subset, <span class="math inline">\(x \subset y\)</span>?</p></li>
+<li><p>Define a “symmetric difference” function for two vectors, <code>symdiff(x,y)</code>, which returns unique items appearing in <code>x</code> or in <code>y</code> but not in both.</p></li>
+<li><p>With <code>DT = data.table(g = c(1,1,2,2,2,3), v = 1:6)</code>, we can select the first row of each <code>g</code> group with <code>unique(DT, by=&quot;g&quot;)</code> or <code>DT[!duplicated(DT, by=&quot;g&quot;)]</code> or <code>DT[, .SD[1L], by=g]</code> or <code>DT[.(unique(g)), on=.(g), mult=&quot;first&quot;]</code> or <code>DT[DT[, first(.I), by=g]$V1]</code>. Find several ways to select the <em>last</em> row in each <code>g</code> group. (Hint: one uses <code>order(-(1:.N))</code>.)</p></li>
+</ol>
 </div>
 </div>
 <div id="combos" class="section level2">
@@ -373,6 +403,23 @@ xpairs[, pair_code :<span class="er">=</span><span class="st"> </span><span clas
 <p><code>CJ</code> is essentially a Cartesian product, or a “Cross Join.”</p>
 <p>In base, <code>combn(x, n, f)</code> finds all <code>x</code>’s subvectors of length <code>n</code> and optionally applies a function to them. And <code>outer(x, y, f)</code> applies a function to all pairs of elements of <code>x</code> and <code>y</code>, returning a matrix.</p>
 <p>All of these options can get out of hand, in terms of memory consumption, but that’s normal for combinatorial operations.</p>
+<div id="exercises-11" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> Exercises</h3>
+<ol style="list-style-type: decimal">
+<li><p>Define a function, <code>triples</code>, which takes a vector <code>x</code> and returns all length-3 subsets, one on each row. For <code>x = 1:5</code>, there are ten <code>= choose(5,3)</code> such subsets, so it should look something like…</p>
+<pre><code>#     V1 V2 V3
+#  1:  1  2  3
+#  2:  1  2  4
+#  3:  1  2  5
+#  4:  1  3  4
+#  5:  1  3  5
+#  6:  1  4  5
+#  7:  2  3  4
+#  8:  2  3  5
+#  9:  2  4  5
+# 10:  3  4  5</code></pre></li>
+</ol>
+</div>
 </div>
 <div id="randomization" class="section level2">
 <h2><span class="header-section-number">4.3</span> Randomization</h2>
@@ -834,6 +881,8 @@ res =<span class="st"> </span>DT[, <span class="kw">lm</span>(y ~<span class="st
 <li><p><code>grep</code>, <code>grepl</code>, <code>regexpr</code> and <code>gregexpr</code> search strings, with <code>regmatches</code> for extracting matches.</p></li>
 <li><p><code>sub</code> and <code>gsub</code> rewrite strings.</p></li>
 <li><p><code>strsplit</code> and <code>tstrsplit</code> can split strings based on a pattern.</p></li>
+<li><p><code>chartr</code> changes single characters.</p></li>
+<li><p><code>lower</code> and <code>upper</code> change cases.</p></li>
 </ul>
 <p>Most of these are vectorized (<a href="basics.html#vectorization">2.3.4</a>) whenever it makes sense. Examples for a couple of them can be found in <a href="tables.html#char-input">3.6.5</a>.</p>
 <p>For searching, rewriting or splitting strings, some familiarity with regular expressions will often be helpful. See <code>?regex</code>. Because the syntax of the functions can also get cumbersome, it may be worth it to use a helper like <a href="https://CRAN.R-project.org/package=stringi">the stringi package</a>.</p>
@@ -841,14 +890,18 @@ res =<span class="st"> </span>DT[, <span class="kw">lm</span>(y ~<span class="st
 <p><code>print</code> and <code>cat</code> can both be used to print output to the screen, with various options. Of the two, <code>cat</code> will actually parse the string, so <code>cat('Egad!\nI dare say, &quot;It\'s you!&quot;\n')</code> will print the newlines and quotes.</p>
 
 <div class="rmd-details">
-<strong>Writing to console.</strong> While I have simply used <code>cat</code>, <code>print</code> and <code>stopifnot</code> throughout this document, the proper way to handle messages is more complicated, as <span class="citation">[explained by @coatless on Stack Overflow]</span>(<a href="http://stackoverflow.com/a/36700294/" class="uri">http://stackoverflow.com/a/36700294/</a>). I still haven’t learned it myself, but it is likely to be important when writing a package.
+<strong>Writing to console.</strong> While I have simply used <code>cat</code>, <code>print</code> and <code>stopifnot</code> throughout this document, the proper way to handle messages is more complicated, as <a href="http://stackoverflow.com/a/36700294/">explained by coatless on Stack Overflow</a>. I still haven’t learned it myself, but it is likely to be important when writing a package.
 </div>
 <p></p>
 <p>In my opinion, very few string operations (and no regex operations) are necessary outside of input-output processing (<a href="tables.html#input-output">3.6</a>) and printing messages.</p>
 <p>The input and output functions have their own string processing tools, so plenty of manual string tweaking can often be avoided. For example, <code>na.strings</code> in <code>fread</code> can recognize missing values as such when a file is read in; and <code>dateTimeAs</code> in <code>fwrite</code> can format date and time columns when printing a table out.</p>
 
 <div class="rmd-details">
-<strong>Saving keystrokes.</strong> Finally, for the sake of my sanity, I borrow <a href="https://www.google.com/#q=perl%20qw">a Perl function</a> for creating character vectors, e.g., of column names: <code>qw &lt;- function(s=&quot;&quot;) unlist(strsplit(s,'[[:space:]]+'))</code> used like <code>my_cols &lt;- qw(&quot;id city_name state_code country_code&quot;); setkeyv(DT, my_cols)</code>. Those coming from Stata, where columns are always barewords, may appreciate this style, and I guess such quality-of-life functions are fairly harmless so long as no function using them is shared as if it’s standalone.
+<p><strong>Saving keystrokes.</strong> Finally, for the sake of my sanity, I borrow <a href="https://www.google.com/#q=perl%20qw">a Perl function</a> for creating character vectors.</p>
+<pre><code>qw &lt;- function(s=&quot;&quot;) unlist(strsplit(s,&#39;[[:space:]]+&#39;))
+my_cols &lt;- qw(&quot;id city_name state_code country_code&quot;)
+setkeyv(DT, my_cols)</code></pre>
+Those coming from Stata, where columns are always barewords, may appreciate this style, and I guess such quality-of-life functions are fairly harmless so long as no function using them is shared as if it’s standalone.
 </div>
 <p></p>
 
@@ -856,6 +909,7 @@ res =<span class="st"> </span>DT[, <span class="kw">lm</span>(y ~<span class="st
 </div>
 <p style="text-align: center;">
 <a href="tables.html"><button class="btn btn-default">Previous</button></a>
+<a href="extra.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

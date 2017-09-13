@@ -297,59 +297,67 @@ img {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="header">
-<h1 class="title"><br><br>Quick R Tutorial</h1>
-<h4 class="author"><em>Frank Erickson</em></h4>
-<h4 class="date"><em>2017-09-13</em></h4>
+<div id="extra" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Misc</h1>
+<div id="finding-solutions" class="section level2">
+<h2><span class="header-section-number">5.1</span> Finding solutions</h2>
+<p>The documentation included during installation (<a href="basics.html#docs">2.1.1</a>) is the best resource. Beyond base R, the Task Views (<a href="basics.html#cran">2.4.1.1</a>) are a good way to see what is on CRAN. And beyond CRAN, specialized repositories offer further packages, like Bioconductor for bioinformatics.</p>
+<p>The R website’s <a href="https://www.r-project.org/help.html">help page</a> has a great overview of resources to use when you have a programming problem. It’s worth reading all the way through.</p>
+<div id="pinning-down-a-problem" class="section level3">
+<h3><span class="header-section-number">5.1.1</span> Pinning down a problem</h3>
+<p>The first step is to talk through the problem, even if no one is around to listen:</p>
+<blockquote>
+<p><em>totally commit</em> to asking a thorough, detailed question of this imaginary person or inanimate object.</p>
+<p>– Jeff Atwood, <a href="https://blog.codinghorror.com/rubber-duck-problem-solving/">Rubber Duck Problem Solving</a></p>
+</blockquote>
+<p>This rubber-ducking often solves it. If the problem persists, work on making a self-contained example of what you want to happen: reproducible input and associated desired output. Test code for the example in a new R session, since it’s possible that attached objects and packages will introduce confusing complications.</p>
+<p>This example-building often solves it. If the problem persists, the next step is to formulate a question built around the example. This requires explaining the problem succinctly. For some advice on how to ask a good question, see <a href="https://stackoverflow.com/a/28481250/">BrodieG’s post</a>.</p>
 </div>
-<div id="introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
-<p>This document explains how to use R, subject to some caveats: starting in chapter <a href="tables.html#tables">3</a>, I only cover the packages I use; chapter <a href="work.html#work">4</a> only covers the analytical tools I use; and, to keep it short and correct, I have skipped discussion of statistical methodology and pretty graphs.</p>
-<p>Why R instead of Stata?</p>
+<div id="asking-a-question-online" class="section level3">
+<h3><span class="header-section-number">5.1.2</span> Asking a question online</h3>
+<p>If asking folks online instead of colleagues, make sure your post contains a single question, self-contained without a need for a sweeping narrative of the broader project. On the other hand, <a href="https://meta.stackexchange.com/a/66378">be open to the possibility</a> that you have identified and characterized the core problem incorrectly. That is, be respectful when folks ask for clarification or suggest a different approach, and don’t respond by shouting “I told you what you need to know and what I want to do. Now, where is my answer!?”</p>
+<p>The two main venues for questions, also identified on the R website’s <a href="https://www.r-project.org/help.html">help page</a>, are:</p>
 <ul>
-<li>It’s free, so you and others can run your code now and into the future.</li>
-<li><p>While Stata restricts by-group operations to a select few, R’s data.table package allows the equivalent of</p>
-<pre><code># Stata pseudocode
-by g: {
-  ...
-  ...
-} if condition</code></pre></li>
-<li><p>Objects are treated symmetrically, so we don’t have to use different rules for data tables, matrices, functions and variables. Nor do we have to learn new rules for when those objects are in Stata vs Mata or when data is loaded in memory vs on disk. Nor do we have to shuttle objects around between the various levels encountered in Stata.</p></li>
+<li><p>mailing lists</p></li>
+<li><p>Stack Overflow (“SO”)</p></li>
 </ul>
-<div id="getting-started-with-r" class="section level2">
-<h2><span class="header-section-number">1.1</span> Getting started with R</h2>
-<p>Go to <a href="https://www.r-project.org/">the R project site</a> and follow the instructions to download the latest version from CRAN, the Comprehensive R Archive Network.</p>
-<p>After installation, I know of two good options for running R on Windows:</p>
+<p>There are different rules for posting to each mailing list and to SO. It is expected that every poster has read these rules and <a href="https://meta.stackoverflow.com/a/261593">exhausted other resources</a>.</p>
+<p>Here are some common question types:</p>
 <ul>
-<li><p>Hook up R to notepad++ with <a href="https://sourceforge.net/projects/npptor/">NppToR</a>. This allows you to edit R scripts alongside all other documents. Commands are passed to the R console by customizable keyboard shortcuts and switching between multiple running R consoles is easy.</p></li>
-<li><p>Install <a href="https://www.rstudio.com/">the Rstudio development environment</a>. It puts everything in a monolithic window, which means you cannot maximize the R console on one monitor while viewing a help file on another. Although you can open multiple scripts, searching text across them is not supported. It also lacks drag-and-drop (of scripts into the editor or data into the console). On the plus side, it is cross-platform; does not require administrator privileges to install; and has “development” features like project management and report compilation.</p></li>
+<li><p><strong>Parsing (date-time or regex).</strong> This tutorial has some pointers for date-time (<a href="tables.html#dates-times">3.6.4</a>) and string parsing (<a href="work.html#strings">4.8</a>) issues. Make sure you’ve gone through the relevant docs and their examples, e.g., <code>example(gsub)</code> or <code>example(as.Date)</code>.</p></li>
+<li><p><strong>Performance.</strong> For a question like “How can I write this code better?”, consider the Code Review Stack Exchange site. Like SO and the mailing lists, it has its own posting guidelines. And look into profiling, <code>?Rprof</code>. If it’s related to data.table, toggle verbose messages on with <code>options(datatable.verbose = TRUE)</code> before running the code.</p>
+<p>For a question like “What is the fastest way to do x?”, make sure the example is big enough so timing matters. Generally, it is best to write a parameterized example, e.g., with <code>n</code> for the number of rows, <code>ng</code> for the number of groups, or similar. Common functions for timing are <code>system.time</code>; <code>benchmark</code> from the rbenchmark package; and <code>microbenchmark</code> from the microbenchmark package. Here’s a <a href="https://stackoverflow.com/q/33027611">good example question</a>.</p></li>
+<li><p><strong>Recommendations.</strong> Questions asking about which package or software to use usually don’t yield good answers. Better to investigate directly, but mailing lists may serve as a last resort, assuming their posting rules allow it.</p></li>
 </ul>
-</div>
-<div id="reading-this-book" class="section level2">
-<h2><span class="header-section-number">1.2</span> Reading this book</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">code that you can type at the console appears in boxes like this.</code></pre></div>
-<pre><code># Results from code appear in boxes like this.</code></pre>
-<p>The comment symbol, <code>#</code>, appears in the results box so that you can safely copy-paste them into the console as well. Unfortunately, R does not have any syntax for block comments.</p>
 
 <div class="rmd-caution">
-Some notes warn about inconsistencies and pitfalls and should be read.
+<strong>Question posting style.</strong> It’s easier for others to follow your example code if it is copy-pastable. For this, remove prompts such as <code>R&gt;</code>, <code>&gt;</code>, or <code>+</code> at the beginning of each new line. Be sure to explain the purpose and function of the code itself, either as code comments or in separate prose. Finally, it’s helpful to display important objects (e.g., I show input and output <a href="https://stackoverflow.com/q/18279425">here</a>).
 </div>
 <p></p>
-
-<div class="rmd-details">
-Other notes give technical details and can be skipped the first time through.
 </div>
-<p></p>
-<p>Exercises are interspersed and should be pretty quick to do.</p>
 </div>
-<div id="about-this-book" class="section level2">
-<h2><span class="header-section-number">1.3</span> About this book</h2>
-<p>The book’s R code was compiled using R, maintained by <a href="https://www.r-project.org/">the R Foundation</a>; written in the <a href="https://www.rstudio.com/products/rstudio/">Rstudio IDE</a>; and typeset with <a href="http://rmarkdown.rstudio.com/">Rmarkdown</a> and <a href="https://bookdown.org/">bookdown</a> by RStudio. Icons are from the <a href="https://www.iconfinder.com/iconsets/very-basic-android-l-lollipop">“Very Basic. Android L Lollipop” set by Ivan Boyko</a> licensed under <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>. There is no explicit or implied endorsement of this document by any of the parties mentioned.</p>
+<div id="publishing" class="section level2">
+<h2><span class="header-section-number">5.2</span> Publishing</h2>
+<p>Tools for outputting results for publication will always be in flux. When I started using R, tikzDevice, ggplot and Sweave were <em>the</em> packages for handling output. But since then, tikzDevice and ggplot went unmaintained and were removed from CRAN; and Sweave was removed from CRAN, integrated into base R’s utils package, and then supplanted in popularity by knitr (which builds on it). The upshot is: I think one should maintain a clean division between core code and code for publishing output, and as little time as humanly possible should be put into learning tools for the latter.</p>
+<div id="pub-graphs" class="section level3">
+<h3><span class="header-section-number">5.2.1</span> Graphs</h3>
+<p>When plotting (<a href="tables.html#plotting">3.7.4.3</a>), graphs can be sent to various output file formats, like PNG and PDF, as seen in <a href="tables.html#dt-syntax-ex">3.2.4.4</a>. See <code>?Devices</code> for a full list.</p>
+</div>
+<div id="pub-tables" class="section level3">
+<h3><span class="header-section-number">5.2.2</span> Tables</h3>
+<p>For multilevel tables, <a href="https://CRAN.R-project.org/package=tables">the tables package</a> is a good option. It’s been around long enough to be stable and is maintained by a member of the core R development team. The tables package outputs in many formats, including LaTeX code. Others like it can be found in the <a href="https://CRAN.R-project.org/view=ReproducibleResearch">Reproducible Research Task View</a>. And other output formats, like spreadsheets, can be found using google.</p>
+</div>
+<div id="documents" class="section level3">
+<h3><span class="header-section-number">5.2.3</span> Documents</h3>
+<p>Tables and graphs can be embedded in documents programmatically with LaTeX, but dropping R outputs off and then reading them into LaTeX can get complicated.</p>
+<p>These days, <a href="https://cran.r-project.org/package=knitr">knitr</a> and related packages (rmarkdown, bookdown) are the friendliest tools for making documents that compile jointly with R code. They output to PDF; or html; or a multi-file document like this tutorial. They also have nice integration with Rstudio (syntax highlighting, a dynamic table of contents in the sidebar, one-click compilation). Knitr is compatible with LaTeX or markdown. LaTeX offers more control and typesets properly for the printed page, but only outputs nicely to PDF and can be cumbersome to write and maintain relative to markdown. Anyway, <a href="https://yihui.name/en/2013/10/markdown-or-latex/">just pick one</a>.</p>
+<p>For interactive documents, there are a variety of shiny whizz-bang tools: <a href="https://cran.r-project.org/package=shiny">shiny</a> (yes, really); <a href="https://cran.r-project.org/package=DT">DT</a>; and various packages for visualizing maps and graphs (“networks”). Code written for these is likely to have a short shelf-life compared to documents and code written mostly in R and Markdown or LaTeX, I reckon, but they can be fun.</p>
 
+</div>
 </div>
 </div>
 <p style="text-align: center;">
-<a href="basics.html"><button class="btn btn-default">Next</button></a>
+<a href="work.html"><button class="btn btn-default">Previous</button></a>
 </p>
 </div>
 </div>

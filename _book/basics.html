@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-04-17" />
+<meta name="date" content="2017-09-13" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -119,7 +119,7 @@ img {
 </ul></li>
 <li class="has-sub"><a href="basics.html#basics"><span class="toc-section-number">2</span> Basics</a><ul>
 <li class="has-sub"><a href="basics.html#vectors"><span class="toc-section-number">2.1</span> Vectors</a><ul>
-<li><a href="basics.html#documentation"><span class="toc-section-number">2.1.1</span> Documentation</a></li>
+<li><a href="basics.html#docs"><span class="toc-section-number">2.1.1</span> Documentation</a></li>
 <li><a href="basics.html#classes"><span class="toc-section-number">2.1.2</span> Classes</a></li>
 <li><a href="basics.html#making-comparisons"><span class="toc-section-number">2.1.3</span> Making comparisons</a></li>
 <li><a href="basics.html#str"><span class="toc-section-number">2.1.4</span> Inspecting objects</a></li>
@@ -142,6 +142,7 @@ img {
 <li><a href="basics.html#subassigning-to-matrices"><span class="toc-section-number">2.2.5</span> Subassigning to matrices</a></li>
 <li><a href="basics.html#arrays"><span class="toc-section-number">2.2.6</span> Arrays</a></li>
 <li><a href="basics.html#matrix-misc"><span class="toc-section-number">2.2.7</span> Computing with matrices</a></li>
+<li><a href="basics.html#exercises-1"><span class="toc-section-number">2.2.8</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#syntax"><span class="toc-section-number">2.3</span> Syntax</a><ul>
 <li><a href="basics.html#assigning-to-attributes"><span class="toc-section-number">2.3.1</span> Assigning to attributes</a></li>
@@ -150,6 +151,7 @@ img {
 <li><a href="basics.html#vectorization"><span class="toc-section-number">2.3.4</span> Elementwise operations</a></li>
 <li><a href="basics.html#matrix-algebra"><span class="toc-section-number">2.3.5</span> Matrix algebra</a></li>
 <li><a href="basics.html#order-ops"><span class="toc-section-number">2.3.6</span> Order of operations</a></li>
+<li><a href="basics.html#exercises-2"><span class="toc-section-number">2.3.7</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#functions"><span class="toc-section-number">2.4</span> Functions</a><ul>
 <li><a href="basics.html#community-made-functions"><span class="toc-section-number">2.4.1</span> Community-made functions</a></li>
@@ -162,10 +164,12 @@ img {
 <li><a href="basics.html#default-args"><span class="toc-section-number">2.4.8</span> Default arguments</a></li>
 <li><a href="basics.html#finding-a-function-by-name"><span class="toc-section-number">2.4.9</span> Finding a function by name</a></li>
 <li><a href="basics.html#inspect-fns"><span class="toc-section-number">2.4.10</span> Inspecting function source code</a></li>
+<li><a href="basics.html#exercises-3"><span class="toc-section-number">2.4.11</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#loops"><span class="toc-section-number">2.5</span> Loops and control flow</a><ul>
 <li><a href="basics.html#for-loops"><span class="toc-section-number">2.5.1</span> Thinking about <code>for</code> loops</a></li>
 <li><a href="basics.html#ifelse"><span class="toc-section-number">2.5.2</span> <code>if</code>/<code>else</code> elementwise</a></li>
+<li><a href="basics.html#exercises-4"><span class="toc-section-number">2.5.3</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="basics.html#data-frames"><span class="toc-section-number">2.6</span> Data frames</a><ul>
 <li><a href="basics.html#lapply-df"><span class="toc-section-number">2.6.1</span> Iterating over columns</a></li>
@@ -186,6 +190,7 @@ img {
 </ul></li>
 <li class="has-sub"><a href="tables.html#dt-agg"><span class="toc-section-number">3.3</span> Aggregation</a><ul>
 <li><a href="tables.html#dt-lapply"><span class="toc-section-number">3.3.1</span> Iterating over columns</a></li>
+<li><a href="tables.html#exercises-5"><span class="toc-section-number">3.3.2</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#dt-subassign"><span class="toc-section-number">3.4</span> Modifying data</a><ul>
 <li><a href="tables.html#dt-col-create"><span class="toc-section-number">3.4.1</span> Creating columns</a></li>
@@ -195,6 +200,7 @@ img {
 <li><a href="tables.html#other-in-place-modifications"><span class="toc-section-number">3.4.5</span> Other in-place modifications</a></li>
 <li><a href="tables.html#avoiding-in-place-modification"><span class="toc-section-number">3.4.6</span> Avoiding in-place modification</a></li>
 <li><a href="tables.html#using-in-place-modification-in-functions"><span class="toc-section-number">3.4.7</span> Using in-place modification in functions</a></li>
+<li><a href="tables.html#exercises-6"><span class="toc-section-number">3.4.8</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#dt-joins"><span class="toc-section-number">3.5</span> Joins</a><ul>
 <li><a href="tables.html#equi-joins"><span class="toc-section-number">3.5.1</span> Equi joins</a></li>
@@ -205,6 +211,7 @@ img {
 <li><a href="tables.html#join-matches"><span class="toc-section-number">3.5.6</span> Handling matches</a></li>
 <li><a href="tables.html#joins-nonequi"><span class="toc-section-number">3.5.7</span> Non-equi joins</a></li>
 <li><a href="tables.html#shortcuts-and-tricks"><span class="toc-section-number">3.5.8</span> Shortcuts and tricks</a></li>
+<li><a href="tables.html#exercises-7"><span class="toc-section-number">3.5.9</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#input-output"><span class="toc-section-number">3.6</span> Input and output</a><ul>
 <li><a href="tables.html#file-paths"><span class="toc-section-number">3.6.1</span> File paths</a></li>
@@ -218,6 +225,7 @@ img {
 <li><a href="tables.html#dt-saveload"><span class="toc-section-number">3.6.9</span> Saving and loading R objects</a></li>
 <li><a href="tables.html#reading-and-writing-other-formats"><span class="toc-section-number">3.6.10</span> Reading and writing other formats</a></li>
 <li><a href="tables.html#format-cols"><span class="toc-section-number">3.6.11</span> Formatting the display of columns</a></li>
+<li><a href="tables.html#exercises-8"><span class="toc-section-number">3.6.12</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#exploring-data"><span class="toc-section-number">3.7</span> Exploring data</a><ul>
 <li><a href="tables.html#browse-env"><span class="toc-section-number">3.7.1</span> Browsing loaded objects</a></li>
@@ -226,6 +234,7 @@ img {
 <li><a href="tables.html#explore-onevar"><span class="toc-section-number">3.7.4</span> Examining each variable</a></li>
 <li><a href="tables.html#explore-vars"><span class="toc-section-number">3.7.5</span> Examining variables jointly</a></li>
 <li><a href="tables.html#dcast-browse"><span class="toc-section-number">3.7.6</span> Reshaping to wide</a></li>
+<li><a href="tables.html#exercises-9"><span class="toc-section-number">3.7.7</span> Exercises</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#structuring-data"><span class="toc-section-number">3.8</span> Organizing relational tables</a><ul>
 <li><a href="tables.html#redundant"><span class="toc-section-number">3.8.1</span> Removing redundant data</a></li>
@@ -233,6 +242,7 @@ img {
 <li><a href="tables.html#relational-updatejoin"><span class="toc-section-number">3.8.3</span> Preparing data with update joins</a></li>
 <li><a href="tables.html#program-tables"><span class="toc-section-number">3.8.4</span> Programming with tables</a></li>
 </ul></li>
+<li><a href="tables.html#notation-cheat-sheet"><span class="toc-section-number">3.9</span> Notation cheat sheet</a></li>
 </ul></li>
 <li class="has-sub"><a href="work.html#work"><span class="toc-section-number">4</span> Getting work done</a><ul>
 <li class="has-sub"><a href="work.html#sets"><span class="toc-section-number">4.1</span> Sets</a><ul>
@@ -240,8 +250,11 @@ img {
 <li><a href="work.html#testing-membership"><span class="toc-section-number">4.1.2</span> Testing membership</a></li>
 <li><a href="work.html#other-binary-operators"><span class="toc-section-number">4.1.3</span> Other binary operators</a></li>
 <li><a href="work.html#operators-on-lists-of-sets"><span class="toc-section-number">4.1.4</span> Operators on lists of sets</a></li>
+<li><a href="work.html#exercises-10"><span class="toc-section-number">4.1.5</span> Exercises</a></li>
 </ul></li>
-<li><a href="work.html#combos"><span class="toc-section-number">4.2</span> Combinations</a></li>
+<li class="has-sub"><a href="work.html#combos"><span class="toc-section-number">4.2</span> Combinations</a><ul>
+<li><a href="work.html#exercises-11"><span class="toc-section-number">4.2.1</span> Exercises</a></li>
+</ul></li>
 <li class="has-sub"><a href="work.html#randomization"><span class="toc-section-number">4.3</span> Randomization</a><ul>
 <li><a href="work.html#distribution-draws"><span class="toc-section-number">4.3.1</span> Distribution draws</a></li>
 <li><a href="work.html#urn-draws"><span class="toc-section-number">4.3.2</span> Urn draws</a></li>
@@ -267,6 +280,17 @@ img {
 </ul></li>
 <li><a href="work.html#strings"><span class="toc-section-number">4.8</span> String operations</a></li>
 </ul></li>
+<li class="has-sub"><a href="extra.html#extra"><span class="toc-section-number">5</span> Misc</a><ul>
+<li class="has-sub"><a href="extra.html#finding-solutions"><span class="toc-section-number">5.1</span> Finding solutions</a><ul>
+<li><a href="extra.html#pinning-down-a-problem"><span class="toc-section-number">5.1.1</span> Pinning down a problem</a></li>
+<li><a href="extra.html#asking-a-question-online"><span class="toc-section-number">5.1.2</span> Asking a question online</a></li>
+</ul></li>
+<li class="has-sub"><a href="extra.html#publishing"><span class="toc-section-number">5.2</span> Publishing</a><ul>
+<li><a href="extra.html#pub-graphs"><span class="toc-section-number">5.2.1</span> Graphs</a></li>
+<li><a href="extra.html#pub-tables"><span class="toc-section-number">5.2.2</span> Tables</a></li>
+<li><a href="extra.html#documents"><span class="toc-section-number">5.2.3</span> Documents</a></li>
+</ul></li>
+</ul></li>
 </ul>
 </div>
 </div>
@@ -289,16 +313,15 @@ x =<span class="st"> </span><span class="kw">c</span>(<span class="ot">TRUE</spa
 <pre><code># [1] &quot;logical&quot;</code></pre>
 <p>The bracketed <code>[1]</code> indicates that we are seeing the first element of a vector. This printing pattern is handy with vectors too long for a single line, like <code>c(LETTERS, letters)</code>. It is also a useful reminder that vectors are indexed starting from 1 (instead of 0 as in C, Python, et al).</p>
 <p>Assign with <code>=</code> or <code>&lt;-</code>. Or even like <code>c(2,3) -&gt; z</code>, though this is rare and hard to read in my opinion. If an existing vector is overwritten, no warning is given.</p>
-<div id="documentation" class="section level3">
+<div id="docs" class="section level3">
 <h3><span class="header-section-number">2.1.1</span> Documentation</h3>
-<p>Everything is documented in convenient wikified html pages, accessible with <code>?</code> or <code>help</code>. For example, <code>?TRUE</code>, <code>?LETTERS</code> or <code>?length</code>. Backticks are sometimes required, as for <code>?`for`</code> and <code>?`?`</code>. Keep a close eye on the Description and Value sections, which concisely explain what to expect from a function.</p>
-<p>The Examples section always usefully illustrates functionality; it can be run in the console like <code>example(&quot;LETTERS&quot;)</code>. Additional illustrations are available using <code>demo</code>; type <code>demo()</code> for a listing.</p>
-<p>Try typing <code>help.start()</code>. This will show a page of links to documents including “An Introduction to R”, “The R language definition” and the “R FAQ” (under “Resources”). These are essential reference documents on R, also <a href="https://cran.r-project.org/manuals.html">available in pdf online</a>.</p>
+<p>Try typing <code>help.start()</code>. This will open a page of links to manuals including “An Introduction to R”, “The R Language Definition” and the “R FAQ” (under “Resources”). These are also <a href="https://cran.r-project.org/manuals.html">available in pdf online</a>.</p>
+<p>Everything is documented in convenient wikified html pages, accessible with <code>?</code> or <code>help</code>. For example, <code>?TRUE</code>, <code>?LETTERS</code> or <code>?length</code>. Backticks are sometimes required, as for <code>?`for`</code> and <code>?`?`</code>. Keep a close eye on the Description and Value sections, which concisely explain what to expect from a function. The Examples section always usefully illustrates functionality; it can be run in the console like <code>example(&quot;LETTERS&quot;)</code>. Additional illustrations are available using <code>demo</code>; type <code>demo()</code> for a listing.</p>
 <p>R doesn’t do error codes, only error messages and warnings. If confused by a message, a search online or a review of the relevant docs is usually sufficient.</p>
 </div>
 <div id="classes" class="section level3">
 <h3><span class="header-section-number">2.1.2</span> Classes</h3>
-<p>Every vanilla vector has a class. That is, every element of the vector contains the same type of data:</p>
+<p>Every vanilla vector has a single class. That is, every element of the vector contains the same type of data:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="dv">4</span>, <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</code></pre></div>
 <pre><code># [1] &quot;4&quot; &quot;A&quot; &quot;B&quot;</code></pre>
 
@@ -430,7 +453,7 @@ L =<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</s
 <p><code>i</code> can even contain repeated elements, like <code>x[c(1,1,2)]</code>, which is some more general “slice” of <code>x</code>, not really a subvector.</p>
 
 <div class="rmd-caution">
-<strong>Recycling.</strong> What would be the natural behavior of <code>x[TRUE]</code> in the example above? Well, in R, it acts like <code>x[c(TRUE, TRUE, TRUE, TRUE)]</code>, without giving any warning. This is called recycling – the argument <code>i</code> is repeated until it is long enough for the context is used in. What about <code>x[c(TRUE, FALSE)]</code>? The full rules for recycling can be found in the <a href="https://cran.r-project.org/doc/manuals/r-release/R-intro.html#The-recycling-rule">R intro doc</a>.
+<strong>Recycling.</strong> What would be the natural behavior of <code>x[TRUE]</code> in the example above? Well, in R, it acts like <code>x[c(TRUE, TRUE, TRUE, TRUE)]</code>, without giving any warning. This is called recycling – the argument <code>i</code> is repeated until it is long enough for the context it is used in. What about <code>x[c(TRUE, FALSE)]</code>? The full rules for recycling can be found in the <a href="https://cran.r-project.org/doc/manuals/r-release/R-intro.html#The-recycling-rule">R intro doc</a>.
 </div>
 <p></p>
 
@@ -497,7 +520,7 @@ x =<span class="st"> </span><span class="kw">integer</span>(<span class="dt">len
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">4</span>), <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">4</span>))</code></pre></div>
 <pre><code># [1] 3 3 3 4 4 4 4</code></pre>
 </div>
-<div id="integer-sequences" class="section level4">
+<div id="seq" class="section level4">
 <h4><span class="header-section-number">2.1.11.2</span> Integer sequences</h4>
 <p>Use a single colon to build a sequence of integers:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">3</span>:<span class="dv">5</span></code></pre></div>
@@ -561,15 +584,15 @@ See <a href="basics.html#order-ops">2.3.6</a> for more details.
 <li><code>order(x)</code> is rarely useful on its own, but <code>y[order(x, z)]</code> will sort <code>y</code> by <code>x</code> and <code>z</code>.</li>
 </ul>
 <p>Be careful not to use these functions on an unordered factor, where they will make no sense but run without warning.</p>
-<p>The <code>frank()</code> function from the data.table package is also useful, for its “dense” rank tie-breaking rule.</p>
+<p>The <code>frank()</code> function from the data.table package is also useful, for its “dense rank” tie-breaking rule.</p>
 </div>
 <div id="exercises" class="section level3">
 <h3><span class="header-section-number">2.1.14</span> Exercises</h3>
 <ol style="list-style-type: decimal">
 <li>What is the class of <code>c(TRUE, 1)</code>?</li>
-<li>What is the length of <code>list(1, c(2,3))</code>?</li>
+<li>What is the length of <code>list(1, c(2,3,4))</code>?</li>
 <li>If I run <code>x = c(&quot;a&quot;,&quot;b&quot;)</code> and then <code>x[c(2,1)] = c(&quot;c&quot;,&quot;d&quot;)</code>, what is the value of <code>x[1]</code>?</li>
-<li>Write the command to summon documenation for for the assignment procedure used in <code>L$X &lt;- list(3)</code>.</li>
+<li>What is the command to open documenation for for the assignment procedure used in <code>L$X &lt;- list(3)</code>?</li>
 </ol>
 </div>
 </div>
@@ -651,7 +674,7 @@ m =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</s
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)]</code></pre></div>
 <pre><code># [1] 2 3</code></pre>
 <p>Matrices also allow extraction like <code>X[Y]</code>, where <code>Y</code> is a two column “index matrix”:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">im =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="dv">2</span>, <span class="dv">2</span>, <span class="dt">byrow=</span><span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">im =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="dv">2</span>, <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>#      [,1] [,2]
 # [1,]    1    1
 # [2,]    2    2</code></pre>
@@ -683,6 +706,15 @@ m =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</s
 <li><code>max.col</code> which finds, for each row, which is the first column to achieve the per-row maximum.</li>
 </ul>
 <p>The <code>apply</code> function is popular for applying arbitrary functions along dimensions of a matrix or array. However, it is very inefficient and usually discouraged. <code>sweep</code> is a similar function.</p>
+</div>
+<div id="exercises-1" class="section level3">
+<h3><span class="header-section-number">2.2.8</span> Exercises</h3>
+<ol style="list-style-type: decimal">
+<li>From <code>x = 1:6</code>, build a 3x2 matrix rowwise like <code>m(x, _fill_this_in_)</code>.</li>
+<li>From <code>m = matrix(1:6, 2)</code>, extract a submatrix containing the first column.</li>
+<li>Read <code>?do.call</code> and from <code>L = list(c(1,1), c(2,2), c(3,3))</code>, bind the elements of <code>L</code> as columns of a single matrix.</li>
+<li>From <code>m = matrix(1:4, 2)</code>, overwrite the upper left and lower right cells with <code>0</code>.</li>
+</ol>
 </div>
 </div>
 <div id="syntax" class="section level2">
@@ -787,20 +819,31 @@ X %*%<span class="st"> </span>Y</code></pre></div>
 </ul>
 <p>Even knowing the order of operations, I recommend using parentheses liberally, particularly in <code>!(...)</code> statements.</p>
 </div>
+<div id="exercises-2" class="section level3">
+<h3><span class="header-section-number">2.3.7</span> Exercises</h3>
+<ol style="list-style-type: decimal">
+<li>From <code>x = 1:4</code>, use the functions introduced so far to compute how many elements are greater than 1.</li>
+<li>Read <code>?log10</code> and use it to round <code>x = 40</code> up to the next order of magnitude, like <code>10^(_fill_this_in_)</code>.</li>
+<li>From <code>x = c(NA, 1, 33)</code>, filter to elements greater than 10 (and not missing), like <code>x[_fill_this_in_]</code>.</li>
+<li>Read <code>?rev</code> and from <code>x = 1:10</code>, extract the last three elements using <code>head</code> and <code>rev</code>. What is a more direct way?</li>
+<li>Why does <code>NA | 1</code> evaluate to <code>TRUE</code>?</li>
+<li>Read <code>?abs</code> and figure out why <code>abs(NA) + 1 &gt; 0</code> evaluates to <code>NA</code>. Should it?</li>
+</ol>
+</div>
 </div>
 <div id="functions" class="section level2">
 <h2><span class="header-section-number">2.4</span> Functions</h2>
 <p>Functions in R all map input to output. In the documentation for a function, the input is covered in the Arguments section, while the output is in the Value section.</p>
 <div id="community-made-functions" class="section level3">
 <h3><span class="header-section-number">2.4.1</span> Community-made functions</h3>
-<div id="exploring-packages" class="section level4">
+<div id="cran" class="section level4">
 <h4><span class="header-section-number">2.4.1.1</span> Exploring packages</h4>
 <p>R has a variety of packages specialized by task and area of research. The <a href="https://cran.r-project.org/web/views/">Task Views</a> on the web are a good way to browse available packages on CRAN, the Comprehensive R Archive Network.</p>
 <p>Besides adding additional functions, many packages add new classes, for example for time series data.</p>
 </div>
 <div id="installing-packages" class="section level4">
 <h4><span class="header-section-number">2.4.1.2</span> Installing packages</h4>
-<p>It is best to install packages from CRAN, rather than elsewhere. Packages submitted to CRAN (i) have to pass some vetting procedures defined by the developers of R and and (ii) are typically used much more broadly than those not on CRAN, improving exposure of bugs.</p>
+<p>It is best to install packages from CRAN or another major repository, rather than personal sites. Packages submitted to CRAN (i) have to pass some vetting procedures defined by the developers of R and and (ii) are typically used broadly, improving exposure of bugs.</p>
 <p>To install a package from CRAN, use <code>install.packages</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;fortunes&quot;</span>)</code></pre></div>
 <p>The first time this is run during an R session, a prompt will pop up, asking which mirror to download from.</p>
@@ -974,7 +1017,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nrow</code></pre></div>
 <pre><code># function (x) 
 # dim(x)[1L]
-# &lt;bytecode: 0x00000000140be740&gt;
+# &lt;bytecode: 0x000000000668fe30&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">replace</code></pre></div>
 <pre><code># function (x, list, values) 
@@ -982,7 +1025,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 #     x[list] &lt;- values
 #     x
 # }
-# &lt;bytecode: 0x00000000163b88f0&gt;
+# &lt;bytecode: 0x000000000a634fd8&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <p>The last two rows of these functions show (i) that they are compiled and (ii) the environment they were defined in.</p>
 <p>Many functions are not “exported” for direct use. Nonetheless, their code may be found using <code>getAnywhere</code> or accessed directly using <code>:::</code> syntax:</p>
@@ -1002,6 +1045,15 @@ utils:::head.default</code></pre></div>
 <li>Browse to <code>/src/main/names.c</code></li>
 <li>Read the <code>c-entry</code> column for the function of interest.</li>
 <li>Search the text of <code>/src/main/*.c</code> for it.</li>
+</ol>
+</div>
+<div id="exercises-3" class="section level3">
+<h3><span class="header-section-number">2.4.11</span> Exercises</h3>
+<ol style="list-style-type: decimal">
+<li>Write <code>ndim</code>, a function to count the number of dimensions an array has.</li>
+<li>Review (<a href="basics.html#seq">2.1.11.2</a>) and read <code>?cumsum</code>, then write a <code>cummean</code> function to compute the cumulative mean.</li>
+<li>Install a new package, then use <code>library(package = _your_new_package_)</code> to find several objects included with the package.</li>
+<li>Read <code>?pmin</code>, then write a function that takes three vectors and computes <span class="math inline">\(\min((x-y)^+, z)\)</span> elementwise, where<span class="math inline">\({()}^+\)</span> denotes <a href="http://mathworld.wolfram.com/PositivePart.html">the positive part</a>, testing on <code>x = c(10,20,30); y = 15; z = c(25,15,5)</code>.</li>
 </ol>
 </div>
 </div>
@@ -1058,6 +1110,12 @@ x   =<span class="st"> </span><span class="dv">2</span>*i2 -<span class="st"> </
 </div>
 <p></p>
 <p>The base R tool for handling elementwise <code>if</code>/<code>else</code> rules is the function <code>ifelse</code>. However, it has some serious shortcomings. A better way, similar to the <code>gen</code>/<code>replace</code> pattern in Stata, is covered in <a href="tables.html#dt-ifelse">3.4.4</a>.</p>
+</div>
+<div id="exercises-4" class="section level3">
+<h3><span class="header-section-number">2.5.3</span> Exercises</h3>
+<ol style="list-style-type: decimal">
+<li>Write a vectorized function for the root mean squared deviation between two vectors, <span class="math inline">\(\sqrt{\frac{1}{n}\sum_1^n (x_i - y_i)^2 }\)</span> where <code>n</code> is how long the vectors are. For <code>x = 1:4; y = c(6,1,4,1)</code> it should return <code>3</code>.</li>
+</ol>
 </div>
 </div>
 <div id="data-frames" class="section level2">
@@ -1127,7 +1185,7 @@ DF[im] <span class="co"># DON&#39;T DO THIS</span></code></pre></div>
 <p>R includes several handy constants, like <code>pi</code>, the alphabet (<code>?letters</code>), months (<code>?month.name</code>), days of the week (<code>?weekdays</code>) and US state names and abbreviations (<code>?state</code>). There is no need to worry about accidentally reusing any of these contants’ names for variables (though redefining <code>pi</code> might not be a great idea).</p>
 
 <div class="rmd-caution">
-<strong>Masking.</strong> Besides built-in constants, it is also possible to reuse names of variables and functions from base R. In general, this is harmless unless its going to make things confusing, like a <code>matrix</code> named “matrix.”
+<strong>Masking.</strong> Besides built-in constants, it is also possible to reuse names of most variables and functions from base R. In general, this is harmless unless its going to make things confusing, like a <code>matrix</code> named “matrix.” One common mistake is writing scripts with <code>T</code> and <code>F</code> (built-in abbreviations for <code>TRUE</code> and <code>FALSE</code>), which is a bad idea because it is easy to accidentally break such code by overwriting, for example, <code>T</code> as the number of periods in a panel and <code>F</code> as some cumulative distribution function.
 </div>
 <p></p>
 <p>On a related note, <code>?Reserved</code> lists all of R’s important built-ins that cannot be overwritten.</p>

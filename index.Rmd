@@ -8,7 +8,7 @@ description: "This book covers the essentials of using R."
 
 ```{r notes, echo=FALSE, eval=FALSE}
 # packages required for document compilation:
-data.table, magrittr, fortunes
+data.table, magrittr
 hexbin, corrplot (tables chapter)
 ```
 
