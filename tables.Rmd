@@ -40,7 +40,7 @@ h(g(f(x)))
 
 In addition, it allows more compact function definitions (\@ref(function-writing)):
 
-```{r magrittr-funs}
+```{r magrittr-chain}
 fun = . %>% .^2 %>% sum %>% sqrt
 fun(1:3)
 ```
@@ -58,6 +58,29 @@ The name is a pun on [René Magritte's pipe painting](https://en.wikipedia.org/w
 ```{block2 mispipery, type='rmd-caution'}
 **Gotchas with pipes.** Typing `3/c(3,3) %>% sum`, you might expect 3/3 + 3/3 = 2, but instead get 3/(3+3) = 1/2. This is a confusing quirk of operator precedence (\@ref(order-ops)) and something to watch out for with pipes. As usual, using parentheses to clarify fixes it: `(3/c(3,3)) %>% sum`.
 ```
+
+Beyond the `%>%` operator, magrittr includes many other convenience tools:
+
+- If `x = "boo"`, then `x %<>% paste("ya!")` overwrites it as "boo ya!".
+- If `L = list(a = 1, b = 2)`, then `L %$% { a + b }` acts like `L$a + L$b`.
+- `"boo" %>% paste("ya!") %T>% print %>% toupper` takes a "Timeout" to print before continuing with later pipes.
+
+It also supports function defintions, like
+
+```{r magrittr-funs, eval=FALSE}
+f = . %>% paste("ya!") %T>% print %>% toupper
+# usage
+f("boo")
+"baz" %>% f
+```
+
+Finally, it has some helper functions, to make common chains more readable:
+
+```{r magrittr-extras, eval=FALSE}
+12 %>% divide_by(3) %>% is_greater_than(5)
+```
+
+See `help(package = "magrittr")` for a full listing. I almost never use anything beyond `%>%`.
 
 ### The data.table package {#data-table}
 
@@ -1597,8 +1620,6 @@ My guess is that the terms melting and casting (for conversion of a table to and
 1. With `DT = data.table(g = c(1,1,2,2,2,3), v = 1:6)`, select only `g` groups having only a single row. Then, instead select only `g` groups having more than one row.
 
 
-
-
 ## Organizing relational tables {#structuring-data}
 
 The best way to organize data in R takes advantage of the power to have multiple data sets in the workspace. With tabular data, that means using "relational" tables that can be linked together by various index columns.
@@ -1973,6 +1994,55 @@ for (fn in intersect("stuff.rdata", list.files()))
   file.remove(fn)
 ```
 
+## Notation cheat sheet
+
+`DT[where, select|update|do, by]` syntax is used to work with columns of a data.table.
+
+ - The "where" part is the `i` argument
+ - The "select|update|do" part is the `j` argument
+
+These two arguments are usually passed by position instead of by name.
+
+A sequence of steps can be chained like `DT[...][...]`.
+
+| *Feature* | *Note* |
+| ----------  | ------------------------------------------------------------------ |
+|| **Shortcuts, special functions and special symbols inside `DT[...]`** |
+| `.()`   | in several arguments, replaces `list()`
+| `J()`   | in `i`, replaces `list()`
+| `:=`    | in `j`, a function used to add or modify columns
+| `.N`    | in `i`, the total number of rows <br> in `j`, the number of rows in a group
+| `.I`    | in `j`, the vector of row numbers in the table (filtered by `i`)
+| `.SD`   | in `j`, the current subset of the data <br> selected by the `.SDcols` argument
+| `.GRP`  | in `j`, the current index of the subset of the data
+| `.BY`   | in `j`, the list of by values for the current subset of data
+| `V1, V2, ...`  | default names for unnamed columns created in `j`
+|| **Joins inside `DT[...]`** |
+| `DT1[DT2, on, j]`  | join two tables
+| `i.*`  | special prefix on DT2's columns after the join
+| `x.*`  | special prefix on DT1's columns after the join
+| `by=.EACHI`  | special option available only with a join
+| `DT1[!DT2, on, j]`  | anti-join two tables
+| `DT1[DT2, on, roll, j]`  | join two tables, rolling on the last column in `on=`
+|| **Reshaping, stacking and splitting** |
+| `melt(DT, id.vars, measure.vars)`  | transform to long format  <br> for multiple columns, use `measure.vars = patterns(...)`
+| `dcast(DT, formula)`  | transform to wide format
+| `rbind(DT1, DT2, ...)`  | stack enumerated data.tables
+| `rbindlist(DT_list, idcol)`  | stack a list of data.tables 
+| `split(DT, by)`  | split a data.table into a list 
+|| **Some other functions specialized for data.tables** |
+| `foverlaps` | overlap joins
+| `merge` | another way of joining two tables
+| `set` | another way of adding or modifying columns
+| `fintersect`, `fsetdiff`, <br> `funion`, `fsetequal`, <br> `unique`, `duplicated`, `anyDuplicated` | set-theory operations with rows as elements  
+| `CJ`| the Cartesian product of vectors
+| `uniqueN`  | the number of distinct rows
+| `rowidv(DT, cols)`  | row ID (1 to .N) within each group determined by cols
+| `rleidv(DT, cols)`  | group ID (1 to .GRP) within each group determined by runs of cols
+| `shift(DT, n)` | apply a shift operator to every column
+| `setorder`, `setcolorder`, <br> `setnames`, `setkey`, `setindex`, <br> `setattr` | modify attributes and order by reference
+|| **Other features of the package** |
+| `IDate` and `ITime` | integer dates and times
 
 
 
