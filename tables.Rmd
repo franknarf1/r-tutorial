@@ -267,7 +267,7 @@ Since data.tables (and data frames) are lists, we can extract columns like `DT$z
 
 With the full `DT[...]` syntax (\@ref(dt-syntax)), it is easy to extract a column for a limited set of rows, like `DT[x > "b", z]`.
 
-### Extensions to the data.frame class
+### Extensions to the data.frame class {#dt-extends}
 
 The first thing to note is that data.tables *are* data frames, so any function that works on a data frame will work fine with data.tables, too (even if the data.table package is not installed or attached).
 
@@ -966,6 +966,28 @@ This "not join" or "anti join" returns all rows of `a` that are not matched by r
         # 13:  2  91 1
         # 14:  2 105 1
         # 15:  2 120 1
+
+4. The "Grouping on floats" note (\@ref(dt-extends)) says to use `cut` to bin continuous variables, but this task can also be accomplished with a rolling join. For `irisDT = data.table(iris)`, create `mDT` so that 
+
+    ```{r, eval = FALSE}
+    irisDT[, v := mDT[irisDT, on=.(Species, Petal.Width), roll = TRUE, x.lab ]]
+    ```
+    
+    creates a column the same as..
+
+    ```{r, eval = FALSE}
+    irisDT[, vcut := cut(
+      Petal.Width,
+      breaks = c(-Inf, median(Petal.Width), Inf),
+      right = FALSE,
+      lab = c("low", "high")
+    ), by=Species]
+    ```
+    
+```{r, echo=FALSE, eval=FALSE}
+# answer
+mDT = irisDT[, .(Petal.Width = c(-Inf, median(Petal.Width)), lab = factor(c("low", "high"), levels=c("low", "high"))), by=.(Species)]
+```
 
 ## Input and output {#input-output}
 
