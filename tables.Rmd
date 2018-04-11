@@ -198,7 +198,7 @@ These requirements are a quirk of the more flexible `DT[...]` syntax that suppor
 ```
 
 ```{block2 dt-dfbrackafrak, type='rmd-details'}
-**How data frame slicing works.** This is really getting in the weeds, since I suggest not using data frames at all, but you'll see two major differences if you do. First, `DT[, "z"]` will extract the `z` column instead of taking a slice thanks to data frames' `drop=TRUE` default (which also came up regarding matrices in the last chapter). Second, `DT[1:2]` will slice the first two *columns* instead of the first two rows, thanks to the fact that data frames (and data.tables) are lists and the no-comma usage of `[` triggers list slicing.
+**How data frame slicing works.** This is really getting in the weeds, since I suggest not using data frames at all, but you'll see two major differences if you do. First, `DF[, "z"]` will extract the `z` column instead of taking a slice thanks to data frames' `drop=TRUE` default (which also came up regarding matrices in the last chapter). Second, `DF[1:2]` will slice the first two *columns* instead of the first two rows, thanks to the fact that no-comma usage of `[` on a data.frame triggers list slicing.
 ```
 
 `head`, `tail` and the special empty and missing-data slices (all seen in the last chapter) work by row:
