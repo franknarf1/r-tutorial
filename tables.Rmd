@@ -40,7 +40,7 @@ h(g(f(x)))
 
 In addition, it allows more compact function definitions (\@ref(function-writing)):
 
-```{r magrittr-funs}
+```{r magrittr-chain}
 fun = . %>% .^2 %>% sum %>% sqrt
 fun(1:3)
 ```
@@ -54,6 +54,33 @@ install.packages('magrittr')
 ```
 
 The name is a pun on [René Magritte's pipe painting](https://en.wikipedia.org/wiki/The_Treachery_of_Images). To get a handle on the package, I would start with the package [vignette](https://CRAN.R-project.org/package=magrittr/vignettes/magrittr.html).
+
+```{block2 mispipery, type='rmd-caution'}
+**Gotchas with pipes.** Typing `3/c(3,3) %>% sum`, you might expect 3/3 + 3/3 = 2, but instead get 3/(3+3) = 1/2. This is a confusing quirk of operator precedence (\@ref(order-ops)) and something to watch out for with pipes. As usual, using parentheses to clarify fixes it: `(3/c(3,3)) %>% sum`.
+```
+
+Beyond the `%>%` operator, magrittr includes many other convenience tools:
+
+- If `x = "boo"`, then `x %<>% paste("ya!")` overwrites it as "boo ya!".
+- If `L = list(a = 1, b = 2)`, then `L %$% { a + b }` acts like `L$a + L$b`.
+- `"boo" %>% paste("ya!") %T>% print %>% toupper` takes a "Timeout" to print before continuing with later pipes.
+
+It also supports function defintions, like
+
+```{r magrittr-funs, eval=FALSE}
+f = . %>% paste("ya!") %T>% print %>% toupper
+# usage
+f("boo")
+"baz" %>% f
+```
+
+Finally, it has some helper functions, to make common chains more readable:
+
+```{r magrittr-extras, eval=FALSE}
+12 %>% divide_by(3) %>% is_greater_than(5)
+```
+
+See `help(package = "magrittr")` for a full listing. I almost never use anything beyond `%>%`.
 
 ### The data.table package {#data-table}
 
@@ -77,13 +104,15 @@ install.packages('data.table')
 
 #### Development version
 
-The CRAN version is usually all you need. However, the package is under active development, with new features available only in the development version. To install it, follow [the instructions from the package wiki](https://github.com/Rdatatable/data.table/wiki/Installation):
+The CRAN version is usually all you need. However, the package is under active development, with new features available only in the development version. To install it, I usually run: 
 
 ```{r inst-dt-dev, eval=FALSE}
 remove.packages("data.table")
 install.packages("data.table", type = "source",
   repos = "http://Rdatatable.github.io/data.table")
 ```
+
+[The instructions on the package wiki](https://github.com/Rdatatable/data.table/wiki/Installation) offer details and other options.
 
 ```{block2 grr-rtools, type='rmd-caution'}
 **Windows shenanigans.** If using Windows, you'll need to first install [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (requiring administrator privileges), as explained in the last wiki link. This is also required for many other packages. After installing Rtools, it may also be necessary to tell R where it is. Instructions are in section "6.3.1 Windows" of the "R Installation and Administration" manual (see \@ref(docs)).
@@ -99,6 +128,7 @@ For `R_HOME`, paste the result of `R.home() %>% normalizePath %>% cat("\n")` int
 It will depend on where Rtools was installed. This might have to be done again whenever a new version of Rtools is installed.
 ```
 
+
 #### Getting started
 
 The official vignettes for the package are a great way to start with the package. See them on the [wiki](http://r-datatable.com/Getting-started) or with 
@@ -109,6 +139,21 @@ browseVignettes(package="data.table")
 
 (Beware that as of March 2017, the website vignettes are somewhat out-of-date.) The website also includes links to other useful materials (an online course, presentation materials, blog posts). Before using the package, I started by reading some slides and the FAQ in full.
 
+```{block2 watch-dev, type='rmd-details'}
+**Keeping track of changes in R and packages.**
+
+To follow changes in R:
+
+> Go to https://cran.r-project.org > "What's New" > "NEWS"
+
+To follow changes in the CRAN version of a package:
+
+> Go to, e.g., https://cran.r-project.org/package=data.table > "NEWS"
+
+To follow changes to an in-development version of a package, instead navigate from its CRAN page to the "URL" field. The magrittr package is not in active development, so it has no "NEWS" file and little happening on its website, but data.table has been changing consistently for years. 
+
+Usually, these changes don't matter much, but it's generally a good idea to check the "Potentially Breaking Changes" list, if there is any (e.g., [in data.table 1.9.8](https://github.com/Rdatatable/data.table/blob/master/NEWS.md#changes-in-v198--on-cran-25-nov-2016)) before upgrading.
+```
 
 
 ## The data.table class {#dt-class}
@@ -222,7 +267,7 @@ Since data.tables (and data frames) are lists, we can extract columns like `DT$z
 
 With the full `DT[...]` syntax (\@ref(dt-syntax)), it is easy to extract a column for a limited set of rows, like `DT[x > "b", z]`.
 
-### Extensions to the data.frame class
+### Extensions to the data.frame class {#dt-extends}
 
 The first thing to note is that data.tables *are* data frames, so any function that works on a data frame will work fine with data.tables, too (even if the data.table package is not installed or attached).
 
@@ -507,6 +552,10 @@ DT[, b := "Aardvark"][y > 1, b := "Zebra", verbose = TRUE]
 
 The number reported is the number of rows assigned to (irrespective of whether their values were changed by the assignment), in contrast with Stata, which reports the number of changes.
 
+```{block2 dt-subassign, type='rmd-details'}
+**Modifying subsets.** Conditional modifications `DT[cond, v := expr]` are a special case of more general subset modifications, `DT[i, v := expr]`, where `i` can be any row-slicer covered in \@ref(dt-slicing) (e.g., a vector of row numbers) or even another data.table (in an "update join"; see \@ref(joins-update)).
+```
+
 ### Other in-place modifications
 
 The data.table package has a few other tools for modifying table attributes in-place:
@@ -550,6 +599,7 @@ The data.table package has a few other tools for modifying table attributes in-p
     levels(fDT$fac)
     ```
 
+With `setattr`, we avoid the copy usually incurred when using `levels(x) <- lvls` (base R syntax), but it will also skip some checks, so it is important to be careful to assign a valid vector of levels.
 
 ### Avoiding in-place modification
 
@@ -597,9 +647,14 @@ The `[]` inside the function is necessary for printing, due to restrictions of R
         # 5: yolo 5  TRUE
 
 
+3. In `DT = data.table(x = letters[1:5], matrix(1:15,5) > 7)`, add a column `id` that contains the row number; and use `setcolorder`, `names(DT)` and `setdiff` to move `id` to be the first column. 
+
+4. In `DT = data.table(id = 1:5, x = letters[1:5], matrix(1:15,5) > 7)`, use `setnames` to rename `id` to `ID`.
+
+
 ## Joins {#dt-joins}
 
-They are called "joins" or "merges."
+Almost any operation between related tables can be called a "join" or "merge." One notable exception is "stacking" tables atop each other, covered in \@ref(rbindlist-read).
 
 ### Equi joins
 
@@ -911,6 +966,28 @@ This "not join" or "anti join" returns all rows of `a` that are not matched by r
         # 13:  2  91 1
         # 14:  2 105 1
         # 15:  2 120 1
+
+4. The "Grouping on floats" note (\@ref(dt-extends)) says to use `cut` to bin continuous variables, but this task can also be accomplished with a rolling join. For `irisDT = data.table(iris)`, create `mDT` so that 
+
+    ```{r, eval = FALSE}
+    irisDT[, v := mDT[irisDT, on=.(Species, Petal.Width), roll = TRUE, x.lab ]]
+    ```
+    
+    creates a column the same as..
+
+    ```{r, eval = FALSE}
+    irisDT[, vcut := cut(
+      Petal.Width,
+      breaks = c(-Inf, median(Petal.Width), Inf),
+      right = FALSE,
+      lab = c("low", "high")
+    ), by=Species]
+    ```
+    
+```{r, echo=FALSE, eval=FALSE}
+# answer
+mDT = irisDT[, .(Petal.Width = c(-Inf, median(Petal.Width)), lab = factor(c("low", "high"), levels=c("low", "high"))), by=.(Species)]
+```
 
 ## Input and output {#input-output}
 
@@ -1231,6 +1308,9 @@ While the way R displays dates (like `2017-11-22`) might not align with what is 
 
 For the display of numbers, again, I suggest leaving it alone instead of, e.g., rounding or truncating everything. If it's really an issue that must be addressed, read about `scipen` in `?options`.
 
+### Exercises
+
+1. To enumerate the first day of each month in a year, we can do `seq(as.IDate("2017-01-01"), by="month", length.out = 12)`. How about the last day of each month?
 
 ## Exploring data {#exploring-data}
 
@@ -1380,15 +1460,20 @@ airDT[, .(
 )]
 ```
 
-This can also be done by group, like
+These can also be done by group, like
 
-```{r mdesc-group, eval=FALSE}
+```{r summary-mdesc-group, eval=FALSE}
+split(airDT, by=c("Month")) %>% lapply(summary)
 airDT[, .(
   col = names(.SD),
   nna = nna <- colSums(is.na(.SD)),
   nok = .N - nna,
   tot = .N
 ), by=Month]
+```
+
+```{block2 list-iter, type='rmd-details'}
+**Iterative column enumeration.**  As noted in \@ref(dt-col-create), `` `:=`(...)`` does not assign columns iteratively. Similarly, `.(...)` does not define columns iteratively, so in the last example we needed to do `nna = nna <- expr` to use that column in later expressions.
 ```
 
 Various function can be applied and have the usual names: `mean`, `median`, `range` (combining `min` and `max`), `var`, `skew`, `quantile`, etc. Most of these functions can be applied by group as well, with syntax like ...
@@ -1405,7 +1490,25 @@ carsDT[, c(
 ), by=am]
 ```
 
-The `as.list` is necessary to split the results over multiple columns. It is inefficient, but that won't matter much when exploring data, I imagine.
+The `as.list` is necessary to split the results over multiple columns. It is inefficient, but that won't matter much when exploring data, I imagine. Usually, to figure out how to make `j` a list of columns, some trial and error with `c`, `as.list` and `.` will work.
+
+The messiest case is of multiple functions applied to multiple variables. The best approach might be like:
+
+```{r mult-var-mult-stats}
+carsDT[, unlist(recursive=FALSE, lapply(
+  .(med = median, iqr = IQR),
+  function(f) lapply(.SD, f)
+)), by=.(am), .SDcols=wt:qsec]
+```
+
+To flip from names like `med.qsec` to `qsec.med`, change the order of `lapply`:
+
+```{r mult-var-mult-stats2}
+carsDT[, unlist(recursive=FALSE, lapply(
+  .SD,
+  function(x) lapply(.(med = median, iqr = IQR), function(f) f(x))
+)), by=.(am), .SDcols=wt:qsec]
+```
 
 #### Tabulating {#tabulating}
 
@@ -1481,7 +1584,7 @@ carsDT[, .N, by=.(am, drat_bin = cut(drat, 4))]
 carsDT[, table(am, drat_bin = cut(drat, 4))]
 ```
 
-Note that the `table` approach includes zeros, while they don't show up in the aggregation using `.N`.
+Note that the `table` approach includes zeros, while they don't show up in the aggregation using `.N`. Another way of filling in missing levels is with a self-join (\@ref(self-join-to-fill-in-missing-levels)).
 
 #### Plotting
 
@@ -1534,6 +1637,9 @@ The `dcast` function and its counterpart, `melt`, are covered in `vignette("data
 My guess is that the terms melting and casting (for conversion of a table to and from long format) are taken from mettalurgy. There is only one long-form arrangement of data -- its liquid or molten form -- and this form is the most flexible. In contrast, there are many rigid wide-form arrangements, each with its own mold to cast the molten data into.
 ```
 
+### Exercises
+
+1. With `DT = data.table(g = c(1,1,2,2,2,3), v = 1:6)`, select only `g` groups having only a single row. Then, instead select only `g` groups having more than one row.
 
 
 ## Organizing relational tables {#structuring-data}
@@ -1568,6 +1674,7 @@ The `unique` function drops duplicates. Related tools are discussed in \@ref(set
 There are a few advantages to having data in this format:
 
 1. The data takes up less space.
+1. The relationships among variables are transparent. When building a statistical model, we won't accidentally forget that `Treatment` is determined at the `Plant` level, for example; and we can easily count how many plants have each treatment with `plantDT[, table(Treatment)]` (see \@ref(tabulating)).
 1. The data will be easier to browse, since we won't have columns spilling off the right side of the screen whenever inspecting the data; and, with the keys (\@ref(keys-indices)), we can subset like...
  
     ```{r relational-brows}
@@ -1770,6 +1877,31 @@ exDT = data.table(CO2)[c(1:2,60,65)]
     exDT[, .N, by=.(Plant, Type, v = conc + uptake)]
     ```
 
+- `j` modifications
+
+    ```{r shortcols-jedit}
+    # programming
+    newcols = c("ha", "egad")
+    newvals = list("1", "2")
+    exDT[, (newcols) := newvals] 
+    # exDT[, newcols := newvals ] will not work
+
+    # overwrite by function
+    exDT[, (newcols) := lapply(.SD, type.convert), .SDcols=newcols]
+    ```
+
+With `:=`, the table is not printed after the changes are made. To overcome this, it's idiomatic to add a trailing `[]`, like `exDT[, (newcols) := newvals][]`.
+
+Columns can also be modified with `set`, but this is rarely necessary:
+
+```{r shortcols-set}
+# programming
+newcols = c("ha", "egad")
+newvals = list("1", "2")
+
+for (k in newcols) set(DT, j = k, v = newvals[[k]])
+```
+
 Column numbers also work in `.SDcols` and `j`, but don't do that.
 
 #### Defining data.table calls {#dt-eval}
@@ -1884,6 +2016,55 @@ for (fn in intersect("stuff.rdata", list.files()))
   file.remove(fn)
 ```
 
+## Notation cheat sheet
+
+`DT[where, select|update|do, by]` syntax is used to work with columns of a data.table.
+
+ - The "where" part is the `i` argument
+ - The "select|update|do" part is the `j` argument
+
+These two arguments are usually passed by position instead of by name.
+
+A sequence of steps can be chained like `DT[...][...]`.
+
+| *Feature* | *Note* |
+| ----------  | ------------------------------------------------------------------ |
+|| **Shortcuts, special functions and special symbols inside `DT[...]`** |
+| `.()`   | in several arguments, replaces `list()`
+| `J()`   | in `i`, replaces `list()`
+| `:=`    | in `j`, a function used to add or modify columns
+| `.N`    | in `i`, the total number of rows <br> in `j`, the number of rows in a group
+| `.I`    | in `j`, the vector of row numbers in the table (filtered by `i`)
+| `.SD`   | in `j`, the current subset of the data <br> selected by the `.SDcols` argument
+| `.GRP`  | in `j`, the current index of the subset of the data
+| `.BY`   | in `j`, the list of by values for the current subset of data
+| `V1, V2, ...`  | default names for unnamed columns created in `j`
+|| **Joins inside `DT[...]`** |
+| `DT1[DT2, on, j]`  | join two tables
+| `i.*`  | special prefix on DT2's columns after the join
+| `x.*`  | special prefix on DT1's columns after the join
+| `by=.EACHI`  | special option available only with a join
+| `DT1[!DT2, on, j]`  | anti-join two tables
+| `DT1[DT2, on, roll, j]`  | join two tables, rolling on the last column in `on=`
+|| **Reshaping, stacking and splitting** |
+| `melt(DT, id.vars, measure.vars)`  | transform to long format  <br> for multiple columns, use `measure.vars = patterns(...)`
+| `dcast(DT, formula)`  | transform to wide format
+| `rbind(DT1, DT2, ...)`  | stack enumerated data.tables
+| `rbindlist(DT_list, idcol)`  | stack a list of data.tables 
+| `split(DT, by)`  | split a data.table into a list 
+|| **Some other functions specialized for data.tables** |
+| `foverlaps` | overlap joins
+| `merge` | another way of joining two tables
+| `set` | another way of adding or modifying columns
+| `fintersect`, `fsetdiff`, <br> `funion`, `fsetequal`, <br> `unique`, `duplicated`, `anyDuplicated` | set-theory operations with rows as elements  
+| `CJ`| the Cartesian product of vectors
+| `uniqueN`  | the number of distinct rows
+| `rowidv(DT, cols)`  | row ID (1 to .N) within each group determined by cols
+| `rleidv(DT, cols)`  | group ID (1 to .GRP) within each group determined by runs of cols
+| `shift(DT, n)` | apply a shift operator to every column
+| `setorder`, `setcolorder`, <br> `setnames`, `setkey`, `setindex`, <br> `setattr` | modify attributes and order by reference
+|| **Other features of the package** |
+| `IDate` and `ITime` | integer dates and times
 
 
 

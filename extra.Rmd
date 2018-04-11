@@ -40,6 +40,12 @@ Here are some common question types:
   
 - **Recommendations.** Questions asking about which package or software to use usually don't yield good answers. Better to investigate directly, but mailing lists may serve as a last resort, assuming their posting rules allow it.
 
+```{block2 online-style, type='rmd-caution'}
+**Question posting style.** It's easier for others to follow your example code if it is copy-pastable. For this, remove prompts such as `R>`, `>`, or `+` at the beginning of each new line. Be sure to explain the purpose and function of the code itself, either as code comments or in separate prose. Finally, it's helpful to display important objects (e.g., I show input and output [here](https://stackoverflow.com/q/18279425)).
+```
+
+
+
 ## Publishing
 
 Tools for outputting results for publication will always be in flux. When I started using R, tikzDevice, ggplot and Sweave were *the* packages for handling output. But since then, tikzDevice and ggplot went unmaintained and were removed from CRAN; and Sweave was removed from CRAN, integrated into base R's utils package, and then supplanted in popularity by knitr (which builds on it). The upshot is: I think one should maintain a clean division between core code and code for publishing output, and as little time as humanly possible should be put into learning tools for the latter.
