@@ -527,10 +527,10 @@ x ^ y
 We call functions with this behavior "vectorized." R is a lot faster when operations are performed elementwise rather than in a loop, so there's a common mantra to "vectorize your code," especially when doing arithmetic. The idea is similar to translating a statistical model into matrix algebra.
 
 ```{block2 recycling-again, type='rmd-caution'}
-**Recycling, again.** As we saw in \@ref(slicing), recycling kicks for any vectorized function. So we have `c(-2,2) ^ c(1,2,3,4)` working, with no warning given. Fortunately, there is a warning if the recycling is imperfect, like `c(-2,2) ^ c(1,2,3)`.
+**Recycling, again.** As we saw in \@ref(slicing), recycling kicks in for any vectorized function. So we have `c(-2,2) ^ c(1,2,3,4)` working, with no warning given. Fortunately, there is a warning if the recycling is imperfect, like `c(-2,2) ^ c(1,2,3)`.
 ```
 
-A couple of notably non-vectorized functions are `&&` and `||`. These will (silently) only look at the first element on each side; and if the result can be determined using the left-hand side, for example in `FALSE && x`, then the right-hand side will not be evaluated. These are useful mostly for improving efficiency on the margins.
+A couple of notably non-vectorized functions are `&&` and `||`. These will (silently) only look at the first element on each side; and if the result can be determined using the left-hand side, for example in `FALSE && yodel-e-hee-hoo`, then the right-hand side will not be evaluated. These are useful mostly for improving efficiency on the margins.
 
 ### Matrix algebra {#matrix-algebra}
 
@@ -860,8 +860,8 @@ Often, the source code for base R functions is in C and is fairly readable even 
 
 1. Write `ndim`, a function to count the number of dimensions an array has.
 2. Review (\@ref(seq)) and read `?cumsum`, then write a `cummean` function to compute the cumulative mean.
-3. Install a new package, then use `library(package = _your_new_package_)` to find several objects included with the package.
-4. Read `?pmin`, then write a function that takes three vectors and computes $\min((x-y)^+, z)$ elementwise, where${()}^+$ denotes [the positive part](http://mathworld.wolfram.com/PositivePart.html), testing on `x = c(10,20,30); y = 15; z = c(25,15,5)`.
+3. Install a new package, then use `library(package = "_your_new_package_")` to find several objects included with the package.
+4. Read `?pmin`, then write a function that takes three vectors and computes $\min((x-y)^+, z)$ elementwise, where${()}^+$ denotes [the positive part](http://mathworld.wolfram.com/PositivePart.html), testing on `x = c(10,20,30); y = 15; z = c(25,15,5)`, for which the correct result is `c(0, 5, 5)`.
 
 ## Loops and control flow {#loops}
 
