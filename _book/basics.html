@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-09-13" />
+<meta name="date" content="2018-04-11" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -186,7 +186,7 @@ img {
 <li><a href="tables.html#dt-inspect"><span class="toc-section-number">3.2.1</span> Inspecting</a></li>
 <li><a href="tables.html#dt-slicing"><span class="toc-section-number">3.2.2</span> Slicing</a></li>
 <li><a href="tables.html#extracting-columns"><span class="toc-section-number">3.2.3</span> Extracting columns</a></li>
-<li><a href="tables.html#extensions-to-the-data.frame-class"><span class="toc-section-number">3.2.4</span> Extensions to the data.frame class</a></li>
+<li><a href="tables.html#dt-extends"><span class="toc-section-number">3.2.4</span> Extensions to the data.frame class</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#dt-agg"><span class="toc-section-number">3.3</span> Aggregation</a><ul>
 <li><a href="tables.html#dt-lapply"><span class="toc-section-number">3.3.1</span> Iterating over columns</a></li>
@@ -780,10 +780,10 @@ x /<span class="st"> </span>y</code></pre></div>
 <p>We call functions with this behavior “vectorized.” R is a lot faster when operations are performed elementwise rather than in a loop, so there’s a common mantra to “vectorize your code,” especially when doing arithmetic. The idea is similar to translating a statistical model into matrix algebra.</p>
 
 <div class="rmd-caution">
-<strong>Recycling, again.</strong> As we saw in <a href="basics.html#slicing">2.1.7</a>, recycling kicks for any vectorized function. So we have <code>c(-2,2) ^ c(1,2,3,4)</code> working, with no warning given. Fortunately, there is a warning if the recycling is imperfect, like <code>c(-2,2) ^ c(1,2,3)</code>.
+<strong>Recycling, again.</strong> As we saw in <a href="basics.html#slicing">2.1.7</a>, recycling kicks in for any vectorized function. So we have <code>c(-2,2) ^ c(1,2,3,4)</code> working, with no warning given. Fortunately, there is a warning if the recycling is imperfect, like <code>c(-2,2) ^ c(1,2,3)</code>.
 </div>
 <p></p>
-<p>A couple of notably non-vectorized functions are <code>&amp;&amp;</code> and <code>||</code>. These will (silently) only look at the first element on each side; and if the result can be determined using the left-hand side, for example in <code>FALSE &amp;&amp; x</code>, then the right-hand side will not be evaluated. These are useful mostly for improving efficiency on the margins.</p>
+<p>A couple of notably non-vectorized functions are <code>&amp;&amp;</code> and <code>||</code>. These will (silently) only look at the first element on each side; and if the result can be determined using the left-hand side, for example in <code>FALSE &amp;&amp; yodel-e-hee-hoo</code>, then the right-hand side will not be evaluated. These are useful mostly for improving efficiency on the margins.</p>
 </div>
 <div id="matrix-algebra" class="section level3">
 <h3><span class="header-section-number">2.3.5</span> Matrix algebra</h3>
@@ -1017,7 +1017,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nrow</code></pre></div>
 <pre><code># function (x) 
 # dim(x)[1L]
-# &lt;bytecode: 0x000000000668fe30&gt;
+# &lt;bytecode: 0x0000000019dc6698&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">replace</code></pre></div>
 <pre><code># function (x, list, values) 
@@ -1025,7 +1025,7 @@ y =<span class="st"> </span><span class="dv">1</span>
 #     x[list] &lt;- values
 #     x
 # }
-# &lt;bytecode: 0x000000000a634fd8&gt;
+# &lt;bytecode: 0x000000001db652d8&gt;
 # &lt;environment: namespace:base&gt;</code></pre>
 <p>The last two rows of these functions show (i) that they are compiled and (ii) the environment they were defined in.</p>
 <p>Many functions are not “exported” for direct use. Nonetheless, their code may be found using <code>getAnywhere</code> or accessed directly using <code>:::</code> syntax:</p>
@@ -1052,8 +1052,8 @@ utils:::head.default</code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Write <code>ndim</code>, a function to count the number of dimensions an array has.</li>
 <li>Review (<a href="basics.html#seq">2.1.11.2</a>) and read <code>?cumsum</code>, then write a <code>cummean</code> function to compute the cumulative mean.</li>
-<li>Install a new package, then use <code>library(package = _your_new_package_)</code> to find several objects included with the package.</li>
-<li>Read <code>?pmin</code>, then write a function that takes three vectors and computes <span class="math inline">\(\min((x-y)^+, z)\)</span> elementwise, where<span class="math inline">\({()}^+\)</span> denotes <a href="http://mathworld.wolfram.com/PositivePart.html">the positive part</a>, testing on <code>x = c(10,20,30); y = 15; z = c(25,15,5)</code>.</li>
+<li>Install a new package, then use <code>library(package = &quot;_your_new_package_&quot;)</code> to find several objects included with the package.</li>
+<li>Read <code>?pmin</code>, then write a function that takes three vectors and computes <span class="math inline">\(\min((x-y)^+, z)\)</span> elementwise, where<span class="math inline">\({()}^+\)</span> denotes <a href="http://mathworld.wolfram.com/PositivePart.html">the positive part</a>, testing on <code>x = c(10,20,30); y = 15; z = c(25,15,5)</code>, for which the correct result is <code>c(0, 5, 5)</code>.</li>
 </ol>
 </div>
 </div>

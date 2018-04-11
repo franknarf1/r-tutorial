@@ -17,7 +17,7 @@
 
 <meta name="author" content="Frank Erickson" />
 
-<meta name="date" content="2017-09-13" />
+<meta name="date" content="2018-04-11" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -186,7 +186,7 @@ img {
 <li><a href="tables.html#dt-inspect"><span class="toc-section-number">3.2.1</span> Inspecting</a></li>
 <li><a href="tables.html#dt-slicing"><span class="toc-section-number">3.2.2</span> Slicing</a></li>
 <li><a href="tables.html#extracting-columns"><span class="toc-section-number">3.2.3</span> Extracting columns</a></li>
-<li><a href="tables.html#extensions-to-the-data.frame-class"><span class="toc-section-number">3.2.4</span> Extensions to the data.frame class</a></li>
+<li><a href="tables.html#dt-extends"><span class="toc-section-number">3.2.4</span> Extensions to the data.frame class</a></li>
 </ul></li>
 <li class="has-sub"><a href="tables.html#dt-agg"><span class="toc-section-number">3.3</span> Aggregation</a><ul>
 <li><a href="tables.html#dt-lapply"><span class="toc-section-number">3.3.1</span> Iterating over columns</a></li>
@@ -503,7 +503,7 @@ DT[, keep_cols]                  <span class="co"># error</span></code></pre></d
 <p></p>
 
 <div class="rmd-details">
-<strong>How data frame slicing works.</strong> This is really getting in the weeds, since I suggest not using data frames at all, but you’ll see two major differences if you do. First, <code>DT[, &quot;z&quot;]</code> will extract the <code>z</code> column instead of taking a slice thanks to data frames’ <code>drop=TRUE</code> default (which also came up regarding matrices in the last chapter). Second, <code>DT[1:2]</code> will slice the first two <em>columns</em> instead of the first two rows, thanks to the fact that data frames (and data.tables) are lists and the no-comma usage of <code>[</code> triggers list slicing.
+<strong>How data frame slicing works.</strong> This is really getting in the weeds, since I suggest not using data frames at all, but you’ll see two major differences if you do. First, <code>DF[, &quot;z&quot;]</code> will extract the <code>z</code> column instead of taking a slice thanks to data frames’ <code>drop=TRUE</code> default (which also came up regarding matrices in the last chapter). Second, <code>DF[1:2]</code> will slice the first two <em>columns</em> instead of the first two rows, thanks to the fact that no-comma usage of <code>[</code> on a data.frame triggers list slicing.
 </div>
 <p></p>
 <p><code>head</code>, <code>tail</code> and the special empty and missing-data slices (all seen in the last chapter) work by row:</p>
@@ -529,7 +529,7 @@ DT[, keep_cols]                  <span class="co"># error</span></code></pre></d
 <p>Since data.tables (and data frames) are lists, we can extract columns like <code>DT$z</code> or <code>DT[[&quot;z&quot;]]</code>.</p>
 <p>With the full <code>DT[...]</code> syntax (<a href="tables.html#dt-syntax">3.2.4.3</a>), it is easy to extract a column for a limited set of rows, like <code>DT[x &gt; &quot;b&quot;, z]</code>.</p>
 </div>
-<div id="extensions-to-the-data.frame-class" class="section level3">
+<div id="dt-extends" class="section level3">
 <h3><span class="header-section-number">3.2.4</span> Extensions to the data.frame class</h3>
 <p>The first thing to note is that data.tables <em>are</em> data frames, so any function that works on a data frame will work fine with data.tables, too (even if the data.table package is not installed or attached).</p>
 <div id="modification-in-place" class="section level4">
@@ -1276,6 +1276,15 @@ DT[.(<span class="st">&quot;B&quot;</span>, <span class="dv">1</span>, <span cla
 # 13:  2  91 1
 # 14:  2 105 1
 # 15:  2 120 1</code></pre></li>
+<li><p>The “Grouping on floats” note (<a href="tables.html#dt-extends">3.2.4</a>) says to use <code>cut</code> to bin continuous variables, but this task can also be accomplished with a rolling join. For <code>irisDT = data.table(iris)</code>, create <code>mDT</code> so that</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">irisDT[, v :<span class="er">=</span><span class="st"> </span>mDT[irisDT, on=.(Species, Petal.Width), roll =<span class="st"> </span><span class="ot">TRUE</span>, x.lab ]]</code></pre></div>
+<p>creates a column the same as..</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">irisDT[, vcut :<span class="er">=</span><span class="st"> </span><span class="kw">cut</span>(
+  Petal.Width,
+  <span class="dt">breaks =</span> <span class="kw">c</span>(-<span class="ot">Inf</span>, <span class="kw">median</span>(Petal.Width), <span class="ot">Inf</span>),
+  <span class="dt">right =</span> <span class="ot">FALSE</span>,
+  <span class="dt">lab =</span> <span class="kw">c</span>(<span class="st">&quot;low&quot;</span>, <span class="st">&quot;high&quot;</span>)
+), by=Species]</code></pre></div></li>
 </ol>
 </div>
 </div>
